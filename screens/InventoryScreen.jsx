@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,58 +6,63 @@ import {
   StatusBar,
   ScrollView,
   Dimensions,
-} from 'react-native';
-import Plus from 'react-native-vector-icons/AntDesign';
-import Header from '../components/Header';
-import Icon from '../components/Icon';
-import Search from 'react-native-vector-icons/Feather';
-import More from 'react-native-vector-icons/Feather';
-import ProductCard from '../components/ProductCard';
-import Fab from '../components/Fab';
-import {products} from '../helpers/seed';
+} from "react-native";
+import Plus from "react-native-vector-icons/AntDesign";
+import Header from "../components/Header";
+import Icon from "../components/Icon";
+import Search from "react-native-vector-icons/Feather";
+import More from "react-native-vector-icons/Feather";
+import ProductCard from "../components/ProductCard";
+import Fab from "../components/Fab";
+import { products, categories } from "../helpers/seed";
+import ChipCategory from "../components/ChipCategory";
 
-const statusBarStyle = 'dark-content';
+const statusBarStyle = "dark-content";
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
-function InventoryScreen({navigation}) {
+function InventoryScreen({ navigation }) {
+  const [selected, setSelected] = useState(categories[0].id);
+
+  console.log("selected", selected);
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header name="Productos">
-        <Icon onPress={() => alert('Search')}>
+        <Icon onPress={() => alert("Search")}>
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
-        <Icon onPress={() => alert('Search')}>
+        <Icon onPress={() => alert("Search")}>
           <More name="more-vertical" size={25} color="#302F3C" />
         </Icon>
       </Header>
       <View>
         <View style={styles.container}>
           <Icon
-            onPress={() => alert('Crear categoria')}
-            style={{marginRight: 10}}>
+            onPress={() => alert("Crear categoria")}
+            style={{ marginRight: 10 }}
+          >
             <Plus name="pluscircle" size={40} color="#5196FE" />
           </Icon>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
+                display: "flex",
+                flexDirection: "row",
                 marginVertical: 10,
-              }}>
-              <View style={styles.fill}>
-                <Text style={styles.text}>Todos</Text>
-              </View>
-              <View style={styles.out}>
-                <Text style={styles.text1}>Mesas</Text>
-              </View>
-              <View style={styles.out}>
-                <Text style={styles.text1}>Escritorios</Text>
-              </View>
-              <View style={styles.out}>
-                <Text style={styles.text1}>Estantes</Text>
-              </View>
+              }}
+            >
+              {categories.map((category) => (
+                <ChipCategory
+                  key={category.id}
+                  name={category.name}
+                  containerStyle={
+                    category.id === selected ? "#3784F9" : "#f9f9f9"
+                  }
+                  textStyle={category.id === selected ? "white" : "#3784F9"}
+                  onPress={() => setSelected(category.id)}
+                />
+              ))}
             </View>
           </ScrollView>
         </View>
@@ -66,15 +71,16 @@ function InventoryScreen({navigation}) {
         <View
           style={{
             marginHorizontal: 30,
-            display: 'flex',
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "row",
+            justifyContent: "space-between",
             marginBottom: 80,
-          }}>
-          {products.map(i => (
+          }}
+        >
+          {products.map((i) => (
             <ProductCard
-              onPress={() => navigation.navigate('ProductDetail')}
+              onPress={() => navigation.navigate("ProductDetail")}
               key={i.id}
               image={i.image}
               price={i.price}
@@ -91,7 +97,7 @@ function InventoryScreen({navigation}) {
         marginLeft={20}
         color="#3784F9"
         text="Crear Producto"
-        onPress={() => navigation.navigate('AddProduct')}
+        onPress={() => navigation.navigate("AddProduct")}
       />
     </View>
   );
@@ -99,36 +105,36 @@ function InventoryScreen({navigation}) {
 
 const styles = StyleSheet.create({
   fill: {
-    backgroundColor: '#3784F9',
+    backgroundColor: "#3784F9",
     borderRadius: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginRight: 10,
     height: 40,
   },
   out: {
-    backgroundColor: '#E6EFF8',
+    backgroundColor: "#E6EFF8",
     borderRadius: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginRight: 10,
     height: 40,
   },
   text: {
     marginHorizontal: 20,
     fontSize: 18,
-    color: 'white',
+    color: "white",
   },
   text1: {
     marginHorizontal: 20,
     fontSize: 18,
-    color: '#3784F9',
-    fontWeight: '500',
+    color: "#3784F9",
+    fontWeight: "500",
   },
   container: {
     marginLeft: 10,
     marginRight: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

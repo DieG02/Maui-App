@@ -1,96 +1,103 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   ScrollView,
   StatusBar,
   Text,
   TouchableOpacity,
-} from 'react-native';
-import theme from '../styles/themeStyles';
-import Spacer from '../components/Spacer';
-import Header from '../components/Header';
-import OptionCard from '../components/OptionCard';
-import Right from 'react-native-vector-icons/Entypo';
-import Profile from 'react-native-vector-icons/FontAwesome5';
-import Business from 'react-native-vector-icons/FontAwesome';
-import Debts from 'react-native-vector-icons/FontAwesome5';
-import Costumer from 'react-native-vector-icons/MaterialIcons';
-import Message from 'react-native-vector-icons/MaterialIcons';
-import Faq from 'react-native-vector-icons/FontAwesome5';
-import WhatsApp from 'react-native-vector-icons/Fontisto';
-import Button from '../components/Button';
-import Icon from 'react-native-vector-icons/AntDesign';
+} from "react-native";
+import theme from "../styles/themeStyles";
+import Spacer from "../components/Spacer";
+import Header from "../components/Header";
+import OptionCard from "../components/OptionCard";
+import Right from "react-native-vector-icons/Entypo";
+import Profile from "react-native-vector-icons/FontAwesome5";
+import Business from "react-native-vector-icons/FontAwesome";
+import Debts from "react-native-vector-icons/FontAwesome5";
+import Costumer from "react-native-vector-icons/MaterialIcons";
+import Message from "react-native-vector-icons/MaterialIcons";
+import Faq from "react-native-vector-icons/FontAwesome5";
+import WhatsApp from "react-native-vector-icons/Fontisto";
+import Button from "../components/Button";
+import Icon from "react-native-vector-icons/AntDesign";
 
-const statusBarStyle = 'dark-content';
+const statusBarStyle = "dark-content";
 
-function More({navigation}) {
+function More({ navigation }) {
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView vertical showsVerticalScrollIndicator={false}>
         <View
           style={{
             marginHorizontal: 20,
             height: 60,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={{
               width: 50,
               height: 50,
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-            }}>
+              alignItems: "flex-start",
+              justifyContent: "center",
+            }}
+          >
             <Icon name="close" size={30} color="#3784F9" />
           </TouchableOpacity>
           <Text
             style={{
               fontSize: 20,
-              fontWeight: 'bold',
-              color: '#131313',
-            }}>
+              fontWeight: "bold",
+              color: "#131313",
+            }}
+          >
             Mi Cuenta
           </Text>
           <TouchableOpacity
             style={{
               width: 50,
               height: 50,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Icon name="poweroff" size={25} color="#1A1A1A" />
           </TouchableOpacity>
         </View>
 
         <Spacer height={10} />
-        <View style={{marginHorizontal: 20}}>
+        <View style={{ marginHorizontal: 20 }}>
           <View
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
               marginBottom: 20,
-            }}>
+            }}
+          >
             <View
               style={{
                 width: 60,
                 height: 60,
                 marginRight: 20,
-                backgroundColor: '#3784F9',
+                backgroundColor: "#3784F9",
                 borderRadius: 40,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
                   fontSize: 20,
-                  fontWeight: 'bold',
-                  color: 'white',
-                }}>
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
                 JB
               </Text>
             </View>
@@ -98,13 +105,14 @@ function More({navigation}) {
               <Text
                 style={{
                   fontSize: 20,
-                  color: '#131313',
-                  fontWeight: '400',
-                }}>
+                  color: "#131313",
+                  fontWeight: "400",
+                }}
+              >
                 Juan Bautista
               </Text>
               <TouchableOpacity>
-                <Text style={{color: '#3784F9'}}>Ver mi perfil</Text>
+                <Text style={{ color: "#3784F9" }}>Ver mi perfil</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -127,6 +135,7 @@ function More({navigation}) {
           <Spacer height={15} />
           <OptionCard
             title="Contactos"
+            onPress={() => navigation.navigate("Contacts")}
             arrow={
               <Right name="chevron-small-right" color="#3784F9" size={35} />
             }

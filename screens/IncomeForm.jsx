@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,28 +7,28 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
-} from 'react-native';
-import Header from '../components/Header';
-import Icon from '../components/Icon';
-import Arrow from 'react-native-vector-icons/Ionicons';
-import Fab from '../components/Fab';
-import ButtonInput from '../components/ButtonInputForm';
-import Calendar from 'react-native-vector-icons/Entypo';
-import Tag from 'react-native-vector-icons/AntDesign';
-import Costumer from 'react-native-vector-icons/FontAwesome';
-import Wallet from 'react-native-vector-icons/Entypo';
-import Money from 'react-native-vector-icons/FontAwesome5';
-import Description from 'react-native-vector-icons/FontAwesome';
-import Dollar from 'react-native-vector-icons/FontAwesome';
-import InputForm from '../components/InputForm';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+} from "react-native";
+import Header from "../components/Header";
+import Icon from "../components/Icon";
+import Arrow from "react-native-vector-icons/Ionicons";
+import Fab from "../components/Fab";
+import ButtonInput from "../components/ButtonInputForm";
+import Calendar from "react-native-vector-icons/Entypo";
+import Tag from "react-native-vector-icons/AntDesign";
+import Costumer from "react-native-vector-icons/FontAwesome";
+import Wallet from "react-native-vector-icons/Entypo";
+import Money from "react-native-vector-icons/FontAwesome5";
+import Description from "react-native-vector-icons/FontAwesome";
+import Dollar from "react-native-vector-icons/FontAwesome";
+import InputForm from "../components/InputForm";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
-export default function IncomeForm({navigation}) {
+export default function IncomeForm({ navigation }) {
   const [paid, setPaid] = useState(true);
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
   const [fecha, setfecha] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -40,7 +40,7 @@ export default function IncomeForm({navigation}) {
   const day = fecha.getUTCDate();
   const year = fecha.getUTCFullYear();
 
-  const newdate = year + '/' + month + '/' + day;
+  const newdate = year + "/" + month + "/" + day;
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -50,14 +50,14 @@ export default function IncomeForm({navigation}) {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = date => {
-    console.log('A date has been picked: ', date);
+  const handleConfirm = (date) => {
+    console.log("A date has been picked: ", date);
     setfecha(date);
     hideDatePicker();
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fafafa'}}>
+    <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
       <Header
         name="Nuevo Ingreso"
         color="#f8f8f8"
@@ -65,52 +65,59 @@ export default function IncomeForm({navigation}) {
           <Icon onPress={() => navigation.goBack()}>
             <Arrow name="arrow-back" size={30} color="#3784F9" />
           </Icon>
-        }></Header>
+        }
+      ></Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
           marginHorizontal: 40,
-        }}>
+        }}
+      >
         <View style={{}}>
           <View
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
             <TouchableOpacity
               onPress={() => setPaid(true)}
               style={{
-                backgroundColor: paid == true ? '#3784F9' : '#E6EFF8',
+                backgroundColor: paid == true ? "#3784F9" : "#E6EFF8",
                 width: (width - 100) / 2,
-                height: 40,
+                height: 50,
                 borderRadius: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
-                  color: paid == true ? 'white' : '#3784F9',
-                  fontWeight: 'bold',
-                }}>
+                  color: paid == true ? "white" : "#3784F9",
+                  fontWeight: "bold",
+                }}
+              >
                 Pagado
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setPaid(false)}
               style={{
-                backgroundColor: paid == false ? '#3784F9' : '#E6EFF8',
+                backgroundColor: paid == false ? "#3784F9" : "#E6EFF8",
                 width: (width - 100) / 2,
-                height: 40,
+                height: 50,
                 borderRadius: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Text
                 style={{
-                  color: paid == false ? 'white' : '#3784F9',
-                  fontWeight: 'bold',
-                }}>
+                  color: paid == false ? "white" : "#3784F9",
+                  fontWeight: "bold",
+                }}
+              >
                 Deuda
               </Text>
             </TouchableOpacity>
@@ -118,17 +125,19 @@ export default function IncomeForm({navigation}) {
           <TouchableOpacity
             style={{
               marginTop: 20,
-              backgroundColor: '#E6EFF8',
+              backgroundColor: "#E6EFF8",
               height: 50,
               borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Text
               style={{
-                color: '#3784F9',
-                fontWeight: 'bold',
-              }}>
+                color: "#3784F9",
+                fontWeight: "bold",
+              }}
+            >
               Seleccionar Productos
             </Text>
           </TouchableOpacity>
@@ -138,7 +147,8 @@ export default function IncomeForm({navigation}) {
             keyboardType="numeric"
             placeholder="Valor"
             value={price}
-            setValue={setPrice}>
+            setValue={setPrice}
+          >
             <Dollar name="dollar" size={30} color="#3784F9" />
           </InputForm>
           <InputForm
@@ -146,7 +156,8 @@ export default function IncomeForm({navigation}) {
             keyboardType="default"
             placeholder="Concepto"
             value={description}
-            setValue={setDescription}>
+            setValue={setDescription}
+          >
             <Description name="file-text" size={30} color="#3784F9" />
           </InputForm>
           <ButtonInput text="Fecha" name="Fecha" onPress={showDatePicker}>
@@ -181,7 +192,7 @@ export default function IncomeForm({navigation}) {
         marginLeft={20}
         color="#33E69B"
         text="Guardar"
-        onPress={() => alert('Crear Producto')}
+        onPress={() => alert("Crear Producto")}
       />
     </View>
   );

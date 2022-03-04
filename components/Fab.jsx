@@ -1,6 +1,6 @@
-import React from 'react';
-import {StyleSheet, onPress} from 'react-native';
-import {FAB} from 'react-native-paper';
+import React from "react";
+import { StyleSheet, onPress } from "react-native";
+import { FAB } from "react-native-paper";
 
 function Fab({
   right,
@@ -12,10 +12,11 @@ function Fab({
   marginLeft,
   marginRight,
   onPress,
+  height,
 }) {
   const styles = StyleSheet.create({
     fab: {
-      position: 'absolute',
+      position: "absolute",
       marginBottom: 10,
       marginLeft: marginLeft,
       marginRight: marginRight,
@@ -25,6 +26,7 @@ function Fab({
       backgroundColor: color,
       width: width,
       elevation: 0,
+      height: height,
     },
   });
   return (

@@ -11,15 +11,15 @@ function BalanceCard({name, price, color, icon, type, state, onPress}) {
           <View style={theme.row}>
             <View
               style={{
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
                 borderRadius: 30,
                 backgroundColor: color || '#3784F9',
                 marginRight: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Icon name={icon} size={30} color="white" />
+              <Icon name={icon} size={20} color="white" />
             </View>
             <View style={theme.column}>
               <Text style={theme.h2}>{name}</Text>
@@ -27,7 +27,7 @@ function BalanceCard({name, price, color, icon, type, state, onPress}) {
             </View>
           </View>
           <View style={[theme.column, {alignItems: 'flex-end'}]}>
-            <Text style={theme.h2}>{price}</Text>
+            <Text style={theme.h1}>{price}</Text>
             <Text style={theme.p}>{state}</Text>
           </View>
         </View>

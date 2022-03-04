@@ -1,19 +1,22 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import BalanceCard from './BalanceCard';
-import {balance} from '../helpers/seed';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import BalanceCard from "./BalanceCard";
+import { balance } from "../helpers/seed";
+import Modal from "./Modal";
 
-function LastTransactions({navigation}) {
+function LastTransactions({ navigation }) {
   return (
     <View style={styles.root}>
       <View style={styles.container}>
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: "white",
             paddingBottom: 10,
-          }}>
-          {balance.map(i => (
-            <BalanceCard
+          }}
+        >
+          {balance.map((i) => (
+            <Modal
+              // <BalanceCard
               key={i.id}
               name={i.name}
               price={i.price}
@@ -21,7 +24,7 @@ function LastTransactions({navigation}) {
               state={i.state}
               color={i.color}
               icon={i.icon}
-              onPress={() => navigation.navigate('TransactionDetail')}
+              // onPress={() => navigation.navigate("TransactionDetail")}
             />
           ))}
         </View>
@@ -31,7 +34,7 @@ function LastTransactions({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  root: {backgroundColor: 'white'},
+  root: { backgroundColor: "white" },
   container: {
     marginHorizontal: 30,
   },
