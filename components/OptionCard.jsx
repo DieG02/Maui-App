@@ -1,8 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import theme from '../styles/themeStyles';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import theme from "../styles/themeStyles";
 
-function OptionCard({title, icon, arrow, onPress}) {
+function OptionCard({ title, icon, arrow, onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={theme.row}>
@@ -10,19 +10,21 @@ function OptionCard({title, icon, arrow, onPress}) {
           style={[
             theme.row,
             {
-              alignItems: 'center',
+              alignItems: "center",
             },
-          ]}>
+          ]}
+        >
           <View
             style={{
-              backgroundColor: '#CBDDF1',
+              backgroundColor: "#E6EFF8",
               width: 40,
               height: 40,
               marginRight: 20,
               borderRadius: 40,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {icon}
           </View>
           <Text style={styles.text}>{title}</Text>
@@ -31,9 +33,10 @@ function OptionCard({title, icon, arrow, onPress}) {
           style={{
             width: 50,
             height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {arrow}
         </View>
       </View>
@@ -43,8 +46,8 @@ function OptionCard({title, icon, arrow, onPress}) {
 const styles = StyleSheet.create({
   text: {
     fontSize: 15,
-    fontWeight: '500',
-    color: '#131313',
+    fontWeight: "500",
+    color: "#131313",
   },
 });
 

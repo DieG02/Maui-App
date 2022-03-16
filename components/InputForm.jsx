@@ -1,59 +1,67 @@
-import React, {useState} from 'react';
+import React from "react";
 import {
   StyleSheet,
   TextInput,
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+} from "react-native";
+import Icon from "react-native-vector-icons/Entypo";
 
 export default function InputForm({
-  onPress,
   children,
-  name,
   bottom,
   keyboardType,
   placeholder,
   value,
   setValue,
+  focus,
+  style,
+  textStyle,
+  horizontal,
 }) {
-  //   const [value, setValue] = useState('');
+  const styles = StyleSheet.create({
+    root: {
+      marginBottom: bottom,
+      marginTop: 10,
+      backgroundColor: "#f8f8f8",
+      borderRadius: 10,
+    },
+    text: {
+      width: "85%",
+    },
+    container: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginHorizontal: horizontal || 20,
+    },
+  });
 
   return (
-    <View style={{marginTop: 20, marginBottom: bottom}}>
-      <Text>{name}</Text>
-      <View
-        onPress={onPress}
-        style={{
-          backgroundColor: 'white',
-          borderRadius: 10,
-          marginTop: 10,
-        }}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-            height: 50,
-          }}>
-          {children}
+    <View style={[styles.root, style]}>
+      <View style={styles.container}>
+        {children}
+        {focus ? (
           <TextInput
-            style={{
-              width: '80%',
-            }}
+            style={[styles.text, textStyle]}
+            autoFocus={focus}
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
             keyboardType={keyboardType}
           />
-          {/* <Icon name="chevron-small-right" size={40} color="#3784F9" /> */}
-        </View>
+        ) : (
+          <TextInput
+            style={[styles.text, textStyle]}
+            value={value}
+            onChangeText={setValue}
+            placeholder={placeholder}
+            keyboardType={keyboardType}
+          />
+        )}
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

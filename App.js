@@ -6,6 +6,7 @@ import HomeTabs from "./navigation/HomeTabs";
 import Accounts from "./screens/Accounts";
 import Notifications from "./screens/Notifications";
 import IncomeForm from "./screens/IncomeForm";
+import IncomeForm2 from "./screens/IncomeForm2";
 import OutcomeForm from "./screens/OutcomeForm";
 import AddProduct from "./screens/AddProduct";
 import TransactionDetail from "./screens/TransactionDetail";
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Accounts" component={Accounts} />
         <Stack.Screen name="Notifications" component={Notifications} />
         <Stack.Screen name="IncomeForm" component={IncomeForm} />
+        <Stack.Screen name="IncomeForm2" component={IncomeForm2} />
         <Stack.Screen name="OutcomeForm" component={OutcomeForm} />
         <Stack.Screen name="AddProduct" component={AddProduct} />
         <Stack.Screen name="TransactionDetail" component={TransactionDetail} />

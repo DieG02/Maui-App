@@ -16,7 +16,6 @@ import HomeBalance from "../components/HomeBalance";
 import HomeState from "../components/HomeState";
 import Modal from "../components/Modal";
 
-
 const statusBarStyle = "dark-content";
 
 function HomeScreen({ navigation }) {

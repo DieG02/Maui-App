@@ -1,35 +1,35 @@
-import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-function Header({name, children, icon, color}) {
+function Header({ name, children, icon, color, titleColor }) {
   const styles = StyleSheet.create({
     root: {
-      backgroundColor: color || 'white',
+      backgroundColor: color || "white",
       height: 60,
-      justifyContent: 'center',
+      justifyContent: "center",
     },
     container: {
       marginHorizontal: 10,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
     },
     containerIcons: {
-      display: 'flex',
-      flexDirection: 'row',
+      display: "flex",
+      flexDirection: "row",
     },
     icons: {
       width: 40,
       height: 40,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       marginLeft: 5,
     },
     title: {
       fontSize: 20,
-      fontWeight: 'bold',
+      fontWeight: "bold",
       paddingLeft: 10,
-      color: '#1A1A1A',
+      color: titleColor || "#1A1A1A",
     },
   });
 
@@ -38,10 +38,11 @@ function Header({name, children, icon, color}) {
       <View style={styles.container}>
         <View
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           {icon}
           <Text style={styles.title}>{name}</Text>
         </View>
@@ -50,36 +51,5 @@ function Header({name, children, icon, color}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    backgroundColor: 'white',
-    height: 60,
-    justifyContent: 'center',
-  },
-  container: {
-    marginHorizontal: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  containerIcons: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  icons: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 5,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    paddingLeft: 10,
-    color: '#1A1A1A',
-  },
-});
 
 export default Header;

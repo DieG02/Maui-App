@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import Header from "../components/Header";
 import Icon from "../components/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Fab from "../components/Fab";
-import ButtonInput from "../components/ButtonInputForm";
+import ButtonInput from "../components/ButtonInput";
 import Calendar from "react-native-vector-icons/Entypo";
 import Tag from "react-native-vector-icons/AntDesign";
 import Costumer from "react-native-vector-icons/FontAwesome";
@@ -56,11 +56,12 @@ export default function IncomeForm({ navigation }) {
     hideDatePicker();
   };
 
+  const ref2 = useRef();
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <Header
         name="Nuevo Ingreso"
-        color="#f8f8f8"
         icon={
           <Icon onPress={() => navigation.goBack()}>
             <Arrow name="arrow-back" size={30} color="#3784F9" />
@@ -143,27 +144,25 @@ export default function IncomeForm({ navigation }) {
           </TouchableOpacity>
 
           <InputForm
-            name="Valor"
             keyboardType="numeric"
             placeholder="Valor"
             value={price}
             setValue={setPrice}
+            bottom={10}
+            focus={true}
           >
             <Dollar name="dollar" size={30} color="#3784F9" />
           </InputForm>
           <InputForm
-            name="Descripción"
             keyboardType="default"
             placeholder="Concepto"
             value={description}
             setValue={setDescription}
+            bottom={10}
+            focus={false}
           >
             <Description name="file-text" size={30} color="#3784F9" />
           </InputForm>
-          <ButtonInput text="Fecha" name="Fecha" onPress={showDatePicker}>
-            <Calendar name="calendar" size={30} color="#3784F9" />
-          </ButtonInput>
-          <Text>{newdate}</Text>
 
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -171,16 +170,25 @@ export default function IncomeForm({ navigation }) {
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
           />
-          <ButtonInput text="Clientes" name="Clientes">
+          <ButtonInput
+            name="Fecha"
+            onPress={showDatePicker}
+            value={newdate}
+            bottom={10}
+          >
+            <Calendar name="calendar" size={30} color="#3784F9" />
+          </ButtonInput>
+
+          <ButtonInput name="Clientes" bottom={10}>
             <Costumer name="user" size={30} color="#3784F9" />
           </ButtonInput>
-          <ButtonInput text="Categoria" name="Categoria">
+          <ButtonInput name="Categoria" bottom={10}>
             <Tag name="tag" size={30} color="#3784F9" />
           </ButtonInput>
-          <ButtonInput text="Cuentas" name="Cuentas">
+          <ButtonInput name="Cuentas" bottom={10}>
             <Wallet name="wallet" size={30} color="#3784F9" />
           </ButtonInput>
-          <ButtonInput text="Forma de Pago" name="Forma de Pago" bottom={80}>
+          <ButtonInput name="Forma de Pago" bottom={10}>
             <Money name="money-bill" size={30} color="#3784F9" />
           </ButtonInput>
         </View>
