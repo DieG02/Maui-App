@@ -13,10 +13,11 @@ function Fab({
   marginRight,
   onPress,
   height,
+  position,
 }) {
   const styles = StyleSheet.create({
     fab: {
-      position: "absolute",
+      position: position || "absolute",
       marginBottom: 10,
       marginLeft: marginLeft,
       marginRight: marginRight,

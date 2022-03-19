@@ -50,6 +50,7 @@ export default function InputForm({
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
+            placeholderTextColor="white"
             keyboardType={keyboardType}
           />
         ) : (

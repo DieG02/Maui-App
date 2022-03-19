@@ -1,12 +1,12 @@
-import React from 'react';
-import {View, Text, Dimensions, StyleSheet, ScrollView} from 'react-native';
-import Frame from './Frame';
-import Spacer from './Spacer';
-import StateCard from './StateCard';
-import Down from 'react-native-vector-icons/Ionicons';
-import Top from 'react-native-vector-icons/Ionicons';
+import React from "react";
+import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
+import Frame from "./Frame";
+import Spacer from "./Spacer";
+import StateCard from "./StateCard";
+import Down from "react-native-vector-icons/Ionicons";
+import Top from "react-native-vector-icons/Ionicons";
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 function HomeState() {
   return (
@@ -14,14 +14,16 @@ function HomeState() {
       horizontal
       showsHorizontalScrollIndicator={false}
       snapToInterval={width - 60}
-      decelerationRate={0.5}>
-      <View style={{display: 'flex', flexDirection: 'row'}}>
+      decelerationRate={0.5}
+    >
+      <View style={{ display: "flex", flexDirection: "row" }}>
         <View>
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               paddingVertical: 2,
-            }}>
+            }}
+          >
             <StateCard
               color="#fafafa"
               state="Ingresos"
@@ -61,8 +63,8 @@ function HomeState() {
 const styles = StyleSheet.create({
   text: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#131313',
+    fontWeight: "bold",
+    color: "#131313",
   },
 });
 export default HomeState;

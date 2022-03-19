@@ -1,13 +1,13 @@
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeIcon from 'react-native-vector-icons/Foundation';
-import BalanceIcon from 'react-native-vector-icons/MaterialIcons';
-import InventoryIcon from 'react-native-vector-icons/MaterialIcons';
-import MoreIcon from 'react-native-vector-icons/Entypo';
-import HomeScreen from '../screens/HomeScreen';
-import BalanceScreen from '../screens/BalanceScreen';
-import InventoryScreen from '../screens/InventoryScreen';
-import MoreScreen from '../screens/MoreScreen';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeIcon from "react-native-vector-icons/Foundation";
+import BalanceIcon from "react-native-vector-icons/MaterialIcons";
+import InventoryIcon from "react-native-vector-icons/MaterialIcons";
+import MoreIcon from "react-native-vector-icons/Entypo";
+import HomeScreen from "../screens/HomeScreen";
+import BalanceScreen from "../screens/BalanceScreen";
+import InventoryScreen from "../screens/InventoryScreen";
+import MoreScreen from "../screens/MoreScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,21 +17,23 @@ const HomeTabs = () => {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#3784F9',
-        tabBarInactiveTintColor: '#BAD5FF',
+        // tabBarActiveTintColor: "#3784F9",
+        tabBarActiveTintColor: "#387CFF",
+        tabBarInactiveTintColor: "#D7DCE4",
         tabBarStyle: {
           height: 60,
           borderTopWidth: 0,
           elevation: 0,
         },
-      }}>
+      }}
+    >
       <Tab.Screen
         name="home"
         component={HomeScreen}
         options={{
-          tabBarIconStyle: {borderRadius: 20},
+          tabBarIconStyle: { borderRadius: 20 },
           tabBarShowLabel: false,
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <HomeIcon name="home" color={color} size={30} />
           ),
         }}
@@ -40,9 +42,9 @@ const HomeTabs = () => {
         name="balance"
         component={BalanceScreen}
         options={{
-          tabBarIconStyle: {borderRadius: 20},
+          tabBarIconStyle: { borderRadius: 20 },
           tabBarShowLabel: false,
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <BalanceIcon
               name="account-balance-wallet"
               color={color}
@@ -55,9 +57,9 @@ const HomeTabs = () => {
         name="inventory"
         component={InventoryScreen}
         options={{
-          tabBarIconStyle: {borderRadius: 20},
+          tabBarIconStyle: { borderRadius: 20 },
           tabBarShowLabel: false,
-          tabBarIcon: ({color, size}) => (
+          tabBarIcon: ({ color, size }) => (
             <InventoryIcon name="inventory" color={color} size={25} />
           ),
         }}

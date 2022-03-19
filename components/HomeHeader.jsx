@@ -8,11 +8,12 @@ export default function HomeHeader({ onPressNotifications, onPressUser }) {
   return (
     <View
       style={{
-        marginHorizontal: 20,
+        marginHorizontal: 30,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginTop: 10,
       }}
     >
       <TouchableOpacity
@@ -20,11 +21,14 @@ export default function HomeHeader({ onPressNotifications, onPressUser }) {
         style={{
           width: 50,
           height: 50,
+          borderColor: "#F0F1F5",
+          borderWidth: 1.5,
+          borderRadius: 15,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Icon name="user" size={30} color="#131313" />
+        <Icon name="user" size={30} color="#60708F" />
       </TouchableOpacity>
       <Image source={logo} style={{ width: 100, height: 30 }} />
       <TouchableOpacity
@@ -32,11 +36,14 @@ export default function HomeHeader({ onPressNotifications, onPressUser }) {
         style={{
           width: 50,
           height: 50,
+          borderColor: "#F0F1F5",
+          borderWidth: 1.5,
+          borderRadius: 15,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Icon name="bell" size={30} color="#131313" />
+        <Icon name="bell" size={30} color="#60708F" />
       </TouchableOpacity>
     </View>
   );

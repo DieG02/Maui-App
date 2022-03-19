@@ -37,7 +37,7 @@ export default function ButtonInput({
         ) : (
           <Text style={{ color: "#c4c4c4" }}>{name}</Text>
         )}
-        <Icon name="chevron-small-right" size={40} color="#3784F9" />
+        <Icon name="chevron-small-right" size={40} color="#9F9F9F" />
       </View>
     </TouchableOpacity>
   );

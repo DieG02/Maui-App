@@ -33,7 +33,8 @@ export default {
   h2: {
     fontSize: 17,
     fontWeight: "500",
-    color: "#131313",
+    // color: "#131313",
+    color: "#60708F",
   },
   h1: {
     fontSize: 17,
@@ -42,7 +43,8 @@ export default {
   },
   p: {
     fontSize: 15,
-    color: "#ACACAC",
+    // color: "#ACACAC",
+    color: "#D7D9DB",
   },
   center: {
     alignItems: "center",

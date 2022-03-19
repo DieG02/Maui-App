@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   StatusBar,
+  KeyboardAvoidingView,
 } from "react-native";
 import Header from "../components/Header";
 import Icon from "../components/Icon";
@@ -26,7 +27,7 @@ import InputForm from "../components/InputForm";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Switch } from "react-native-paper";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default function IncomeForm({ navigation }) {
   const [paid, setPaid] = useState(true);
@@ -77,7 +78,7 @@ export default function IncomeForm({ navigation }) {
       >
         <Header
           titleColor="white"
-          name="Nuevo Ingreso2"
+          name="Nuevo Ingreso"
           color="#33E69B"
           icon={
             <Icon onPress={() => navigation.goBack()}>
@@ -116,7 +117,7 @@ export default function IncomeForm({ navigation }) {
           </Text>
           <InputForm
             keyboardType="numeric"
-            placeholder="Valor"
+            placeholder="0,00"
             value={price}
             setValue={setPrice}
             focus={true}
@@ -131,7 +132,7 @@ export default function IncomeForm({ navigation }) {
               fontSize: 30,
               fontWeight: "bold",
             }}
-          ></InputForm>
+          />
         </View>
       </View>
       <ScrollView
@@ -140,136 +141,141 @@ export default function IncomeForm({ navigation }) {
           marginHorizontal: 40,
         }}
       >
-        <View style={{}}>
-          <TouchableOpacity
-            onPress={onToggleSwitch}
-            style={{
-              marginTop: 20,
-              borderColor: "#ECECED",
-              borderWidth: 1.8,
-              height: 50,
-              borderRadius: 10,
-              alignItems: "center",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingHorizontal: 20,
-            }}
-          >
-            <Check name="check-circle" size={25} color="#9F9F9F" />
-            {isSwitchOn ? (
-              <Text style={{ color: "#413F3F" }}>Pagado</Text>
-            ) : (
-              <Text>Pendiente</Text>
-            )}
-            <Switch
-              value={isSwitchOn}
-              onValueChange={onToggleSwitch}
-              color="#33E69B"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginTop: 20,
-              paddingHorizontal: 20,
-              borderColor: "#ECECED",
-              borderWidth: 1.8,
-              height: 50,
-              borderRadius: 10,
-              alignItems: "center",
-
-              flexDirection: "row",
-            }}
-          >
-            <Tag name="inbox" size={25} color="#9F9F9F" />
-            <Text
+        <View
+          style={{
+            height: height - 150,
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <TouchableOpacity
+              onPress={onToggleSwitch}
               style={{
-                marginLeft: 40,
-                color: "#9F9F9F",
-                fontWeight: "bold",
+                marginTop: 20,
+                borderColor: "#ECECED",
+                borderWidth: 1.8,
+                height: 50,
+                borderRadius: 10,
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 20,
               }}
             >
-              Seleccionar Productos
-            </Text>
-          </TouchableOpacity>
-
-          <InputForm
-            keyboardType="default"
-            placeholder="Concepto"
-            value={description}
-            setValue={setDescription}
-            bottom={10}
-            focus={false}
-            style={{
-              borderColor: "#ECECED",
-              borderWidth: 1.8,
-              height: 50,
-              backgroundColor: "white",
-              marginTop: 20,
-            }}
-          >
-            <Description name="file-text" size={25} color="#9F9F9F" />
-          </InputForm>
-
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-          <ButtonInput
-            name="Fecha"
-            onPress={showDatePicker}
-            value={newdate}
-            bottom={10}
-          >
-            <Calendar name="calendar" size={25} color="#9F9F9F" />
-          </ButtonInput>
-          <ButtonInput name="Categoria" bottom={10}>
-            <Tag name="tag" size={25} color="#9F9F9F" />
-          </ButtonInput>
-
-          {more ? (
-            <>
-              <ButtonInput name="Clientes" bottom={10}>
-                <Costumer name="user" size={25} color="#9F9F9F" />
-              </ButtonInput>
-
-              <ButtonInput name="Cuentas" bottom={10}>
-                <Wallet name="wallet" size={25} color="#9F9F9F" />
-              </ButtonInput>
-              <ButtonInput name="Forma de Pago" bottom={10}>
-                <Money name="money-bill" size={25} color="#9F9F9F" />
-              </ButtonInput>
-            </>
-          ) : (
+              <Check name="check-circle" size={25} color="#9F9F9F" />
+              {isSwitchOn ? (
+                <Text style={{ color: "#413F3F" }}>Pagado</Text>
+              ) : (
+                <Text>Pendiente</Text>
+              )}
+              <Switch
+                value={isSwitchOn}
+                onValueChange={onToggleSwitch}
+                color="#33E69B"
+              />
+            </TouchableOpacity>
             <TouchableOpacity
-              onPress={seeMore}
               style={{
+                marginTop: 20,
+                paddingHorizontal: 20,
+                borderColor: "#ECECED",
+                borderWidth: 1.8,
+                height: 50,
+                borderRadius: 10,
                 alignItems: "center",
-                justifyContent: "center",
 
+                flexDirection: "row",
+              }}
+            >
+              <Tag name="inbox" size={25} color="#9F9F9F" />
+              <Text
+                style={{
+                  marginLeft: 40,
+                  color: "#9F9F9F",
+                  fontWeight: "bold",
+                }}
+              >
+                Seleccionar Productos
+              </Text>
+            </TouchableOpacity>
+
+            <InputForm
+              keyboardType="default"
+              placeholder="Concepto"
+              value={description}
+              setValue={setDescription}
+              bottom={10}
+              focus={false}
+              style={{
+                borderColor: "#ECECED",
+                borderWidth: 1.8,
+                height: 50,
+                backgroundColor: "white",
                 marginTop: 20,
               }}
             >
-              <Text
-                style={{ color: "#33E69B", fontSize: 18, fontWeight: "bold" }}
+              <Description name="file-text" size={25} color="#9F9F9F" />
+            </InputForm>
+
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <ButtonInput
+              name="Fecha"
+              onPress={showDatePicker}
+              value={newdate}
+              bottom={10}
+            >
+              <Calendar name="calendar" size={25} color="#9F9F9F" />
+            </ButtonInput>
+            <ButtonInput name="Categoria" bottom={10}>
+              <Tag name="tag" size={25} color="#9F9F9F" />
+            </ButtonInput>
+
+            {more ? (
+              <>
+                <ButtonInput name="Clientes" bottom={10}>
+                  <Costumer name="user" size={25} color="#9F9F9F" />
+                </ButtonInput>
+
+                <ButtonInput name="Cuentas" bottom={10}>
+                  <Wallet name="wallet" size={25} color="#9F9F9F" />
+                </ButtonInput>
+                <ButtonInput name="Forma de Pago" bottom={10}>
+                  <Money name="money-bill" size={25} color="#9F9F9F" />
+                </ButtonInput>
+              </>
+            ) : (
+              <TouchableOpacity
+                onPress={seeMore}
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginVertical: 20,
+                }}
               >
-                Ver más detalles
-              </Text>
-            </TouchableOpacity>
-          )}
+                <Text
+                  style={{ color: "#33E69B", fontSize: 18, fontWeight: "bold" }}
+                >
+                  Ver más detalles
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <Fab
+            bottom={0}
+            left={0}
+            position="relative"
+            color="#33E69B"
+            text="Guardar"
+            onPress={() => alert("Crear Producto")}
+          />
         </View>
       </ScrollView>
-      <Fab
-        bottom={0}
-        left={0}
-        width={width - 40}
-        marginLeft={20}
-        color="#33E69B"
-        text="Guardar"
-        onPress={() => alert("Crear Producto")}
-      />
     </View>
   );
 }
