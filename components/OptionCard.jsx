@@ -16,11 +16,13 @@ function OptionCard({ title, icon, arrow, onPress }) {
         >
           <View
             style={{
-              backgroundColor: "#E6EFF8",
-              width: 40,
-              height: 40,
+              width: 50,
+              height: 50,
+              borderColor: "#F0F1F5",
+              borderWidth: 1.5,
+              borderRadius: 15,
               marginRight: 20,
-              borderRadius: 40,
+
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -47,7 +49,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#131313",
+    color: "#60708F",
+    fontFamily: "Gilroy-Bold",
   },
 });
 

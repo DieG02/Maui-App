@@ -209,16 +209,28 @@ export default function ModalTest({ name, price, color, icon, type, state }) {
             <View style={theme.row}>
               <View
                 style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 30,
-                  backgroundColor: color || "#3784F9",
+                  width: 50,
+                  height: 50,
+                  borderRadius: 14,
+                  backgroundColor: "#F9FAFB",
                   marginRight: 10,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Icon1 name={icon} size={20} color="white" />
+                {/* <View
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 30,
+                    backgroundColor: color || "#3784F9",
+
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                > */}
+                <Icon1 name={icon} size={30} color={color} />
+                {/* </View> */}
               </View>
               <View style={theme.column}>
                 <Text style={theme.h2}>{name}</Text>
@@ -227,7 +239,12 @@ export default function ModalTest({ name, price, color, icon, type, state }) {
             </View>
             <View style={[theme.column, { alignItems: "flex-end" }]}>
               <Text style={theme.h1}>{price}</Text>
-              <Text style={theme.p}>{state}</Text>
+              <Text style={theme.p1}>{state}</Text>
+              {/* {state == "Efectivo" ? (
+                <Icon2 name="money-bill" size={20} color="#D7DCE4" />
+              ) : (
+                <Icon2 name="credit-card" size={20} color="#D7DCE4" />
+              )} */}
             </View>
           </View>
         </View>

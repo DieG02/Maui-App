@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   root: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-end",
     justifyContent: "space-between",
     marginHorizontal: 30,
   },

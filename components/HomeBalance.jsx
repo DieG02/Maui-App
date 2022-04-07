@@ -18,7 +18,6 @@ export default function HomeState({ onPress }) {
     <View
       style={{
         marginHorizontal: 30,
-
         backgroundColor: "#F9FAFB",
         width: width - 60,
         borderRadius: 20,
@@ -66,8 +65,8 @@ export default function HomeState({ onPress }) {
             <Text
               style={{
                 fontSize: 40,
-                color: "#131313",
-                fontWeight: "bold",
+                color: "#3784F9",
+                fontFamily: "Gilroy-Bold",
                 marginTop: 15,
                 marginBottom: 20,
                 marginRight: 15,

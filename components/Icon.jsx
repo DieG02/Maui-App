@@ -1,7 +1,7 @@
-import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 
-function Icon({onPress, children, style}) {
+function Icon({ onPress, children, style }) {
   return (
     <View>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
@@ -12,11 +12,13 @@ function Icon({onPress, children, style}) {
 }
 const styles = StyleSheet.create({
   icons: {
-    width: 40,
-    height: 40,
-    // backgroundColor: 'orange',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: 50,
+    height: 50,
+    borderColor: "#F0F1F5",
+    borderWidth: 1.5,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 5,
   },
 });

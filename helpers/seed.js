@@ -14,7 +14,7 @@ export const balance = [
     price: "$1230",
     type: "Compra",
     state: "Efectivo",
-    color: "#51BCFF",
+    color:'gray',
     icon: "briefcase",
   },
   {
@@ -33,6 +33,7 @@ export const balance = [
     type: "pago",
     state: "Tarjeta",
     icon: "logo-facebook",
+    color: "#51BCFF",
   },
   {
     id: 5,

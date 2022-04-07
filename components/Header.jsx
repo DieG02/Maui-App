@@ -26,10 +26,11 @@ function Header({ name, children, icon, color, titleColor }) {
       marginLeft: 5,
     },
     title: {
-      fontSize: 20,
-      fontWeight: "bold",
+      fontSize: 22,
+      fontFamily: "Gilroy-Bold",
+      // color: "#1A1A1A",
       paddingLeft: 10,
-      color: titleColor || "#1A1A1A",
+      color: titleColor || "#60708F",
     },
   });
 

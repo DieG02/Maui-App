@@ -52,8 +52,9 @@ function More({ navigation }) {
           <Text
             style={{
               fontSize: 20,
-              fontWeight: "bold",
-              color: "#131313",
+              color: "#60708F",
+
+              fontFamily: "Gilroy-Regular",
             }}
           >
             Mi Cuenta
@@ -69,7 +70,6 @@ function More({ navigation }) {
             <Icon name="poweroff" size={25} color="#1A1A1A" />
           </TouchableOpacity>
         </View>
-
         <Spacer height={10} />
         <View style={{ marginHorizontal: 20 }}>
           <View
@@ -106,13 +106,22 @@ function More({ navigation }) {
                 style={{
                   fontSize: 20,
                   color: "#131313",
-                  fontWeight: "400",
+
+                  fontFamily: "Gilroy-Bold",
                 }}
               >
                 Juan Bautista
               </Text>
               <TouchableOpacity>
-                <Text style={{ color: "#3784F9" }}>Ver mi perfil</Text>
+                <Text
+                  style={{
+                    color: "#3784F9",
+                    fontFamily: "Gilroy-Regular",
+                    fontSize: 15,
+                  }}
+                >
+                  Ver mi perfil
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -121,7 +130,7 @@ function More({ navigation }) {
             arrow={
               <Right name="chevron-small-right" color="#3784F9" size={35} />
             }
-            icon={<Business name="building" color="#3784F9" size={22} />}
+            icon={<Business name="building" color="#60708F" size={22} />}
           />
 
           <Spacer height={15} />
@@ -130,7 +139,7 @@ function More({ navigation }) {
             arrow={
               <Right name="chevron-small-right" color="#3784F9" size={35} />
             }
-            icon={<Debts name="calculator" color="#3784F9" size={22} />}
+            icon={<Debts name="calculator" color="#60708F" size={22} />}
           />
           <Spacer height={15} />
           <OptionCard
@@ -139,14 +148,14 @@ function More({ navigation }) {
             arrow={
               <Right name="chevron-small-right" color="#3784F9" size={35} />
             }
-            icon={<Costumer name="contact-page" color="#3784F9" size={22} />}
+            icon={<Costumer name="contact-page" color="#60708F" size={30} />}
           />
 
           <Spacer height={15} />
           <OptionCard
             title="Soporte"
             arrow={<WhatsApp name="whatsapp" color="#00bb2d" size={22} />}
-            icon={<Message name="message" color="#3784F9" size={22} />}
+            icon={<Message name="message" color="#60708F" size={22} />}
           />
           <Spacer height={15} />
           <OptionCard
@@ -154,7 +163,7 @@ function More({ navigation }) {
             arrow={
               <Right name="chevron-small-right" color="#3784F9" size={35} />
             }
-            icon={<Faq name="question-circle" color="#3784F9" size={22} />}
+            icon={<Faq name="question-circle" color="#60708F" size={22} />}
           />
           <Spacer height={30} />
         </View>

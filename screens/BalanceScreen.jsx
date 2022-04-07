@@ -25,10 +25,10 @@ export default function BalanceScreen({ navigation }) {
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header name="Balance">
         <Icon onPress={() => alert("Search")}>
-          <Search name="search" size={25} color="#302F3C" />
+          <Search name="search" size={25} color="#60708F" />
         </Icon>
         <Icon onPress={() => alert("Search")}>
-          <More name="more-vertical" size={25} color="#302F3C" />
+          <More name="more-vertical" size={25} color="#60708F" />
         </Icon>
       </Header>
 

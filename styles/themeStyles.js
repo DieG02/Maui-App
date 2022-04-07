@@ -38,13 +38,21 @@ export default {
   },
   h1: {
     fontSize: 17,
-    fontWeight: "600",
-    color: "#131313",
+ 
+    color: "#60708F",
+    fontFamily:'Gilroy-Bold',
   },
   p: {
     fontSize: 15,
     // color: "#ACACAC",
-    color: "#D7D9DB",
+    fontFamily: "Gilroy-Regular",
+    color: "#D7DCE4",
+    
+  },
+  p1: {
+    fontSize: 15,
+    fontFamily: "Gilroy-Regular",
+    color: "#D7DCE4",
   },
   center: {
     alignItems: "center",
