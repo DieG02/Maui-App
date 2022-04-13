@@ -1,15 +1,9 @@
 import React from 'react';
-import {View, ScrollView, Text, Dimensions} from 'react-native';
-import Frame from './Frame';
-import BalanceCard from './BalanceCard';
-import BlockState from './BlockState';
+import {View, ScrollView, Dimensions} from 'react-native';
 import Title from './Title';
-import theme from '../styles/themeStyles';
 import Spacer from '../components/Spacer';
-import Modal from "./Modal";
 import { balance } from "../helpers/seed";
-
-
+import Modal from "./Modal";
 
 const {width} = Dimensions.get('window');
 
