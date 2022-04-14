@@ -8,28 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MauiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MauiTests.m */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		0C80B921A6F3F58F76C31292 /* libPods-Maui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Maui.a */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3589C47F024EA287099FABFB /* libPods-Maui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCDE05E36A1AF5961B88315C /* libPods-Maui.a */; };
+		7699B88040F8A987B510C191 /* libPods-Maui-MauiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Maui-MauiTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		E5DEF70E4BE685B77B2AB3EA /* libPods-Maui-MauiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 518E3173B82E37F3DB708322 /* libPods-Maui-MauiTests.a */; };
-		E5DC649BCD3845A38015E129 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A19EA43A3CD492CBECDFE77 /* AntDesign.ttf */; };
-		0D6D51DA35AB4860B259D541 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 097C0ADDD02E4D589CFBD402 /* Entypo.ttf */; };
-		2C3831F71EE64A27902F0B90 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CCBB03D36B844CFC894A893B /* EvilIcons.ttf */; };
-		F77DE09592AB42C1AE7B650A /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B3B073F80E248E89BAF5154 /* Feather.ttf */; };
-		C1858F4D4F5040D5812DE8A5 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D69572B290BF416BBD7F561D /* FontAwesome.ttf */; };
-		92F49D57C5534510B600B5D8 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5176D38A86F475981EA96A1 /* FontAwesome5_Brands.ttf */; };
-		CABFF58131D44C77A21678BE /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA12A7530E6B495C8D8144F1 /* FontAwesome5_Regular.ttf */; };
-		D23C69E1F4D745E8948A9EFF /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85B8A8A3707349A7ADAD67CE /* FontAwesome5_Solid.ttf */; };
-		58E64720E5C644789DAE5669 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55941C3362E44FE2A15D06E2 /* Fontisto.ttf */; };
-		326161A72C6741C9A25F9760 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 325AB0EC8394459490D121FD /* Foundation.ttf */; };
-		D25D120812D14BC69D713B45 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB0DEA9FD9ED41A7BEF9BD8E /* Ionicons.ttf */; };
-		C28895ADD76B4800842A3FA4 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9D5317811334EFCA650C692 /* MaterialCommunityIcons.ttf */; };
-		0EB5E5CC13B341E698532871 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFE95D73720C44D1A5DFCFAC /* MaterialIcons.ttf */; };
-		80A271F812724B2B999EC6DF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E89F0406164A4F2794A40C0A /* Octicons.ttf */; };
-		A10B4327578949C6906ECB9C /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D2B2B041DE242B5A2CEE8AB /* SimpleLineIcons.ttf */; };
-		C7128F6EDA2C45ED8E974D45 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D7D5FA062483C92CA7E9C /* Zocial.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,34 +32,18 @@
 		00E356F21AD99517003FC87E /* MauiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MauiTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Maui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Maui/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Maui/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Maui/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Maui/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Maui/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Maui/main.m; sourceTree = "<group>"; };
-		14CFEBDE488F3F5214932517 /* Pods-Maui-MauiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.release.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.release.xcconfig"; sourceTree = "<group>"; };
-		4FB95A17C606B1794CC2F684 /* Pods-Maui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui.debug.xcconfig"; path = "Target Support Files/Pods-Maui/Pods-Maui.debug.xcconfig"; sourceTree = "<group>"; };
-		518E3173B82E37F3DB708322 /* libPods-Maui-MauiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui-MauiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Maui-MauiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui-MauiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4392A12AC88292D35C810B /* Pods-Maui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui.debug.xcconfig"; path = "Target Support Files/Pods-Maui/Pods-Maui.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-Maui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui.release.xcconfig"; path = "Target Support Files/Pods-Maui/Pods-Maui.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-Maui-MauiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.debug.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-Maui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Maui/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A01A73347C7BBB0795F7EC58 /* Pods-Maui.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui.release.xcconfig"; path = "Target Support Files/Pods-Maui/Pods-Maui.release.xcconfig"; sourceTree = "<group>"; };
-		AB0F6FFA2EC07A4557ED07C8 /* Pods-Maui-MauiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.debug.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-Maui-MauiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.release.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FCDE05E36A1AF5961B88315C /* libPods-Maui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A19EA43A3CD492CBECDFE77 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		097C0ADDD02E4D589CFBD402 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CCBB03D36B844CFC894A893B /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3B3B073F80E248E89BAF5154 /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D69572B290BF416BBD7F561D /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A5176D38A86F475981EA96A1 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CA12A7530E6B495C8D8144F1 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		85B8A8A3707349A7ADAD67CE /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		55941C3362E44FE2A15D06E2 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		325AB0EC8394459490D121FD /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FB0DEA9FD9ED41A7BEF9BD8E /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B9D5317811334EFCA650C692 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CFE95D73720C44D1A5DFCFAC /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E89F0406164A4F2794A40C0A /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0D2B2B041DE242B5A2CEE8AB /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1F6D7D5FA062483C92CA7E9C /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5DEF70E4BE685B77B2AB3EA /* libPods-Maui-MauiTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-Maui-MauiTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3589C47F024EA287099FABFB /* libPods-Maui.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-Maui.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -132,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				FCDE05E36A1AF5961B88315C /* libPods-Maui.a */,
-				518E3173B82E37F3DB708322 /* libPods-Maui-MauiTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-Maui.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-Maui-MauiTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -153,8 +121,7 @@
 				00E356EF1AD99517003FC87E /* MauiTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				8F300D0D089E1DDC2C9DF520 /* Pods */,
-				E8927C7D9D6541A583700219 /* Resources */,
+				BBD78D7AC51CEA395F1C20DB /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -170,41 +137,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8F300D0D089E1DDC2C9DF520 /* Pods */ = {
+		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4FB95A17C606B1794CC2F684 /* Pods-Maui.debug.xcconfig */,
-				A01A73347C7BBB0795F7EC58 /* Pods-Maui.release.xcconfig */,
-				AB0F6FFA2EC07A4557ED07C8 /* Pods-Maui-MauiTests.debug.xcconfig */,
-				14CFEBDE488F3F5214932517 /* Pods-Maui-MauiTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-Maui.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-Maui.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-Maui-MauiTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-Maui-MauiTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		E8927C7D9D6541A583700219 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				5A19EA43A3CD492CBECDFE77 /* AntDesign.ttf */,
-				097C0ADDD02E4D589CFBD402 /* Entypo.ttf */,
-				CCBB03D36B844CFC894A893B /* EvilIcons.ttf */,
-				3B3B073F80E248E89BAF5154 /* Feather.ttf */,
-				D69572B290BF416BBD7F561D /* FontAwesome.ttf */,
-				A5176D38A86F475981EA96A1 /* FontAwesome5_Brands.ttf */,
-				CA12A7530E6B495C8D8144F1 /* FontAwesome5_Regular.ttf */,
-				85B8A8A3707349A7ADAD67CE /* FontAwesome5_Solid.ttf */,
-				55941C3362E44FE2A15D06E2 /* Fontisto.ttf */,
-				325AB0EC8394459490D121FD /* Foundation.ttf */,
-				FB0DEA9FD9ED41A7BEF9BD8E /* Ionicons.ttf */,
-				B9D5317811334EFCA650C692 /* MaterialCommunityIcons.ttf */,
-				CFE95D73720C44D1A5DFCFAC /* MaterialIcons.ttf */,
-				E89F0406164A4F2794A40C0A /* Octicons.ttf */,
-				0D2B2B041DE242B5A2CEE8AB /* SimpleLineIcons.ttf */,
-				1F6D7D5FA062483C92CA7E9C /* Zocial.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -213,12 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MauiTests" */;
 			buildPhases = (
-				BBE1517058EE3C13FF7EE071 /* [CP] Check Pods Manifest.lock */,
+				A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				F630C1C852A1B6CD08CCD20E /* [CP] Embed Pods Frameworks */,
-				918956A1BD314F0C0BC0741F /* [CP] Copy Pods Resources */,
+				C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */,
+				F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -234,14 +176,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Maui" */;
 			buildPhases = (
-				AEEEF544D6172F177EFD91DF /* [CP] Check Pods Manifest.lock */,
+				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				8928430E8D9229349A31EEEC /* [CP] Embed Pods Frameworks */,
-				C910175C9EB5A3937BE482AE /* [CP] Copy Pods Resources */,
+				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
+				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -302,22 +244,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E5DC649BCD3845A38015E129 /* AntDesign.ttf in Resources */,
-				0D6D51DA35AB4860B259D541 /* Entypo.ttf in Resources */,
-				2C3831F71EE64A27902F0B90 /* EvilIcons.ttf in Resources */,
-				F77DE09592AB42C1AE7B650A /* Feather.ttf in Resources */,
-				C1858F4D4F5040D5812DE8A5 /* FontAwesome.ttf in Resources */,
-				92F49D57C5534510B600B5D8 /* FontAwesome5_Brands.ttf in Resources */,
-				CABFF58131D44C77A21678BE /* FontAwesome5_Regular.ttf in Resources */,
-				D23C69E1F4D745E8948A9EFF /* FontAwesome5_Solid.ttf in Resources */,
-				58E64720E5C644789DAE5669 /* Fontisto.ttf in Resources */,
-				326161A72C6741C9A25F9760 /* Foundation.ttf in Resources */,
-				D25D120812D14BC69D713B45 /* Ionicons.ttf in Resources */,
-				C28895ADD76B4800842A3FA4 /* MaterialCommunityIcons.ttf in Resources */,
-				0EB5E5CC13B341E698532871 /* MaterialIcons.ttf in Resources */,
-				80A271F812724B2B999EC6DF /* Octicons.ttf in Resources */,
-				A10B4327578949C6906ECB9C /* SimpleLineIcons.ttf in Resources */,
-				C7128F6EDA2C45ED8E974D45 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,7 +264,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		8928430E8D9229349A31EEEC /* [CP] Embed Pods Frameworks */ = {
+		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -355,46 +281,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui/Pods-Maui-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		918956A1BD314F0C0BC0741F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AEEEF544D6172F177EFD91DF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Maui-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BBE1517058EE3C13FF7EE071 /* [CP] Check Pods Manifest.lock */ = {
+		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -416,7 +303,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C910175C9EB5A3937BE482AE /* [CP] Copy Pods Resources */ = {
+		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Maui-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C59DA0FBD6956966B86A3779 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -433,21 +359,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui/Pods-Maui-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F630C1C852A1B6CD08CCD20E /* [CP] Embed Pods Frameworks */ = {
+		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -484,7 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,7 +428,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AB0F6FFA2EC07A4557ED07C8 /* Pods-Maui-MauiTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-Maui-MauiTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -529,7 +455,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14CFEBDE488F3F5214932517 /* Pods-Maui-MauiTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-Maui-MauiTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -553,7 +479,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FB95A17C606B1794CC2F684 /* Pods-Maui.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Maui.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -579,7 +505,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A01A73347C7BBB0795F7EC58 /* Pods-Maui.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Maui.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -606,7 +532,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -662,6 +588,12 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -671,7 +603,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -719,6 +651,12 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
