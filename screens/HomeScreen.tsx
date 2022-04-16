@@ -1,6 +1,12 @@
-import React from "react";
-import { StatusBar, ScrollView, TouchableOpacity, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
+import {
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  RefreshControl,
+  SafeAreaView,
+} from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
 import HomeHeader from "../components/HomeScreen/HomeHeader";
@@ -17,16 +23,33 @@ interface Props {
 }
 
 const HomeScreen = ({ navigation }: Props) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    console.log("refreshing");
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#3784F9"]}
+          />
+        }
+        showsVerticalScrollIndicator={false}
+      >
         <HomeHeader
-          onPressNotifications={() => console.log("Notification")}
-          onPressUser={() => navigation.navigate("balance")}
+          onPressNotifications={() => navigation.navigate("Notifications")}
+          onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={20} />
-        <HomeBalance onPress={() => console.log("Balance")} />
+        <HomeBalance onPress={() => navigation.navigate("FinancialAccounts")} />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
         <Spacer height={20} />

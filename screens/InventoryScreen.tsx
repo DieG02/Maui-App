@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   StatusBar,
   ScrollView,
   Dimensions,
   Alert,
+  SafeAreaView,
 } from "react-native";
 import Plus from "react-native-vector-icons/FontAwesome5";
 import Header from "../components/common/Header";
@@ -32,7 +32,7 @@ const InventoryScreen = ({ navigation }: Props) => {
 
   console.log("selected", selected);
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header name="Productos">
         <Icon onPress={() => Alert.alert("Search")}>
@@ -103,9 +103,9 @@ const InventoryScreen = ({ navigation }: Props) => {
         marginLeft={20}
         color="#3784F9"
         text="Crear Producto"
-        onPress={() => navigation.navigate("AddProduct")}
+        onPress={() => navigation.navigate("NewProduct")}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

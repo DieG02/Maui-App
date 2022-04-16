@@ -10,7 +10,6 @@ const TransactionsContainer = () => {
         <View
           style={{
             backgroundColor: "white",
-            paddingBottom: 10,
           }}
         >
           {balance.map((i) => (
