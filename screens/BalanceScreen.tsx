@@ -80,7 +80,7 @@ export default function BalanceScreen({ navigation }: Props) {
         color="#FD6363"
         text="Egreso"
         marginRight={20}
-        onPress={() => navigation.navigate("OutcomeForm")}
+        onPress={() => navigation.navigate("NewExpense")}
       />
       <Fab
         left={0}

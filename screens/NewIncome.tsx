@@ -8,7 +8,6 @@ import {
   TextInput,
   ScrollView,
   StatusBar,
-  KeyboardAvoidingView,
   Alert,
   Platform,
 } from "react-native";
@@ -25,7 +24,7 @@ import Description from "react-native-vector-icons/FontAwesome";
 import Dollar from "react-native-vector-icons/FontAwesome";
 import Check from "react-native-vector-icons/Feather";
 import InputForm from "../components/common/InputForm";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Switch } from "react-native-paper";
 import { NavigationProp } from "@react-navigation/native";
 
@@ -230,12 +229,12 @@ const NewIncome = ({ navigation }: Props) => {
               <Description name="file-text" size={25} color="#9F9F9F" />
             </InputForm>
 
-            {/* <DateTimePickerModal
+            <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-            /> */}
+            />
             <ButtonInput
               name="Fecha"
               onPress={showDatePicker}
