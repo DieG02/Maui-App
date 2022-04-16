@@ -5,7 +5,7 @@ import { NavigationProp } from "@react-navigation/native";
 
 import HomeHeader from "../components/HomeScreen/HomeHeader";
 import HomeBalance from "../components/HomeScreen/HomeBalance";
-import Spacer from "../components/common/spacer";
+import Spacer from "../components/common/Spacer";
 import Title from "../components/common/Title";
 import HomeState from "../components/HomeScreen/HomeState";
 import TransactionsContainer from "../components/containers/TransactionsContainer";

@@ -13,7 +13,7 @@ interface Props {
   marginRight?: number;
   onPress?: () => void;
   height?: number;
-  position?: undefined;
+  position?: "absolute" | "relative";
 }
 
 const Fab = ({

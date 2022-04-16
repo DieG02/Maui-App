@@ -89,7 +89,7 @@ export default function BalanceScreen({ navigation }: Props) {
         color="#33E69B"
         text="Ingreso"
         marginLeft={20}
-        onPress={() => navigation.navigate("IncomeForm2")}
+        onPress={() => navigation.navigate("NewIncome")}
       />
     </NavigationContainer>
   );

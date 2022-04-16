@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeTabs from "./navigation/HomeTabs";
-
+import NewIncome from "./screens/IncomeForm";
 import logo from "./assets/logo.png";
 
 const Stack = createNativeStackNavigator();
@@ -15,6 +15,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        <Stack.Screen name="NewIncome" component={NewIncome} />
       </Stack.Navigator>
     </NavigationContainer>
   );
