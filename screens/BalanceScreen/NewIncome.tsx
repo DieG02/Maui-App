@@ -11,11 +11,11 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
-import Fab from "../components/common/Fab";
-import ButtonInput from "../components/common/ButtonInput";
+import Fab from "../../components/common/Fab";
+import ButtonInput from "../../components/common/ButtonInput";
 import Calendar from "react-native-vector-icons/Entypo";
 import Costumer from "react-native-vector-icons/FontAwesome";
 import Wallet from "react-native-vector-icons/Entypo";
@@ -23,7 +23,7 @@ import Money from "react-native-vector-icons/FontAwesome5";
 import Description from "react-native-vector-icons/FontAwesome";
 import Dollar from "react-native-vector-icons/FontAwesome";
 import Check from "react-native-vector-icons/Feather";
-import InputForm from "../components/common/InputForm";
+import InputForm from "../../components/common/InputForm";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Switch } from "react-native-paper";
 import { NavigationProp } from "@react-navigation/native";

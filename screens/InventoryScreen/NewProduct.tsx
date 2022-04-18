@@ -10,10 +10,10 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
-import Fab from "../components/common/Fab";
+import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");

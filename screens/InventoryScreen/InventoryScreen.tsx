@@ -9,14 +9,14 @@ import {
   SafeAreaView,
 } from "react-native";
 import Plus from "react-native-vector-icons/FontAwesome5";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
-import ProductCard from "../components/common/ProductCard";
-import Fab from "../components/common/Fab";
-import { products, categories } from "../helpers/seed";
-import ChipCategory from "../components/common/ChipCategory";
+import ProductCard from "../../components/common/ProductCard";
+import Fab from "../../components/common/Fab";
+import { products, categories } from "../../helpers/seed";
+import ChipCategory from "../../components/common/ChipCategory";
 import { NavigationProp } from "@react-navigation/native";
 
 const statusBarStyle = "dark-content";

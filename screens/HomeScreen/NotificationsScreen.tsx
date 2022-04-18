@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 

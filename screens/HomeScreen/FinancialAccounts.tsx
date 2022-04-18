@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Alert, SafeAreaView } from "react-native";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Plus from "react-native-vector-icons/Feather";
 import Bill from "react-native-vector-icons/FontAwesome5";

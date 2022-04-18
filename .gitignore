@@ -21,6 +21,7 @@ local.properties
 **.UserInterfaceState.xcuserstate
 # Thumbnails
 ._*
+**.xcuserstate
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100

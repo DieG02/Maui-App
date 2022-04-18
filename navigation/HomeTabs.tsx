@@ -1,8 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
-import BalanceScreen from "../screens/BalanceScreen";
-import InventoryScreen from "../screens/InventoryScreen";
+import HomeScreen from "../screens/HomeScreen/HomeScreen";
+import BalanceScreen from "../screens/BalanceScreen/BalanceScreen";
+import InventoryScreen from "../screens/InventoryScreen/InventoryScreen";
 import HomeIcon from "react-native-vector-icons/Foundation";
 import BalanceIcon from "react-native-vector-icons/MaterialIcons";
 import InventoryIcon from "react-native-vector-icons/MaterialIcons";

@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import Spacer from "../components/common/Spacer";
-import Header from "../components/common/Header";
-import OptionCard from "../components/common/OptionCard";
+import Spacer from "../../components/common/Spacer";
+import Header from "../../components/common/Header";
+import OptionCard from "../../components/common/OptionCard";
 import Right from "react-native-vector-icons/Entypo";
 import Profile from "react-native-vector-icons/FontAwesome";
 import Business from "react-native-vector-icons/FontAwesome";
@@ -18,7 +18,7 @@ import Costumer from "react-native-vector-icons/MaterialIcons";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
 // import WhatsApp from "react-native-vector-icons/Fontisto";
-import Button from "../components/common/Button";
+import Button from "../../components/common/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 
