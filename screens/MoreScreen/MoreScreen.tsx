@@ -17,10 +17,11 @@ import Debts from "react-native-vector-icons/FontAwesome5";
 import Costumer from "react-native-vector-icons/MaterialIcons";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
-// import WhatsApp from "react-native-vector-icons/Fontisto";
-import Button from "../../components/common/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -52,7 +53,7 @@ const More = ({ navigation }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="close" size={30} color="#3784F9" />
+            <Icon name="close" size={30} color={mainColor} />
           </TouchableOpacity>
           <Text
             style={{
@@ -90,7 +91,7 @@ const More = ({ navigation }: Props) => {
                 width: 60,
                 height: 60,
                 marginRight: 20,
-                backgroundColor: "#3784F9",
+                backgroundColor: mainColor,
                 borderRadius: 40,
                 alignItems: "center",
                 justifyContent: "center",
@@ -120,7 +121,7 @@ const More = ({ navigation }: Props) => {
               <TouchableOpacity>
                 <Text
                   style={{
-                    color: "#3784F9",
+                    color: mainColor,
                     fontFamily: "Gilroy-Regular",
                     fontSize: 15,
                   }}
@@ -133,7 +134,7 @@ const More = ({ navigation }: Props) => {
           <OptionCard
             title="Negocio"
             arrow={
-              <Right name="chevron-small-right" color="#3784F9" size={35} />
+              <Right name="chevron-small-right" color={mainColor} size={35} />
             }
             icon={<Business name="building" color="#60708F" size={22} />}
           />
@@ -142,7 +143,7 @@ const More = ({ navigation }: Props) => {
           <OptionCard
             title="Deudas"
             arrow={
-              <Right name="chevron-small-right" color="#3784F9" size={35} />
+              <Right name="chevron-small-right" color={mainColor} size={35} />
             }
             icon={<Debts name="calculator" color="#60708F" size={22} />}
           />
@@ -151,7 +152,7 @@ const More = ({ navigation }: Props) => {
             title="Contactos"
             onPress={() => navigation.navigate("Contacts")}
             arrow={
-              <Right name="chevron-small-right" color="#3784F9" size={35} />
+              <Right name="chevron-small-right" color={mainColor} size={35} />
             }
             icon={<Costumer name="contact-page" color="#60708F" size={30} />}
           />
@@ -166,7 +167,7 @@ const More = ({ navigation }: Props) => {
           <OptionCard
             title="Preguntas Frecuentes"
             arrow={
-              <Right name="chevron-small-right" color="#3784F9" size={35} />
+              <Right name="chevron-small-right" color={mainColor} size={35} />
             }
             icon={<Faq name="question-circle" color="#60708F" size={22} />}
           />

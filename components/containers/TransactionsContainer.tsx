@@ -12,16 +12,8 @@ const TransactionsContainer = () => {
             backgroundColor: "white",
           }}
         >
-          {balance.map((i) => (
-            <TransactionModal
-              key={i.id}
-              name={i.name}
-              price={i.price}
-              type={i.type}
-              state={i.state}
-              color={i.color}
-              icon={i.icon}
-            />
+          {balance.map((item) => (
+            <TransactionModal data={item} />
           ))}
         </View>
       </View>

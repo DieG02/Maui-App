@@ -23,6 +23,9 @@ import { getConsumers } from "../../services/test";
 import Button from "../../components/common/Button";
 import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 const Tab = createMaterialTopTabNavigator();
 const { width } = Dimensions.get("window");
@@ -51,14 +54,7 @@ export const Consumers = () => {
     >
       <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
         {consumers &&
-          consumers.map((item: any) => (
-            <ContactCard
-              key={item.id}
-              name={item.name.firstname + " " + item.name.lastname}
-              phone={item.phone}
-              type="consumer"
-            />
-          ))}
+          consumers.map((item) => <ContactCard data={item} type="consumer" />)}
       </View>
     </ScrollView>
   );
@@ -89,12 +85,7 @@ export const Providers = () => {
       <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
         {consumers &&
           consumers.map((item: any) => (
-            <ContactCard
-              key={item.id}
-              name={item.name.firstname + " " + item.name.lastname}
-              phone={item.phone}
-              type="provider"
-            />
+            <ContactCard key={item.id} data={item} type="provider" />
           ))}
       </View>
     </ScrollView>
@@ -127,12 +118,7 @@ export const Employees = () => {
         <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
           {consumers &&
             consumers.map((item: any) => (
-              <ContactCard
-                key={item.id}
-                name={item.name.firstname + " " + item.name.lastname}
-                phone={item.phone}
-                type="employee"
-              />
+              <ContactCard key={item.id} data={item} type="employee" />
             ))}
         </View>
       </ScrollView>
@@ -159,7 +145,7 @@ export default function Contacts({ navigation }: Props) {
         color="white"
         icon={
           <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color="#3784F9" />
+            <Arrow name="arrow-back" size={30} color={mainColor} />
           </Icon>
         }
       >
@@ -180,11 +166,11 @@ export default function Contacts({ navigation }: Props) {
             marginBottom: 4,
           },
           tabBarActiveTintColor: "white",
-          tabBarInactiveTintColor: "#3784F9",
+          tabBarInactiveTintColor: mainColor,
           tabBarLabelStyle: { fontSize: 11, fontWeight: "bold" },
 
           tabBarIndicatorStyle: {
-            backgroundColor: "#3784F9",
+            backgroundColor: mainColor,
             height: 50,
             borderRadius: 15,
           },
@@ -204,7 +190,7 @@ export default function Contacts({ navigation }: Props) {
         width={width - 40}
         height={50}
         marginLeft={20}
-        color="#3784F9"
+        color={mainColor}
         text="Crear Contacto"
         onPress={() => Alert.alert("Crear Producto")}
       />

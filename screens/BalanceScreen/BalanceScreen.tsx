@@ -5,7 +5,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
-import Filter from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
 import TabDay from "../../components/BalanceScreen/TabDay";
 import TabWeek from "../../components/BalanceScreen/TabWeek";
@@ -13,7 +12,9 @@ import TabMonth from "../../components/BalanceScreen/TabMonth";
 import TabYear from "../../components/BalanceScreen/TabYear";
 import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
 
+const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
 const Tab = createMaterialTopTabNavigator();
 
@@ -53,10 +54,10 @@ export default function BalanceScreen({ navigation }: Props) {
             backgroundColor: "white",
           },
           tabBarActiveTintColor: "white",
-          tabBarInactiveTintColor: "#3784F9",
+          tabBarInactiveTintColor: mainColor,
           tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
           tabBarIndicatorStyle: {
-            backgroundColor: "#3784F9",
+            backgroundColor: mainColor,
             height: 50,
             borderRadius: 15,
           },
@@ -71,8 +72,6 @@ export default function BalanceScreen({ navigation }: Props) {
         <Tab.Screen name="Mes" component={TabMonth} />
         <Tab.Screen name="Año" component={TabYear} />
       </Tab.Navigator>
-      {/* <BlockButton /> */}
-
       <Fab
         right={0}
         bottom={0}

@@ -8,14 +8,15 @@ import {
   SafeAreaView,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-
 import HomeHeader from "../../components/HomeScreen/HomeHeader";
 import HomeBalance from "../../components/HomeScreen/HomeBalance";
 import Spacer from "../../components/common/Spacer";
 import Title from "../../components/common/Title";
 import HomeState from "../../components/HomeScreen/HomeState";
 import TransactionsContainer from "../../components/containers/TransactionsContainer";
+import globalStyles from "../../styles/globalStyles";
 
+const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
 
 interface Props {
@@ -39,7 +40,7 @@ const HomeScreen = ({ navigation }: Props) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={["#3784F9"]}
+            colors={[mainColor]}
           />
         }
         showsVerticalScrollIndicator={false}
@@ -58,7 +59,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Title title="Actividad">
           <TouchableOpacity onPress={() => navigation.navigate("balance")}>
             <Text
-              style={{ color: "#3784F9", fontWeight: "bold", fontSize: 15 }}
+              style={{ color: mainColor, fontWeight: "bold", fontSize: 15 }}
             >
               Ver más
             </Text>

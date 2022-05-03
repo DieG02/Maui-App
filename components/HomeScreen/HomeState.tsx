@@ -3,6 +3,9 @@ import { View, Dimensions, StyleSheet, ScrollView } from "react-native";
 import StateCard from "./StateCard";
 import Down from "react-native-vector-icons/Ionicons";
 import Top from "react-native-vector-icons/Ionicons";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
@@ -27,7 +30,7 @@ const HomeState = () => {
               state="Ingresos"
               value="$12000"
               left={30}
-              icon={<Top name="arrow-up-circle" size={60} color="#3784F9" />}
+              icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
             />
             <StateCard
               color="#fafafa"

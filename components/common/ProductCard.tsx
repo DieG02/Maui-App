@@ -1,15 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 interface Props {
   onPress: () => void;
-  image: string;
-  price: string;
-  description: string;
-  stock: number;
+  data: IProduct;
 }
 
-const ProductCard = ({ onPress, image, price, description, stock }: Props) => {
+const ProductCard = ({ onPress, data }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -30,30 +30,30 @@ const ProductCard = ({ onPress, image, price, description, stock }: Props) => {
         <Image
           resizeMode="contain"
           source={{
-            uri: image,
+            uri: data.image,
           }}
           style={{ width: "100%", height: 100, alignSelf: "center" }}
         />
         <Text
           style={{
-            color: "#3784F9",
+            color: mainColor,
             fontWeight: "bold",
             fontSize: 18,
             marginTop: 8,
             marginBottom: 4,
           }}
         >
-          {price}
+          {data.price}
         </Text>
-        <Text style={{ color: "#302F3C", height: 60 }}>{description}</Text>
+        <Text style={{ color: "#302F3C", height: 60 }}>{data.description}</Text>
         <Text
           style={{
-            color: "#3784F9",
+            color: mainColor,
             fontWeight: "bold",
             marginVertical: 5,
           }}
         >
-          Stock: {stock}
+          Stock: {data.stock}
         </Text>
       </View>
     </TouchableOpacity>

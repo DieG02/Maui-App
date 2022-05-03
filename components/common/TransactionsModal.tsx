@@ -4,17 +4,15 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon1 from "react-native-vector-icons/Ionicons";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 interface Props {
-  name: string;
-  price: string;
-  color: string;
-  icon: string;
-  type: string;
-  state: string;
+  data: ITransaction;
 }
 
-const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
+const TransactionModal = ({ data }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
@@ -75,12 +73,12 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                 height: 60,
                 borderRadius: 30,
                 marginHorizontal: 30,
-                backgroundColor: color || "#3784F9",
+                backgroundColor: data.color || mainColor,
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Icon1 name={icon} size={35} color="white" />
+              <Icon1 name={data.icon} size={35} color="white" />
             </View>
             <TouchableOpacity
               style={{
@@ -108,7 +106,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                 fontWeight: "bold",
               }}
             >
-              {price}
+              {data.price}
             </Text>
             <Text
               style={{
@@ -118,7 +116,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                 marginBottom: 5,
               }}
             >
-              {name}
+              {data.name}
             </Text>
 
             <Text style={{ color: "#8a8a8a", marginBottom: 10 }}>
@@ -138,7 +136,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
               }}
             >
               <Text
-                style={{ color: "#3784F9", fontSize: 16, fontWeight: "600" }}
+                style={{ color: mainColor, fontSize: 16, fontWeight: "600" }}
               >
                 Tarjeta de crédito
               </Text>
@@ -197,7 +195,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
             >
               <Text style={{ color: "#666666", fontSize: 15 }}>Compra</Text>
               <TouchableOpacity>
-                <Text style={{ color: "#3784F9" }}>Cambiar</Text>
+                <Text style={{ color: mainColor }}>Cambiar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -234,7 +232,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                   justifyContent: "center",
                 }}
               >
-                <Icon1 name={icon} size={30} color={color} />
+                <Icon1 name={data.icon} size={30} color={data.color} />
               </View>
               <View
                 style={{
@@ -251,7 +249,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                     color: "#60708F",
                   }}
                 >
-                  {name}
+                  {data.name}
                 </Text>
                 <Text
                   style={{
@@ -261,7 +259,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                     color: "#D7DCE4",
                   }}
                 >
-                  {type}
+                  {data.type}
                 </Text>
               </View>
             </View>
@@ -280,7 +278,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                   fontFamily: "Gilroy-Bold",
                 }}
               >
-                {price}
+                {data.price}
               </Text>
               <Text
                 style={{
@@ -289,7 +287,7 @@ const TransactionModal = ({ name, price, color, icon, type, state }: Props) => {
                   color: "#D7DCE4",
                 }}
               >
-                {state}
+                {data.state}
               </Text>
             </View>
           </View>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -15,8 +14,11 @@ import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");
+
+const { mainColor } = globalStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -35,7 +37,7 @@ const NewProduct = ({ navigation }: Props) => {
         color="#f8f8f8"
         icon={
           <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color="#3784F9" />
+            <Arrow name="arrow-back" size={30} color={mainColor} />
           </Icon>
         }
       ></Header>
@@ -56,7 +58,7 @@ const NewProduct = ({ navigation }: Props) => {
             <TouchableOpacity
               onPress={() => setState(0)}
               style={{
-                backgroundColor: state == 0 ? "#3784F9" : "#E6EFF8",
+                backgroundColor: state == 0 ? mainColor : "#E6EFF8",
                 width: (width - 100) / 2,
                 height: 40,
                 borderRadius: 10,
@@ -66,7 +68,7 @@ const NewProduct = ({ navigation }: Props) => {
             >
               <Text
                 style={{
-                  color: state == 0 ? "white" : "#3784F9",
+                  color: state == 0 ? "white" : mainColor,
                   fontWeight: "bold",
                 }}
               >
@@ -76,7 +78,7 @@ const NewProduct = ({ navigation }: Props) => {
             <TouchableOpacity
               onPress={() => setState(1)}
               style={{
-                backgroundColor: state == 1 ? "#3784F9" : "#E6EFF8",
+                backgroundColor: state == 1 ? mainColor : "#E6EFF8",
                 width: (width - 100) / 2,
                 height: 40,
                 borderRadius: 10,
@@ -86,7 +88,7 @@ const NewProduct = ({ navigation }: Props) => {
             >
               <Text
                 style={{
-                  color: state == 1 ? "white" : "#3784F9",
+                  color: state == 1 ? "white" : mainColor,
                   fontWeight: "bold",
                 }}
               >
@@ -106,7 +108,7 @@ const NewProduct = ({ navigation }: Props) => {
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 fontWeight: "bold",
               }}
             >
@@ -128,7 +130,7 @@ const NewProduct = ({ navigation }: Props) => {
               value={value}
               onChangeText={setValue}
               keyboardType="numeric"
-              placeholderTextColor="#3784F9"
+              placeholderTextColor={mainColor}
               placeholder="Ingrese el monto"
             />
           </View>
@@ -147,7 +149,7 @@ const NewProduct = ({ navigation }: Props) => {
               value={value}
               onChangeText={setValue}
               keyboardType="numeric"
-              placeholderTextColor="#3784F9"
+              placeholderTextColor={mainColor}
               placeholder="Concepto"
             />
           </View>
@@ -163,7 +165,7 @@ const NewProduct = ({ navigation }: Props) => {
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 marginHorizontal: 30,
               }}
             >
@@ -182,7 +184,7 @@ const NewProduct = ({ navigation }: Props) => {
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 marginHorizontal: 30,
               }}
             >
@@ -201,7 +203,7 @@ const NewProduct = ({ navigation }: Props) => {
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 marginHorizontal: 30,
               }}
             >
@@ -220,7 +222,7 @@ const NewProduct = ({ navigation }: Props) => {
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 marginHorizontal: 30,
               }}
             >
@@ -233,13 +235,12 @@ const NewProduct = ({ navigation }: Props) => {
               backgroundColor: "white",
               height: 50,
               borderRadius: 10,
-
               justifyContent: "center",
             }}
           >
             <Text
               style={{
-                color: "#3784F9",
+                color: mainColor,
                 marginHorizontal: 30,
               }}
             >

@@ -1,14 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import globalStyles from "../../styles/globalStyles";
 
+const { mainColor } = globalStyles;
 interface Props {
-  phone: string;
-  name: string;
+  data: IContact;
   type: string;
 }
 
-const ContactCard = ({ phone, name, type }: Props) => {
+const ContactCard = ({ data, type }: Props) => {
+  console.log("data ==>", data);
+
   const renderTypeContact = () => {
     switch (type) {
       case "consumer": {
@@ -24,7 +27,7 @@ const ContactCard = ({ phone, name, type }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="user" size={30} color="#3784F9" />
+            <Icon name="user" size={30} color={mainColor} />
           </View>
         );
       }
@@ -42,7 +45,7 @@ const ContactCard = ({ phone, name, type }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="truck" size={30} color="#3784F9" />
+            <Icon name="truck" size={30} color={mainColor} />
           </View>
         );
       }
@@ -59,7 +62,7 @@ const ContactCard = ({ phone, name, type }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="group" size={30} color="#3784F9" />
+            <Icon name="group" size={30} color={mainColor} />
           </View>
         );
       }
@@ -82,9 +85,11 @@ const ContactCard = ({ phone, name, type }: Props) => {
         }}
       >
         {renderTypeContact()}
-        <Text style={{ color: "#131313" }}>{name}</Text>
+        <Text style={{ color: "#131313" }}>
+          {data.name.firstname + " " + data.name.lastname}
+        </Text>
       </View>
-      <Text style={{ color: "#131313" }}>{phone}</Text>
+      <Text style={{ color: "#131313" }}>{data.phone}</Text>
     </TouchableOpacity>
   );
 };

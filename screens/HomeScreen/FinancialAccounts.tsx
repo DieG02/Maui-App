@@ -7,6 +7,9 @@ import Plus from "react-native-vector-icons/Feather";
 import Bill from "react-native-vector-icons/FontAwesome5";
 import Bank from "react-native-vector-icons/FontAwesome";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -20,12 +23,12 @@ const FinancialAccounts = ({ navigation }: Props) => {
         color="#f8f8f8"
         icon={
           <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color="#3784F9" />
+            <Arrow name="arrow-back" size={30} color={mainColor} />
           </Icon>
         }
       >
         <Icon onPress={() => Alert.alert("Agregar Cuenta")}>
-          <Plus name="plus" size={30} color="#3784F9" />
+          <Plus name="plus" size={30} color={mainColor} />
         </Icon>
       </Header>
       <View style={{ marginHorizontal: 30, marginTop: 10 }}>
@@ -57,7 +60,7 @@ const FinancialAccounts = ({ navigation }: Props) => {
                 justifyContent: "center",
               }}
             >
-              <Bill name="money-bill" size={35} color="#3784F9" />
+              <Bill name="money-bill" size={35} color={mainColor} />
             </View>
           </View>
           <View>
@@ -98,7 +101,7 @@ const FinancialAccounts = ({ navigation }: Props) => {
                 justifyContent: "center",
               }}
             >
-              <Bank name="bank" size={35} color="#3784F9" />
+              <Bank name="bank" size={35} color={mainColor} />
             </View>
           </View>
           <View>

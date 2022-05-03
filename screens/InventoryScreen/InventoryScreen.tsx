@@ -18,6 +18,9 @@ import Fab from "../../components/common/Fab";
 import { products, categories } from "../../helpers/seed";
 import ChipCategory from "../../components/common/ChipCategory";
 import { NavigationProp } from "@react-navigation/native";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -63,9 +66,9 @@ const InventoryScreen = ({ navigation }: Props) => {
                   key={category.id}
                   name={category.name}
                   containerStyle={
-                    category.id === selected ? "#3784F9" : "#f9f9f9"
+                    category.id === selected ? mainColor : "#f9f9f9"
                   }
-                  textStyle={category.id === selected ? "white" : "#3784F9"}
+                  textStyle={category.id === selected ? "white" : mainColor}
                   onPress={() => setSelected(category.id)}
                 />
               ))}
@@ -84,14 +87,11 @@ const InventoryScreen = ({ navigation }: Props) => {
             marginBottom: 80,
           }}
         >
-          {products.map((i) => (
+          {products.map((item) => (
             <ProductCard
               onPress={() => navigation.navigate("ProductDetail")}
-              key={i.id}
-              image={i.image}
-              price={i.price}
-              description={i.description}
-              stock={i.stock}
+              key={item.id}
+              data={item}
             />
           ))}
         </View>
@@ -101,7 +101,7 @@ const InventoryScreen = ({ navigation }: Props) => {
         left={0}
         width={width - 40}
         marginLeft={20}
-        color="#3784F9"
+        color={mainColor}
         text="Crear Producto"
         onPress={() => navigation.navigate("NewProduct")}
       />
@@ -111,7 +111,7 @@ const InventoryScreen = ({ navigation }: Props) => {
 
 const styles = StyleSheet.create({
   fill: {
-    backgroundColor: "#3784F9",
+    backgroundColor: mainColor,
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   text1: {
     marginHorizontal: 20,
     fontSize: 18,
-    color: "#3784F9",
+    color: mainColor,
     fontWeight: "500",
   },
   container: {

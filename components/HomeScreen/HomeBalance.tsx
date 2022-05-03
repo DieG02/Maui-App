@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import globalStyles from "../../styles/globalStyles";
+
+const { mainColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
@@ -63,7 +66,7 @@ const HomeBalance = ({ onPress }: Props) => {
             <Text
               style={{
                 fontSize: 40,
-                color: "#3784F9",
+                color: mainColor,
                 fontFamily: "Gilroy-Bold",
                 marginTop: 15,
                 marginBottom: 20,
@@ -76,7 +79,7 @@ const HomeBalance = ({ onPress }: Props) => {
             <Text
               style={{
                 fontSize: 40,
-                color: "#3784F9",
+                color: mainColor,
                 fontFamily: "Gilroy-Bold",
                 marginTop: 15,
                 marginBottom: 20,
@@ -100,7 +103,7 @@ const HomeBalance = ({ onPress }: Props) => {
           >
             Ver más cuentas
           </Text>
-          <Icon name="chevron-right" size={25} color="#3784F9" />
+          <Icon name="chevron-right" size={25} color={mainColor} />
         </TouchableOpacity>
       </View>
     </View>
