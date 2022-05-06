@@ -14,7 +14,7 @@ import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor } = globalStyles;
+const { mainColor, secondaryColor } = globalStyles;
 const statusBarStyle = "dark-content";
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,11 +38,11 @@ export default function BalanceScreen({ navigation }: Props) {
         }}
       />
       <Header name="Balance">
-        <Icon onPress={() => Alert.alert("Search")}>
-          <Search name="search" size={25} color="#60708F" />
+        <Icon onPress={() => navigation.navigate("SearchScreen")}>
+          <Search name="search" size={25} color={secondaryColor} />
         </Icon>
         <Icon onPress={() => Alert.alert("Search")}>
-          <More name="more-vertical" size={25} color="#60708F" />
+          <More name="more-vertical" size={25} color={secondaryColor} />
         </Icon>
       </Header>
       <Tab.Navigator

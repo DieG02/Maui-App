@@ -13,7 +13,7 @@ const TransactionsContainer = () => {
           }}
         >
           {balance.map((item) => (
-            <TransactionModal data={item} />
+            <TransactionModal data={item} key={item.id} />
           ))}
         </View>
       </View>

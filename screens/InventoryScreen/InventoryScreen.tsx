@@ -38,7 +38,7 @@ const InventoryScreen = ({ navigation }: Props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header name="Productos">
-        <Icon onPress={() => Alert.alert("Search")}>
+        <Icon onPress={() => navigation.navigate("SearchScreen")}>
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
         <Icon onPress={() => Alert.alert("Search")}>

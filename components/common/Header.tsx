@@ -1,5 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import globalStyles from "../../styles/globalStyles";
+
+const { secondaryColor } = globalStyles;
 
 interface Props {
   name: string;
@@ -36,9 +39,8 @@ const Header = ({ name, children, icon, color, titleColor }: Props) => {
     title: {
       fontSize: 22,
       fontFamily: "Gilroy-Bold",
-      // color: "#1A1A1A",
       paddingLeft: 10,
-      color: titleColor || "#60708F",
+      color: titleColor || secondaryColor,
     },
   });
 

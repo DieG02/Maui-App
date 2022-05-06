@@ -1,5 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import globalStyles from "../../styles/globalStyles";
+
+const { secondaryColor } = globalStyles;
 
 interface Props {
   onPress?: () => void;
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#60708F",
+    color: secondaryColor,
     fontFamily: "Gilroy-Bold",
   },
 });

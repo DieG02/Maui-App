@@ -3,7 +3,7 @@ import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor } = globalStyles;
+const { mainColor, secondaryColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
@@ -41,7 +41,7 @@ const HomeBalance = ({ onPress }: Props) => {
           <Text
             style={{
               fontSize: 18,
-              color: "#60708F",
+              color: secondaryColor,
               fontFamily: "Gilroy-Regular",
             }}
           >
@@ -97,7 +97,7 @@ const HomeBalance = ({ onPress }: Props) => {
           <Text
             style={{
               fontSize: 18,
-              color: "#60708F",
+              color: secondaryColor,
               fontFamily: "Gilroy-Regular",
             }}
           >

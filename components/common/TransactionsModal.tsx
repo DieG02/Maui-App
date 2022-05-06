@@ -6,7 +6,7 @@ import Icon1 from "react-native-vector-icons/Ionicons";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor } = globalStyles;
+const { mainColor, secondaryColor } = globalStyles;
 
 interface Props {
   data: ITransaction;
@@ -245,8 +245,7 @@ const TransactionModal = ({ data }: Props) => {
                   style={{
                     fontSize: 17,
                     fontWeight: "500",
-                    // color: "#131313",
-                    color: "#60708F",
+                    color: secondaryColor,
                   }}
                 >
                   {data.name}
@@ -254,7 +253,6 @@ const TransactionModal = ({ data }: Props) => {
                 <Text
                   style={{
                     fontSize: 15,
-                    // color: "#ACACAC",
                     fontFamily: "Gilroy-Regular",
                     color: "#D7DCE4",
                   }}
@@ -274,7 +272,7 @@ const TransactionModal = ({ data }: Props) => {
               <Text
                 style={{
                   fontSize: 17,
-                  color: "#60708F",
+                  color: secondaryColor,
                   fontFamily: "Gilroy-Bold",
                 }}
               >

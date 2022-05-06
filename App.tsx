@@ -11,6 +11,7 @@ import NotificationsScreen from "./screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./screens/MoreScreen/MoreScreen";
 import ContactsScreen from "./screens/MoreScreen/ContactsScreen";
 import NewProduct from "./screens/InventoryScreen/NewProduct";
+import SearchScreen from "./screens/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,7 @@ const App = () => {
         <Stack.Screen name="More" component={MoreScreen} />
         <Stack.Screen name="Contacts" component={ContactsScreen} />
         <Stack.Screen name="NewProduct" component={NewProduct} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

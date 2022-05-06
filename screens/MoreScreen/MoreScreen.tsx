@@ -21,7 +21,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor } = globalStyles;
+const { mainColor, secondaryColor } = globalStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -53,13 +53,12 @@ const More = ({ navigation }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="close" size={30} color={mainColor} />
+            <Icon name="close" size={40} color={mainColor} />
           </TouchableOpacity>
           <Text
             style={{
               fontSize: 20,
-              color: "#60708F",
-
+              color: secondaryColor,
               fontFamily: "Gilroy-Regular",
             }}
           >
@@ -136,7 +135,7 @@ const More = ({ navigation }: Props) => {
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Business name="building" color="#60708F" size={22} />}
+            icon={<Business name="building" color={secondaryColor} size={20} />}
           />
 
           <Spacer height={15} />
@@ -145,7 +144,7 @@ const More = ({ navigation }: Props) => {
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Debts name="calculator" color="#60708F" size={22} />}
+            icon={<Debts name="calculator" color={secondaryColor} size={20} />}
           />
           <Spacer height={15} />
           <OptionCard
@@ -154,14 +153,16 @@ const More = ({ navigation }: Props) => {
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Costumer name="contact-page" color="#60708F" size={30} />}
+            icon={
+              <Costumer name="contact-page" color={secondaryColor} size={25} />
+            }
           />
 
           <Spacer height={15} />
           <OptionCard
             title="Soporte"
             arrow={<Profile name="whatsapp" color="#00bb2d" size={22} />}
-            icon={<Message name="message" color="#60708F" size={22} />}
+            icon={<Message name="message" color={secondaryColor} size={20} />}
           />
           <Spacer height={15} />
           <OptionCard
@@ -169,7 +170,9 @@ const More = ({ navigation }: Props) => {
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Faq name="question-circle" color="#60708F" size={22} />}
+            icon={
+              <Faq name="question-circle" color={secondaryColor} size={20} />
+            }
           />
           <Spacer height={30} />
         </View>

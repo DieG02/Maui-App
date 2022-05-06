@@ -1,6 +1,10 @@
 import React, { ReactNode } from "react";
 import { View, Dimensions, Text } from "react-native";
 
+import globalStyles from "../../styles/globalStyles";
+
+const { secondaryColor } = globalStyles;
+
 const { width } = Dimensions.get("window");
 const ancho = (width - 120) / 2;
 
@@ -49,7 +53,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
         </View>
         <Text
           style={{
-            color: "#60708F",
+            color: secondaryColor,
             fontSize: 18,
             marginVertical: 8,
             fontFamily: "Gilroy-Regular",
@@ -59,7 +63,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
         </Text>
         <Text
           style={{
-            color: "#60708F",
+            color: secondaryColor,
             fontSize: 20,
             fontFamily: "Gilroy-Bold",
           }}

@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import logo from "../../assets/logo.png";
+import globalStyles from "../../styles/globalStyles";
 
-// const logo = require("../assets/logo.png");
+const { secondaryColor } = globalStyles;
 
 type Props = {
   onPressNotifications: () => void;
@@ -34,7 +35,7 @@ const HomeHeader = ({ onPressNotifications, onPressUser }: Props) => {
           justifyContent: "center",
         }}
       >
-        <Icon name="user" size={30} color="#60708F" />
+        <Icon name="user" size={30} color={secondaryColor} />
       </TouchableOpacity>
       <Image source={logo} style={{ width: 100, height: 30 }} />
       <TouchableOpacity
@@ -49,7 +50,7 @@ const HomeHeader = ({ onPressNotifications, onPressUser }: Props) => {
           justifyContent: "center",
         }}
       >
-        <Icon name="bell" size={30} color="#60708F" />
+        <Icon name="bell" size={30} color={secondaryColor} />
       </TouchableOpacity>
     </View>
   );
