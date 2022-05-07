@@ -15,6 +15,8 @@ import Title from "../../components/common/Title";
 import HomeState from "../../components/HomeScreen/HomeState";
 import TransactionsContainer from "../../components/containers/TransactionsContainer";
 import globalStyles from "../../styles/globalStyles";
+import { useQuery } from "react-query";
+import { getAllCategories } from "../../services/categories";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";

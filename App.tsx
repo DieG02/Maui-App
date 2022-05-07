@@ -12,25 +12,31 @@ import MoreScreen from "./screens/MoreScreen/MoreScreen";
 import ContactsScreen from "./screens/MoreScreen/ContactsScreen";
 import NewProduct from "./screens/InventoryScreen/NewProduct";
 import SearchScreen from "./screens/SearchScreen";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const Stack = createNativeStackNavigator();
-
+const queryClient = new QueryClient();
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="NewIncome" component={NewIncome} />
-        <Stack.Screen name="NewExpense" component={NewExpense} />
-        <Stack.Screen name="Inventory" component={InventoryScreen} />
-        <Stack.Screen name="FinancialAccounts" component={FinancialAccounts} />
-        <Stack.Screen name="Notifications" component={NotificationsScreen} />
-        <Stack.Screen name="More" component={MoreScreen} />
-        <Stack.Screen name="Contacts" component={ContactsScreen} />
-        <Stack.Screen name="NewProduct" component={NewProduct} />
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="HomeTabs" component={HomeTabs} />
+          <Stack.Screen name="NewIncome" component={NewIncome} />
+          <Stack.Screen name="NewExpense" component={NewExpense} />
+          <Stack.Screen name="Inventory" component={InventoryScreen} />
+          <Stack.Screen
+            name="FinancialAccounts"
+            component={FinancialAccounts}
+          />
+          <Stack.Screen name="Notifications" component={NotificationsScreen} />
+          <Stack.Screen name="More" component={MoreScreen} />
+          <Stack.Screen name="Contacts" component={ContactsScreen} />
+          <Stack.Screen name="NewProduct" component={NewProduct} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 };
 
