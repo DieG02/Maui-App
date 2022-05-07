@@ -19,6 +19,8 @@ import { products, categories } from "../../helpers/seed";
 import ChipCategory from "../../components/common/ChipCategory";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
+import { useQuery } from "react-query";
+import { getAllCategories } from "../../services/categories";
 
 const { mainColor } = globalStyles;
 
@@ -34,6 +36,11 @@ const InventoryScreen = ({ navigation }: Props) => {
   const [selected, setSelected] = useState(categories[0].id);
 
   console.log("selected", selected);
+
+  // Example to use query
+  const { data } = useQuery("categories", getAllCategories);
+  console.log("data ==>", data);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
