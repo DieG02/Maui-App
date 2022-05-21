@@ -24,8 +24,7 @@ const OptionModal = ({
   selectedOption,
   setSelectedOption,
 }: Props) => {
-  //   const [selectedOption, setSelectedOption] = useState(options[0]);
-
+  
   console.log("selectedOption ==>", selectedOption);
 
   const toggleModal = () => {
