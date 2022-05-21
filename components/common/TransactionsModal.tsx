@@ -225,7 +225,7 @@ const TransactionModal = ({ data }: Props) => {
                 style={{
                   width: 50,
                   height: 50,
-                  borderRadius: 14,
+                  borderRadius: 25,
                   backgroundColor: "#F9FAFB",
                   marginRight: 10,
                   alignItems: "center",

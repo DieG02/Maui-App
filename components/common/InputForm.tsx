@@ -38,17 +38,13 @@ const InputForm = ({
       marginBottom: bottom,
       marginTop: 10,
       backgroundColor: "#f8f8f8",
-      borderRadius: 10,
     },
-    text: {
-      width: "85%",
-    },
+
     container: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      marginHorizontal: horizontal || 20,
     },
   });
 
@@ -58,17 +54,18 @@ const InputForm = ({
         {children}
         {focus ? (
           <TextInput
-            style={[styles.text, textStyle]}
+            style={[textStyle]}
             autoFocus={focus}
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
             placeholderTextColor="white"
             keyboardType={keyboardType}
+            maxLength={20}
           />
         ) : (
           <TextInput
-            style={[styles.text, textStyle]}
+            style={[textStyle]}
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}

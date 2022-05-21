@@ -112,7 +112,7 @@ export default function OutcomeForm({ navigation }: Props) {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            marginHorizontal: 40,
+            marginHorizontal: 30,
           }}
         >
           <Text
@@ -148,7 +148,7 @@ export default function OutcomeForm({ navigation }: Props) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 40,
+          marginHorizontal: 30,
         }}
       >
         <View

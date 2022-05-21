@@ -15,11 +15,11 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const FinancialAccounts = ({ navigation }: Props) => {
+const Budget = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fafafa" }}>
       <Header
-        name="Cuentas"
+        name="Presupuestos"
         color="#f8f8f8"
         icon={
           <Icon onPress={() => navigation.goBack()}>
@@ -119,5 +119,4 @@ const FinancialAccounts = ({ navigation }: Props) => {
   );
 };
 
-// const styles = StyleSheet.create({})
-export default FinancialAccounts;
+export default Budget;

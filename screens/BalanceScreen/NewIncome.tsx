@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,16 +17,11 @@ import Arrow from "react-native-vector-icons/Ionicons";
 import Fab from "../../components/common/Fab";
 import ButtonInput from "../../components/common/ButtonInput";
 import Calendar from "react-native-vector-icons/Entypo";
-import Costumer from "react-native-vector-icons/FontAwesome";
-import Wallet from "react-native-vector-icons/Entypo";
-import Money from "react-native-vector-icons/FontAwesome5";
-import Description from "react-native-vector-icons/FontAwesome";
-import Dollar from "react-native-vector-icons/FontAwesome";
-import Check from "react-native-vector-icons/Feather";
 import InputForm from "../../components/common/InputForm";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { Switch } from "react-native-paper";
 import { NavigationProp } from "@react-navigation/native";
+import CommonInput from "../../components/common/CommonInput";
+import OptionModal from "../../components/common/OptionModal";
 
 const { width, height } = Dimensions.get("window");
 
@@ -34,21 +29,32 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
+const paymentMethods = ["CASH", "CARD", "BANK_TRANSFER", "OTHER"];
+const state = ["Pagado", "Deuda"];
+const payment = ["Efectivo", "Tarjeta", "Transferencia", "Otro"];
+
 const NewIncome = ({ navigation }: Props) => {
-  const [paid, setPaid] = useState(true);
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [detail, setDetail] = useState("");
+  const [products, setProducts] = useState([]);
+  const [client, setClient] = useState("");
+  const [isPaid, setIsPaid] = useState(state[0]);
+  const [paymentMethod, setPaymentMethod] = useState(payment[0]);
+
+  const [modalPayment, setModalPayment] = useState(false);
+  const [modalState, setModalState] = useState(false);
+
+  const form = {
+    amount: amount,
+    detail: detail,
+    products: products,
+    client: client,
+    isPaid: isPaid,
+    paymentMethod: paymentMethod,
+  };
+
   const [fecha, setfecha] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isSwitchOn, setIsSwitchOn] = useState(true);
-  const [more, setMore] = useState(false);
-
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  const seeMore = () => setMore(!more);
-
-  console.log(paid);
-  console.log(price);
-  console.log(description);
 
   const month = fecha.getUTCMonth() + 1;
   const day = fecha.getUTCDate();
@@ -70,6 +76,14 @@ const NewIncome = ({ navigation }: Props) => {
     hideDatePicker();
   };
 
+  useEffect(() => {
+    if (isPaid === "Pagado") {
+      setPaymentMethod(payment[0]);
+    } else if (isPaid === "Deuda") {
+      setPaymentMethod("");
+    }
+  }, [isPaid]);
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar backgroundColor="#33E69B" />
@@ -82,14 +96,14 @@ const NewIncome = ({ navigation }: Props) => {
       <View
         style={{
           backgroundColor: "#33E69B",
-          height: 140,
+          height: 120,
           borderBottomRightRadius: 30,
           borderBottomLeftRadius: 30,
         }}
       >
         <Header
           titleColor="white"
-          name="Nuevo Ingreso"
+          name="Nueva Venta"
           color="#33E69B"
           icon={
             <Icon onPress={() => navigation.goBack()}>
@@ -97,23 +111,12 @@ const NewIncome = ({ navigation }: Props) => {
             </Icon>
           }
         />
-        <Text
-          style={{
-            marginHorizontal: 40,
-            fontSize: 16,
-            color: "white",
-
-            fontWeight: "bold",
-          }}
-        >
-          Valor del Ingreso
-        </Text>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            marginHorizontal: 40,
+            justifyContent: "center",
           }}
         >
           <Text
@@ -129,19 +132,22 @@ const NewIncome = ({ navigation }: Props) => {
           <InputForm
             keyboardType="numeric"
             placeholder="0,00"
-            value={price}
-            setValue={setPrice}
+            value={amount}
+            setValue={setAmount}
             focus={true}
             horizontal={5}
             style={{
               backgroundColor: "#33E69B",
               marginTop: 0,
               height: 55,
+              justifyContent: "center",
             }}
             textStyle={{
               color: "white",
               fontSize: 30,
+              minWidth: 70,
               fontWeight: "bold",
+              justifyContent: "center",
             }}
           />
         </View>
@@ -155,80 +161,83 @@ const NewIncome = ({ navigation }: Props) => {
         <View
           style={{
             height: height - 150,
-            justifyContent: "space-between",
           }}
         >
           <View>
-            <TouchableOpacity
-              onPress={onToggleSwitch}
-              style={{
-                marginTop: 20,
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                borderRadius: 10,
-                alignItems: "center",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 20,
-              }}
-            >
-              <Check name="check-circle" size={25} color="#9F9F9F" />
-              {isSwitchOn ? (
-                <Text style={{ color: "#413F3F" }}>Pagado</Text>
-              ) : (
-                <Text>Pendiente</Text>
-              )}
-              <Switch
-                value={isSwitchOn}
-                onValueChange={onToggleSwitch}
-                color="#33E69B"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginTop: 20,
-                paddingHorizontal: 20,
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                borderRadius: 10,
-                alignItems: "center",
+            <CommonInput
+              placeholder="¿Como quieres llamar a este ingreso?"
+              name="Detalle"
+              marginTop={30}
+              marginBottom={25}
+              value={detail}
+              setValue={setDetail}
+            />
+            <CommonInput
+              placeholder="Seleccione productos"
+              name="Productos"
+              touchable={true}
+              value={products}
+              setValue={setProducts}
+              marginBottom={25}
+            />
+            <CommonInput
+              placeholder="Seleccione un cliente"
+              name="Cliente"
+              touchable={true}
+              value={client}
+              setValue={setClient}
+              marginBottom={25}
+            />
 
-                flexDirection: "row",
-              }}
-            >
-              <Check name="inbox" size={25} color="#9F9F9F" />
-              <Text
+            {isPaid === "Pagado" ? (
+              <View
                 style={{
-                  marginLeft: 40,
-                  color: "#9F9F9F",
-                  fontWeight: "bold",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
-                Seleccionar Productos
-              </Text>
-            </TouchableOpacity>
-
-            <InputForm
-              keyboardType="default"
-              placeholder="Concepto"
-              value={description}
-              setValue={setDescription}
-              bottom={10}
-              focus={false}
-              style={{
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                backgroundColor: "white",
-                marginTop: 20,
-              }}
-            >
-              <Description name="file-text" size={25} color="#9F9F9F" />
-            </InputForm>
-
+                <View
+                  style={{
+                    display: "flex",
+                    width: (width - 100) / 2,
+                  }}
+                >
+                  <OptionModal
+                    title="Estado"
+                    options={state}
+                    isModalVisible={modalState}
+                    setIsModalVisible={setModalState}
+                    selectedOption={isPaid}
+                    setSelectedOption={setIsPaid}
+                  />
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    width: (width - 100) / 2,
+                  }}
+                >
+                  <OptionModal
+                    title="Metodo de Pago"
+                    options={payment}
+                    isModalVisible={modalPayment}
+                    setIsModalVisible={setModalPayment}
+                    selectedOption={paymentMethod}
+                    setSelectedOption={setPaymentMethod}
+                  />
+                </View>
+              </View>
+            ) : (
+              <OptionModal
+                title="Estado"
+                options={state}
+                isModalVisible={modalState}
+                setIsModalVisible={setModalState}
+                selectedOption={isPaid}
+                setSelectedOption={setIsPaid}
+              />
+            )}
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
@@ -243,48 +252,16 @@ const NewIncome = ({ navigation }: Props) => {
             >
               <Calendar name="calendar" size={25} color="#9F9F9F" />
             </ButtonInput>
-            <ButtonInput name="Categoria" bottom={10}>
-              <Check name="tag" size={25} color="#9F9F9F" />
-            </ButtonInput>
 
-            {more ? (
-              <>
-                <ButtonInput name="Clientes" bottom={10}>
-                  <Costumer name="user" size={25} color="#9F9F9F" />
-                </ButtonInput>
-
-                <ButtonInput name="Cuentas" bottom={10}>
-                  <Wallet name="wallet" size={25} color="#9F9F9F" />
-                </ButtonInput>
-                <ButtonInput name="Forma de Pago" bottom={10}>
-                  <Money name="money-bill" size={25} color="#9F9F9F" />
-                </ButtonInput>
-              </>
-            ) : (
-              <TouchableOpacity
-                onPress={seeMore}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginVertical: 20,
-                }}
-              >
-                <Text
-                  style={{ color: "#33E69B", fontSize: 18, fontWeight: "bold" }}
-                >
-                  Ver más detalles
-                </Text>
-              </TouchableOpacity>
-            )}
+            <Fab
+              bottom={0}
+              left={0}
+              position="relative"
+              color="#FD6363"
+              text="Guardar"
+              onPress={() => console.log("Guardar", form)}
+            />
           </View>
-          <Fab
-            bottom={0}
-            left={0}
-            position="relative"
-            color="#33E69B"
-            text="Guardar"
-            onPress={() => Alert.alert("Crear Producto")}
-          />
         </View>
       </ScrollView>
     </View>

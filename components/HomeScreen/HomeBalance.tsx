@@ -92,7 +92,11 @@ const HomeBalance = ({ onPress }: Props) => {
         </View>
         <TouchableOpacity
           onPress={onPress}
-          style={{ display: "flex", flexDirection: "row" }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
           <Text
             style={{
@@ -101,7 +105,7 @@ const HomeBalance = ({ onPress }: Props) => {
               fontFamily: "Gilroy-Regular",
             }}
           >
-            Ver más cuentas
+            Ver mis presupuestos
           </Text>
           <Icon name="chevron-right" size={25} color={mainColor} />
         </TouchableOpacity>

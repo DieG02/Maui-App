@@ -6,7 +6,7 @@ import HomeTabs from "./navigation/HomeTabs";
 import NewIncome from "./screens/BalanceScreen/NewIncome";
 import NewExpense from "./screens/BalanceScreen/NewExpense";
 import InventoryScreen from "./screens/InventoryScreen/InventoryScreen";
-import FinancialAccounts from "./screens/HomeScreen/FinancialAccounts";
+import Budget from "./screens/HomeScreen/Budget";
 import NotificationsScreen from "./screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./screens/MoreScreen/MoreScreen";
 import ContactsScreen from "./screens/MoreScreen/ContactsScreen";
@@ -25,10 +25,7 @@ const App = () => {
           <Stack.Screen name="NewIncome" component={NewIncome} />
           <Stack.Screen name="NewExpense" component={NewExpense} />
           <Stack.Screen name="Inventory" component={InventoryScreen} />
-          <Stack.Screen
-            name="FinancialAccounts"
-            component={FinancialAccounts}
-          />
+          <Stack.Screen name="Budget" component={Budget} />
           <Stack.Screen name="Notifications" component={NotificationsScreen} />
           <Stack.Screen name="More" component={MoreScreen} />
           <Stack.Screen name="Contacts" component={ContactsScreen} />
