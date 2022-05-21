@@ -22,6 +22,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
+import InputDate from "../../components/common/InputDate";
+import moment from "moment";
+import "moment-timezone";
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,14 +56,11 @@ const NewIncome = ({ navigation }: Props) => {
     paymentMethod: paymentMethod,
   };
 
-  const [fecha, setfecha] = useState(new Date());
+  const TODAY = moment.parseZone().format("DD-MM-YYYY");
+  const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
+
+  const [date, setDate] = useState(TODAY);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const month = fecha.getUTCMonth() + 1;
-  const day = fecha.getUTCDate();
-  const year = fecha.getUTCFullYear();
-
-  const newdate = year + "/" + month + "/" + day;
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -71,8 +71,8 @@ const NewIncome = ({ navigation }: Props) => {
   };
 
   const handleConfirm = (date: Date) => {
-    console.log("A date has been picked: ", date);
-    setfecha(date);
+    const OTHER_DAY = moment(date).parseZone().format("DD-MM-YYYY");
+    setDate(OTHER_DAY);
     hideDatePicker();
   };
 
@@ -164,7 +164,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
         >
           <View>
-            <CommonInput
+            {/* <CommonInput
               placeholder="¿Como quieres llamar a este ingreso?"
               name="Detalle"
               marginTop={30}
@@ -179,7 +179,7 @@ const NewIncome = ({ navigation }: Props) => {
               value={products}
               setValue={setProducts}
               marginBottom={25}
-            />
+            /> */}
             <CommonInput
               placeholder="Seleccione un cliente"
               name="Cliente"
@@ -238,6 +238,14 @@ const NewIncome = ({ navigation }: Props) => {
                 setSelectedOption={setIsPaid}
               />
             )}
+
+            <InputDate
+              name="Fecha"
+              setDate={setDate}
+              date={date}
+              onPress={showDatePicker}
+            />
+
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
@@ -247,7 +255,7 @@ const NewIncome = ({ navigation }: Props) => {
             <ButtonInput
               name="Fecha"
               onPress={showDatePicker}
-              value={newdate}
+              value={date}
               bottom={10}
             >
               <Calendar name="calendar" size={25} color="#9F9F9F" />
