@@ -1,25 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   Dimensions,
-  TextInput,
   ScrollView,
   StatusBar,
-  Alert,
   Platform,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
-import Fab from "../../components/common/Fab";
-import ButtonInput from "../../components/common/ButtonInput";
-import Calendar from "react-native-vector-icons/Entypo";
-import Check from "react-native-vector-icons/FontAwesome";
 import InputForm from "../../components/common/InputForm";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
@@ -27,6 +18,7 @@ import { FAB } from "react-native-paper";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
+import { transparent } from "react-native-paper/lib/typescript/styles/colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -34,28 +26,22 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const paymentMethods = ["CASH", "CARD", "BANK_TRANSFER", "OTHER"];
-const state = ["Pagado", "Deuda"];
+// const paymentMethods = ["CASH", "CARD", "BANK_TRANSFER", "OTHER"];
+const STATE = ["Pagado", "Deuda"];
 const payment = ["Efectivo", "Tarjeta", "Transferencia", "Otro"];
+const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
 const NewIncome = ({ navigation }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [products, setProducts] = useState([]);
   const [client, setClient] = useState("");
-  const [isPaid, setIsPaid] = useState(state[0]);
+  const [isPaid, setIsPaid] = useState(STATE[0]);
   const [paymentMethod, setPaymentMethod] = useState(payment[0]);
+  const [date, setDate] = useState(TODAY);
 
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
-
-  const TODAY = moment.parseZone().format("DD-MM-YYYY");
-  const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
-
-  const [date, setDate] = useState(TODAY);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const [time, setTime] = useState("");
 
   const form = {
     amount: amount,
@@ -65,26 +51,6 @@ const NewIncome = ({ navigation }: Props) => {
     isPaid: isPaid,
     paymentMethod: paymentMethod,
     date: date,
-  };
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setTime(moment.parseZone().format());
-  //   }, 1000 * 60);
-  // }, []);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date: Date) => {
-    const OTHER_DAY = moment(date).parseZone().format("DD-MM-YYYY");
-    setDate(OTHER_DAY);
-    hideDatePicker();
   };
 
   useEffect(() => {
@@ -169,115 +135,111 @@ const NewIncome = ({ navigation }: Props) => {
           marginHorizontal: 40,
         }}
       >
-        <View
-          style={{
-            height: height - 150,
-          }}
-        >
-          <View>
-            <CommonInput
-              placeholder="¿Como quieres llamar a este ingreso?"
-              name="Detalle"
-              marginTop={30}
-              marginBottom={25}
-              value={detail}
-              setValue={setDetail}
-            />
-            <CommonInput
-              placeholder="Seleccione productos"
-              name="Productos"
-              touchable={true}
-              value={products}
-              setValue={setProducts}
-              marginBottom={25}
-            />
-            {isPaid === "Pagado" ? (
+        <View style={{ marginBottom: 10 }}>
+          <CommonInput
+            placeholder="¿Como quieres llamar a este ingreso?"
+            name="Detalle"
+            marginTop={25}
+            marginBottom={25}
+            value={detail}
+            setValue={setDetail}
+          />
+
+          <CommonInput
+            placeholder="Seleccione productos"
+            name="Productos"
+            touchable={true}
+            value={products}
+            setValue={setProducts}
+            marginBottom={25}
+          />
+          {isPaid === "Pagado" ? (
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
               <View
                 style={{
                   display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  width: (width - 100) / 2,
                 }}
               >
-                <View
-                  style={{
-                    display: "flex",
-                    width: (width - 100) / 2,
-                  }}
-                >
-                  <OptionModal
-                    title="Estado"
-                    options={state}
-                    isModalVisible={modalState}
-                    setIsModalVisible={setModalState}
-                    selectedOption={isPaid}
-                    setSelectedOption={setIsPaid}
-                  />
-                </View>
-                <View
-                  style={{
-                    display: "flex",
-                    width: (width - 100) / 2,
-                  }}
-                >
-                  <OptionModal
-                    title="Metodo de Pago"
-                    options={payment}
-                    isModalVisible={modalPayment}
-                    setIsModalVisible={setModalPayment}
-                    selectedOption={paymentMethod}
-                    setSelectedOption={setPaymentMethod}
-                  />
-                </View>
+                <OptionModal
+                  title="Estado"
+                  options={STATE}
+                  isModalVisible={modalState}
+                  setIsModalVisible={setModalState}
+                  selectedOption={isPaid}
+                  setSelectedOption={setIsPaid}
+                />
               </View>
-            ) : (
-              <OptionModal
-                title="Estado"
-                options={state}
-                isModalVisible={modalState}
-                setIsModalVisible={setModalState}
-                selectedOption={isPaid}
-                setSelectedOption={setIsPaid}
-              />
-            )}
-            <CommonInput
-              placeholder="Seleccione un cliente"
-              name="Cliente"
-              touchable={true}
-              value={client}
-              setValue={setClient}
-              marginBottom={25}
-            />
-
-            <InputDate name="Fecha" />
-            <View
-              style={{
-                height: 80,
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <FAB
-                color="white"
+              <View
                 style={{
-                  position: "absolute",
-                  width: 50,
-                  height: 50,
-                  elevation: 0,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  // backgroundColor: "#33E69B",
-                  backgroundColor: "#B3B3B3",
+                  display: "flex",
+                  width: (width - 100) / 2,
                 }}
-                small={false}
-                icon="check"
-                onPress={() => console.log("Guardar", form)}
-              />
+              >
+                <OptionModal
+                  title="Metodo de Pago"
+                  options={payment}
+                  isModalVisible={modalPayment}
+                  setIsModalVisible={setModalPayment}
+                  selectedOption={paymentMethod}
+                  setSelectedOption={setPaymentMethod}
+                />
+              </View>
             </View>
-          </View>
+          ) : (
+            <OptionModal
+              title="Estado"
+              options={STATE}
+              isModalVisible={modalState}
+              setIsModalVisible={setModalState}
+              selectedOption={isPaid}
+              setSelectedOption={setIsPaid}
+            />
+          )}
+          <CommonInput
+            placeholder="Seleccione un cliente"
+            name="Cliente"
+            touchable={true}
+            value={client}
+            setValue={setClient}
+            marginBottom={25}
+          />
+          <InputDate name="Fecha" date={date} setDate={setDate} />
         </View>
       </ScrollView>
+      <View
+        style={{
+          width: "100%",
+          height: 90,
+          bottom: 0,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "red",
+          position: "absolute",
+        }}
+      >
+        <FAB
+          color="white"
+          style={{
+            position: "absolute",
+            width: 50,
+            height: 50,
+            elevation: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#B3B3B3",
+          }}
+          small={false}
+          icon="check"
+          onPress={() => console.log("Guardar", form)}
+        />
+      </View>
     </View>
   );
 };

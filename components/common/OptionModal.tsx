@@ -24,9 +24,6 @@ const OptionModal = ({
   selectedOption,
   setSelectedOption,
 }: Props) => {
-  
-  console.log("selectedOption ==>", selectedOption);
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };

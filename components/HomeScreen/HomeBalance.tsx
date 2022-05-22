@@ -14,7 +14,6 @@ interface Props {
 const HomeBalance = ({ onPress }: Props) => {
   const [hide, setHide] = useState(false);
 
-  console.log("Hide ==>", hide);
   return (
     <View
       style={{

@@ -36,10 +36,7 @@ export const Consumers = () => {
   const getAllConsumers = async () => {
     try {
       const response = await getConsumers();
-
       setConsumers(response.data);
-      console.log(response.data);
-      console.log(response.data[0].username);
     } catch (error) {}
   };
 

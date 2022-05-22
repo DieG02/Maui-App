@@ -10,8 +10,6 @@ interface Props {
 }
 
 const ContactCard = ({ data, type }: Props) => {
-  console.log("data ==>", data);
-
   const renderTypeContact = () => {
     switch (type) {
       case "consumer": {

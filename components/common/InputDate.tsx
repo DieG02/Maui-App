@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import globalStyles from "../../styles/globalStyles";
 import Icon from "react-native-vector-icons/Entypo";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -10,19 +10,22 @@ const { secondaryColor } = globalStyles;
 
 interface Props {
   name: string;
+  date: string;
+  setDate: (value: string) => void;
 }
 
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
 
-const dates = [
+const DATES = [
   { label: "Hoy", value: TODAY },
   { label: "Ayer", value: YESTERDAY },
 ];
 
-const InputDate = ({ name }: Props) => {
-  const [date, setDate] = useState(TODAY);
+const InputDate = ({ name, setDate, date }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const indicatorDate = moment(date, "DD-MM-YYYY").toDate();
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -36,7 +39,6 @@ const InputDate = ({ name }: Props) => {
 
   const handleConfirm = (date: Date) => {
     const OTHER_DAY = moment(date).parseZone().format("DD-MM-YYYY");
-    console.log(OTHER_DAY);
     if (OTHER_DAY === TODAY) {
       setDate(TODAY);
       setIsOpen(true);
@@ -55,11 +57,6 @@ const InputDate = ({ name }: Props) => {
     setIsOpen(true);
   };
 
-  console.log("date ===>", date);
-
-  const dateObject = moment(date, "DD-MM-YYYY").toDate();
-  console.log("dateObject ===>", dateObject);
-
   return (
     <View>
       <Text
@@ -73,7 +70,7 @@ const InputDate = ({ name }: Props) => {
         {name}
       </Text>
       <View style={{ display: "flex", flexDirection: "row" }}>
-        {dates.map((d, index) => (
+        {DATES.map((d, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => handleDateChange(d)}
@@ -105,7 +102,7 @@ const InputDate = ({ name }: Props) => {
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
-          date={dateObject}
+          date={indicatorDate}
         />
         {isOpen ? (
           <TouchableOpacity
