@@ -220,7 +220,6 @@ const NewIncome = ({ navigation }: Props) => {
           bottom: 0,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "red",
           position: "absolute",
         }}
       >
