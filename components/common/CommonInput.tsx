@@ -55,7 +55,7 @@ const CommonInput = ({
             <Text
               style={{
                 marginHorizontal: 20,
-                color: "#ACACAC",
+                color: "#383838",
                 fontFamily: "Gilroy-Bold",
               }}
             >

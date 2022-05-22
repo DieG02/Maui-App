@@ -17,11 +17,13 @@ import Arrow from "react-native-vector-icons/Ionicons";
 import Fab from "../../components/common/Fab";
 import ButtonInput from "../../components/common/ButtonInput";
 import Calendar from "react-native-vector-icons/Entypo";
+import Check from "react-native-vector-icons/FontAwesome";
 import InputForm from "../../components/common/InputForm";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
+import { FAB } from "react-native-paper";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
@@ -47,6 +49,14 @@ const NewIncome = ({ navigation }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
+  const TODAY = moment.parseZone().format("DD-MM-YYYY");
+  const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
+
+  const [date, setDate] = useState(TODAY);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const [time, setTime] = useState("");
+
   const form = {
     amount: amount,
     detail: detail,
@@ -54,13 +64,14 @@ const NewIncome = ({ navigation }: Props) => {
     client: client,
     isPaid: isPaid,
     paymentMethod: paymentMethod,
+    date: date,
   };
 
-  const TODAY = moment.parseZone().format("DD-MM-YYYY");
-  const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
-
-  const [date, setDate] = useState(TODAY);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setTime(moment.parseZone().format());
+  //   }, 1000 * 60);
+  // }, []);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -164,7 +175,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
         >
           <View>
-            {/* <CommonInput
+            <CommonInput
               placeholder="¿Como quieres llamar a este ingreso?"
               name="Detalle"
               marginTop={30}
@@ -179,16 +190,7 @@ const NewIncome = ({ navigation }: Props) => {
               value={products}
               setValue={setProducts}
               marginBottom={25}
-            /> */}
-            <CommonInput
-              placeholder="Seleccione un cliente"
-              name="Cliente"
-              touchable={true}
-              value={client}
-              setValue={setClient}
-              marginBottom={25}
             />
-
             {isPaid === "Pagado" ? (
               <View
                 style={{
@@ -238,37 +240,41 @@ const NewIncome = ({ navigation }: Props) => {
                 setSelectedOption={setIsPaid}
               />
             )}
-
-            <InputDate
-              name="Fecha"
-              setDate={setDate}
-              date={date}
-              onPress={showDatePicker}
+            <CommonInput
+              placeholder="Seleccione un cliente"
+              name="Cliente"
+              touchable={true}
+              value={client}
+              setValue={setClient}
+              marginBottom={25}
             />
 
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-            <ButtonInput
-              name="Fecha"
-              onPress={showDatePicker}
-              value={date}
-              bottom={10}
+            <InputDate name="Fecha" />
+            <View
+              style={{
+                height: 80,
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <Calendar name="calendar" size={25} color="#9F9F9F" />
-            </ButtonInput>
-
-            <Fab
-              bottom={0}
-              left={0}
-              position="relative"
-              color="#FD6363"
-              text="Guardar"
-              onPress={() => console.log("Guardar", form)}
-            />
+              <FAB
+                color="white"
+                style={{
+                  position: "absolute",
+                  width: 50,
+                  height: 50,
+                  elevation: 0,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // backgroundColor: "#33E69B",
+                  backgroundColor: "#B3B3B3",
+                }}
+                small={false}
+                icon="check"
+                onPress={() => console.log("Guardar", form)}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>

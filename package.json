@@ -19,6 +19,8 @@
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.26.1",
     "git-cz": "^4.8.0",
+    "moment": "^2.29.3",
+    "moment-timezone": "^0.5.34",
     "react": "17.0.2",
     "react-native": "0.68.0",
     "react-native-modal": "^13.0.1",

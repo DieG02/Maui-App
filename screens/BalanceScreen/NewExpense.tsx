@@ -50,6 +50,7 @@ export default function OutcomeForm({ navigation }: Props) {
   console.log(paid);
   console.log(price);
   console.log(description);
+  console.log("fecha", fecha);
 
   const month = fecha.getUTCMonth() + 1;
   const day = fecha.getUTCDate();
@@ -70,6 +71,8 @@ export default function OutcomeForm({ navigation }: Props) {
     setfecha(date);
     hideDatePicker();
   };
+
+  console.log("fecha ==>", fecha);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -233,6 +236,7 @@ export default function OutcomeForm({ navigation }: Props) {
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+              date={fecha}
             />
             <ButtonInput
               name="Fecha"
