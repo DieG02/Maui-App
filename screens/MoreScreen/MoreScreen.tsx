@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   ScrollView,
@@ -18,8 +18,10 @@ import Costumer from "react-native-vector-icons/MaterialIcons";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
 import Icon from "react-native-vector-icons/Ionicons";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, StackActions } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../context/AuthContext";
 
 const { mainColor, secondaryColor } = globalStyles;
 
@@ -30,6 +32,17 @@ interface Props {
 }
 
 const More = ({ navigation }: Props) => {
+  const { setIsLoggedIn } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+    setIsLoggedIn(false);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
@@ -65,6 +78,7 @@ const More = ({ navigation }: Props) => {
             Mi Cuenta
           </Text>
           <TouchableOpacity
+            onPress={() => handleLogout()}
             style={{
               width: 50,
               height: 50,

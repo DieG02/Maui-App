@@ -18,17 +18,23 @@ import { FAB } from "react-native-paper";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
-import { transparent } from "react-native-paper/lib/typescript/styles/colors";
+import { useMutation, useQueryClient } from "react-query";
+import { addIncome } from "../../services/transactions";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-// const paymentMethods = ["CASH", "CARD", "BANK_TRANSFER", "OTHER"];
+const paymentMethods = [
+  { name: "Efectivo", value: "CASH" },
+  { name: "Tarjeta", value: "CARD" },
+  { name: "Transferencia", value: "BANK_TRANSFER" },
+  { name: "Otro", value: "OTHER" },
+];
+
 const STATE = ["Pagado", "Deuda"];
-const payment = ["Efectivo", "Tarjeta", "Transferencia", "Otro"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
 const NewIncome = ({ navigation }: Props) => {
@@ -37,25 +43,59 @@ const NewIncome = ({ navigation }: Props) => {
   const [products, setProducts] = useState([]);
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
-  const [paymentMethod, setPaymentMethod] = useState(payment[0]);
+  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
   const [date, setDate] = useState(TODAY);
 
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
+  const queryClient = useQueryClient();
+
+  const isPaidHandler = () => {
+    if (isPaid === "Pagado") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const paymentMethodHandler = () => {
+    const payment = paymentMethods.find(
+      (method) => method.name === paymentMethod
+    );
+    return payment ? payment.value : null;
+  };
+
   const form = {
-    amount: amount,
-    detail: detail,
+    value: +amount,
+    name: detail,
     products: products,
     client: client,
-    isPaid: isPaid,
-    paymentMethod: paymentMethod,
+    isPaid: isPaidHandler(),
+    paymentMethod: paymentMethodHandler(),
     date: date,
+  };
+
+  const { mutateAsync } = useMutation(
+    (form: object) => {
+      return addIncome(form);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("balance");
+      },
+    }
+  );
+
+  const handleSubmit = (form: object) => {
+    console.log(form);
+    mutateAsync(form);
   };
 
   useEffect(() => {
     if (isPaid === "Pagado") {
-      setPaymentMethod(payment[0]);
+      setPaymentMethod(paymentMethods[0].name);
     } else if (isPaid === "Deuda") {
       setPaymentMethod("");
     }
@@ -183,8 +223,8 @@ const NewIncome = ({ navigation }: Props) => {
                 }}
               >
                 <OptionModal
-                  title="Metodo de Pago"
-                  options={payment}
+                  title="Método de Pago"
+                  options={paymentMethods.map((item) => item.name)}
                   isModalVisible={modalPayment}
                   setIsModalVisible={setModalPayment}
                   selectedOption={paymentMethod}
@@ -210,7 +250,12 @@ const NewIncome = ({ navigation }: Props) => {
             setValue={setClient}
             marginBottom={25}
           />
-          <InputDate name="Fecha" date={date} setDate={setDate} />
+          <InputDate
+            name="Fecha"
+            date={date}
+            setDate={setDate}
+            color="#33E69B"
+          />
         </View>
       </ScrollView>
       <View
@@ -236,7 +281,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
           small={false}
           icon="check"
-          onPress={() => console.log("Guardar", form)}
+          onPress={() => handleSubmit(form)}
         />
       </View>
     </View>

@@ -12,6 +12,7 @@ interface Props {
   name: string;
   date: string;
   setDate: (value: string) => void;
+  color: string;
 }
 
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
@@ -22,7 +23,7 @@ const DATES = [
   { label: "Ayer", value: YESTERDAY },
 ];
 
-const InputDate = ({ name, setDate, date }: Props) => {
+const InputDate = ({ name, setDate, date, color }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const indicatorDate = moment(date, "DD-MM-YYYY").toDate();
@@ -75,8 +76,8 @@ const InputDate = ({ name, setDate, date }: Props) => {
             key={index}
             onPress={() => handleDateChange(d)}
             style={{
-              backgroundColor: date === d.value ? "#33E69B" : "white",
-              borderColor: "#33E69B",
+              backgroundColor: date === d.value ? color : "white",
+              borderColor: color,
               borderWidth: date === d.value ? 0 : 1.8,
               paddingHorizontal: 20,
               marginRight: 10,
@@ -89,7 +90,7 @@ const InputDate = ({ name, setDate, date }: Props) => {
             <Text
               style={{
                 fontSize: 16,
-                color: date === d.value ? "white" : "#33E69B",
+                color: date === d.value ? "white" : color,
                 fontFamily: "Gilroy-Bold",
               }}
             >
@@ -108,7 +109,7 @@ const InputDate = ({ name, setDate, date }: Props) => {
           <TouchableOpacity
             onPress={showDatePicker}
             style={{
-              borderColor: "#33E69B",
+              borderColor: color,
               borderWidth: 1.8,
               borderRadius: 20,
               height: 40,
@@ -117,13 +118,13 @@ const InputDate = ({ name, setDate, date }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="plus" size={30} color="#33E69B" />
+            <Icon name="plus" size={30} color={color} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={showDatePicker}
             style={{
-              backgroundColor: "#33E69B",
+              backgroundColor: color,
               paddingHorizontal: 20,
               borderRadius: 20,
               height: 40,

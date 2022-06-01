@@ -1,10 +1,13 @@
 interface ITransaction {
   name: string;
-  price: string;
+  value: string;
   color: string;
   icon: string;
   type: string;
   state: string;
+  id: string;
+  paymentMethod: string;
+  categoryId: string;
 }
 
 interface IProduct {

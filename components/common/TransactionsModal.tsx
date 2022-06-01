@@ -15,6 +15,8 @@ interface Props {
 const TransactionModal = ({ data }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
+  console.log("data1 ==> ", data);
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -106,7 +108,7 @@ const TransactionModal = ({ data }: Props) => {
                 fontWeight: "bold",
               }}
             >
-              {data.price}
+              $ {data.value}
             </Text>
             <Text
               style={{
@@ -276,7 +278,7 @@ const TransactionModal = ({ data }: Props) => {
                   fontFamily: "Gilroy-Bold",
                 }}
               >
-                {data.price}
+                {data?.categoryId ? `-$ ${data?.value}` : `$ ${data?.value}`}
               </Text>
               <Text
                 style={{
@@ -285,7 +287,7 @@ const TransactionModal = ({ data }: Props) => {
                   color: "#D7DCE4",
                 }}
               >
-                {data.state}
+                {data?.paymentMethod}
               </Text>
             </View>
           </View>

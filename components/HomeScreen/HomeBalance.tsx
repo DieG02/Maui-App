@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
+import { useQuery } from "react-query";
+import { getBalance } from "../../services/transactions";
 import globalStyles from "../../styles/globalStyles";
 
 const { mainColor, secondaryColor } = globalStyles;
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const HomeBalance = ({ onPress }: Props) => {
+  const { data: balance } = useQuery("balance", getBalance);
+
   const [hide, setHide] = useState(false);
 
   return (
@@ -85,7 +89,11 @@ const HomeBalance = ({ onPress }: Props) => {
                 marginRight: 15,
               }}
             >
-              $4000
+              $
+              {balance?.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
             </Text>
           )}
         </View>

@@ -52,6 +52,7 @@ const HomeScreen = ({ navigation }: Props) => {
           onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={20} />
+        {/* <HomeBalance onPress={() => navigation.navigate("Budget")} /> */}
         <HomeBalance onPress={() => navigation.navigate("Budget")} />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />

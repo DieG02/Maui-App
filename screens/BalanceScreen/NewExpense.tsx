@@ -1,78 +1,125 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   Dimensions,
-  TextInput,
   ScrollView,
   StatusBar,
-  Alert,
   Platform,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
-import Fab from "../../components/common/Fab";
-import ButtonInput from "../../components/common/ButtonInput";
-import Calendar from "react-native-vector-icons/Entypo";
-import Tag from "react-native-vector-icons/AntDesign";
-import Costumer from "react-native-vector-icons/FontAwesome";
-import Wallet from "react-native-vector-icons/Entypo";
-import Money from "react-native-vector-icons/FontAwesome5";
-import Description from "react-native-vector-icons/FontAwesome";
-import Dollar from "react-native-vector-icons/FontAwesome";
-import Check from "react-native-vector-icons/Feather";
 import InputForm from "../../components/common/InputForm";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { Switch } from "react-native-paper";
 import { NavigationProp } from "@react-navigation/native";
+import CommonInput from "../../components/common/CommonInput";
+import OptionModal from "../../components/common/OptionModal";
+import { FAB } from "react-native-paper";
+import InputDate from "../../components/common/InputDate";
+import moment from "moment";
+import "moment-timezone";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { addExpense } from "../../services/transactions";
+import { getExpenseCategories } from "../../services/categories";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-export default function OutcomeForm({ navigation }: Props) {
-  const [paid, setPaid] = useState(true);
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [fecha, setfecha] = useState(new Date());
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isSwitchOn, setIsSwitchOn] = useState(true);
-  const [more, setMore] = useState(false);
+const paymentMethods = [
+  { name: "Efectivo", value: "CASH" },
+  { name: "Tarjeta", value: "CARD" },
+  { name: "Transferencia", value: "BANK_TRANSFER" },
+  { name: "Otro", value: "OTHER" },
+];
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-  const seeMore = () => setMore(!more);
+const STATE = ["Pagado", "Deuda"];
+const TODAY = moment.parseZone().format("DD-MM-YYYY");
+const EXPENSE_CATEGORIES = [
+  { name: "Servicios Públicos", value: "SERVICES" },
+  { name: "Compra de Insumos", value: "COMPRA_INSUMOS" },
+  { name: "Gastos Administrativos", value: "GASTOS_ADMINISTRATIVOS" },
+];
 
-  console.log(paid);
-  console.log(price);
-  console.log(description);
-  console.log("fecha", fecha);
+const NewExpense = ({ navigation }: Props) => {
+  const [amount, setAmount] = useState("");
+  const [detail, setDetail] = useState("");
+  const [products, setProducts] = useState([]);
+  const [client, setClient] = useState("");
+  const [isPaid, setIsPaid] = useState(STATE[0]);
+  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
+  const [date, setDate] = useState(TODAY);
+  const [expenseCategory, setExpenseCategory] = useState(
+    "Seleccione una categoría"
+  );
 
-  const month = fecha.getUTCMonth() + 1;
-  const day = fecha.getUTCDate();
-  const year = fecha.getUTCFullYear();
+  const [modalPayment, setModalPayment] = useState(false);
+  const [modalState, setModalState] = useState(false);
+  const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
 
-  const newdate = year + "/" + month + "/" + day;
+  const queryClient = useQueryClient();
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const isPaidHandler = () => {
+    if (isPaid === "Pagado") {
+      return true;
+    } else {
+      return false;
+    }
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const paymentMethodHandler = () => {
+    const payment = paymentMethods.find(
+      (method) => method.name === paymentMethod
+    );
+    return payment ? payment.value : null;
   };
 
-  const handleConfirm = (date: Date) => {
-    console.log("A date has been picked: ", date);
-    setfecha(date);
-    hideDatePicker();
+  const { mutateAsync } = useMutation(
+    (form: object) => {
+      return addExpense(form);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("balance");
+      },
+    }
+  );
+
+  const { data } = useQuery("expenseCategories", getExpenseCategories);
+
+  const handleIdCategory = (expense: string, data: any[]) => {
+    const category = data.find(
+      (category: { name: string }) => category.name === expense
+    );
+    return category ? category.id : null;
   };
 
-  console.log("fecha ==>", fecha);
+  const handleSubmit = (form: object) => {
+    console.log(form);
+    mutateAsync(form);
+  };
+
+  const form = {
+    value: +amount,
+    name: detail,
+    products: products,
+    categoryId: data && handleIdCategory(expenseCategory, data),
+    client: client,
+    isPaid: isPaidHandler(),
+    paymentMethod: paymentMethodHandler(),
+    date: date,
+  };
+
+  useEffect(() => {
+    if (isPaid === "Pagado") {
+      setPaymentMethod(paymentMethods[0].name);
+    } else if (isPaid === "Deuda") {
+      setPaymentMethod("");
+    }
+  }, [isPaid]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -80,20 +127,20 @@ export default function OutcomeForm({ navigation }: Props) {
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "##FD6363" }),
+          backgroundColor: Platform.select({ ios: "#FD6363" }),
         }}
       />
       <View
         style={{
           backgroundColor: "#FD6363",
-          height: 140,
+          height: 120,
           borderBottomRightRadius: 30,
           borderBottomLeftRadius: 30,
         }}
       >
         <Header
           titleColor="white"
-          name="Nuevo Egresos"
+          name="Nueva Gasto"
           color="#FD6363"
           icon={
             <Icon onPress={() => navigation.goBack()}>
@@ -101,21 +148,12 @@ export default function OutcomeForm({ navigation }: Props) {
             </Icon>
           }
         />
-        <Text
-          style={{
-            marginHorizontal: 40,
-            fontSize: 16,
-            color: "white",
-          }}
-        >
-          Valor del Egreso
-        </Text>
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            marginHorizontal: 30,
+            justifyContent: "center",
           }}
         >
           <Text
@@ -131,167 +169,143 @@ export default function OutcomeForm({ navigation }: Props) {
           <InputForm
             keyboardType="numeric"
             placeholder="0,00"
-            value={price}
-            setValue={setPrice}
+            value={amount}
+            setValue={setAmount}
             focus={true}
             horizontal={5}
             style={{
               backgroundColor: "#FD6363",
               marginTop: 0,
               height: 55,
+              justifyContent: "center",
             }}
             textStyle={{
               color: "white",
               fontSize: 30,
+              minWidth: 70,
               fontWeight: "bold",
+              justifyContent: "center",
             }}
-          ></InputForm>
+          />
         </View>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 30,
+          marginHorizontal: 40,
         }}
       >
-        <View
-          style={{
-            height: height - 150,
-            justifyContent: "space-between",
-          }}
-        >
-          <View>
-            <TouchableOpacity
-              onPress={onToggleSwitch}
+        <View style={{ marginBottom: 10 }}>
+          <CommonInput
+            placeholder="¿Como quieres llamar a este ingreso?"
+            name="Detalle"
+            marginTop={25}
+            marginBottom={25}
+            value={detail}
+            setValue={setDetail}
+          />
+
+          <OptionModal
+            title="Categorías"
+            options={data?.map((category: any) => category?.name)}
+            isModalVisible={modalExpenseCategory}
+            setIsModalVisible={setModalExpenseCategory}
+            selectedOption={expenseCategory}
+            setSelectedOption={setExpenseCategory}
+          />
+
+          {isPaid === "Pagado" ? (
+            <View
               style={{
-                marginTop: 20,
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                borderRadius: 10,
-                alignItems: "center",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingHorizontal: 20,
               }}
             >
-              <Check name="check-circle" size={25} color="#9F9F9F" />
-              {isSwitchOn ? (
-                <Text style={{ color: "#413F3F" }}>Pagado</Text>
-              ) : (
-                <Text>Pendiente</Text>
-              )}
-              <Switch
-                value={isSwitchOn}
-                onValueChange={onToggleSwitch}
-                color="#FD6363"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginTop: 20,
-                paddingHorizontal: 20,
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                borderRadius: 10,
-                alignItems: "center",
-
-                flexDirection: "row",
-              }}
-            >
-              <Check name="inbox" size={25} color="#9F9F9F" />
-              <Text
+              <View
                 style={{
-                  marginLeft: 40,
-                  color: "#9F9F9F",
-                  fontWeight: "bold",
+                  display: "flex",
+                  width: (width - 100) / 2,
                 }}
               >
-                Seleccionar Productos
-              </Text>
-            </TouchableOpacity>
-
-            <InputForm
-              keyboardType="default"
-              placeholder="Concepto"
-              value={description}
-              setValue={setDescription}
-              bottom={10}
-              focus={false}
-              style={{
-                borderColor: "#ECECED",
-                borderWidth: 1.8,
-                height: 50,
-                backgroundColor: "white",
-                marginTop: 20,
-              }}
-            >
-              <Description name="file-text" size={25} color="#9F9F9F" />
-            </InputForm>
-
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              date={fecha}
+                <OptionModal
+                  title="Estado"
+                  options={STATE}
+                  isModalVisible={modalState}
+                  setIsModalVisible={setModalState}
+                  selectedOption={isPaid}
+                  setSelectedOption={setIsPaid}
+                />
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  width: (width - 100) / 2,
+                }}
+              >
+                <OptionModal
+                  title="Método de Pago"
+                  options={paymentMethods.map((item) => item.name)}
+                  isModalVisible={modalPayment}
+                  setIsModalVisible={setModalPayment}
+                  selectedOption={paymentMethod}
+                  setSelectedOption={setPaymentMethod}
+                />
+              </View>
+            </View>
+          ) : (
+            <OptionModal
+              title="Estado"
+              options={STATE}
+              isModalVisible={modalState}
+              setIsModalVisible={setModalState}
+              selectedOption={isPaid}
+              setSelectedOption={setIsPaid}
             />
-            <ButtonInput
-              name="Fecha"
-              onPress={showDatePicker}
-              value={newdate}
-              bottom={10}
-            >
-              <Calendar name="calendar" size={25} color="#9F9F9F" />
-            </ButtonInput>
-            <ButtonInput name="Categoria" bottom={10}>
-              <Check name="tag" size={25} color="#9F9F9F" />
-            </ButtonInput>
-
-            {more ? (
-              <>
-                <ButtonInput name="Clientes" bottom={10}>
-                  <Costumer name="user" size={25} color="#9F9F9F" />
-                </ButtonInput>
-
-                <ButtonInput name="Cuentas" bottom={10}>
-                  <Wallet name="wallet" size={25} color="#9F9F9F" />
-                </ButtonInput>
-                <ButtonInput name="Forma de Pago" bottom={10}>
-                  <Money name="money-bill" size={25} color="#9F9F9F" />
-                </ButtonInput>
-              </>
-            ) : (
-              <TouchableOpacity
-                onPress={seeMore}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginVertical: 20,
-                }}
-              >
-                <Text
-                  style={{ color: "#FD6363", fontSize: 18, fontWeight: "bold" }}
-                >
-                  Ver más detalles
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          <Fab
-            bottom={0}
-            left={0}
-            position="relative"
+          )}
+          <CommonInput
+            placeholder="Seleccione un cliente"
+            name="Cliente"
+            touchable={true}
+            value={client}
+            setValue={setClient}
+            marginBottom={25}
+          />
+          <InputDate
+            name="Fecha"
+            date={date}
+            setDate={setDate}
             color="#FD6363"
-            text="Guardar"
-            onPress={() => Alert.alert("Crear Producto")}
           />
         </View>
       </ScrollView>
+      <View
+        style={{
+          width: "100%",
+          height: 90,
+          bottom: 0,
+          alignItems: "center",
+          justifyContent: "center",
+          position: "absolute",
+        }}
+      >
+        <FAB
+          color="white"
+          style={{
+            position: "absolute",
+            width: 50,
+            height: 50,
+            elevation: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#B3B3B3",
+          }}
+          small={false}
+          icon="check"
+          onPress={() => handleSubmit(form)}
+        />
+      </View>
     </View>
   );
-}
-
-const styles = StyleSheet.create({});
+};
+export default NewExpense;
