@@ -1,13 +1,16 @@
 import MauiApi from "../clientProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { black } from "react-native-paper/lib/typescript/styles/colors";
+import {
+  createIncomeBodyInputDto,
+  createIncomeResponseDto,
+} from "../../Maui-Backend/src/controllers/types";
 
-export const addIncome = async (data: Object) => {
+export const addIncome = async (data: createIncomeBodyInputDto) => {
   const user = await AsyncStorage.getItem("userInfo");
   const token = user ? JSON.parse(user).token : "";
   const id = user ? JSON.parse(user).id : "";
 
-  return await MauiApi.post(
+  return await MauiApi.post<createIncomeResponseDto>(
     "/createNewIncome",
     {
       ...data,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon1 from "react-native-vector-icons/Ionicons";
@@ -15,7 +15,7 @@ interface Props {
 const TransactionModal = ({ data }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
-  console.log("data1 ==> ", data);
+  console.log("data1 ==> ", data?.category);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -35,7 +35,7 @@ const TransactionModal = ({ data }: Props) => {
         <View
           style={{
             backgroundColor: "white",
-            height: 500,
+            height: 450,
             borderTopLeftRadius: 25,
             borderTopRightRadius: 25,
           }}
@@ -69,18 +69,25 @@ const TransactionModal = ({ data }: Props) => {
             >
               <Icon2 name="pen" size={25} color="#ACACAC" />
             </TouchableOpacity>
+
             <View
               style={{
                 width: 60,
                 height: 60,
                 borderRadius: 30,
                 marginHorizontal: 30,
-                backgroundColor: data.color || mainColor,
+                backgroundColor: "#F9FAFB",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <Icon1 name={data.icon} size={35} color="white" />
+              {/* <Icon1 name={data.icon} size={30} color={data.color} /> */}
+              <Image
+                source={{
+                  uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c",
+                }}
+                style={{ width: 25, height: 25 }}
+              />
             </View>
             <TouchableOpacity
               style={{
@@ -124,6 +131,44 @@ const TransactionModal = ({ data }: Props) => {
             <Text style={{ color: "#8a8a8a", marginBottom: 10 }}>
               30 de Agosto de 2022 - 15:30hs
             </Text>
+
+            <TouchableOpacity
+              style={{
+                marginTop: 10,
+                width: "80%",
+                height: 56,
+                borderWidth: 1.8,
+                borderRadius: 10,
+                borderColor: "#f5f5f5",
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 25,
+              }}
+            >
+              <Text style={{ color: "#666666", fontSize: 15 }}>Ver más</Text>
+              <Icon name="chevron-right" size={25} color="#666666" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginTop: 10,
+                width: "80%",
+                height: 56,
+                borderRadius: 10,
+                borderColor: "#f5f5f5",
+                borderWidth: 1.8,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 25,
+              }}
+            >
+              <Text style={{ color: "#666666", fontSize: 15 }}>
+                Compartir comprobante
+              </Text>
+              <Icon name="chevron-right" size={25} color="#666666" />
+            </TouchableOpacity>
+
             <View
               style={{
                 marginTop: 10,
@@ -140,65 +185,13 @@ const TransactionModal = ({ data }: Props) => {
               <Text
                 style={{ color: mainColor, fontSize: 16, fontWeight: "600" }}
               >
-                Tarjeta de crédito
+                {data?.categoryId ? data.category?.name : "Venta"}
               </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                marginTop: 10,
-                width: "80%",
-                height: 56,
-                borderWidth: 1.8,
-                borderRadius: 10,
-                borderColor: "#f5f5f5",
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 25,
-              }}
-            >
-              <Text style={{ color: "#666666", fontSize: 15 }}>
-                Ver más detalles
-              </Text>
-              <Icon name="chevron-right" size={25} color="#666666" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                marginTop: 10,
-                width: "80%",
-                height: 56,
-                borderRadius: 10,
-                borderColor: "#f5f5f5",
-                borderWidth: 1.8,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 25,
-              }}
-            >
-              <Text style={{ color: "#666666", fontSize: 15 }}>
-                Descargar comprobante
-              </Text>
-              <Icon name="chevron-right" size={25} color="#666666" />
-            </TouchableOpacity>
-            <View
-              style={{
-                marginTop: 10,
-                width: "80%",
-                height: 56,
-                borderRadius: 10,
-                borderColor: "#f5f5f5",
-                borderWidth: 1.8,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 25,
-              }}
-            >
-              <Text style={{ color: "#666666", fontSize: 15 }}>Compra</Text>
-              <TouchableOpacity>
-                <Text style={{ color: mainColor }}>Cambiar</Text>
-              </TouchableOpacity>
+              {data.categoryId && (
+                <TouchableOpacity>
+                  <Text style={{ color: mainColor }}>Cambiar</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
@@ -234,7 +227,13 @@ const TransactionModal = ({ data }: Props) => {
                   justifyContent: "center",
                 }}
               >
-                <Icon1 name={data.icon} size={30} color={data.color} />
+                {/* <Icon1 name={data.icon} size={30} color={data.color} /> */}
+                <Image
+                  source={{
+                    uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c",
+                  }}
+                  style={{ width: 25, height: 25 }}
+                />
               </View>
               <View
                 style={{
@@ -259,7 +258,7 @@ const TransactionModal = ({ data }: Props) => {
                     color: "#D7DCE4",
                   }}
                 >
-                  {data.type}
+                  {data?.categoryId ? data.category?.name : "Venta"}
                 </Text>
               </View>
             </View>

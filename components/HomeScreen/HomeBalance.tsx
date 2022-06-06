@@ -68,7 +68,7 @@ const HomeBalance = ({ onPress }: Props) => {
           {hide ? (
             <Text
               style={{
-                fontSize: 40,
+                fontSize: 36,
                 color: mainColor,
                 fontFamily: "Gilroy-Bold",
                 marginTop: 15,
@@ -81,7 +81,7 @@ const HomeBalance = ({ onPress }: Props) => {
           ) : (
             <Text
               style={{
-                fontSize: 40,
+                fontSize: 36,
                 color: mainColor,
                 fontFamily: "Gilroy-Bold",
                 marginTop: 15,
@@ -89,7 +89,6 @@ const HomeBalance = ({ onPress }: Props) => {
                 marginRight: 15,
               }}
             >
-              $
               {balance?.toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",

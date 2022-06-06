@@ -8,6 +8,11 @@ interface ITransaction {
   id: string;
   paymentMethod: string;
   categoryId: string;
+  category: {
+    id: string;
+    name: string;
+    imageUrl: string;
+  };
 }
 
 interface IProduct {
