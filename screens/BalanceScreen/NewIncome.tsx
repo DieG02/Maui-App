@@ -70,15 +70,21 @@ const NewIncome = ({ navigation }: Props) => {
     value: +amount,
     name: detail,
     products: products,
-    client: client,
+    // client: client,
     isPaid: isPaidHandler(),
     paymentMethod: paymentMethodHandler(),
     date: date,
+    clientId: 121212,
   };
 
   const { mutateAsync } = useMutation(
-    (form: object) => {
-      return addIncome(form);
+    (form: Record<any, any>) => {
+      return addIncome({
+        name: form.name,
+        value: form.value,
+        isPaid: form.isPaid,
+        paymentMethod: form.paymentMethod,
+      });
     },
     {
       onSuccess: () => {
