@@ -1,20 +1,17 @@
 import MauiApi from "../clientProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-  getTransactionsQueryParamsDto,
-  getTransactionsResponseDto
+  createNewAccountBodyInputDto,
+  createNewAccountResponseDto
 } from "../../Maui-Backend/src/controllers/types";
 
-export const getTransactions = async (
-  queryParams: getTransactionsQueryParamsDto
-) => {
+export const getTransactions = async (data: createNewAccountBodyInputDto) => {
   const user = await AsyncStorage.getItem("userInfo");
   const token = user ? JSON.parse(user).token : "";
 
-  return await MauiApi.get<getTransactionsResponseDto>("/getTransactions", {
+  return MauiApi.post<createNewAccountResponseDto>("/getTransactions", data, {
     headers: {
       Authorization: `Bearer ${token}`
-    },
-    params: queryParams
+    }
   }).then((res) => res.data);
 };

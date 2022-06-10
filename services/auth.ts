@@ -1,20 +1,17 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import MauiApi from "../clientProvider";
+import {
+  signInInputBodyDto,
+  signInResponseDto,
+  signUpInputBodyDto,
+  signUpResponseDto
+} from "../../Maui-Backend/src/controllers/types";
 
-export const signIn = async (res: Object) => {
-  try {
-    const { data } = await MauiApi.post("/signin", res);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const signIn = async (data: signInInputBodyDto) =>
+  await MauiApi.post<signInResponseDto>("/signin", data).then(
+    (res) => res.data
+  );
 
-export const signUp = async (res: Object) => {
-  try {
-    const { data } = await MauiApi.post("/signup", res);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const signUp = async (data: signUpInputBodyDto) =>
+  await MauiApi.post<signUpResponseDto>("/signup", data).then(
+    (res) => res.data
+  );
