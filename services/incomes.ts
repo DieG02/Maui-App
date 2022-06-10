@@ -5,20 +5,28 @@ import {
   editIncomeBodyInputDto,
   editIncomeResponseDto
 } from "../../Maui-Backend/src/controllers/types";
+import { getUserAuthenticationHeader } from "../utils";
 
 export const createNewIncome = async (data: createIncomeBodyInputDto) =>
-  await MauiApi.post<createIncomeResponseDto>("/createNewIncome", data).then(
-    (res) => res.data
-  );
+  await MauiApi.post<createIncomeResponseDto>("/createNewIncome", data, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader()
+    }
+  }).then((res) => res.data);
 
 export const editIncome = async (
   incomeId: string,
   data: editIncomeBodyInputDto
 ) =>
-  await MauiApi.patch<editIncomeResponseDto>(
-    "/editIncome/" + incomeId,
-    data
-  ).then((res) => res.data);
+  await MauiApi.patch<editIncomeResponseDto>("/editIncome/" + incomeId, data, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader()
+    }
+  }).then((res) => res.data);
 
 export const deleteIncome = async (incomeId: string) =>
-  await MauiApi.delete("/deleteIncome/" + incomeId).then((res) => res.data);
+  await MauiApi.delete("/deleteIncome/" + incomeId, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader()
+    }
+  }).then((res) => res.data);
