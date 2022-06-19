@@ -33,8 +33,6 @@ const OptionModal = ({
     toggleModal();
   };
 
-  console.log("selectedOption", options);
-
   return (
     <View>
       <Modal

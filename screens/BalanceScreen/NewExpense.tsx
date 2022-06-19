@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Text,
   View,
@@ -19,8 +19,9 @@ import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addExpense } from "../../services/transactions";
-import { getExpenseCategories } from "../../services/categories";
+import { createNewExpense } from "../../services/expenses";
+import { getExpenseCategories } from "../../services/expenseCategories";
+import { createExpenseBodyInputDto } from "../../../Maui-Backend/src/controllers/types";
 
 const { width } = Dimensions.get("window");
 
@@ -61,32 +62,23 @@ const NewExpense = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidHandler = () => {
+  const isPaidState = useMemo(() => {
     if (isPaid === "Pagado") {
       return true;
     } else {
       return false;
     }
-  };
+  }, [isPaid]);
 
-  const paymentMethodHandler = () => {
-    const payment = paymentMethods.find(
-      (method) => method.name === paymentMethod
-    );
-    return payment ? payment.value : null;
-  };
-
-  const { mutateAsync } = useMutation(
-    (form: object) => {
-      return addExpense(form);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("balance");
-      },
-    }
-  );
+  const paymentMethodHandler =
+    (): createExpenseBodyInputDto["paymentMethod"] => {
+      const payment = paymentMethods.find(
+        (method) => method.name === paymentMethod
+      );
+      return payment
+        ? (payment.value as createExpenseBodyInputDto["paymentMethod"])
+        : "CASH";
+    };
 
   const { data } = useQuery("expenseCategories", getExpenseCategories);
 
@@ -97,21 +89,29 @@ const NewExpense = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
-  const handleSubmit = (form: object) => {
-    console.log(form);
-    mutateAsync(form);
-  };
-
-  const form = {
+  const form: createExpenseBodyInputDto = {
     value: +amount,
-    name: detail,
-    products: products,
+    name: detail !== "" ? detail : expenseCategory,
     categoryId: data && handleIdCategory(expenseCategory, data),
-    client: client,
-    isPaid: isPaidHandler(),
+    isPaid: isPaidState,
     paymentMethod: paymentMethodHandler(),
     date: date,
   };
+  const handleSubmit = (form: createExpenseBodyInputDto) => {
+    mutateAsync(form);
+  };
+  const { mutateAsync } = useMutation(
+    (form: createExpenseBodyInputDto) => {
+      return createNewExpense(form);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("balance");
+        queryClient.invalidateQueries("getMonthlyStats");
+      },
+    }
+  );
 
   useEffect(() => {
     if (isPaid === "Pagado") {
@@ -207,7 +207,7 @@ const NewExpense = ({ navigation }: Props) => {
 
           <OptionModal
             title="Categorías"
-            options={data?.map((category: any) => category?.name)}
+            options={data?.map((category) => category?.name) ?? []}
             isModalVisible={modalExpenseCategory}
             setIsModalVisible={setModalExpenseCategory}
             selectedOption={expenseCategory}

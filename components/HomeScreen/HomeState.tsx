@@ -4,12 +4,16 @@ import StateCard from "./StateCard";
 import Down from "react-native-vector-icons/Ionicons";
 import Top from "react-native-vector-icons/Ionicons";
 import globalStyles from "../../styles/globalStyles";
+import { useQuery } from "react-query";
+import { getMonthlyMainStats } from "../../services/balance";
 
 const { mainColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
 const HomeState = () => {
+  const { data } = useQuery("getMonthlyStats", getMonthlyMainStats);
+
   return (
     <ScrollView
       horizontal
@@ -28,28 +32,28 @@ const HomeState = () => {
             <StateCard
               color="#fafafa"
               state="Ingresos"
-              value="$12000"
+              value={"$" + data?.incomes}
               left={30}
               icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
             />
             <StateCard
               color="#fafafa"
               state="Egresos"
-              value="$2000"
+              value={"$" + data?.expenses}
               left={20}
               icon={<Down name="arrow-down-circle" size={60} color="#A8CAFE" />}
             />
             <StateCard
               color="#fafafa"
               state="Por Cobrar"
-              value="$4000"
+              value={"$" + data?.toCollect}
               left={20}
               icon={<Top name="arrow-up-circle" size={60} color="#33E69B" />}
             />
             <StateCard
               color="#fafafa"
               state="Por pagar"
-              value="$12000"
+              value={"$" + data?.debt}
               left={20}
               right={30}
               icon={<Down name="arrow-down-circle" size={60} color="#FD6363" />}

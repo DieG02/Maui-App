@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Text,
   View,
@@ -19,7 +19,8 @@ import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
-import { addIncome } from "../../services/transactions";
+import { createNewIncome } from "../../services/incomes";
+import { createIncomeBodyInputDto } from "../../../Maui-Backend/src/controllers/types";
 
 const { width } = Dimensions.get("window");
 
@@ -51,51 +52,55 @@ const NewIncome = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidHandler = () => {
+  const isPaidState = useMemo(() => {
     if (isPaid === "Pagado") {
       return true;
     } else {
       return false;
     }
-  };
+  }, [isPaid]);
 
-  const paymentMethodHandler = () => {
-    const payment = paymentMethods.find(
-      (method) => method.name === paymentMethod
-    );
-    return payment ? payment.value : null;
-  };
+  const paymentMethodHandler =
+    (): createIncomeBodyInputDto["paymentMethod"] => {
+      const payment = paymentMethods.find(
+        (method) => method.name === paymentMethod
+      );
+      return payment
+        ? (payment.value as createIncomeBodyInputDto["paymentMethod"])
+        : "CASH";
+    };
 
-  const form = {
+  const form: createIncomeBodyInputDto = {
     value: +amount,
-    name: detail,
-    products: products,
+    name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
+    // products: products as unknown as any,
     // client: client,
-    isPaid: isPaidHandler(),
+    isPaid: isPaidState,
     paymentMethod: paymentMethodHandler(),
     date: date,
-    clientId: 121212,
+    clientId: "121212",
   };
 
   const { mutateAsync } = useMutation(
-    (form: Record<any, any>) => {
-      return addIncome({
+    (form: createIncomeBodyInputDto) => {
+      return createNewIncome({
         name: form.name,
         value: form.value,
         isPaid: form.isPaid,
         paymentMethod: form.paymentMethod,
+        date: form.date,
       });
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries("transactions");
         queryClient.invalidateQueries("balance");
+        queryClient.invalidateQueries("getMonthlyStats");
       },
     }
   );
 
-  const handleSubmit = (form: object) => {
-    console.log(form);
+  const handleSubmit = (form: createIncomeBodyInputDto) => {
     mutateAsync(form);
   };
 

@@ -14,6 +14,10 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signUp } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
+import {
+  signUpInputBodyDto,
+  signUpResponseDto,
+} from "../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -33,25 +37,21 @@ export default function SignUpScreen({ navigation }: Props) {
   };
 
   const { mutateAsync } = useMutation(
-    (data: object) => {
+    (data: signUpInputBodyDto) => {
       return signUp(data);
     },
     {
       onError: (err) => {
         console.log(err);
       },
+      onSuccess: () => {
+        navigation.navigate("Login");
+      },
     }
   );
 
   const onPressSignUp = async () => {
-    console.log("user", user);
-    const data = await mutateAsync(user);
-    console.log("data", data.token);
-
-    if (data.token) {
-      await AsyncStorage.setItem("token", data.token);
-      navigation.navigate("HomeTabs");
-    }
+    await mutateAsync(user);
   };
 
   return (

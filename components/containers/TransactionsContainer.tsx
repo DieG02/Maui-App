@@ -3,12 +3,11 @@ import { StyleSheet, View } from "react-native";
 import TransactionModal from "../common/TransactionsModal";
 // import { balance } from "../../helpers/seed";
 import { useQuery } from "react-query";
-import { lastTransactions } from "../../services/transactions";
+import { getTransactions } from "../../services/transactions";
 
 const TransactionsContainer = () => {
-  const { data, refetch: getTransaction } = useQuery(
-    "transactions",
-    lastTransactions
+  const { data, refetch: getTransaction } = useQuery("transactions", () =>
+    getTransactions()
   );
 
   useEffect(() => {
@@ -23,7 +22,7 @@ const TransactionsContainer = () => {
             backgroundColor: "white",
           }}
         >
-          {data?.data.map((item: ITransaction) => (
+          {data?.map((item) => (
             <TransactionModal data={item} key={item.id} />
           ))}
         </View>

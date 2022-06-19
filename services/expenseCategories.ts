@@ -4,7 +4,7 @@ import {
   createExpenseCategoryBodyInputDto,
   createExpenseCategoryResponseDto,
   editExpenseCategoryBodyInputDto,
-  editExpenseCategoryResponseDto
+  editExpenseCategoryResponseDto,
 } from "../../Maui-Backend/src/controllers/types";
 
 export const getExpenseCategories = async () =>
@@ -25,5 +25,6 @@ export const editExpenseCategory = async (
   data: editExpenseCategoryBodyInputDto
 ) =>
   await MauiApi.patch<editExpenseCategoryResponseDto>(
-    "/editExpenseCategory/" + expenseCategoryId
+    "/editExpenseCategory/" + expenseCategoryId,
+    data
   ).then((res) => res.data);

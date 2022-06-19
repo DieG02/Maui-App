@@ -5,21 +5,23 @@ import Icon from "react-native-vector-icons/Entypo";
 import Icon1 from "react-native-vector-icons/Ionicons";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import globalStyles from "../../styles/globalStyles";
+import { getTransactionsResponseDto } from "../../../Maui-Backend/src/controllers/types";
+import { paymentsMethod } from "../../utils/translate";
 
 const { mainColor, secondaryColor } = globalStyles;
 
 interface Props {
-  data: ITransaction;
+  data: getTransactionsResponseDto[0];
 }
 
 const TransactionModal = ({ data }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
-  console.log("data1 ==> ", data?.category);
-
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  console.log("transaction ==>", data);
 
   return (
     <View>
@@ -81,12 +83,11 @@ const TransactionModal = ({ data }: Props) => {
                 justifyContent: "center",
               }}
             >
-              {/* <Icon1 name={data.icon} size={30} color={data.color} /> */}
               <Image
                 source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c",
+                  uri: data.category?.imageUrl,
                 }}
-                style={{ width: 25, height: 25 }}
+                style={{ width: 35, height: 35 }}
               />
             </View>
             <TouchableOpacity
@@ -129,7 +130,7 @@ const TransactionModal = ({ data }: Props) => {
             </Text>
 
             <Text style={{ color: "#8a8a8a", marginBottom: 10 }}>
-              30 de Agosto de 2022 - 15:30hs
+              {data.date}
             </Text>
 
             <TouchableOpacity
@@ -187,7 +188,7 @@ const TransactionModal = ({ data }: Props) => {
               >
                 {data?.categoryId ? data.category?.name : "Venta"}
               </Text>
-              {data.categoryId && (
+              {data.category?.name !== "Venta" && (
                 <TouchableOpacity>
                   <Text style={{ color: mainColor }}>Cambiar</Text>
                 </TouchableOpacity>
@@ -203,7 +204,6 @@ const TransactionModal = ({ data }: Props) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              // backgroundColor: 'red',
               alignItems: "center",
             }}
           >
@@ -212,7 +212,6 @@ const TransactionModal = ({ data }: Props) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                // backgroundColor: 'red',
                 alignItems: "center",
               }}
             >
@@ -227,10 +226,9 @@ const TransactionModal = ({ data }: Props) => {
                   justifyContent: "center",
                 }}
               >
-                {/* <Icon1 name={data.icon} size={30} color={data.color} /> */}
                 <Image
                   source={{
-                    uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c",
+                    uri: data.category?.imageUrl,
                   }}
                   style={{ width: 25, height: 25 }}
                 />
@@ -258,7 +256,7 @@ const TransactionModal = ({ data }: Props) => {
                     color: "#D7DCE4",
                   }}
                 >
-                  {data?.categoryId ? data.category?.name : "Venta"}
+                  {data.date}
                 </Text>
               </View>
             </View>
@@ -277,7 +275,9 @@ const TransactionModal = ({ data }: Props) => {
                   fontFamily: "Gilroy-Bold",
                 }}
               >
-                {data?.categoryId ? `-$ ${data?.value}` : `$ ${data?.value}`}
+                {data.category?.name === "Venta"
+                  ? `$${data?.value}`
+                  : `-$${data?.value}`}
               </Text>
               <Text
                 style={{
@@ -286,7 +286,7 @@ const TransactionModal = ({ data }: Props) => {
                   color: "#D7DCE4",
                 }}
               >
-                {data?.paymentMethod}
+                {data.paymentMethod && paymentsMethod[data.paymentMethod].es}
               </Text>
             </View>
           </View>
@@ -302,7 +302,10 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   root: {
-    height: 70,
+    height: 50,
+    marginTop: 10,
+    marginBottom: 10,
+    // backgroundColor: "red",
     backgroundColor: "white",
   },
 });

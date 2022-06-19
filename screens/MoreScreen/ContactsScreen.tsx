@@ -63,10 +63,7 @@ export const Providers = () => {
   const getAllConsumers = async () => {
     try {
       const response = await getConsumers();
-
       setConsumers(response.data);
-      console.log(response.data);
-      console.log(response.data[0].username);
     } catch (error) {}
   };
 
@@ -95,10 +92,7 @@ export const Employees = () => {
   const getAllConsumers = async () => {
     try {
       const response = await getConsumers();
-
       setConsumers(response.data);
-      console.log(response.data);
-      console.log(response.data[0].username);
     } catch (error) {}
   };
 

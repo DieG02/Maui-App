@@ -14,6 +14,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
+import { signInInputBodyDto } from "../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -33,7 +34,7 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   const { mutateAsync } = useMutation(
-    (data: object) => {
+    (data: signInInputBodyDto) => {
       return signIn(data);
     },
     {
@@ -44,9 +45,7 @@ export default function LoginScreen({ navigation }: Props) {
   );
 
   const onPressLogin = async () => {
-    console.log("user", user);
     const data = await mutateAsync(user);
-    console.log("data ==>", data);
 
     if (data.token) {
       await AsyncStorage.setItem("userInfo", JSON.stringify(data));
