@@ -188,21 +188,20 @@ const NewIncome = ({ navigation }: Props) => {
       >
         <View style={{ marginBottom: 10 }}>
           <CommonInput
-            placeholder="¿Como quieres llamar a este ingreso?"
-            name="Detalle"
-            marginTop={25}
-            marginBottom={25}
-            value={detail}
-            setValue={setDetail}
-          />
-
-          <CommonInput
             placeholder="Seleccione productos"
             name="Productos"
             touchable={true}
             value={products}
             setValue={setProducts}
             marginBottom={25}
+            marginTop={25}
+          />
+          <CommonInput
+            placeholder="¿Como quieres llamar a este ingreso?"
+            name="Descripción"
+            marginBottom={25}
+            value={detail}
+            setValue={setDetail}
           />
           {isPaid === "Pagado" ? (
             <View

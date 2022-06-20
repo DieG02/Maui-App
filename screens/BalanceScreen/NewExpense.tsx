@@ -196,22 +196,22 @@ const NewExpense = ({ navigation }: Props) => {
         }}
       >
         <View style={{ marginBottom: 10 }}>
-          <CommonInput
-            placeholder="¿Como quieres llamar a este ingreso?"
-            name="Detalle"
-            marginTop={25}
-            marginBottom={25}
-            value={detail}
-            setValue={setDetail}
-          />
-
+          <View style={{ marginTop: 25 }} />
           <OptionModal
-            title="Categorías"
+            title="Categoría"
             options={data?.map((category) => category?.name) ?? []}
             isModalVisible={modalExpenseCategory}
             setIsModalVisible={setModalExpenseCategory}
             selectedOption={expenseCategory}
             setSelectedOption={setExpenseCategory}
+          />
+
+          <CommonInput
+            placeholder="¿Como quieres llamar a este egreso?"
+            name="Descripción"
+            marginBottom={25}
+            value={detail}
+            setValue={setDetail}
           />
 
           {isPaid === "Pagado" ? (
