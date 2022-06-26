@@ -21,6 +21,7 @@ import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
 import { createIncomeBodyInputDto } from "../../../Maui-Backend/src/controllers/types";
+import Spacer from "../../components/common/Spacer";
 
 const { width } = Dimensions.get("window");
 
@@ -70,11 +71,11 @@ const NewIncome = ({ navigation }: Props) => {
         : "CASH";
     };
 
+  console.log("date", date);
+
   const form: createIncomeBodyInputDto = {
     value: +amount,
     name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
-    // products: products as unknown as any,
-    // client: client,
     isPaid: isPaidState,
     paymentMethod: paymentMethodHandler(),
     date: date,
@@ -124,14 +125,13 @@ const NewIncome = ({ navigation }: Props) => {
       <View
         style={{
           backgroundColor: "#33E69B",
-          height: 120,
-          borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
+          borderBottomRightRadius: 20,
+          borderBottomLeftRadius: 20,
         }}
       >
         <Header
           titleColor="white"
-          name="Nueva Venta"
+          name="Registrar Ingreso"
           color="#33E69B"
           icon={
             <Icon onPress={() => navigation.goBack()}>
@@ -146,39 +146,7 @@ const NewIncome = ({ navigation }: Props) => {
             alignItems: "center",
             justifyContent: "center",
           }}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              color: "white",
-              height: 40,
-            }}
-          >
-            $
-          </Text>
-          <InputForm
-            keyboardType="numeric"
-            placeholder="0,00"
-            value={amount}
-            setValue={setAmount}
-            focus={true}
-            horizontal={5}
-            style={{
-              backgroundColor: "#33E69B",
-              marginTop: 0,
-              height: 55,
-              justifyContent: "center",
-            }}
-            textStyle={{
-              color: "white",
-              fontSize: 30,
-              minWidth: 70,
-              fontWeight: "bold",
-              justifyContent: "center",
-            }}
-          />
-        </View>
+        ></View>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -186,87 +154,90 @@ const NewIncome = ({ navigation }: Props) => {
           marginHorizontal: 40,
         }}
       >
-        <View style={{ marginBottom: 10 }}>
-          <CommonInput
-            placeholder="Seleccione productos"
-            name="Productos"
-            touchable={true}
-            value={products}
-            setValue={setProducts}
-            marginBottom={25}
-            marginTop={25}
-          />
-          <CommonInput
-            placeholder="¿Como quieres llamar a este ingreso?"
-            name="Descripción"
-            marginBottom={25}
-            value={detail}
-            setValue={setDetail}
-          />
-          {isPaid === "Pagado" ? (
+        <CommonInput
+          placeholder="Seleccione productos"
+          name="Productos"
+          touchable={true}
+          value={products}
+          setValue={setProducts}
+          marginBottom={25}
+          marginTop={15}
+        />
+        <InputForm
+          keyboardType="numeric"
+          placeholder="0,00"
+          value={amount}
+          name="Valor"
+          setValue={setAmount}
+          marginBottom={25}
+        />
+
+        <CommonInput
+          placeholder="¿Como quieres llamar a este ingreso?"
+          name="Descripción"
+          marginBottom={25}
+          value={detail}
+          setValue={setDetail}
+        />
+        {isPaid === "Pagado" ? (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                width: (width - 100) / 2,
               }}
             >
-              <View
-                style={{
-                  display: "flex",
-                  width: (width - 100) / 2,
-                }}
-              >
-                <OptionModal
-                  title="Estado"
-                  options={STATE}
-                  isModalVisible={modalState}
-                  setIsModalVisible={setModalState}
-                  selectedOption={isPaid}
-                  setSelectedOption={setIsPaid}
-                />
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  width: (width - 100) / 2,
-                }}
-              >
-                <OptionModal
-                  title="Método de Pago"
-                  options={paymentMethods.map((item) => item.name)}
-                  isModalVisible={modalPayment}
-                  setIsModalVisible={setModalPayment}
-                  selectedOption={paymentMethod}
-                  setSelectedOption={setPaymentMethod}
-                />
-              </View>
+              <OptionModal
+                title="Estado"
+                options={STATE}
+                isModalVisible={modalState}
+                setIsModalVisible={setModalState}
+                selectedOption={isPaid}
+                setSelectedOption={setIsPaid}
+              />
             </View>
-          ) : (
-            <OptionModal
-              title="Estado"
-              options={STATE}
-              isModalVisible={modalState}
-              setIsModalVisible={setModalState}
-              selectedOption={isPaid}
-              setSelectedOption={setIsPaid}
-            />
-          )}
-          <CommonInput
-            placeholder="Seleccione un cliente"
-            name="Cliente"
-            touchable={true}
-            value={client}
-            setValue={setClient}
-            marginBottom={25}
+            <View
+              style={{
+                display: "flex",
+                width: (width - 100) / 2,
+              }}
+            >
+              <OptionModal
+                title="Método de Pago"
+                options={paymentMethods.map((item) => item.name)}
+                isModalVisible={modalPayment}
+                setIsModalVisible={setModalPayment}
+                selectedOption={paymentMethod}
+                setSelectedOption={setPaymentMethod}
+              />
+            </View>
+          </View>
+        ) : (
+          <OptionModal
+            title="Estado"
+            options={STATE}
+            isModalVisible={modalState}
+            setIsModalVisible={setModalState}
+            selectedOption={isPaid}
+            setSelectedOption={setIsPaid}
           />
-          <InputDate
-            name="Fecha"
-            date={date}
-            setDate={setDate}
-            color="#33E69B"
-          />
-        </View>
+        )}
+        <CommonInput
+          placeholder="Seleccione un cliente"
+          name="Cliente"
+          touchable={true}
+          value={client}
+          setValue={setClient}
+          marginBottom={25}
+        />
+        <InputDate name="Fecha" date={date} setDate={setDate} color="#33E69B" />
+        <Spacer height={10} />
       </ScrollView>
       <View
         style={{

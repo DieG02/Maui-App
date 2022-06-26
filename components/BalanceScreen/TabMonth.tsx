@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
-import { View, ScrollView, Dimensions } from "react-native";
-import Title from "../common/Title";
+import React, { useCallback } from "react";
+import { View, ScrollView } from "react-native";
 import Spacer from "../common/Spacer";
-import { balance } from "../../helpers/seed";
-import TransactionModal from "../common/TransactionsModal";
 import { useQuery } from "react-query";
 import { getMonthlyTransactions } from "../../services/transactions";
 import TransactionsDropdown from "../common/TransactionsDropdown";
-
-const { width } = Dimensions.get("window");
+import { useFocusEffect } from "@react-navigation/native";
 
 const TabMonth = () => {
   const { data, refetch: getTransaction } = useQuery(
@@ -16,9 +12,12 @@ const TabMonth = () => {
     getMonthlyTransactions
   );
 
-  useEffect(() => {
-    getTransaction();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getTransaction();
+    }, [])
+  );
+
   return (
     <ScrollView
       style={{ backgroundColor: "white" }}

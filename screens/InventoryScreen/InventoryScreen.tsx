@@ -8,7 +8,6 @@ import {
   Alert,
   SafeAreaView,
 } from "react-native";
-import Plus from "react-native-vector-icons/FontAwesome5";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
@@ -19,7 +18,7 @@ import { products, categories } from "../../helpers/seed";
 import ChipCategory from "../../components/common/ChipCategory";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
-import { useQuery } from "react-query";
+import InputModal from "../../components/common/InputModal";
 // import { getAllCategories } from "../../services/categories";
 
 const { mainColor } = globalStyles;
@@ -34,6 +33,8 @@ interface Props {
 
 const InventoryScreen = ({ navigation }: Props) => {
   const [selected, setSelected] = useState(categories[0].id);
+  const [modalState, setModalState] = useState(false);
+  const [category, setCategory] = useState("");
 
   // Example to use query
   // const { data } = useQuery("categories", getAllCategories);
@@ -52,12 +53,25 @@ const InventoryScreen = ({ navigation }: Props) => {
       </Header>
       <View>
         <View style={styles.container}>
-          <Icon
-            onPress={() => Alert.alert("Crear categoria")}
+          {/* <Icon
+            onPress={() => navigation.navigate("Category")}
             style={{ marginRight: 10 }}
           >
-            <Plus name="plus" size={40} color="#5196FE" />
+            <Plus name="plus" size={30} color="#5196FE" />
+          </Icon> */}
+          <Icon style={{ marginRight: 10 }}>
+            <InputModal
+              isModalVisible={modalState}
+              setIsModalVisible={setModalState}
+              setSelectedOption={setCategory}
+              selectedOption={category}
+              buttonDisabled={category == ""}
+              buttonText="Crear Categoría"
+              buttonStyle={{ backgroundColor: mainColor, height: 55 }}
+              onPress={() => console.log("category", category)}
+            />
           </Icon>
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View
               style={{

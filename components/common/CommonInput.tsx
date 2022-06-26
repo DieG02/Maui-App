@@ -1,15 +1,23 @@
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
-import React, { Children } from "react";
+import React from "react";
 import globalStyles from "../../styles/globalStyles";
+import Down from "react-native-vector-icons/Entypo";
 
-const { secondaryColor } = globalStyles;
+const { secondaryColor, mainColor } = globalStyles;
 
 interface Props {
-  value: any;
-  name: string;
-  setValue: (value: any) => void;
+  value: string;
+  name?: string;
+  setValue: (value: string) => void;
   placeholder?: string;
-  keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
+  keyboardType?:
+    | "default"
+    | "email-address"
+    | "numeric"
+    | "phone-pad"
+    | "decimal-pad"
+    | "number-pad";
+
   marginBottom?: number;
   marginTop?: number;
   children?: React.ReactNode;
@@ -48,13 +56,17 @@ const CommonInput = ({
             borderRadius: 12,
             borderColor: "#EAEAEA",
             borderWidth: 1,
-            justifyContent: "center",
+            // justifyContent: "center",
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           {value !== "" && value?.length !== 0 ? (
             <Text
               style={{
-                marginHorizontal: 20,
+                marginLeft: 20,
                 color: "#383838",
                 fontFamily: "Gilroy-Bold",
               }}
@@ -71,6 +83,12 @@ const CommonInput = ({
               {placeholder}
             </Text>
           )}
+          <Down
+            name="chevron-down"
+            size={25}
+            style={{ marginRight: 20 }}
+            color={mainColor}
+          />
         </TouchableOpacity>
       ) : (
         <View

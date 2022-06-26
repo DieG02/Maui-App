@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 
 interface Props {
   name: string;
   backgroundColor: string;
   textColor: string;
-  onPress: (value: any) => void;
+  onPress: () => void;
 }
 
 const OptionSelect = ({ name, backgroundColor, textColor, onPress }: Props) => {

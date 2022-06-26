@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions, StyleSheet, ScrollView } from "react-native";
+import { View, Dimensions, ScrollView } from "react-native";
 import StateCard from "./StateCard";
 import Down from "react-native-vector-icons/Ionicons";
 import Top from "react-native-vector-icons/Ionicons";
@@ -65,11 +65,4 @@ const HomeState = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#131313",
-  },
-});
 export default HomeState;

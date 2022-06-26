@@ -15,8 +15,6 @@ import Title from "../../components/common/Title";
 import HomeState from "../../components/HomeScreen/HomeState";
 import TransactionsContainer from "../../components/containers/TransactionsContainer";
 import globalStyles from "../../styles/globalStyles";
-// import { useQuery } from "react-query";
-// import { getAllCategories } from "../../services/categories";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -30,7 +28,6 @@ const HomeScreen = ({ navigation }: Props) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    console.log("refreshing");
     setRefreshing(false);
   };
 
@@ -52,7 +49,6 @@ const HomeScreen = ({ navigation }: Props) => {
           onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={20} />
-        {/* <HomeBalance onPress={() => navigation.navigate("Budget")} /> */}
         <HomeBalance onPress={() => navigation.navigate("Budget")} />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />

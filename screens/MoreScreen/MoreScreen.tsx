@@ -8,7 +8,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import Spacer from "../../components/common/Spacer";
-import Header from "../../components/common/Header";
 import OptionCard from "../../components/common/OptionCard";
 import Right from "react-native-vector-icons/Entypo";
 import Profile from "react-native-vector-icons/FontAwesome";
@@ -18,7 +17,7 @@ import Costumer from "react-native-vector-icons/MaterialIcons";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
 import Icon from "react-native-vector-icons/Ionicons";
-import { NavigationProp, StackActions } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import Modal from "react-native-modal";
 import globalStyles from "../../styles/globalStyles";
 import OptionSelect from "./OptionSelect";
@@ -75,7 +75,5 @@ const OptionModal = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default OptionModal;

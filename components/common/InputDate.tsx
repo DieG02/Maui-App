@@ -15,6 +15,10 @@ interface Props {
   color: string;
 }
 
+interface IDate {
+  label: string;
+  value: string;
+}
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
 
@@ -53,7 +57,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
     hideDatePicker();
   };
 
-  const handleDateChange = (date: any) => {
+  const handleDateChange = (date: IDate) => {
     setDate(date.value);
     setIsOpen(true);
   };

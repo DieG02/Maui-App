@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
-import Title from "../common/Title";
+import React, { useCallback } from "react";
+import { View, ScrollView } from "react-native";
 import Spacer from "../common/Spacer";
-import { balance } from "../../helpers/seed";
-import TransactionModal from "../common/TransactionsModal";
 import { useQuery } from "react-query";
 import { getDailyTransactions } from "../../services/transactions";
 import TransactionsDropdown from "../common/TransactionsDropdown";
+import { useFocusEffect } from "@react-navigation/native";
 
 const TabDay = () => {
   const { data, refetch: getTransaction } = useQuery(
@@ -14,9 +12,13 @@ const TabDay = () => {
     getDailyTransactions
   );
 
-  useEffect(() => {
-    getTransaction();
-  }, []);
+  console.log("daily ==>", JSON.stringify(data, null, 2));
+
+  useFocusEffect(
+    useCallback(() => {
+      getTransaction();
+    }, [])
+  );
 
   return (
     <ScrollView

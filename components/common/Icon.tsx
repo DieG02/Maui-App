@@ -2,9 +2,9 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
 interface Props {
-  onPress: () => void;
+  onPress?: () => void;
   children: JSX.Element;
-  style?: any;
+  style?: object;
 }
 
 const Icon = ({ onPress, children, style }: Props) => {

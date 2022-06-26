@@ -1,31 +1,21 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
-
-const { width } = Dimensions.get("screen");
-
-const ancho = () => {
-  var division = (width - 60) / 2;
-  return division;
-};
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 
 interface Props {
   onPress: () => void;
   text: string;
   style?: object;
+  disabled?: boolean;
 }
 
-const Button = ({ style, text, onPress }: Props) => {
+const Button = ({ style, text, onPress, disabled }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={[styles.root, style]}>
-        <Text style={styles.text}>{text}</Text>
-      </View>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.root, style]}
+      disabled={disabled}
+    >
+      <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -36,7 +26,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    width: ancho(),
   },
   text: {
     color: "white",

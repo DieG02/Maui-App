@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Alert, SafeAreaView } from "react-native";
+import { Text, View, Alert, SafeAreaView } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";

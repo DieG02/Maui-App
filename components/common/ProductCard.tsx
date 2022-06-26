@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import globalStyles from "../../styles/globalStyles";
 
 const { mainColor } = globalStyles;

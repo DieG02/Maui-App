@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, View, Dimensions, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { useQuery } from "react-query";

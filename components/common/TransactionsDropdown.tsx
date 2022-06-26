@@ -15,8 +15,6 @@ interface Props {
 const TransactionsDropdown = ({ item }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  console.log(item);
-
   const valueTotal = item.items.reduce((acc, curr) => {
     if (curr?.category.name === "Venta") {
       return acc + curr.value;

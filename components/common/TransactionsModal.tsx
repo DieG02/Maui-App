@@ -21,8 +21,6 @@ const TransactionModal = ({ data }: Props) => {
     setModalVisible(!isModalVisible);
   };
 
-  console.log("transaction ==>", data);
-
   return (
     <View>
       <Modal
@@ -128,8 +126,7 @@ const TransactionModal = ({ data }: Props) => {
             >
               {data.name}
             </Text>
-
-            <Text style={{ color: "#8a8a8a", marginBottom: 10 }}>
+            <Text style={{ color: "black", marginBottom: 10 }}>
               {data.date}
             </Text>
 
@@ -253,7 +250,7 @@ const TransactionModal = ({ data }: Props) => {
                   style={{
                     fontSize: 15,
                     fontFamily: "Gilroy-Regular",
-                    color: "#D7DCE4",
+                    color: "#bdc0c3",
                   }}
                 >
                   {data.date}
@@ -283,7 +280,7 @@ const TransactionModal = ({ data }: Props) => {
                 style={{
                   fontSize: 15,
                   fontFamily: "Gilroy-Regular",
-                  color: "#D7DCE4",
+                  color: "#bdc0c3",
                 }}
               >
                 {data.paymentMethod && paymentsMethod[data.paymentMethod].es}

@@ -24,9 +24,7 @@ const { mainColor, secondaryColor } = globalStyles;
 export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-
-  console.log("isLoggedIn", isLoggedIn);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   const user = {
     email: email,

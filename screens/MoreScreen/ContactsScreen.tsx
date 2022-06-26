@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-  ScrollView,
-  Alert,
-  Platform,
-} from "react-native";
+import { View, Dimensions, ScrollView, Alert, Platform } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Search from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
-import Bill from "react-native-vector-icons/FontAwesome5";
-import Bank from "react-native-vector-icons/FontAwesome";
-import Costumer from "react-native-vector-icons/FontAwesome";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import ContactCard from "../../components/common/ContactCard";
 import { getConsumers } from "../../services/test";
-import Button from "../../components/common/Button";
 import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
@@ -37,7 +24,9 @@ export const Consumers = () => {
     try {
       const response = await getConsumers();
       setConsumers(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -64,7 +53,9 @@ export const Providers = () => {
     try {
       const response = await getConsumers();
       setConsumers(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -93,7 +84,9 @@ export const Employees = () => {
     try {
       const response = await getConsumers();
       setConsumers(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -188,5 +181,3 @@ export default function Contacts({ navigation }: Props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

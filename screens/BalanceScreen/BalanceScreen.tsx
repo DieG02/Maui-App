@@ -53,6 +53,7 @@ export default function BalanceScreen({ navigation }: Props) {
             marginHorizontal: 20,
             backgroundColor: "white",
           },
+          tabBarPressColor: "white",
           tabBarActiveTintColor: "white",
           tabBarInactiveTintColor: mainColor,
           tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },

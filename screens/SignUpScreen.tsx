@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
 import CommonInput from "../components/common/CommonInput";
@@ -14,10 +13,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signUp } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
-import {
-  signUpInputBodyDto,
-  signUpResponseDto,
-} from "../../Maui-Backend/src/controllers/types";
+import { signUpInputBodyDto } from "../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -27,7 +23,7 @@ const { mainColor, secondaryColor } = globalStyles;
 export default function SignUpScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   console.log("isLoggedIn", isLoggedIn);
 

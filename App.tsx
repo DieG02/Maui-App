@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeTabs from "./navigation/HomeTabs";
 import NewIncome from "./screens/BalanceScreen/NewIncome";
 import NewExpense from "./screens/BalanceScreen/NewExpense";
 import InventoryScreen from "./screens/InventoryScreen/InventoryScreen";
+import CategoryScreen from "./screens/InventoryScreen/CategoryScreen";
 import Budget from "./screens/HomeScreen/Budget";
 import NotificationsScreen from "./screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./screens/MoreScreen/MoreScreen";
@@ -42,6 +43,7 @@ const App = () => {
             <Stack.Screen name="Contacts" component={ContactsScreen} />
             <Stack.Screen name="NewProduct" component={NewProduct} />
             <Stack.Screen name="SearchScreen" component={SearchScreen} />
+            <Stack.Screen name="Category" component={CategoryScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </AuthProvider>

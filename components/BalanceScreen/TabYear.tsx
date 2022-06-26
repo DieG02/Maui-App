@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import { View, ScrollView, Dimensions } from "react-native";
-import Title from "../common/Title";
+import React, { useCallback } from "react";
+import { View, ScrollView } from "react-native";
 import Spacer from "../common/Spacer";
 import { useQuery } from "react-query";
 import { getYearlyTransactions } from "../../services/transactions";
 import TransactionsDropdown from "../common/TransactionsDropdown";
-
-const { width } = Dimensions.get("window");
+import { useFocusEffect } from "@react-navigation/native";
 
 const TabYear = () => {
   const { data, refetch: getTransaction } = useQuery(
     "yearlyTransactions",
     getYearlyTransactions
   );
-
-  useEffect(() => {
-    getTransaction();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getTransaction();
+    }, [])
+  );
   return (
     <ScrollView
       style={{ backgroundColor: "white" }}

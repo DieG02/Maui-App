@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  Text,
   View,
   Dimensions,
   ScrollView,
@@ -22,6 +21,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
 import { createExpenseBodyInputDto } from "../../../Maui-Backend/src/controllers/types";
+import Spacer from "../../components/common/Spacer";
 
 const { width } = Dimensions.get("window");
 
@@ -38,16 +38,10 @@ const paymentMethods = [
 
 const STATE = ["Pagado", "Deuda"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
-const EXPENSE_CATEGORIES = [
-  { name: "Servicios Públicos", value: "SERVICES" },
-  { name: "Compra de Insumos", value: "COMPRA_INSUMOS" },
-  { name: "Gastos Administrativos", value: "GASTOS_ADMINISTRATIVOS" },
-];
 
 const NewExpense = ({ navigation }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
-  const [products, setProducts] = useState([]);
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
@@ -133,14 +127,13 @@ const NewExpense = ({ navigation }: Props) => {
       <View
         style={{
           backgroundColor: "#FD6363",
-          height: 120,
           borderBottomRightRadius: 30,
           borderBottomLeftRadius: 30,
         }}
       >
         <Header
           titleColor="white"
-          name="Nueva Gasto"
+          name="Registrar Gasto"
           color="#FD6363"
           icon={
             <Icon onPress={() => navigation.goBack()}>
@@ -148,46 +141,6 @@ const NewExpense = ({ navigation }: Props) => {
             </Icon>
           }
         />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "bold",
-              color: "white",
-              height: 40,
-            }}
-          >
-            $
-          </Text>
-          <InputForm
-            keyboardType="numeric"
-            placeholder="0,00"
-            value={amount}
-            setValue={setAmount}
-            focus={true}
-            horizontal={5}
-            style={{
-              backgroundColor: "#FD6363",
-              marginTop: 0,
-              height: 55,
-              justifyContent: "center",
-            }}
-            textStyle={{
-              color: "white",
-              fontSize: 30,
-              minWidth: 70,
-              fontWeight: "bold",
-              justifyContent: "center",
-            }}
-          />
-        </View>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -195,8 +148,8 @@ const NewExpense = ({ navigation }: Props) => {
           marginHorizontal: 40,
         }}
       >
-        <View style={{ marginBottom: 10 }}>
-          <View style={{ marginTop: 25 }} />
+        <View>
+          <Spacer height={15} />
           <OptionModal
             title="Categoría"
             options={data?.map((category) => category?.name) ?? []}
@@ -206,6 +159,14 @@ const NewExpense = ({ navigation }: Props) => {
             setSelectedOption={setExpenseCategory}
           />
 
+          <InputForm
+            keyboardType="numeric"
+            placeholder="0,00"
+            value={amount}
+            name="Valor"
+            setValue={setAmount}
+            marginBottom={25}
+          />
           <CommonInput
             placeholder="¿Como quieres llamar a este egreso?"
             name="Descripción"
@@ -277,6 +238,7 @@ const NewExpense = ({ navigation }: Props) => {
             setDate={setDate}
             color="#FD6363"
           />
+          <Spacer height={10} />
         </View>
       </ScrollView>
       <View
