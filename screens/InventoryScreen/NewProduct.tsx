@@ -85,8 +85,6 @@ const NewIncome = ({ navigation }: Props) => {
   );
 
   const handleSubmit = (form: createNewProductBodyInputDto) => {
-    console.log("Form", JSON.stringify(form, null, 2));
-
     mutateAsync(form);
   };
 
