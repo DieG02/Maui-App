@@ -6,7 +6,7 @@ import Spacer from "./Spacer";
 import globalStyles from "../../styles/globalStyles";
 import { getPeriodTransactionsResponseDto } from "../../services/transactions";
 
-const { mainColor, secondaryColor } = globalStyles;
+const { secondaryColor } = globalStyles;
 
 interface Props {
   item: getPeriodTransactionsResponseDto[0];

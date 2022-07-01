@@ -36,14 +36,10 @@ const InventoryScreen = ({ navigation }: Props) => {
   const [modalState, setModalState] = useState(false);
   const [category, setCategory] = useState("");
 
-  // Example to use query
-  // const { data } = useQuery("categories", getAllCategories);
-  // console.log("data ==>", data);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header name="Productos">
+      <Header name="Inventario">
         <Icon onPress={() => navigation.navigate("SearchScreen")}>
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
@@ -53,12 +49,6 @@ const InventoryScreen = ({ navigation }: Props) => {
       </Header>
       <View>
         <View style={styles.container}>
-          {/* <Icon
-            onPress={() => navigation.navigate("Category")}
-            style={{ marginRight: 10 }}
-          >
-            <Plus name="plus" size={30} color="#5196FE" />
-          </Icon> */}
           <Icon style={{ marginRight: 10 }}>
             <InputModal
               isModalVisible={modalState}
@@ -115,15 +105,23 @@ const InventoryScreen = ({ navigation }: Props) => {
           ))}
         </View>
       </ScrollView>
-      <Fab
-        bottom={0}
-        left={0}
-        width={width - 40}
-        marginLeft={20}
-        color={mainColor}
-        text="Crear Producto"
-        onPress={() => navigation.navigate("NewProduct")}
-      />
+      <View
+        style={{
+          backgroundColor: "white",
+          height: 64,
+          width: "100%",
+        }}
+      >
+        <Fab
+          bottom={0}
+          left={0}
+          width={width - 40}
+          marginLeft={20}
+          color={mainColor}
+          text="Crear Item"
+          onPress={() => navigation.navigate("NewProduct")}
+        />
+      </View>
     </SafeAreaView>
   );
 };

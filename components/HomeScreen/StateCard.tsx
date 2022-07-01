@@ -22,7 +22,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
     <View
       style={{
         backgroundColor: color,
-        height: 180,
+        height: 190,
         width: ancho,
         borderRadius: 25,
         // elevation: 0.2,
@@ -51,21 +51,31 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
         >
           {icon}
         </View>
-        <Text
+        <View
           style={{
-            color: secondaryColor,
-            fontSize: 18,
-            marginVertical: 8,
-            fontFamily: "Gilroy-Regular",
+            // backgroundColor: "red",
+            marginBottom: 8,
+            height: 45,
+            justifyContent: "center",
           }}
         >
-          {state}
-        </Text>
+          <Text
+            style={{
+              color: secondaryColor,
+              fontSize: 18,
+              // marginVertical: 8,
+
+              fontFamily: "Gilroy-Regular",
+            }}
+          >
+            {state}
+          </Text>
+        </View>
         <Text
           style={{
             color: secondaryColor,
             fontSize: 20,
-            fontFamily: "Gilroy-Bold",
+            fontFamily: "Gilroy-SemiBold",
           }}
         >
           {value}

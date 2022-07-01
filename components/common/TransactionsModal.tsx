@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
-import Icon1 from "react-native-vector-icons/Ionicons";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import globalStyles from "../../styles/globalStyles";
 import { getTransactionsResponseDto } from "../../../Maui-Backend/src/controllers/types";
@@ -240,7 +239,7 @@ const TransactionModal = ({ data }: Props) => {
                 <Text
                   style={{
                     fontSize: 17,
-                    fontWeight: "500",
+                    fontFamily: "Gilroy-SemiBold",
                     color: secondaryColor,
                   }}
                 >
@@ -265,17 +264,38 @@ const TransactionModal = ({ data }: Props) => {
                 alignItems: "flex-end",
               }}
             >
-              <Text
+              {/* <Text
                 style={{
-                  fontSize: 17,
+                  fontSize: 18,
                   color: secondaryColor,
-                  fontFamily: "Gilroy-Bold",
+                  fontFamily: "Gilroy-SemiBold",
                 }}
               >
                 {data.category?.name === "Venta"
                   ? `$${data?.value}`
                   : `-$${data?.value}`}
-              </Text>
+              </Text> */}
+              {data.category?.name === "Venta" ? (
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "#48bb8b",
+                    fontFamily: "Gilroy-SemiBold",
+                  }}
+                >
+                  ${data?.value}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: secondaryColor,
+                    fontFamily: "Gilroy-SemiBold",
+                  }}
+                >
+                  -${data?.value}
+                </Text>
+              )}
               <Text
                 style={{
                   fontSize: 15,

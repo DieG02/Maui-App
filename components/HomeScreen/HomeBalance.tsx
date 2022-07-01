@@ -81,14 +81,17 @@ const HomeBalance = ({ onPress }: Props) => {
           ) : (
             <Text
               style={{
-                fontSize: 36,
-                color: mainColor,
-                fontFamily: "Gilroy-Bold",
+                fontSize: 32,
+                // color: mainColor,
+                // color: "#3A3A3A",
+                color: "#161B25",
+                fontFamily: "Gilroy-SemiBold",
                 marginTop: 15,
                 marginBottom: 20,
                 marginRight: 15,
               }}
             >
+              $
               {balance?.toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",

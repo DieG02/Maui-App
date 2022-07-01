@@ -3,16 +3,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import BalanceScreen from "../screens/BalanceScreen/BalanceScreen";
 import InventoryScreen from "../screens/InventoryScreen/InventoryScreen";
-import HomeIcon from "react-native-vector-icons/Feather";
+import HomeIcon from "react-native-vector-icons/Entypo";
 import BalanceIcon from "react-native-vector-icons/MaterialIcons";
-import InventoryIcon from "react-native-vector-icons/Entypo";
+import InventoryIcon from "react-native-vector-icons/MaterialIcons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MainBottomTabParamList } from "../screens/types";
-import globalStyles from "../styles/globalStyles";
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
-
-const { secondaryColor } = globalStyles;
 
 const HomeTabs = () => {
   return (
@@ -21,9 +18,8 @@ const HomeTabs = () => {
         initialRouteName="home"
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: "#387CFF",
-          tabBarInactiveTintColor: "#b5b5b5",
-          // tabBarInactiveTintColor: secondaryColor,
+          tabBarActiveTintColor: "#3784F9",
+          tabBarInactiveTintColor: "#7888a8",
           tabBarStyle: {
             height: 60,
             borderTopWidth: 0,
@@ -39,10 +35,9 @@ const HomeTabs = () => {
             tabBarLabelStyle: {
               fontSize: 14,
               marginBottom: 4,
-              fontWeight: "500",
             },
             tabBarIconStyle: { borderRadius: 20 },
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <HomeIcon
                 name="home"
                 color={color}
@@ -56,14 +51,12 @@ const HomeTabs = () => {
           name="balance"
           component={BalanceScreen}
           options={{
-            // tabBarIconStyle: { borderRadius: 20 },
             tabBarLabel: "Balance",
             tabBarLabelStyle: {
               fontSize: 14,
               marginBottom: 4,
-              fontWeight: "500",
             },
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <BalanceIcon
                 name="account-balance-wallet"
                 color={color}
@@ -78,15 +71,14 @@ const HomeTabs = () => {
           component={InventoryScreen}
           options={{
             tabBarIconStyle: { borderRadius: 20 },
-            tabBarLabel: "More",
+            tabBarLabel: "Inventario",
             tabBarLabelStyle: {
               fontSize: 14,
               marginBottom: 4,
-              fontWeight: "500",
             },
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color }) => (
               <InventoryIcon
-                name="menu"
+                name="inventory"
                 color={color}
                 size={30}
                 style={{ marginTop: 10 }}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  Text,
   View,
   Dimensions,
   ScrollView,
@@ -42,7 +41,7 @@ const TODAY = moment.parseZone().format("DD-MM-YYYY");
 const NewIncome = ({ navigation }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState("");
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);

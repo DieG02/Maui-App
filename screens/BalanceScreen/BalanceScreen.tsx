@@ -73,24 +73,32 @@ export default function BalanceScreen({ navigation }: Props) {
         <Tab.Screen name="Mes" component={TabMonth} />
         <Tab.Screen name="Año" component={TabYear} />
       </Tab.Navigator>
-      <Fab
-        right={0}
-        bottom={0}
-        width={(width - 60) / 2}
-        color="#FD6363"
-        text="Egreso"
-        marginRight={20}
-        onPress={() => navigation.navigate("NewExpense")}
-      />
-      <Fab
-        left={0}
-        bottom={0}
-        width={(width - 60) / 2}
-        color="#33E69B"
-        text="Ingreso"
-        marginLeft={20}
-        onPress={() => navigation.navigate("NewIncome")}
-      />
+      <View
+        style={{
+          backgroundColor: "white",
+          height: 64,
+          width: "100%",
+        }}
+      >
+        <Fab
+          right={0}
+          bottom={0}
+          width={(width - 60) / 2}
+          color="#FD6363"
+          text="Egreso"
+          marginRight={20}
+          onPress={() => navigation.navigate("NewExpense")}
+        />
+        <Fab
+          left={0}
+          bottom={0}
+          width={(width - 60) / 2}
+          color="#33E69B"
+          text="Ingreso"
+          marginLeft={20}
+          onPress={() => navigation.navigate("NewIncome")}
+        />
+      </View>
     </NavigationContainer>
   );
 }

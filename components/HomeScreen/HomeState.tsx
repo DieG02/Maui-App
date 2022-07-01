@@ -34,29 +34,32 @@ const HomeState = () => {
               state="Ingresos"
               value={"$" + data?.incomes}
               left={30}
-              icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
+              // icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
+              icon={<Top name="arrow-up-circle" size={60} color="#33E69B" />}
             />
             <StateCard
               color="#fafafa"
               state="Egresos"
               value={"$" + data?.expenses}
               left={20}
-              icon={<Down name="arrow-down-circle" size={60} color="#A8CAFE" />}
+              icon={<Down name="arrow-down-circle" size={60} color="#FD6363" />}
             />
             <StateCard
               color="#fafafa"
-              state="Por Cobrar"
+              state="Deudas por Cobrar"
               value={"$" + data?.toCollect}
               left={20}
-              icon={<Top name="arrow-up-circle" size={60} color="#33E69B" />}
+              // icon={<Top name="arrow-up-circle" size={60} color="#33E69B" />}
+              icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
             />
             <StateCard
               color="#fafafa"
-              state="Por pagar"
+              state="Deudas por pagar"
               value={"$" + data?.debt}
               left={20}
               right={30}
-              icon={<Down name="arrow-down-circle" size={60} color="#FD6363" />}
+              // icon={<Down name="arrow-down-circle" size={60} color="#FD6363" />}
+              icon={<Down name="arrow-down-circle" size={60} color="#f89f38" />}
             />
           </View>
         </View>

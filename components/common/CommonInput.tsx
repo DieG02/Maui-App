@@ -56,7 +56,6 @@ const CommonInput = ({
             borderRadius: 12,
             borderColor: "#EAEAEA",
             borderWidth: 1,
-            // justifyContent: "center",
             justifyContent: "space-between",
             display: "flex",
             flexDirection: "row",

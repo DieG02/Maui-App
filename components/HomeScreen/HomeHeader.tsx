@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, Image } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+import Bell from "react-native-vector-icons/FontAwesome";
+import User from "react-native-vector-icons/Ionicons";
 import logo from "../../assets/logo.png";
 import globalStyles from "../../styles/globalStyles";
 
@@ -36,7 +37,7 @@ const HomeHeader = ({ onPressNotifications, onPressUser }: Props) => {
         }}
       >
         {/* <Icon name="user" size={30} color={secondaryColor} /> */}
-        <Icon name="user" size={30} color={mainColor} />
+        <User name="person" size={30} color={mainColor} />
       </TouchableOpacity>
       <Image source={logo} style={{ width: 100, height: 30 }} />
       <TouchableOpacity
@@ -52,7 +53,7 @@ const HomeHeader = ({ onPressNotifications, onPressUser }: Props) => {
         }}
       >
         {/* <Icon name="bell" size={30} color={secondaryColor} /> */}
-        <Icon name="bell" size={30} color={mainColor} />
+        <Bell name="bell" size={30} color={mainColor} />
       </TouchableOpacity>
     </View>
   );

@@ -113,16 +113,18 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
           <TouchableOpacity
             onPress={showDatePicker}
             style={{
+              display: "flex",
+              flexDirection: "row",
               borderColor: color,
               borderWidth: 1.8,
               borderRadius: 20,
-              height: 40,
-              width: 40,
+              // height: 40,
+              // width: 40,
               alignItems: "center",
-              justifyContent: "center",
             }}
           >
-            <Icon name="plus" size={30} color={color} />
+            <Icon name="calendar" size={30} color={color} />
+            <Text>Eligir fecha</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

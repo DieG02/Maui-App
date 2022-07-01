@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import globalStyles from "../../styles/globalStyles";
+// import globalStyles from "../../styles/globalStyles";
 
-const { secondaryColor } = globalStyles;
+// const { secondaryColor } = globalStyles;
 
 interface Props {
   title: string;
@@ -27,9 +27,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   text: {
-    fontSize: 20,
-    color: secondaryColor,
-    fontFamily: "Gilroy-Bold",
+    fontSize: 18,
+    // color: secondaryColor,
+    color: "#7888a8",
+    fontFamily: "Gilroy-SemiBold",
   },
 });
 

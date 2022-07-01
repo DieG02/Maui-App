@@ -52,19 +52,24 @@ const HomeScreen = ({ navigation }: Props) => {
         <HomeBalance onPress={() => navigation.navigate("Budget")} />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
-        <Spacer height={20} />
+        <Spacer height={10} />
         <HomeState />
         <Spacer height={20} />
-        <Title title="Actividad">
+        <Title title="Balance">
           <TouchableOpacity onPress={() => navigation.navigate("balance")}>
             <Text
-              style={{ color: mainColor, fontWeight: "bold", fontSize: 15 }}
+              style={{
+                color: mainColor,
+                fontFamily: "Gilroy-Bold",
+                fontSize: 16,
+                textTransform: "uppercase",
+              }}
             >
               Ver más
             </Text>
           </TouchableOpacity>
         </Title>
-        <Spacer height={20} />
+        <Spacer height={10} />
         <TransactionsContainer />
       </ScrollView>
     </SafeAreaView>
