@@ -12,8 +12,6 @@ const TabDay = () => {
     getDailyTransactions
   );
 
-  console.log("daily ==>", JSON.stringify(data, null, 2));
-
   useFocusEffect(
     useCallback(() => {
       getTransaction();
