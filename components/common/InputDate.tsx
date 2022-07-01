@@ -93,7 +93,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: date === d.value ? "white" : color,
                 fontFamily: "Gilroy-Bold",
               }}
@@ -118,13 +118,21 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
               borderColor: color,
               borderWidth: 1.8,
               borderRadius: 20,
-              // height: 40,
-              // width: 40,
+              paddingHorizontal: 10,
               alignItems: "center",
             }}
           >
-            <Icon name="calendar" size={30} color={color} />
-            <Text>Eligir fecha</Text>
+            <Icon name="calendar" size={25} color={color} />
+            <Text
+              style={{
+                fontSize: 18,
+                color: color,
+                marginLeft: 10,
+                fontFamily: "Gilroy-Bold",
+              }}
+            >
+              Eligir fecha
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

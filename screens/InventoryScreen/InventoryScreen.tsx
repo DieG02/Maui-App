@@ -97,11 +97,7 @@ const InventoryScreen = ({ navigation }: Props) => {
           }}
         >
           {products.map((item) => (
-            <ProductCard
-              onPress={() => navigation.navigate("ProductDetail")}
-              key={item.id}
-              data={item}
-            />
+            <ProductCard onPress={() => {}} key={item.id} data={item} />
           ))}
         </View>
       </ScrollView>

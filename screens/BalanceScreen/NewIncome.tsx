@@ -70,8 +70,6 @@ const NewIncome = ({ navigation }: Props) => {
         : "CASH";
     };
 
-  console.log("date", date);
-
   const form: createIncomeBodyInputDto = {
     value: +amount,
     name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
