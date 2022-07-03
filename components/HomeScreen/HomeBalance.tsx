@@ -20,7 +20,7 @@ const HomeBalance = () => {
         marginHorizontal: 30,
         backgroundColor: "#F9FAFB",
         width: width - 60,
-        borderRadius: 20,
+        borderRadius: 15,
         height: 100,
         justifyContent: "center",
       }}

@@ -23,7 +23,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
       style={{
         backgroundColor: color,
         width: ancho,
-        borderRadius: 25,
+        borderRadius: 15,
         marginLeft: left,
         marginRight: right,
       }}
@@ -68,7 +68,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
           style={{
             color: secondaryColor,
             fontSize: 20,
-            marginBottom: 5,
+            marginBottom: 8,
             fontFamily: "Gilroy-SemiBold",
           }}
         >
