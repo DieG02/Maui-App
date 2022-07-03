@@ -13,7 +13,7 @@ import Right from "react-native-vector-icons/Entypo";
 import Profile from "react-native-vector-icons/FontAwesome";
 import Business from "react-native-vector-icons/FontAwesome";
 import Debts from "react-native-vector-icons/FontAwesome5";
-import Costumer from "react-native-vector-icons/MaterialIcons";
+import Costumer from "react-native-vector-icons/FontAwesome";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -116,7 +116,7 @@ const More = ({ navigation }: Props) => {
                   color: "white",
                 }}
               >
-                JB
+                BB
               </Text>
             </View>
             <View>
@@ -128,7 +128,7 @@ const More = ({ navigation }: Props) => {
                   fontFamily: "Gilroy-Bold",
                 }}
               >
-                Juan Bautista
+                Billy Bautista
               </Text>
               <TouchableOpacity>
                 <Text
@@ -159,18 +159,34 @@ const More = ({ navigation }: Props) => {
             }
             icon={<Debts name="calculator" color={secondaryColor} size={20} />}
           />
+
           <Spacer height={15} />
           <OptionCard
-            title="Contactos"
-            onPress={() => navigation.navigate("Contacts")}
+            title="Clientes"
+            onPress={() => navigation.navigate("Clients")}
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={
-              <Costumer name="contact-page" color={secondaryColor} size={25} />
-            }
+            icon={<Costumer name="user" color={secondaryColor} size={25} />}
           />
-
+          <Spacer height={15} />
+          <OptionCard
+            title="Provedores"
+            onPress={() => navigation.navigate("Providers")}
+            arrow={
+              <Right name="chevron-small-right" color={mainColor} size={35} />
+            }
+            icon={<Costumer name="truck" color={secondaryColor} size={25} />}
+          />
+          <Spacer height={15} />
+          <OptionCard
+            title="Empleados"
+            onPress={() => navigation.navigate("Employees")}
+            arrow={
+              <Right name="chevron-small-right" color={mainColor} size={35} />
+            }
+            icon={<Costumer name="group" color={secondaryColor} size={25} />}
+          />
           <Spacer height={15} />
           <OptionCard
             title="Soporte"
