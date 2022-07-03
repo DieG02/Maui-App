@@ -5,15 +5,11 @@ import { useQuery } from "react-query";
 import { getBalance } from "../../services/balance";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor, secondaryColor } = globalStyles;
+const { secondaryColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
-interface Props {
-  onPress: () => void;
-}
-
-const HomeBalance = ({ onPress }: Props) => {
+const HomeBalance = () => {
   const { data: balance } = useQuery("balance", getBalance);
 
   const [hide, setHide] = useState(false);
@@ -25,13 +21,13 @@ const HomeBalance = ({ onPress }: Props) => {
         backgroundColor: "#F9FAFB",
         width: width - 60,
         borderRadius: 20,
-        height: 180,
+        height: 100,
+        justifyContent: "center",
       }}
     >
       <View
         style={{
           marginHorizontal: 20,
-          marginVertical: 20,
         }}
       >
         <View
@@ -39,6 +35,7 @@ const HomeBalance = ({ onPress }: Props) => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Text
@@ -48,13 +45,13 @@ const HomeBalance = ({ onPress }: Props) => {
               fontFamily: "Gilroy-Regular",
             }}
           >
-            Saldo
+            Saldo General
           </Text>
           <TouchableOpacity onPress={() => setHide(!hide)}>
             {hide ? (
-              <Icon name="eye-off" size={30} color="#A8CAFE" />
+              <Icon name="eye-off" size={30} color="#747070" />
             ) : (
-              <Icon name="eye" size={30} color="#A8CAFE" />
+              <Icon name="eye" size={30} color="#747070" />
             )}
           </TouchableOpacity>
         </View>
@@ -68,12 +65,9 @@ const HomeBalance = ({ onPress }: Props) => {
           {hide ? (
             <Text
               style={{
-                fontSize: 36,
-                color: mainColor,
-                fontFamily: "Gilroy-Bold",
-                marginTop: 15,
-                marginBottom: 20,
-                marginRight: 15,
+                fontSize: 30,
+                color: "#161B25",
+                fontFamily: "Gilroy-SemiBold",
               }}
             >
               $****
@@ -81,14 +75,9 @@ const HomeBalance = ({ onPress }: Props) => {
           ) : (
             <Text
               style={{
-                fontSize: 32,
-                // color: mainColor,
-                // color: "#3A3A3A",
+                fontSize: 30,
                 color: "#161B25",
                 fontFamily: "Gilroy-SemiBold",
-                marginTop: 15,
-                marginBottom: 20,
-                marginRight: 15,
               }}
             >
               $
@@ -99,25 +88,6 @@ const HomeBalance = ({ onPress }: Props) => {
             </Text>
           )}
         </View>
-        <TouchableOpacity
-          onPress={onPress}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              color: secondaryColor,
-              fontFamily: "Gilroy-Regular",
-            }}
-          >
-            Ver mis presupuestos
-          </Text>
-          <Icon name="chevron-right" size={25} color={mainColor} />
-        </TouchableOpacity>
       </View>
     </View>
   );

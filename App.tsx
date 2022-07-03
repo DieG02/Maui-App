@@ -10,6 +10,7 @@ import Budget from "./screens/HomeScreen/Budget";
 import NotificationsScreen from "./screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./screens/MoreScreen/MoreScreen";
 import ContactsScreen from "./screens/MoreScreen/ContactsScreen";
+import ClientsScreen from "./screens/MoreScreen/Clients";
 import NewProduct from "./screens/InventoryScreen/NewProduct";
 import SearchScreen from "./screens/SearchScreen";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -17,6 +18,8 @@ import LoginScreen from "./screens/LogInScreen";
 import SplashScreen from "./screens/SplashScreen";
 import AuthProvider from "./context/AuthContext";
 import SignUpScreen from "./screens/SignUpScreen";
+import ProvidersScreen from "./screens/MoreScreen/Providers";
+import EmployeesScreen from "./screens/MoreScreen/Employees";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -40,6 +43,9 @@ const App = () => {
               component={NotificationsScreen}
             />
             <Stack.Screen name="More" component={MoreScreen} />
+            <Stack.Screen name="Clients" component={ClientsScreen} />
+            <Stack.Screen name="Providers" component={ProvidersScreen} />
+            <Stack.Screen name="Employees" component={EmployeesScreen} />
             <Stack.Screen name="Contacts" component={ContactsScreen} />
             <Stack.Screen name="NewProduct" component={NewProduct} />
             <Stack.Screen name="SearchScreen" component={SearchScreen} />
