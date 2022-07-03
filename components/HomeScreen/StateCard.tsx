@@ -22,10 +22,8 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
     <View
       style={{
         backgroundColor: color,
-        height: 190,
         width: ancho,
         borderRadius: 25,
-        // elevation: 0.2,
         marginLeft: left,
         marginRight: right,
       }}
@@ -45,16 +43,13 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
           style={{
             width: 60,
             height: 60,
-            marginTop: 10,
-            marginBottom: 10,
           }}
         >
           {icon}
         </View>
         <View
           style={{
-            // backgroundColor: "red",
-            marginBottom: 8,
+            marginVertical: 5,
             height: 45,
             justifyContent: "center",
           }}
@@ -63,8 +58,6 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
             style={{
               color: secondaryColor,
               fontSize: 18,
-              // marginVertical: 8,
-
               fontFamily: "Gilroy-Regular",
             }}
           >
@@ -75,6 +68,7 @@ const StateCard = ({ color, state, value, icon, left, right }: Props) => {
           style={{
             color: secondaryColor,
             fontSize: 20,
+            marginBottom: 5,
             fontFamily: "Gilroy-SemiBold",
           }}
         >
