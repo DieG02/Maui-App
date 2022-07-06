@@ -3,8 +3,8 @@ import {
   signInInputBodyDto,
   signInResponseDto,
   signUpInputBodyDto,
-  signUpResponseDto
-} from "../../Maui-Backend/src/controllers/types";
+  signUpResponseDto,
+} from "../../../Maui-Backend/src/controllers/types";
 
 export const signIn = async (data: signInInputBodyDto) =>
   await MauiApi.post<signInResponseDto>("/signin", data).then(

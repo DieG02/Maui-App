@@ -7,29 +7,29 @@ import {
   searchProductsByNameQueryParamsDto,
   searchProductsByNameResponseDto,
   getProductsByCategoryResponseDto,
-  GetProductsByCategoryQueryParamsDto
-} from "../../Maui-Backend/src/controllers/types";
-import { getUserAuthenticationHeader } from "../utils";
+  GetProductsByCategoryQueryParamsDto,
+} from "../../../Maui-Backend/src/controllers/types";
+import { getUserAuthenticationHeader } from "../../utils";
 
 export const createNewProduct = async (data: createNewProductBodyInputDto) =>
   MauiApi.post<createNewProductResponseDto>("/createNewProduct", data, {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
-    }
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);
 
 export const getAllProducts = async () =>
   MauiApi.get<getAllProductsResponseDto>("/getAllProducts", {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
-    }
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);
 
 export const getProductById = async (productId: string) =>
   MauiApi.get<getProductByIdResponseDto>("/getProductById/" + productId, {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
-    }
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);
 
 export const searchProductsByName = async (
@@ -37,9 +37,9 @@ export const searchProductsByName = async (
 ) =>
   MauiApi.get<searchProductsByNameResponseDto>("/searchProductsByName/", {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
+      Authorization: await getUserAuthenticationHeader(),
     },
-    params: queryParams
+    params: queryParams,
   }).then((res) => res.data);
 
 export const getProductsByCategory = async (
@@ -47,7 +47,7 @@ export const getProductsByCategory = async (
 ) =>
   MauiApi.get<getProductsByCategoryResponseDto>("/getProductsByCategory/", {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
+      Authorization: await getUserAuthenticationHeader(),
     },
-    params: queryParams
+    params: queryParams,
   }).then((res) => res.data);

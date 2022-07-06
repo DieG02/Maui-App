@@ -4,7 +4,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import globalStyles from "../../styles/globalStyles";
-import { getTransactionsResponseDto } from "../../../Maui-Backend/src/controllers/types";
+import { getTransactionsResponseDto } from "../../../../Maui-Backend/src/controllers/types";
 import { paymentsMethod } from "../../utils/translate";
 
 const { mainColor, secondaryColor } = globalStyles;

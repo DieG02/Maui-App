@@ -2,8 +2,8 @@ import MauiApi from "../clientProvider";
 import {
   getTransactionsQueryParamsDto,
   getTransactionsResponseDto,
-} from "../../Maui-Backend/src/controllers/types";
-import { getUserAuthenticationHeader } from "../utils";
+} from "../../../Maui-Backend/src/controllers/types";
+import { getUserAuthenticationHeader } from "../../utils";
 
 export const getTransactions = async (
   queryParams?: getTransactionsQueryParamsDto
