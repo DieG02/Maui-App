@@ -13,7 +13,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signUp } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
-import { signUpInputBodyDto } from "../../Maui-Backend/src/controllers/types";
+import { signUpInputBodyDto } from "../../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;

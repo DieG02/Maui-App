@@ -14,7 +14,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
-import { signInInputBodyDto } from "../../Maui-Backend/src/controllers/types";
+import { signInInputBodyDto } from "../../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;

@@ -3,15 +3,15 @@ import {
   createExpenseBodyInputDto,
   createExpenseResponseDto,
   editExpenseBodyInputDto,
-  editExpenseResponseDto
-} from "../../Maui-Backend/src/controllers/types";
-import { getUserAuthenticationHeader } from "../utils";
+  editExpenseResponseDto,
+} from "../../../Maui-Backend/src/controllers/types";
+import { getUserAuthenticationHeader } from "../../utils";
 
 export const createNewExpense = async (data: createExpenseBodyInputDto) =>
   await MauiApi.post<createExpenseResponseDto>("/createNewExpense", data, {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
-    }
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);
 
 export const editExpense = async (
@@ -23,14 +23,14 @@ export const editExpense = async (
     data,
     {
       headers: {
-        Authorization: await getUserAuthenticationHeader()
-      }
+        Authorization: await getUserAuthenticationHeader(),
+      },
     }
   ).then((res) => res.data);
 
 export const deleteExpense = async (expenseId: string) =>
   await MauiApi.delete("/deleteExpense/" + expenseId, {
     headers: {
-      Authorization: await getUserAuthenticationHeader()
-    }
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);

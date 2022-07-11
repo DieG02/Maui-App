@@ -5,7 +5,7 @@ import {
   createExpenseCategoryResponseDto,
   editExpenseCategoryBodyInputDto,
   editExpenseCategoryResponseDto,
-} from "../../Maui-Backend/src/controllers/types";
+} from "../../../Maui-Backend/src/controllers/types";
 
 export const getExpenseCategories = async () =>
   await MauiApi.get<getExpenseCategoriesResponseDto>(

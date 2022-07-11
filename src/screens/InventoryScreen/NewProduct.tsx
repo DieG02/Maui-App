@@ -21,7 +21,7 @@ import { createNewProduct } from "../../services/products";
 import {
   createNewProductBodyInputDto,
   // createServiceBodyInputDto,
-} from "../../../Maui-Backend/src/controllers/types";
+} from "../../../../Maui-Backend/src/controllers/types";
 import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");

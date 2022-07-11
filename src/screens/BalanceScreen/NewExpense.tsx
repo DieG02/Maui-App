@@ -20,7 +20,7 @@ import "moment-timezone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
-import { createExpenseBodyInputDto } from "../../../Maui-Backend/src/controllers/types";
+import { createExpenseBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
 
 const { width } = Dimensions.get("window");
