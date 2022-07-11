@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   View,
   ScrollView,
@@ -16,13 +16,17 @@ import Debts from "react-native-vector-icons/FontAwesome5";
 import Costumer from "react-native-vector-icons/FontAwesome";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
-import Icon from "react-native-vector-icons/Ionicons";
+import Budget from "react-native-vector-icons/MaterialCommunityIcons";
+// import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../../context/AuthContext";
+import Header from "../../components/common/Header";
+import Icon from "../../components/common/Icon";
+import Arrow from "react-native-vector-icons/Ionicons";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { AuthContext } from "../../context/AuthContext";
 
-const { mainColor, secondaryColor } = globalStyles;
+const { mainColor } = globalStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -31,63 +35,30 @@ interface Props {
 }
 
 const More = ({ navigation }: Props) => {
-  const { setIsLoggedIn } = useContext(AuthContext);
+  // const { setIsLoggedIn } = useContext(AuthContext);
 
-  const handleLogout = async () => {
-    await AsyncStorage.clear();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
-    setIsLoggedIn(false);
-  };
+  // const handleLogout = async () => {
+  //   await AsyncStorage.clear();
+  //   navigation.reset({
+  //     index: 0,
+  //     routes: [{ name: "Login" }],
+  //   });
+  //   setIsLoggedIn(false);
+  // };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            marginHorizontal: 20,
-            height: 60,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              width: 50,
-              height: 50,
-              alignItems: "flex-start",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="close" size={40} color={mainColor} />
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: 20,
-              color: secondaryColor,
-              fontFamily: "Gilroy-Regular",
-            }}
-          >
-            Mi Cuenta
-          </Text>
-          <TouchableOpacity
-            onPress={() => handleLogout()}
-            style={{
-              width: 50,
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Profile name="power-off" size={25} color="#1A1A1A" />
-          </TouchableOpacity>
-        </View>
+        <Header
+          name="Perfil"
+          color="white"
+          icon={
+            <Icon onPress={() => navigation.goBack()}>
+              <Arrow name="arrow-back" size={30} color={mainColor} />
+            </Icon>
+          }
+        />
         <Spacer height={10} />
         <View style={{ marginHorizontal: 20 }}>
           <View
@@ -103,7 +74,7 @@ const More = ({ navigation }: Props) => {
                 width: 60,
                 height: 60,
                 marginRight: 20,
-                backgroundColor: mainColor,
+                backgroundColor: "#7888a8",
                 borderRadius: 40,
                 alignItems: "center",
                 justifyContent: "center",
@@ -125,7 +96,7 @@ const More = ({ navigation }: Props) => {
                   fontSize: 20,
                   color: "#131313",
 
-                  fontFamily: "Gilroy-Bold",
+                  fontFamily: "Gilroy-Medium",
                 }}
               >
                 Billy Bautista
@@ -148,60 +119,65 @@ const More = ({ navigation }: Props) => {
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Business name="building" color={secondaryColor} size={20} />}
+            icon={<Business name="building" color={mainColor} size={20} />}
           />
-
-          <Spacer height={15} />
+          <Spacer height={5} />
+          <OptionCard
+            title="Presupuestos"
+            onPress={() => navigation.navigate("Budget")}
+            arrow={
+              <Right name="chevron-small-right" color={mainColor} size={35} />
+            }
+            icon={<Budget name="sale" color={mainColor} size={25} />}
+          />
+          <Spacer height={5} />
           <OptionCard
             title="Deudas"
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Debts name="calculator" color={secondaryColor} size={20} />}
+            icon={<Debts name="calculator" color={mainColor} size={20} />}
           />
-
-          <Spacer height={15} />
+          <Spacer height={5} />
           <OptionCard
             title="Clientes"
             onPress={() => navigation.navigate("Clients")}
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Costumer name="user" color={secondaryColor} size={25} />}
+            icon={<Costumer name="user" color={mainColor} size={25} />}
           />
-          <Spacer height={15} />
+          <Spacer height={5} />
           <OptionCard
             title="Provedores"
             onPress={() => navigation.navigate("Providers")}
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Costumer name="truck" color={secondaryColor} size={25} />}
+            icon={<Costumer name="truck" color={mainColor} size={25} />}
           />
-          <Spacer height={15} />
+          <Spacer height={5} />
           <OptionCard
             title="Empleados"
             onPress={() => navigation.navigate("Employees")}
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={<Costumer name="group" color={secondaryColor} size={25} />}
+            icon={<Costumer name="group" color={mainColor} size={25} />}
           />
-          <Spacer height={15} />
+          <Spacer height={5} />
           <OptionCard
             title="Soporte"
             arrow={<Profile name="whatsapp" color="#00bb2d" size={22} />}
-            icon={<Message name="message" color={secondaryColor} size={20} />}
+            icon={<Message name="message" color={mainColor} size={20} />}
           />
-          <Spacer height={15} />
+          <Spacer height={5} />
           <OptionCard
             title="Preguntas Frecuentes"
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
-            icon={
-              <Faq name="question-circle" color={secondaryColor} size={20} />
-            }
+            icon={<Faq name="question-circle" color={mainColor} size={20} />}
           />
           <Spacer height={30} />
         </View>
