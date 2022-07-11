@@ -37,6 +37,8 @@
 		59F537B828091CB200C11501 /* Gilroy-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59F537AA28091AC200C11501 /* Gilroy-Thin.ttf */; };
 		59F537B928091CB600C11501 /* Gilroy-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59F537B128091AC300C11501 /* Gilroy-SemiBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A08176D166F3B51D626E6576 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38DFDFF8079189A51A12B05 /* ExpoModulesProvider.swift */; };
+		B90B1FCEF8A5B24D7B92AF2A /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21BE401B78B8587E31A470 /* ExpoModulesProvider.swift */; };
 		F7F736F785E319F55A870C7C /* libPods-Maui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B50E880A55F404881E11F38 /* libPods-Maui.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +64,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Maui/main.m; sourceTree = "<group>"; };
 		186A23659E3A8CBE7EE0DB71 /* Pods-Maui.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui.debug.xcconfig"; path = "Target Support Files/Pods-Maui/Pods-Maui.debug.xcconfig"; sourceTree = "<group>"; };
 		2B50E880A55F404881E11F38 /* libPods-Maui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D21BE401B78B8587E31A470 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Maui/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		59F5378A2808BA9300C11501 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		59F5378B2808BA9300C11501 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		59F5378C2808BA9300C11501 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 		9D32C34586644862C8440407 /* libPods-Maui-MauiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Maui-MauiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6AD5D4E0614944AD7D89EFA /* Pods-Maui-MauiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.debug.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C22760A1EE241D3C7787985F /* Pods-Maui-MauiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maui-MauiTests.release.xcconfig"; path = "Target Support Files/Pods-Maui-MauiTests/Pods-Maui-MauiTests.release.xcconfig"; sourceTree = "<group>"; };
+		C38DFDFF8079189A51A12B05 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Maui-MauiTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -155,6 +159,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2FF0B34F16C45BF9F7BBFC5A /* MauiTests */ = {
+			isa = PBXGroup;
+			children = (
+				C38DFDFF8079189A51A12B05 /* ExpoModulesProvider.swift */,
+			);
+			name = MauiTests;
+			sourceTree = "<group>";
+		};
 		59F537892808B96A00C11501 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				7672057DE14B4A90AC5455BF /* Resources */,
+				B26D1EAAF7988907EDFE64EC /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -223,6 +236,23 @@
 				00E356EE1AD99517003FC87E /* MauiTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AA05AAD246EACD750A2A74E0 /* Maui */ = {
+			isa = PBXGroup;
+			children = (
+				3D21BE401B78B8587E31A470 /* ExpoModulesProvider.swift */,
+			);
+			name = Maui;
+			sourceTree = "<group>";
+		};
+		B26D1EAAF7988907EDFE64EC /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				AA05AAD246EACD750A2A74E0 /* Maui */,
+				2FF0B34F16C45BF9F7BBFC5A /* MauiTests */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -515,6 +545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* MauiTests.m in Sources */,
+				A08176D166F3B51D626E6576 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +555,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				B90B1FCEF8A5B24D7B92AF2A /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,7 +580,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = MauiTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,6 +591,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Maui.app/Maui";
@@ -572,7 +605,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MauiTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -583,6 +616,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Maui.app/Maui";
@@ -607,6 +641,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Maui;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -632,6 +667,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Maui;
 				SWIFT_VERSION = 5.0;
@@ -688,7 +724,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -752,7 +788,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

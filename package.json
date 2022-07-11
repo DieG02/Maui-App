@@ -1,4 +1,5 @@
 {
+  "main": "node_modules/expo/AppEntry.js",
   "name": "maui",
   "version": "0.0.1",
   "private": true,
@@ -20,6 +21,8 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.26.1",
+    "expo": "^45.0.0",
+    "expo-constants": "~13.1.1",
     "git-cz": "^4.8.0",
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
