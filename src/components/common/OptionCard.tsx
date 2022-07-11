@@ -19,7 +19,6 @@ function OptionCard({ title, icon, arrow, onPress }: Props) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          // backgroundColor: 'red',
           alignItems: "center",
         }}
       >
@@ -28,7 +27,6 @@ function OptionCard({ title, icon, arrow, onPress }: Props) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            // backgroundColor: 'red',
             alignItems: "center",
           }}
         >
@@ -36,9 +34,9 @@ function OptionCard({ title, icon, arrow, onPress }: Props) {
             style={{
               width: 50,
               height: 50,
-              borderColor: "#F0F1F5",
-              borderWidth: 1.5,
-              borderRadius: 15,
+              // borderColor: "#F0F1F5",
+              // borderWidth: 1.5,
+              // borderRadius: 15,
               marginRight: 20,
               alignItems: "center",
               justifyContent: "center",
