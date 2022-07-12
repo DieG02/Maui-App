@@ -6,11 +6,10 @@ import {
   Image
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import CommonInput from "../components/common/CommonInput";
 import globalStyles from "../styles/globalStyles";
 import logo from "../assets/logo.png";
-import { AuthContext } from "../context/AuthContext";
 import { trpc } from "../utils/trpc";
 
 interface Props {
@@ -21,9 +20,6 @@ const { mainColor, secondaryColor } = globalStyles;
 export default function SignUpScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn } = useContext(AuthContext);
-
-  console.log("isLoggedIn", isLoggedIn);
 
   const user = {
     email: email,

@@ -17,7 +17,6 @@ import Costumer from "react-native-vector-icons/FontAwesome";
 import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
 import Budget from "react-native-vector-icons/MaterialCommunityIcons";
-// import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import Header from "../../components/common/Header";
