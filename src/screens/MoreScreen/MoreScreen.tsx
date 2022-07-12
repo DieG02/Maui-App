@@ -5,7 +5,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
@@ -23,6 +23,7 @@ import globalStyles from "../../styles/globalStyles";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { AuthContext } from "../../context/AuthContext";
 
@@ -66,7 +67,7 @@ const More = ({ navigation }: Props) => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              marginBottom: 20,
+              marginBottom: 20
             }}
           >
             <View
@@ -77,14 +78,14 @@ const More = ({ navigation }: Props) => {
                 backgroundColor: "#7888a8",
                 borderRadius: 40,
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "center"
               }}
             >
               <Text
                 style={{
                   fontSize: 20,
                   fontWeight: "bold",
-                  color: "white",
+                  color: "white"
                 }}
               >
                 BB
@@ -96,7 +97,7 @@ const More = ({ navigation }: Props) => {
                   fontSize: 20,
                   color: "#131313",
 
-                  fontFamily: "Gilroy-Medium",
+                  fontFamily: "Gilroy-Medium"
                 }}
               >
                 Billy Bautista
@@ -106,7 +107,7 @@ const More = ({ navigation }: Props) => {
                   style={{
                     color: mainColor,
                     fontFamily: "Gilroy-Regular",
-                    fontSize: 15,
+                    fontSize: 15
                   }}
                 >
                   Ver mi perfil
@@ -116,6 +117,20 @@ const More = ({ navigation }: Props) => {
           </View>
           <OptionCard
             title="Negocio"
+            arrow={
+              <Right name="chevron-small-right" color={mainColor} size={35} />
+            }
+            icon={<Business name="building" color={mainColor} size={20} />}
+          />
+          <OptionCard
+            onPress={async () => {
+              await AsyncStorage.clear();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Login" }]
+              });
+            }}
+            title="Log out"
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
