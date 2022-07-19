@@ -8,7 +8,7 @@ interface Props {
   onPress?: () => void;
   title: string;
   icon: React.ReactNode;
-  arrow: React.ReactNode;
+  arrow?: React.ReactNode;
 }
 
 function OptionCard({ title, icon, arrow, onPress }: Props) {
@@ -34,9 +34,6 @@ function OptionCard({ title, icon, arrow, onPress }: Props) {
             style={{
               width: 50,
               height: 50,
-              // borderColor: "#F0F1F5",
-              // borderWidth: 1.5,
-              // borderRadius: 15,
               marginRight: 20,
               alignItems: "center",
               justifyContent: "center",

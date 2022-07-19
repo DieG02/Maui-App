@@ -15,7 +15,7 @@ export const getBalance = async () =>
   }).then((res) => res.data);
 
 export const getMovements = async (queryParams: GetMovementsQueryParamsDto) =>
-  MauiApi.get<getMovementsResponseDto>("/signin", {
+  MauiApi.get<getMovementsResponseDto>("/getMyMovements", {
     headers: {
       Authorization: await getUserAuthenticationHeader(),
     },
