@@ -24,6 +24,7 @@ import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";
+import { useQueryClient } from "react-query";
 
 const { mainColor } = globalStyles;
 
@@ -36,12 +37,15 @@ interface Props {
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
 
+  const queryClient = useQueryClient();
+
   const handleLogout = async () => {
     await AsyncStorage.clear();
     navigation.reset({
       index: 0,
       routes: [{ name: "Login" }],
     });
+    queryClient.clear();
     setIsLoggedIn(false);
   };
 
