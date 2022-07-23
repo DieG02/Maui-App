@@ -1,4 +1,4 @@
-import { View, Image, ActivityIndicator } from "react-native";
+import { View, Image } from "react-native";
 import React, { useEffect } from "react";
 import logo from "../assets/logo.png";
 import { NavigationProp, StackActions } from "@react-navigation/native";
@@ -34,7 +34,6 @@ const SplashScreen = ({ navigation }: Props) => {
       <View style={{ alignItems: "center", marginBottom: 30 }}>
         <Image source={logo} style={{ width: 200, height: 50 }} />
       </View>
-      <ActivityIndicator size="large" color="#141414" />
     </View>
   );
 };
