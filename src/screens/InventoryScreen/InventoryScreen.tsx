@@ -14,17 +14,20 @@ import Search from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
 import ProductCard from "../../components/common/ProductCard";
 import Fab from "../../components/common/Fab";
-import { products, categories } from "../../helpers/seed";
-import ChipCategory from "../../components/common/ChipCategory";
+import { products } from "../../helpers/seed";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import InputModal from "../../components/common/InputModal";
-// import { getAllCategories } from "../../services/categories";
+import { useMutation, useQuery } from "react-query";
+import {
+  createNewItemCategory,
+  getItemCategories,
+} from "../../services/itemCategories";
+import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
+import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
 
 const { mainColor } = globalStyles;
-
 const statusBarStyle = "dark-content";
-
 const { width } = Dimensions.get("window");
 
 interface Props {
@@ -32,9 +35,29 @@ interface Props {
 }
 
 const InventoryScreen = ({ navigation }: Props) => {
-  const [selected, setSelected] = useState(categories[0].id);
   const [modalState, setModalState] = useState(false);
   const [category, setCategory] = useState("");
+
+  const { data: itemCategories, refetch: getCategories } = useQuery(
+    "itemCategories",
+    getItemCategories
+  );
+
+  const form: createOneProductCategoryInputDto = {
+    name: category,
+  };
+  const { mutateAsync } = useMutation(
+    (form: createOneProductCategoryInputDto) => {
+      return createNewItemCategory(form);
+    },
+    {
+      onSuccess: () => {
+        setModalState(false);
+        setCategory("");
+        getCategories();
+      },
+    }
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -49,8 +72,9 @@ const InventoryScreen = ({ navigation }: Props) => {
       </Header>
       <View>
         <View style={styles.container}>
-          <Icon style={{ marginRight: 10 }}>
+          <View style={{ marginRight: 10 }}>
             <InputModal
+              isDataEmpty={itemCategories?.length === 0}
               isModalVisible={modalState}
               setIsModalVisible={setModalState}
               setSelectedOption={setCategory}
@@ -58,31 +82,12 @@ const InventoryScreen = ({ navigation }: Props) => {
               buttonDisabled={category == ""}
               buttonText="Crear Categoría"
               buttonStyle={{ backgroundColor: mainColor, height: 55 }}
-              onPress={() => console.log("category", category)}
+              onPress={() => mutateAsync(form)}
             />
-          </Icon>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginVertical: 10,
-              }}
-            >
-              {categories.map((category) => (
-                <ChipCategory
-                  key={category.id}
-                  name={category.name}
-                  containerStyle={
-                    category.id === selected ? mainColor : "#f9f9f9"
-                  }
-                  textStyle={category.id === selected ? "white" : mainColor}
-                  onPress={() => setSelected(category.id)}
-                />
-              ))}
-            </View>
-          </ScrollView>
+          </View>
+          {itemCategories?.length !== 0 && (
+            <CategoriesSlider itemCategories={itemCategories} />
+          )}
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -96,7 +101,7 @@ const InventoryScreen = ({ navigation }: Props) => {
             marginBottom: 80,
           }}
         >
-          {products.map((item) => (
+          {products.slice(0, 1).map((item) => (
             <ProductCard onPress={() => {}} key={item.id} data={item} />
           ))}
         </View>
