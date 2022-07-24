@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import Modal from "react-native-modal";
 import CommonInput from "./CommonInput";
 import Plus from "react-native-vector-icons/FontAwesome5";
@@ -14,6 +14,7 @@ interface Props {
   buttonText: string;
   buttonStyle: object;
   buttonDisabled?: boolean;
+  isDataEmpty?: boolean;
 }
 
 const OptionModal = ({
@@ -25,6 +26,7 @@ const OptionModal = ({
   buttonDisabled,
   buttonText,
   buttonStyle,
+  isDataEmpty,
 }: Props) => {
   return (
     <View>
@@ -64,9 +66,55 @@ const OptionModal = ({
         </View>
       </Modal>
 
-      <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-        <Plus name="plus" size={30} color="#5196FE" />
-      </TouchableOpacity>
+      {isDataEmpty ? (
+        <TouchableOpacity
+          onPress={() => setIsModalVisible(true)}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "#f9f9f9",
+            height: 50,
+            width: 210,
+            borderRadius: 25,
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              width: 50,
+              height: 50,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 25,
+            }}
+          >
+            <Plus name="plus" size={25} color="#5196FE" />
+          </View>
+          <Text
+            style={{
+              fontSize: 18,
+              color: "#5196FE",
+              fontFamily: "Gilroy-SemiBold",
+            }}
+          >
+            Crear Categoría
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => setIsModalVisible(true)}
+          style={{
+            backgroundColor: "#f9f9f9",
+            height: 50,
+            width: 50,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 25,
+          }}
+        >
+          <Plus name="plus" size={25} color="#5196FE" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

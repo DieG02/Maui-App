@@ -22,26 +22,27 @@ const TransactionsContainer = () => {
             backgroundColor: "white",
           }}
         >
-          {data?.map((item) => (
-            <TransactionModal data={item} key={item.id} />
-          ))}
-          <View
-            style={{
-              height: 200,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
+          {data?.length !== 0 ? (
+            data?.map((item) => <TransactionModal data={item} key={item.id} />)
+          ) : (
+            <View
               style={{
-                fontSize: 18,
-                color: "#A5A5A5",
-                fontFamily: "Gilroy-SemiBold",
+                height: 200,
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              No tenes transacciones registradas
-            </Text>
-          </View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "#A5A5A5",
+                  fontFamily: "Gilroy-SemiBold",
+                }}
+              >
+                No tenes transacciones registradas
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </View>

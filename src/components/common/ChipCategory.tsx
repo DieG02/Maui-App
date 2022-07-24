@@ -18,10 +18,10 @@ const ChipCategory = ({ name, onPress, textStyle, containerStyle }: Props) => {
     },
     container: {
       backgroundColor: containerStyle,
-      borderRadius: 20,
+      borderRadius: 25,
       justifyContent: "center",
       marginRight: 10,
-      height: 40,
+      height: 45,
     },
   });
 

@@ -23,6 +23,7 @@ import {
   getTransactions,
 } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
+import { getItemCategories } from "../../services/itemCategories";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -38,6 +39,7 @@ const HomeScreen = ({ navigation }: Props) => {
   useQuery("balance", getBalance);
   useQuery("getMonthlyStats", getMonthlyMainStats);
   useQuery("daylyTransactions", getDailyTransactions);
+  useQuery("itemCategories", getItemCategories);
 
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
