@@ -16,13 +16,15 @@ import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import { FAB } from "react-native-paper";
 
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { createNewProduct } from "../../services/products";
+import { createNewService } from "../../services/services";
 import {
   createNewProductBodyInputDto,
-  // createServiceBodyInputDto,
+  createServiceBodyInputDto,
 } from "../../../../Maui-Backend/src/controllers/types";
 import globalStyles from "../../styles/globalStyles";
+import { getItemCategories } from "../../services/itemCategories";
 
 const { width } = Dimensions.get("window");
 
@@ -33,59 +35,84 @@ interface Props {
 
 const ITEM = ["Producto", "Servicio"];
 
+const UNITS = [
+  { name: "Unidad", value: "UNIT" },
+  { name: "Kilogramo", value: "KILOGRAM" },
+  { name: "Litro", value: "LITER" },
+  { name: "Otro", value: "OTHER" },
+];
+
 const NewIncome = ({ navigation }: Props) => {
+  const { data: itemCategories } = useQuery(
+    "itemCategories",
+    getItemCategories
+  );
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("0");
+  const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [costUnit, setCostUnit] = useState("");
   const [isProduct, setIsProduct] = useState(ITEM[0]);
   const [category, setCategory] = useState("Seleccione una categoría");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("");
+  const [unit, setUnit] = useState("Ingrese el valor");
   const [modalState, setModalState] = useState(false);
 
-  // const queryClient = useQueryClient();
+  const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
+  const [modalUnit, setModalUnit] = useState(false);
 
-  // const isPaidState = useMemo(() => {
-  //   if (isProduct === "Producto") {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }, [isProduct]);
-
-  const form: createNewProductBodyInputDto = {
-    retailPrice: +price,
-    name: name,
-    stock: +stock,
+  const handleIdCategory = (expense: string, data: any[]) => {
+    const category = data.find(
+      (category: { name: string }) => category.name === expense
+    );
+    return category ? category.id : null;
   };
 
-  // const servicio: createServiceBodyInputDto = {
-  //   name: "servicio",
-  //   image: "image",
-  //   retailPrice: 1,
-  // };
+  const form: createNewProductBodyInputDto = {
+    name: name,
+    retailPrice: +price,
+    stock: +stock,
+    categoryId: itemCategories && handleIdCategory(category, itemCategories),
+    unit: unit,
+    description: description,
+    cost: +costUnit,
+    quantity: +quantity,
+  };
+
+  const service: createServiceBodyInputDto = {
+    name: name,
+    retailPrice: +price,
+    categoryId: itemCategories && handleIdCategory(category, itemCategories),
+    description: description,
+  };
 
   const { mutateAsync } = useMutation(
     (form: createNewProductBodyInputDto) => {
-      return createNewProduct({
-        name: form.name,
-        retailPrice: form.retailPrice,
-        stock: form.stock,
-      });
+      return createNewProduct(form);
+    },
+    {
+      onSuccess: () => {
+        console.log("form", form);
+      },
     }
-    // {
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries("transactions");
-    //     queryClient.invalidateQueries("balance");
-    //     queryClient.invalidateQueries("getMonthlyStats");
-    //   },
-    // }
   );
 
-  const handleSubmit = (form: createNewProductBodyInputDto) => {
-    mutateAsync(form);
+  const { mutateAsync: mutateAsyncService } = useMutation(
+    (service: createServiceBodyInputDto) => {
+      return createNewService(service);
+    },
+    {
+      onSuccess: () => {
+        console.log("service", service);
+      },
+    }
+  );
+
+  const handleSubmit = () => {
+    console.log("isProduct", isProduct);
+    if (isProduct === ITEM[0]) {
+      mutateAsync(form);
+    } else mutateAsyncService(service);
   };
 
   return (
@@ -201,21 +228,22 @@ const NewIncome = ({ navigation }: Props) => {
                   />
                 </View>
               </View>
-
               <CommonInput
-                placeholder="¿Como quieres llamar a este ingreso?"
+                placeholder="Desciripción Opcional"
                 name="Descripción"
                 marginBottom={25}
                 value={description}
                 setValue={setDescription}
               />
-
-              <CommonInput
-                placeholder="Ingrese el valor"
-                name="Categoría"
-                marginBottom={25}
-                value={category}
-                setValue={setCategory}
+              <OptionModal
+                title="Categoría"
+                options={
+                  itemCategories?.map((category) => category?.name) ?? []
+                }
+                isModalVisible={modalExpenseCategory}
+                setIsModalVisible={setModalExpenseCategory}
+                selectedOption={category}
+                setSelectedOption={setCategory}
               />
               <InputForm
                 keyboardType="numeric"
@@ -238,12 +266,13 @@ const NewIncome = ({ navigation }: Props) => {
                     width: (width - 100) / 2,
                   }}
                 >
-                  <CommonInput
-                    placeholder="Ingrese el valor"
-                    name="Contenido"
-                    marginBottom={25}
-                    value={unit}
-                    setValue={setUnit}
+                  <OptionModal
+                    title="Contenido"
+                    options={UNITS?.map((category) => category?.name) ?? []}
+                    isModalVisible={modalUnit}
+                    setIsModalVisible={setModalUnit}
+                    selectedOption={unit}
+                    setSelectedOption={setUnit}
                   />
                 </View>
 
@@ -259,6 +288,7 @@ const NewIncome = ({ navigation }: Props) => {
                     marginBottom={25}
                     value={quantity}
                     setValue={setQuantity}
+                    keyboardType="numeric"
                   />
                 </View>
               </View>
@@ -266,7 +296,7 @@ const NewIncome = ({ navigation }: Props) => {
           ) : (
             <>
               <CommonInput
-                placeholder="¿Como quieres llamar a este producto?"
+                placeholder="¿Como quieres llamar a este servicio?"
                 name="Nombre del Servicio"
                 marginBottom={25}
                 value={name}
@@ -280,21 +310,22 @@ const NewIncome = ({ navigation }: Props) => {
                 setValue={setPrice}
                 marginBottom={25}
               />
-
               <CommonInput
-                placeholder="¿Como quieres llamar a este ingreso?"
+                placeholder="Desciripción Opcional"
                 name="Descripción"
                 marginBottom={25}
                 value={description}
                 setValue={setDescription}
               />
-
-              <CommonInput
-                placeholder="Ingrese el valor"
-                name="Categoría"
-                marginBottom={25}
-                value={category}
-                setValue={setCategory}
+              <OptionModal
+                title="Categoría"
+                options={
+                  itemCategories?.map((category) => category?.name) ?? []
+                }
+                isModalVisible={modalExpenseCategory}
+                setIsModalVisible={setModalExpenseCategory}
+                selectedOption={category}
+                setSelectedOption={setCategory}
               />
             </>
           )}
@@ -323,7 +354,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
           small={false}
           icon="check"
-          onPress={() => handleSubmit(form)}
+          onPress={() => handleSubmit()}
         />
       </View>
     </View>
