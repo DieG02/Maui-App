@@ -91,9 +91,7 @@ const NewExpense = ({ navigation }: Props) => {
     paymentMethod: paymentMethodHandler(),
     date: date,
   };
-  const handleSubmit = (form: createExpenseBodyInputDto) => {
-    mutateAsync(form);
-  };
+
   const { mutateAsync } = useMutation(
     (form: createExpenseBodyInputDto) => {
       return createNewExpense(form);
@@ -106,6 +104,9 @@ const NewExpense = ({ navigation }: Props) => {
       },
     }
   );
+  const handleSubmit = (form: createExpenseBodyInputDto) => {
+    mutateAsync(form);
+  };
 
   useEffect(() => {
     if (isPaid === "Pagado") {

@@ -6,7 +6,7 @@ import {
 import { getUserAuthenticationHeader } from "../../utils";
 
 export const createNewService = async (data: createServiceBodyInputDto) =>
-  MauiApi.post<createServiceResponseDto>("/createService", data, {
+  MauiApi.post<createServiceResponseDto>("/createNewService", data, {
     headers: {
       Authorization: await getUserAuthenticationHeader(),
     },
