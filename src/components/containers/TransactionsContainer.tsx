@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import TransactionModal from "../common/TransactionsModal";
-import { useQuery } from "react-query";
-import { getTransactions } from "../../services/transactions";
 import { Text } from "react-native-paper";
 
-const TransactionsContainer = () => {
-  const { data, refetch: getTransaction } = useQuery("transactions", () =>
-    getTransactions({ take: 10 })
-  );
+interface Props {
+  data: any;
+}
 
-  useEffect(() => {
-    getTransaction();
-  }, []);
-
+const TransactionsContainer = ({ data }: Props) => {
   return (
     <View style={styles.root}>
       <View style={styles.container}>
@@ -23,7 +17,9 @@ const TransactionsContainer = () => {
           }}
         >
           {data?.length !== 0 ? (
-            data?.map((item) => <TransactionModal data={item} key={item.id} />)
+            data?.map((item: any) => (
+              <TransactionModal data={item} key={item.id} />
+            ))
           ) : (
             <View
               style={{
