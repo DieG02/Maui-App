@@ -33,13 +33,15 @@ interface Props {
 }
 
 const HomeScreen = ({ navigation }: Props) => {
-  const { data } = useQuery("transactions", () =>
-    getTransactions({ take: 10 })
+  const { data, refetch: getTransactionsFromHome } = useQuery(
+    "transactions",
+    () => getTransactions({ take: 4 })
   );
   useQuery("balance", getBalance);
   useQuery("getMonthlyStats", getMonthlyMainStats);
   useQuery("daylyTransactions", getDailyTransactions);
   useQuery("itemCategories", getItemCategories);
+  useQuery("transactionsBalance", () => getTransactions());
 
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
@@ -54,7 +56,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    getTransactions({ take: 10 });
+    getTransactionsFromHome();
     setRefreshing(false);
   };
 
@@ -101,7 +103,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={10} />
         <HomeState />
         <Spacer height={20} />
-        <Title title="Balance">
+        <Title title="Ultimos registros">
           {data?.length !== 0 && (
             <TouchableOpacity onPress={() => navigation.navigate("balance")}>
               <Text
@@ -118,7 +120,7 @@ const HomeScreen = ({ navigation }: Props) => {
           )}
         </Title>
         <Spacer height={10} />
-        <TransactionsContainer />
+        <TransactionsContainer data={data} />
       </ScrollView>
     </SafeAreaView>
   );

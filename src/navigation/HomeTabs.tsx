@@ -1,7 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
-import BalanceScreen from "../screens/BalanceScreen/BalanceScreen";
+// import BalanceScreen from "../screens/BalanceScreen/BalanceScreen";
+import TransactionsScreen from "../screens/TrasactionsScreen";
 import InventoryScreen from "../screens/InventoryScreen/InventoryScreen";
 import HomeIcon from "react-native-vector-icons/Entypo";
 import BalanceIcon from "react-native-vector-icons/MaterialIcons";
@@ -49,7 +50,8 @@ const HomeTabs = () => {
         />
         <Tab.Screen
           name="balance"
-          component={BalanceScreen}
+          // component={BalanceScreen}
+          component={TransactionsScreen}
           options={{
             tabBarLabel: "Balance",
             tabBarLabelStyle: {
