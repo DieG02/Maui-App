@@ -24,6 +24,7 @@ import {
 } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
 import { getItemCategories } from "../../services/itemCategories";
+import { getAllProducts } from "../../services/products";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -42,12 +43,15 @@ const HomeScreen = ({ navigation }: Props) => {
   useQuery("daylyTransactions", getDailyTransactions);
   useQuery("itemCategories", getItemCategories);
   useQuery("transactionsBalance", () => getTransactions());
+  useQuery("products", getAllProducts);
 
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
 
   const isFetchingTransactions =
     queryClient.getQueryState("transactions")?.data;
+
+  const isFetchingProducts = queryClient.getQueryState("products")?.data;
 
   const isFetchingGetMonthlyState =
     queryClient.getQueryState("getMonthlyStats")?.data;
@@ -61,6 +65,7 @@ const HomeScreen = ({ navigation }: Props) => {
   };
 
   if (
+    !isFetchingProducts ||
     !isFetchingTransactions ||
     !isFetchingGetMonthlyState ||
     isFetchingBalance === undefined

@@ -50,7 +50,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           getTransactions();
         }}
         style={{ marginHorizontal: 20 }}
-        onEndReachedThreshold={10}
+        onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <TransactionModal data={item} key={item.id} />
         )}

@@ -68,15 +68,15 @@ const NewIncome = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
-  const form: createNewProductBodyInputDto = {
+  const product: createNewProductBodyInputDto = {
+    cost: +costUnit,
+    description: description,
     name: name,
+    quantity: +quantity,
     retailPrice: +price,
     stock: +stock,
     categoryId: itemCategories && handleIdCategory(category, itemCategories),
     unit: unit,
-    description: description,
-    cost: +costUnit,
-    quantity: +quantity,
   };
 
   const service: createServiceBodyInputDto = {
@@ -87,12 +87,12 @@ const NewIncome = ({ navigation }: Props) => {
   };
 
   const { mutateAsync } = useMutation(
-    (form: createNewProductBodyInputDto) => {
-      return createNewProduct(form);
+    (product: createNewProductBodyInputDto) => {
+      return createNewProduct(product);
     },
     {
       onSuccess: () => {
-        console.log("form", form);
+        console.log("form", product);
       },
     }
   );
@@ -109,9 +109,8 @@ const NewIncome = ({ navigation }: Props) => {
   );
 
   const handleSubmit = () => {
-    console.log("isProduct", isProduct);
     if (isProduct === ITEM[0]) {
-      mutateAsync(form);
+      mutateAsync(product);
     } else mutateAsyncService(service);
   };
 

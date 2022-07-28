@@ -3,10 +3,10 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  ScrollView,
   Dimensions,
   Alert,
   SafeAreaView,
+  FlatList,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -14,7 +14,6 @@ import Search from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
 import ProductCard from "../../components/common/ProductCard";
 import Fab from "../../components/common/Fab";
-import { products } from "../../helpers/seed";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import InputModal from "../../components/common/InputModal";
@@ -25,6 +24,7 @@ import {
 } from "../../services/itemCategories";
 import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
+import { getAllProducts } from "../../services/products";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -41,6 +41,11 @@ const InventoryScreen = ({ navigation }: Props) => {
   const { data: itemCategories, refetch: getCategories } = useQuery(
     "itemCategories",
     getItemCategories
+  );
+
+  const { data: products, refetch: getProducts } = useQuery(
+    "products",
+    getAllProducts
   );
 
   const form: createOneProductCategoryInputDto = {
@@ -90,22 +95,23 @@ const InventoryScreen = ({ navigation }: Props) => {
           )}
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            marginHorizontal: 30,
-            display: "flex",
-            flexWrap: "wrap",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginBottom: 80,
-          }}
-        >
-          {products.slice(0, 1).map((item) => (
-            <ProductCard onPress={() => {}} key={item.id} data={item} />
-          ))}
-        </View>
-      </ScrollView>
+      <FlatList
+        data={products}
+        renderItem={({ item }) => (
+          <ProductCard data={item} onPress={() => {}} />
+        )}
+        showsVerticalScrollIndicator={false}
+        refreshing={false}
+        onRefresh={() => {
+          getProducts();
+        }}
+        onEndReached={() => {
+          getProducts();
+        }}
+        onEndReachedThreshold={0.5}
+        keyExtractor={(item) => item.id.toString()}
+        style={{ marginHorizontal: 30 }}
+      />
       <View
         style={{
           backgroundColor: "white",
