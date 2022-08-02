@@ -23,9 +23,7 @@ interface IProduct {
 }
 
 interface IContact {
+  id: string;
   phone: string;
-  name: {
-    firstname: string;
-    lastname: string;
-  };
+  name: string;
 }
