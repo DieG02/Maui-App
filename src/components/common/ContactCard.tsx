@@ -83,9 +83,7 @@ const ContactCard = ({ data, type }: Props) => {
         }}
       >
         {renderTypeContact()}
-        <Text style={{ color: "#131313" }}>
-          {data.name.firstname + " " + data.name.lastname}
-        </Text>
+        <Text style={{ color: "#131313" }}>{data.name}</Text>
       </View>
       <Text style={{ color: "#131313" }}>{data.phone}</Text>
     </TouchableOpacity>
