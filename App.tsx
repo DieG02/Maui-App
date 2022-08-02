@@ -20,6 +20,7 @@ import AuthProvider from "./src/context/AuthContext";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import ProvidersScreen from "./src/screens/MoreScreen/Providers";
 import EmployeesScreen from "./src/screens/MoreScreen/Employees";
+import NewContact from "./src/screens/MoreScreen/NewContact";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => {
             />
             <Stack.Screen name="More" component={MoreScreen} />
             <Stack.Screen name="Clients" component={ClientsScreen} />
+            <Stack.Screen name="NewContact" component={NewContact} />
             <Stack.Screen name="Providers" component={ProvidersScreen} />
             <Stack.Screen name="Employees" component={EmployeesScreen} />
             <Stack.Screen name="Contacts" component={ContactsScreen} />
