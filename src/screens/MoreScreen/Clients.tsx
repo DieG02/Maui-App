@@ -1,7 +1,13 @@
-import { View, ScrollView, Dimensions, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  View,
+  Alert,
+  FlatList,
+  SafeAreaView,
+  ActivityIndicator,
+  StatusBar,
+} from "react-native";
+import React, { useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
-import { getConsumers } from "../../services/test";
 import globalStyles from "../../styles/globalStyles";
 import Fab from "../../components/common/Fab";
 import Header from "../../components/common/Header";
@@ -9,32 +15,40 @@ import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Search from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getAllContacts } from "../../services/contacts";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
+const { mainColor, width } = globalStyles;
+const statusBarStyle = "dark-content";
+
 const Consumers = ({ navigation }: Props) => {
-  const [consumers, setConsumers] = useState([]);
+  const { data, isLoading } = useQuery("contact", getAllContacts);
 
-  const getAllConsumers = async () => {
-    try {
-      const response = await getConsumers();
-      setConsumers(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const clients = useMemo(() => {
+    return data?.filter((item) => item.typeOfContact === "CLIENT");
+  }, [data]);
 
-  useEffect(() => {
-    getAllConsumers();
-  }, []);
-
-  const { mainColor } = globalStyles;
-
-  const { width } = Dimensions.get("window");
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#141414" />
+      </View>
+    );
+  }
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header
         name="Clientes"
         color="white"
@@ -48,28 +62,42 @@ const Consumers = ({ navigation }: Props) => {
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
       </Header>
-      <ScrollView
-        style={{ flex: 1, backgroundColor: "white" }}
+      <FlatList
+        data={clients}
+        style={{ flex: 1, backgroundColor: "white", marginHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
-      >
-        <View style={{ marginHorizontal: 20, marginTop: 10, marginBottom: 60 }}>
-          {consumers &&
-            consumers.map((item) => (
-              <ContactCard data={item} type="consumer" />
-            ))}
-        </View>
-      </ScrollView>
-      <Fab
-        bottom={0}
-        left={0}
-        width={width - 40}
-        height={50}
-        marginLeft={20}
-        color={mainColor}
-        text="Crear Contacto"
-        onPress={() => Alert.alert("Crear Producto")}
+        keyExtractor={(item) => item.id}
+        refreshing={false}
+        onRefresh={() => {
+          getAllContacts();
+        }}
+        onEndReached={() => {
+          getAllContacts();
+        }}
+        onEndReachedThreshold={0.5}
+        renderItem={({ item }) => <ContactCard data={item} type="consumer" />}
       />
-    </>
+      <View
+        style={{
+          backgroundColor: "white",
+          height: 64,
+          width: "100%",
+        }}
+      >
+        <Fab
+          bottom={0}
+          left={0}
+          width={width - 40}
+          height={50}
+          marginLeft={20}
+          color={mainColor}
+          text="Crear / Importar Contacto"
+          onPress={() =>
+            navigation.navigate("NewContact", { type: "consumer" })
+          }
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
