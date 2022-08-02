@@ -160,14 +160,14 @@ const More = ({ navigation }: Props) => {
             icon={<Costumer name="truck" color={mainColor} size={25} />}
           />
           <Spacer height={5} />
-          <OptionCard
+          {/* <OptionCard
             title="Empleados"
             onPress={() => navigation.navigate("Employees")}
             arrow={
               <Right name="chevron-small-right" color={mainColor} size={35} />
             }
             icon={<Costumer name="group" color={mainColor} size={25} />}
-          />
+          /> */}
           <Spacer height={5} />
           <OptionCard
             title="Soporte"
