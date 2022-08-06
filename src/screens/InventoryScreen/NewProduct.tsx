@@ -89,22 +89,12 @@ const NewIncome = ({ navigation }: Props) => {
   const { mutateAsync } = useMutation(
     (product: createNewProductBodyInputDto) => {
       return createNewProduct(product);
-    },
-    {
-      onSuccess: () => {
-        console.log("form", product);
-      },
     }
   );
 
   const { mutateAsync: mutateAsyncService } = useMutation(
     (service: createServiceBodyInputDto) => {
       return createNewService(service);
-    },
-    {
-      onSuccess: () => {
-        console.log("service", service);
-      },
     }
   );
 

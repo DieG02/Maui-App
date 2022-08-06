@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   StatusBar,
 } from "react-native";
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
 import Fab from "../../components/common/Fab";
@@ -17,6 +17,7 @@ import Search from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
+import { GeneralContext } from "../../context/GeneralContext";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -25,7 +26,18 @@ const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
 const Providers = ({ navigation }: Props) => {
-  const { data, isLoading } = useQuery("contact", getAllContacts);
+  const { setContacts } = useContext(GeneralContext);
+  const {
+    data,
+    isLoading,
+    refetch: getProviders,
+  } = useQuery("contact", getAllContacts, {
+    onSuccess(data) {
+      setContacts(
+        data?.filter((item) => item.typeOfContact === "PROVIDER") as []
+      );
+    },
+  });
 
   const clients = useMemo(() => {
     return data?.filter((item) => item.typeOfContact === "PROVIDER");
@@ -70,10 +82,10 @@ const Providers = ({ navigation }: Props) => {
         keyExtractor={(item) => item.id}
         refreshing={false}
         onRefresh={() => {
-          getAllContacts();
+          getProviders();
         }}
         onEndReached={() => {
-          getAllContacts();
+          getProviders();
         }}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => <ContactCard data={item} type="provider" />}

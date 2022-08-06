@@ -21,6 +21,7 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import ProvidersScreen from "./src/screens/MoreScreen/Providers";
 import EmployeesScreen from "./src/screens/MoreScreen/Employees";
 import NewContact from "./src/screens/MoreScreen/NewContact";
+import GeneralProvider from "./src/context/GeneralContext";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -29,31 +30,33 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Splash" component={SplashScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="HomeTabs" component={HomeTabs} />
-            <Stack.Screen name="NewIncome" component={NewIncome} />
-            <Stack.Screen name="NewExpense" component={NewExpense} />
-            <Stack.Screen name="Inventory" component={InventoryScreen} />
-            <Stack.Screen name="Budget" component={Budget} />
-            <Stack.Screen
-              name="Notifications"
-              component={NotificationsScreen}
-            />
-            <Stack.Screen name="More" component={MoreScreen} />
-            <Stack.Screen name="Clients" component={ClientsScreen} />
-            <Stack.Screen name="NewContact" component={NewContact} />
-            <Stack.Screen name="Providers" component={ProvidersScreen} />
-            <Stack.Screen name="Employees" component={EmployeesScreen} />
-            <Stack.Screen name="Contacts" component={ContactsScreen} />
-            <Stack.Screen name="NewProduct" component={NewProduct} />
-            <Stack.Screen name="SearchScreen" component={SearchScreen} />
-            <Stack.Screen name="Category" component={CategoryScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <GeneralProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Splash" component={SplashScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="HomeTabs" component={HomeTabs} />
+              <Stack.Screen name="NewIncome" component={NewIncome} />
+              <Stack.Screen name="NewExpense" component={NewExpense} />
+              <Stack.Screen name="Inventory" component={InventoryScreen} />
+              <Stack.Screen name="Budget" component={Budget} />
+              <Stack.Screen
+                name="Notifications"
+                component={NotificationsScreen}
+              />
+              <Stack.Screen name="More" component={MoreScreen} />
+              <Stack.Screen name="Clients" component={ClientsScreen} />
+              <Stack.Screen name="NewContact" component={NewContact} />
+              <Stack.Screen name="Providers" component={ProvidersScreen} />
+              <Stack.Screen name="Employees" component={EmployeesScreen} />
+              <Stack.Screen name="Contacts" component={ContactsScreen} />
+              <Stack.Screen name="NewProduct" component={NewProduct} />
+              <Stack.Screen name="SearchScreen" component={SearchScreen} />
+              <Stack.Screen name="Category" component={CategoryScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GeneralProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

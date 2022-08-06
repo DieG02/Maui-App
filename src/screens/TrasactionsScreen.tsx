@@ -38,6 +38,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
       </Header>
       <FlatList
         // data={daily}
+        overScrollMode="never"
         data={data}
         showsVerticalScrollIndicator={false}
         // keyExtractor={(item) => item.date}
