@@ -31,7 +31,7 @@ const Providers = ({ navigation }: Props) => {
     data,
     isLoading,
     refetch: getProviders,
-  } = useQuery("contact", getAllContacts, {
+  } = useQuery("providers", getAllContacts, {
     onSuccess(data) {
       setContacts(
         data?.filter((item) => item.typeOfContact === "PROVIDER") as []
