@@ -12,12 +12,12 @@ interface Props {
 const ContactCard = ({ data, type }: Props) => {
   const renderTypeContact = () => {
     switch (type) {
-      case "consumer": {
+      case "client": {
         return (
           <View
             style={{
-              width: 60,
-              height: 60,
+              width: 50,
+              height: 50,
               backgroundColor: "#E6EFF8",
               borderRadius: 15,
               marginRight: 30,
@@ -25,7 +25,7 @@ const ContactCard = ({ data, type }: Props) => {
               justifyContent: "center",
             }}
           >
-            <Icon name="user" size={30} color={mainColor} />
+            <Icon name="user" size={20} color={mainColor} />
           </View>
         );
       }
@@ -83,9 +83,40 @@ const ContactCard = ({ data, type }: Props) => {
         }}
       >
         {renderTypeContact()}
-        <Text style={{ color: "#131313" }}>{data.name}</Text>
+        <View style={{ flexDirection: "column" }}>
+          <Text
+            style={{
+              color: "#131313",
+              fontSize: 16,
+
+              fontFamily: "Gilroy-SemiBold",
+            }}
+          >
+            {data.name}
+          </Text>
+          {type === "client" ? (
+            <Text
+              style={{
+                color: "#131313",
+                fontSize: 14,
+                fontFamily: "Gilroy-Regular",
+              }}
+            >
+              Ventas Acumuladas: $0
+            </Text>
+          ) : (
+            <Text
+              style={{
+                color: "#131313",
+                fontSize: 14,
+                fontFamily: "Gilroy-Regular",
+              }}
+            >
+              Compras Acumuladas: $0
+            </Text>
+          )}
+        </View>
       </View>
-      <Text style={{ color: "#131313" }}>{data.phone}</Text>
     </TouchableOpacity>
   );
 };

@@ -8,34 +8,44 @@ export async function getUserAuthenticationHeader() {
   return `Bearer ${token}`;
 }
 
-export const getReadContacts = async () => {
+export const fetchContacts = async () => {
+  const contacts = await Contacts.getAll();
+  const filteredContacts = contacts
+    .filter(
+      (contact) =>
+        contact.phoneNumbers.length > 0 &&
+        (contact.givenName || contact.familyName)
+    )
+    .map((contact) => ({
+      id: contact.recordID,
+      name: contact.displayName,
+      phone: contact.phoneNumbers[0]?.number,
+    }))
+    .sort((a, b) => {
+      const n = a.name
+        .toLocaleLowerCase()
+        .localeCompare(b.name.toLocaleLowerCase());
+      return n === 0 && a.name !== b.name ? b.name.localeCompare(a.name) : n;
+    });
+  return filteredContacts;
+};
+
+export const checkPermission = async () => {
+  try {
+    const checked = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.READ_CONTACTS
+    );
+    return checked;
+  } catch (err) {
+    console.warn(err);
+  }
+};
+export const requestContactPermission = async () => {
   try {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.READ_CONTACTS
     );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      const contacts = await Contacts.getAll();
-      const contactsList = contacts
-        .map((contact) => ({
-          id: contact.recordID,
-          name: contact.displayName,
-          phone: contact.phoneNumbers[0]?.number,
-        }))
-        .filter((contact) => contact.phone !== undefined)
-        .sort((a, b) => {
-          const n = a.name
-            .toLocaleLowerCase()
-            .localeCompare(b.name.toLocaleLowerCase());
-          return n === 0 && a.name !== b.name
-            ? b.name.localeCompare(a.name)
-            : n;
-        });
-
-      console.log("contactsList", contactsList);
-      return contactsList;
-    } else {
-      console.log("Contacts permission denied");
-    }
+    return granted;
   } catch (err) {
     console.warn(err);
   }

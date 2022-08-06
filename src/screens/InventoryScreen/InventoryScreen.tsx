@@ -96,6 +96,7 @@ const InventoryScreen = ({ navigation }: Props) => {
         </View>
       </View>
       <FlatList
+        overScrollMode="never"
         data={products}
         renderItem={({ item }) => (
           <ProductCard data={item} onPress={() => {}} />
