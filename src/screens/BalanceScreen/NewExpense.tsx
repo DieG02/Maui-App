@@ -90,18 +90,14 @@ const NewExpense = ({ navigation }: Props) => {
     date: date
   };
 
-  const { mutateAsync } = useMutation(
-    (form: createExpenseBodyInputDto) => {
-      return createNewExpense(form);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("balance");
-        queryClient.invalidateQueries("getMonthlyStats");
-      }
+  const { mutateAsync } = useMutation(createNewExpense, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("balance");
+      queryClient.invalidateQueries("getMonthlyStats");
     }
-  );
+  });
+
   const handleSubmit = (form: createExpenseBodyInputDto) => {
     mutateAsync(form);
   };
