@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Dimensions,
@@ -19,7 +19,6 @@ import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
-import { createIncomeBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 
@@ -53,28 +52,11 @@ const NewIncome = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidState = useMemo(() => {
-    if (isPaid === "Pagado") {
-      return true;
-    } else {
-      return false;
-    }
-  }, [isPaid]);
-
   const paymentMethodHandler = (): PaymentMethod => {
     const payment = paymentMethods.find(
       (method) => method.name === paymentMethod
     );
     return payment ? payment.value : "CASH";
-  };
-
-  const form: createIncomeBodyInputDto = {
-    value: +amount,
-    name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
-    isPaid: isPaidState,
-    paymentMethod: paymentMethodHandler(),
-    date: date,
-    clientId: "121212"
   };
 
   const { mutateAsync } = useMutation(createNewIncome, {
@@ -85,9 +67,15 @@ const NewIncome = ({ navigation }: Props) => {
     }
   });
 
-  const handleSubmit = (form: createIncomeBodyInputDto) => {
-    mutateAsync(form);
-  };
+  const handleSubmit = () =>
+    mutateAsync({
+      value: +amount,
+      name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
+      isPaid: isPaid === "Pagado",
+      paymentMethod: paymentMethodHandler(),
+      date: date,
+      clientId: "121212"
+    });
 
   useEffect(() => {
     if (isPaid === "Pagado") {
@@ -246,7 +234,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
           small={false}
           icon="check"
-          onPress={() => handleSubmit(form)}
+          onPress={handleSubmit}
         />
       </View>
     </View>
