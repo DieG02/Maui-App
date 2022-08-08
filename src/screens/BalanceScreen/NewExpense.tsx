@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Dimensions,
@@ -20,7 +20,6 @@ import "moment-timezone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
-import { createExpenseBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 
@@ -57,14 +56,6 @@ const NewExpense = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidState = useMemo(() => {
-    if (isPaid === "Pagado") {
-      return true;
-    } else {
-      return false;
-    }
-  }, [isPaid]);
-
   const paymentMethodHandler = (): PaymentMethod => {
     const payment = paymentMethods.find(
       (method) => method.name === paymentMethod
@@ -81,15 +72,6 @@ const NewExpense = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
-  const form: createExpenseBodyInputDto = {
-    value: +amount,
-    name: detail !== "" ? detail : expenseCategory,
-    categoryId: data && handleIdCategory(expenseCategory, data),
-    isPaid: isPaidState,
-    paymentMethod: paymentMethodHandler(),
-    date: date
-  };
-
   const { mutateAsync } = useMutation(createNewExpense, {
     onSuccess: () => {
       queryClient.invalidateQueries("transactions");
@@ -98,8 +80,15 @@ const NewExpense = ({ navigation }: Props) => {
     }
   });
 
-  const handleSubmit = (form: createExpenseBodyInputDto) => {
-    mutateAsync(form);
+  const handleSubmit = () => {
+    mutateAsync({
+      value: +amount,
+      name: detail !== "" ? detail : expenseCategory,
+      categoryId: data && handleIdCategory(expenseCategory, data),
+      isPaid: isPaid === "Pagado",
+      paymentMethod: paymentMethodHandler(),
+      date: date
+    });
   };
 
   useEffect(() => {
@@ -259,7 +248,7 @@ const NewExpense = ({ navigation }: Props) => {
           }}
           small={false}
           icon="check"
-          onPress={() => handleSubmit(form)}
+          onPress={handleSubmit}
         />
       </View>
     </View>
