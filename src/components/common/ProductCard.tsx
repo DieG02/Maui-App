@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 const { secondaryColor, mainColor } = globalStyles;
 
 interface Props {
-  onPress: () => void;
+  onPress?: () => void;
   data: getAllProductsResponseDto[0];
 }
 
@@ -18,7 +18,7 @@ const ProductCard = ({ onPress, data }: Props) => {
       style={{
         backgroundColor: "#F9F9F9",
         borderRadius: 15,
-        marginTop: 20,
+        marginTop: 20
       }}
     >
       <View
@@ -26,21 +26,21 @@ const ProductCard = ({ onPress, data }: Props) => {
           flexDirection: "row",
           alignItems: "center",
           borderRadius: 40,
-          marginHorizontal: 20,
+          marginHorizontal: 20
         }}
       >
         <View
           style={{
             marginVertical: 20,
             width: "70%",
-            marginRight: 20,
+            marginRight: 20
           }}
         >
           <Text
             style={{
               fontSize: 16,
               fontFamily: "Gilroy-SemiBold",
-              color: secondaryColor,
+              color: secondaryColor
             }}
           >
             {data.name}
@@ -50,7 +50,7 @@ const ProductCard = ({ onPress, data }: Props) => {
               color: mainColor,
               fontSize: 16,
               fontFamily: "Gilroy-SemiBold",
-              marginVertical: 5,
+              marginVertical: 5
             }}
           >
             Stock: {data.stock}
@@ -79,7 +79,7 @@ const ProductCard = ({ onPress, data }: Props) => {
             style={{
               fontSize: 18,
               fontFamily: "Gilroy-SemiBold",
-              color: secondaryColor,
+              color: secondaryColor
             }}
           >
             $ {data.retailPrice}
@@ -89,7 +89,7 @@ const ProductCard = ({ onPress, data }: Props) => {
           <Image
             resizeMode="contain"
             source={{
-              uri: data.image,
+              uri: data.image
             }}
             style={{ width: 70, height: 70 }}
           />
@@ -101,7 +101,7 @@ const ProductCard = ({ onPress, data }: Props) => {
               backgroundColor: "#60708F",
               borderRadius: 10,
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
             <Icon name="file-image" size={40} color="white" />
