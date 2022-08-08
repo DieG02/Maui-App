@@ -77,24 +77,13 @@ const NewIncome = ({ navigation }: Props) => {
     clientId: "121212"
   };
 
-  const { mutateAsync } = useMutation(
-    (form: createIncomeBodyInputDto) => {
-      return createNewIncome({
-        name: form.name,
-        value: form.value,
-        isPaid: form.isPaid,
-        paymentMethod: form.paymentMethod,
-        date: form.date
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("balance");
-        queryClient.invalidateQueries("getMonthlyStats");
-      }
+  const { mutateAsync } = useMutation(createNewIncome, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("balance");
+      queryClient.invalidateQueries("getMonthlyStats");
     }
-  );
+  });
 
   const handleSubmit = (form: createIncomeBodyInputDto) => {
     mutateAsync(form);
