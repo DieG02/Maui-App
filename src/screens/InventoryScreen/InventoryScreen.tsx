@@ -93,9 +93,7 @@ const InventoryScreen = ({ navigation }: Props) => {
       <FlatList
         overScrollMode="never"
         data={products}
-        renderItem={({ item }) => (
-          <ProductCard data={item} onPress={() => {}} />
-        )}
+        renderItem={({ item }) => <ProductCard data={item} />}
         showsVerticalScrollIndicator={false}
         refreshing={false}
         onRefresh={() => {
