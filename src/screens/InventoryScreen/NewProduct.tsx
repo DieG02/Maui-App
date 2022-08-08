@@ -86,13 +86,13 @@ const NewIncome = ({ navigation }: Props) => {
     description: description
   };
 
-  const { mutateAsync } = useMutation(createNewProduct);
-  const { mutateAsync: mutateAsyncService } = useMutation(createNewService);
+  const { mutateAsync: createProduct } = useMutation(createNewProduct);
+  const { mutateAsync: createService } = useMutation(createNewService);
 
   const handleSubmit = () => {
     if (isProduct === ITEM[0]) {
-      mutateAsync(product);
-    } else mutateAsyncService(service);
+      createProduct(product);
+    } else createService(service);
   };
 
   return (
