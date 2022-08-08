@@ -4,7 +4,7 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
-  Platform,
+  Platform
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -21,6 +21,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
 import { createIncomeBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
+import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 
 const { width } = Dimensions.get("window");
 
@@ -28,11 +29,11 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const paymentMethods = [
+const paymentMethods: { name: string; value: PaymentMethod }[] = [
   { name: "Efectivo", value: "CASH" },
   { name: "Tarjeta", value: "CARD" },
   { name: "Transferencia", value: "BANK_TRANSFER" },
-  { name: "Otro", value: "OTHER" },
+  { name: "Otro", value: "OTHER" }
 ];
 
 const STATE = ["Pagado", "Deuda"];
@@ -60,15 +61,12 @@ const NewIncome = ({ navigation }: Props) => {
     }
   }, [isPaid]);
 
-  const paymentMethodHandler =
-    (): createIncomeBodyInputDto["paymentMethod"] => {
-      const payment = paymentMethods.find(
-        (method) => method.name === paymentMethod
-      );
-      return payment
-        ? (payment.value as createIncomeBodyInputDto["paymentMethod"])
-        : "CASH";
-    };
+  const paymentMethodHandler = (): PaymentMethod => {
+    const payment = paymentMethods.find(
+      (method) => method.name === paymentMethod
+    );
+    return payment ? payment.value : "CASH";
+  };
 
   const form: createIncomeBodyInputDto = {
     value: +amount,
@@ -76,7 +74,7 @@ const NewIncome = ({ navigation }: Props) => {
     isPaid: isPaidState,
     paymentMethod: paymentMethodHandler(),
     date: date,
-    clientId: "121212",
+    clientId: "121212"
   };
 
   const { mutateAsync } = useMutation(
@@ -86,7 +84,7 @@ const NewIncome = ({ navigation }: Props) => {
         value: form.value,
         isPaid: form.isPaid,
         paymentMethod: form.paymentMethod,
-        date: form.date,
+        date: form.date
       });
     },
     {
@@ -94,7 +92,7 @@ const NewIncome = ({ navigation }: Props) => {
         queryClient.invalidateQueries("transactions");
         queryClient.invalidateQueries("balance");
         queryClient.invalidateQueries("getMonthlyStats");
-      },
+      }
     }
   );
 
@@ -116,14 +114,14 @@ const NewIncome = ({ navigation }: Props) => {
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#33E69B" }),
+          backgroundColor: Platform.select({ ios: "#33E69B" })
         }}
       />
       <View
         style={{
           backgroundColor: "#33E69B",
           borderBottomRightRadius: 20,
-          borderBottomLeftRadius: 20,
+          borderBottomLeftRadius: 20
         }}
       >
         <Header
@@ -141,14 +139,14 @@ const NewIncome = ({ navigation }: Props) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         ></View>
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 40,
+          marginHorizontal: 40
         }}
       >
         <CommonInput
@@ -181,13 +179,13 @@ const NewIncome = ({ navigation }: Props) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-between"
             }}
           >
             <View
               style={{
                 display: "flex",
-                width: (width - 100) / 2,
+                width: (width - 100) / 2
               }}
             >
               <OptionModal
@@ -202,7 +200,7 @@ const NewIncome = ({ navigation }: Props) => {
             <View
               style={{
                 display: "flex",
-                width: (width - 100) / 2,
+                width: (width - 100) / 2
               }}
             >
               <OptionModal
@@ -243,7 +241,7 @@ const NewIncome = ({ navigation }: Props) => {
           bottom: 0,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          position: "absolute"
         }}
       >
         <FAB
@@ -255,7 +253,7 @@ const NewIncome = ({ navigation }: Props) => {
             elevation: 0,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#B3B3B3",
+            backgroundColor: "#B3B3B3"
           }}
           small={false}
           icon="check"
