@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Dimensions,
   ScrollView,
   StatusBar,
-  Platform,
+  Platform
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -20,8 +20,8 @@ import "moment-timezone";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
-import { createExpenseBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
+import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 
 const { width } = Dimensions.get("window");
 
@@ -29,11 +29,11 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const paymentMethods = [
+const paymentMethods: { name: string; value: PaymentMethod }[] = [
   { name: "Efectivo", value: "CASH" },
   { name: "Tarjeta", value: "CARD" },
   { name: "Transferencia", value: "BANK_TRANSFER" },
-  { name: "Otro", value: "OTHER" },
+  { name: "Otro", value: "OTHER" }
 ];
 
 const STATE = ["Pagado", "Deuda"];
@@ -56,23 +56,12 @@ const NewExpense = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidState = useMemo(() => {
-    if (isPaid === "Pagado") {
-      return true;
-    } else {
-      return false;
-    }
-  }, [isPaid]);
-
-  const paymentMethodHandler =
-    (): createExpenseBodyInputDto["paymentMethod"] => {
-      const payment = paymentMethods.find(
-        (method) => method.name === paymentMethod
-      );
-      return payment
-        ? (payment.value as createExpenseBodyInputDto["paymentMethod"])
-        : "CASH";
-    };
+  const paymentMethodHandler = (): PaymentMethod => {
+    const payment = paymentMethods.find(
+      (method) => method.name === paymentMethod
+    );
+    return payment ? payment.value : "CASH";
+  };
 
   const { data } = useQuery("expenseCategories", getExpenseCategories);
 
@@ -83,29 +72,23 @@ const NewExpense = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
-  const form: createExpenseBodyInputDto = {
-    value: +amount,
-    name: detail !== "" ? detail : expenseCategory,
-    categoryId: data && handleIdCategory(expenseCategory, data),
-    isPaid: isPaidState,
-    paymentMethod: paymentMethodHandler(),
-    date: date,
-  };
-
-  const { mutateAsync } = useMutation(
-    (form: createExpenseBodyInputDto) => {
-      return createNewExpense(form);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("balance");
-        queryClient.invalidateQueries("getMonthlyStats");
-      },
+  const { mutateAsync } = useMutation(createNewExpense, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("balance");
+      queryClient.invalidateQueries("getMonthlyStats");
     }
-  );
-  const handleSubmit = (form: createExpenseBodyInputDto) => {
-    mutateAsync(form);
+  });
+
+  const handleSubmit = () => {
+    mutateAsync({
+      value: +amount,
+      name: detail !== "" ? detail : expenseCategory,
+      categoryId: data && handleIdCategory(expenseCategory, data),
+      isPaid: isPaid === "Pagado",
+      paymentMethod: paymentMethodHandler(),
+      date: date
+    });
   };
 
   useEffect(() => {
@@ -122,14 +105,14 @@ const NewExpense = ({ navigation }: Props) => {
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#FD6363" }),
+          backgroundColor: Platform.select({ ios: "#FD6363" })
         }}
       />
       <View
         style={{
           backgroundColor: "#FD6363",
           borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
+          borderBottomLeftRadius: 30
         }}
       >
         <Header
@@ -146,7 +129,7 @@ const NewExpense = ({ navigation }: Props) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 40,
+          marginHorizontal: 40
         }}
       >
         <View>
@@ -181,13 +164,13 @@ const NewExpense = ({ navigation }: Props) => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-between",
+                justifyContent: "space-between"
               }}
             >
               <View
                 style={{
                   display: "flex",
-                  width: (width - 100) / 2,
+                  width: (width - 100) / 2
                 }}
               >
                 <OptionModal
@@ -202,7 +185,7 @@ const NewExpense = ({ navigation }: Props) => {
               <View
                 style={{
                   display: "flex",
-                  width: (width - 100) / 2,
+                  width: (width - 100) / 2
                 }}
               >
                 <OptionModal
@@ -249,7 +232,7 @@ const NewExpense = ({ navigation }: Props) => {
           bottom: 0,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          position: "absolute"
         }}
       >
         <FAB
@@ -261,11 +244,11 @@ const NewExpense = ({ navigation }: Props) => {
             elevation: 0,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#B3B3B3",
+            backgroundColor: "#B3B3B3"
           }}
           small={false}
           icon="check"
-          onPress={() => handleSubmit(form)}
+          onPress={handleSubmit}
         />
       </View>
     </View>
