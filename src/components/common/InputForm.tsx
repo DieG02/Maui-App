@@ -1,5 +1,6 @@
 import React from "react";
 import { TextInput, Text, View } from "react-native";
+import { separator, round } from "../../utils/math";
 import globalStyles from "../../styles/globalStyles";
 
 interface Props {
@@ -67,7 +68,12 @@ const InputForm = ({
             fontFamily: "Gilroy-Medium",
           }}
           value={value}
-          onChangeText={setValue}
+          onChangeText={(text) => {
+            const [integer, decimal] = text.split(",");
+            const formated = separator(integer) + (decimal !== undefined ? "," + decimal : "");
+            if(formated.length <= 20) setValue(formated);
+          }}
+          onBlur={() => setValue(round(value, 2))}
           placeholder={placeholder}
           keyboardType={keyboardType}
           maxLength={20}
