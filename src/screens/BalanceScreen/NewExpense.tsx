@@ -4,13 +4,13 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
-  Platform
+  Platform,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import InputForm from "../../components/common/InputForm";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import { FAB } from "react-native-paper";
@@ -27,19 +27,20 @@ const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 const paymentMethods: { name: string; value: PaymentMethod }[] = [
   { name: "Efectivo", value: "CASH" },
   { name: "Tarjeta", value: "CARD" },
   { name: "Transferencia", value: "BANK_TRANSFER" },
-  { name: "Otro", value: "OTHER" }
+  { name: "Otro", value: "OTHER" },
 ];
 
 const STATE = ["Pagado", "Deuda"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const NewExpense = ({ navigation }: Props) => {
+const NewExpense = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [client, setClient] = useState("");
@@ -49,6 +50,12 @@ const NewExpense = ({ navigation }: Props) => {
   const [expenseCategory, setExpenseCategory] = useState(
     "Seleccione una categoría"
   );
+
+  useEffect(() => {
+    if (route.params?.contact) {
+      setClient(route.params.contact.name);
+    }
+  }, [route.params?.contact]);
 
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
@@ -77,7 +84,7 @@ const NewExpense = ({ navigation }: Props) => {
       queryClient.invalidateQueries("transactions");
       queryClient.invalidateQueries("balance");
       queryClient.invalidateQueries("getMonthlyStats");
-    }
+    },
   });
 
   const handleSubmit = () => {
@@ -87,7 +94,7 @@ const NewExpense = ({ navigation }: Props) => {
       categoryId: data && handleIdCategory(expenseCategory, data),
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
-      date: date
+      date: date,
     });
   };
 
@@ -105,14 +112,14 @@ const NewExpense = ({ navigation }: Props) => {
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#FD6363" })
+          backgroundColor: Platform.select({ ios: "#FD6363" }),
         }}
       />
       <View
         style={{
           backgroundColor: "#FD6363",
           borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30
+          borderBottomLeftRadius: 30,
         }}
       >
         <Header
@@ -129,7 +136,7 @@ const NewExpense = ({ navigation }: Props) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 40
+          marginHorizontal: 40,
         }}
       >
         <View>
@@ -164,13 +171,13 @@ const NewExpense = ({ navigation }: Props) => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
               }}
             >
               <View
                 style={{
                   display: "flex",
-                  width: (width - 100) / 2
+                  width: (width - 100) / 2,
                 }}
               >
                 <OptionModal
@@ -185,7 +192,7 @@ const NewExpense = ({ navigation }: Props) => {
               <View
                 style={{
                   display: "flex",
-                  width: (width - 100) / 2
+                  width: (width - 100) / 2,
                 }}
               >
                 <OptionModal
@@ -209,12 +216,15 @@ const NewExpense = ({ navigation }: Props) => {
             />
           )}
           <CommonInput
-            placeholder="Seleccione un cliente"
-            name="Cliente"
+            placeholder="Seleccione un Proveedor"
+            name="Proveedor"
             touchable={true}
             value={client}
             setValue={setClient}
             marginBottom={25}
+            onPress={() =>
+              navigation.navigate("Providers", { screen: "NewExpense" })
+            }
           />
           <InputDate
             name="Fecha"
@@ -232,7 +242,7 @@ const NewExpense = ({ navigation }: Props) => {
           bottom: 0,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute"
+          position: "absolute",
         }}
       >
         <FAB
@@ -244,7 +254,7 @@ const NewExpense = ({ navigation }: Props) => {
             elevation: 0,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#B3B3B3"
+            backgroundColor: "#B3B3B3",
           }}
           small={false}
           icon="check"
