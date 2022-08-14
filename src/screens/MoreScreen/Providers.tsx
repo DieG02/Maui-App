@@ -14,19 +14,21 @@ import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Search from "react-native-vector-icons/Feather";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
-const Providers = ({ navigation }: Props) => {
+const Providers = ({ navigation, route }: Props) => {
   const { setContacts } = useContext(GeneralContext);
+
   const {
     data,
     isLoading,
@@ -42,6 +44,18 @@ const Providers = ({ navigation }: Props) => {
   const clients = useMemo(() => {
     return data?.filter((item) => item.typeOfContact === "PROVIDER");
   }, [data]);
+
+  const handleOnPress = (item: IContact) => {
+    if (route.params !== undefined) {
+      navigation.navigate({
+        name: "NewExpense",
+        params: { contact: item },
+        merge: true,
+      });
+    } else {
+      Alert.alert("Contacto en Detalle");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -88,7 +102,13 @@ const Providers = ({ navigation }: Props) => {
           getProviders();
         }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => <ContactCard data={item} type="provider" />}
+        renderItem={({ item }) => (
+          <ContactCard
+            data={item}
+            type="provider"
+            onPress={() => handleOnPress(item)}
+          />
+        )}
       />
       <View
         style={{
@@ -106,7 +126,10 @@ const Providers = ({ navigation }: Props) => {
           color={mainColor}
           text="Crear / Importar Contacto"
           onPress={() =>
-            navigation.navigate("NewContact", { type: "provider" })
+            navigation.navigate("NewContact", {
+              type: "provider",
+              screen: route.params?.screen,
+            })
           }
         />
       </View>

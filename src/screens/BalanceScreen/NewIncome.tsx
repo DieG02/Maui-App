@@ -10,7 +10,7 @@ import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import InputForm from "../../components/common/InputForm";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import { FAB } from "react-native-paper";
@@ -26,6 +26,7 @@ const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 const paymentMethods: { name: string; value: PaymentMethod }[] = [
@@ -38,7 +39,7 @@ const paymentMethods: { name: string; value: PaymentMethod }[] = [
 const STATE = ["Pagado", "Deuda"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const NewIncome = ({ navigation }: Props) => {
+const NewIncome = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [products, setProducts] = useState("");
@@ -51,6 +52,12 @@ const NewIncome = ({ navigation }: Props) => {
   const [modalState, setModalState] = useState(false);
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (route.params?.contact) {
+      setClient(route.params.contact.name);
+    }
+  }, [route.params?.contact]);
 
   const paymentMethodHandler = (): PaymentMethod => {
     const payment = paymentMethods.find(
@@ -74,7 +81,7 @@ const NewIncome = ({ navigation }: Props) => {
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
       date: date,
-      clientId: "6299173f9d830c4cb273466f",
+      clientId: route.params?.contact?.id,
     });
 
   useEffect(() => {
@@ -207,6 +214,9 @@ const NewIncome = ({ navigation }: Props) => {
           value={client}
           setValue={setClient}
           marginBottom={25}
+          onPress={() =>
+            navigation.navigate("Clients", { screen: "NewIncome" })
+          }
         />
         <InputDate name="Fecha" date={date} setDate={setDate} color="#33E69B" />
         <Spacer height={10} />
