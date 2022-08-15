@@ -73,7 +73,7 @@ const InputForm = ({
             const formated = separator(integer) + (decimal !== undefined ? "," + decimal : "");
             if(formated.length <= 20) setValue(formated);
           }}
-          onBlur={() => setValue(round(value, 2))}
+          onBlur={() => setValue(round(value))}
           placeholder={placeholder}
           keyboardType={keyboardType}
           maxLength={20}
