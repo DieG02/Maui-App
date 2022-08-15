@@ -22,8 +22,10 @@ interface Props {
 const statusBarStyle = "dark-content";
 const { width, height } = Dimensions.get("window");
 const TransactionsScreen = ({ navigation }: Props) => {
-  const { data } = useQuery("transactionsBalance", () => getTransactions());
-  //   const { data: daily } = useQuery("daylyTransactions", getDailyTransactions);
+  const { data, refetch: getAlltransactions } = useQuery(
+    "transactionsBalance",
+    () => getTransactions()
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -37,27 +39,22 @@ const TransactionsScreen = ({ navigation }: Props) => {
         </Icon>
       </Header>
       <FlatList
-        // data={daily}
         overScrollMode="never"
         data={data}
         showsVerticalScrollIndicator={false}
-        // keyExtractor={(item) => item.date}
         keyExtractor={(item) => item.id}
         refreshing={false}
         onRefresh={() => {
-          getTransactions();
+          getAlltransactions();
         }}
         onEndReached={() => {
-          getTransactions();
+          getAlltransactions();
         }}
         style={{ marginHorizontal: 20 }}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <TransactionModal data={item} key={item.id} />
         )}
-        // renderItem={({ item }) => (
-        //   <TransactionsDropdown item={item} key={item.date} />
-        // )}
         ListEmptyComponent={() => (
           <View
             style={{

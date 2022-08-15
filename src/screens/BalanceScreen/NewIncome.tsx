@@ -68,7 +68,7 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewIncome, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("transactionsBalance");
       queryClient.invalidateQueries("balance");
       queryClient.invalidateQueries("getMonthlyStats");
     },

@@ -81,7 +81,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewExpense, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("transactionsBalance");
       queryClient.invalidateQueries("balance");
       queryClient.invalidateQueries("getMonthlyStats");
     },

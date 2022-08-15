@@ -36,7 +36,7 @@ interface Props {
 const HomeScreen = ({ navigation }: Props) => {
   const { data, refetch: getTransactionsFromHome } = useQuery(
     "transactions",
-    () => getTransactions({ take: 4 })
+    () => getTransactions({ take: 6 })
   );
   useQuery("balance", getBalance);
   useQuery("getMonthlyStats", getMonthlyMainStats);
