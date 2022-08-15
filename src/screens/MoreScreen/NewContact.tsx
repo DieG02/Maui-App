@@ -1,5 +1,4 @@
 import {
-  // Text,
   SafeAreaView,
   StatusBar,
   Alert,
@@ -26,7 +25,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 const statusBarStyle = "dark-content";
-3;
+
 const { mainColor } = globalStyles;
 
 interface Contact {
@@ -101,7 +100,13 @@ const NewContact = ({ route, navigation }: Props) => {
         <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
           {contacts &&
             contacts.map((item) => (
-              <AddContact data={item} key={item.id} type={params?.type} />
+              <AddContact
+                data={item}
+                key={item.id}
+                type={params?.type}
+                screen={params?.screen}
+                navigation={navigation}
+              />
             ))}
         </View>
       </ScrollView>

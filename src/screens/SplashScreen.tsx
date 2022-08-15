@@ -1,15 +1,16 @@
 import { View, Image } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import logo from "../assets/logo.png";
 import { NavigationProp, StackActions } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMount } from "react-use";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
 const SplashScreen = ({ navigation }: Props) => {
-  useEffect(() => {
+  useMount(() => {
     const getToken = async () => {
       const user = await AsyncStorage.getItem("userInfo");
       const token = user ? JSON.parse(user).token : "";
@@ -20,7 +21,7 @@ const SplashScreen = ({ navigation }: Props) => {
       }
     };
     getToken();
-  }, []);
+  });
 
   return (
     <View
@@ -28,7 +29,7 @@ const SplashScreen = ({ navigation }: Props) => {
         flex: 1,
         backgroundColor: "white",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
       <View style={{ alignItems: "center", marginBottom: 30 }}>

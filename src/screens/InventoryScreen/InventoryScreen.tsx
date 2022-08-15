@@ -6,7 +6,7 @@ import {
   Dimensions,
   Alert,
   SafeAreaView,
-  FlatList,
+  FlatList
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -20,7 +20,7 @@ import InputModal from "../../components/common/InputModal";
 import { useMutation, useQuery } from "react-query";
 import {
   createNewItemCategory,
-  getItemCategories,
+  getItemCategories
 } from "../../services/itemCategories";
 import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
@@ -49,20 +49,15 @@ const InventoryScreen = ({ navigation }: Props) => {
   );
 
   const form: createOneProductCategoryInputDto = {
-    name: category,
+    name: category
   };
-  const { mutateAsync } = useMutation(
-    (form: createOneProductCategoryInputDto) => {
-      return createNewItemCategory(form);
-    },
-    {
-      onSuccess: () => {
-        setModalState(false);
-        setCategory("");
-        getCategories();
-      },
+  const { mutateAsync } = useMutation(createNewItemCategory, {
+    onSuccess() {
+      setModalState(false);
+      setCategory("");
+      getCategories();
     }
-  );
+  });
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -98,9 +93,7 @@ const InventoryScreen = ({ navigation }: Props) => {
       <FlatList
         overScrollMode="never"
         data={products}
-        renderItem={({ item }) => (
-          <ProductCard data={item} onPress={() => {}} />
-        )}
+        renderItem={({ item }) => <ProductCard data={item} />}
         showsVerticalScrollIndicator={false}
         refreshing={false}
         onRefresh={() => {
@@ -117,7 +110,7 @@ const InventoryScreen = ({ navigation }: Props) => {
         style={{
           backgroundColor: "white",
           height: 64,
-          width: "100%",
+          width: "100%"
         }}
       >
         <Fab
@@ -140,33 +133,33 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
-    height: 40,
+    height: 40
   },
   out: {
     backgroundColor: "#E6EFF8",
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
-    height: 40,
+    height: 40
   },
   text: {
     marginHorizontal: 20,
     fontSize: 18,
-    color: "white",
+    color: "white"
   },
   text1: {
     marginHorizontal: 20,
     fontSize: 18,
     color: mainColor,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   container: {
     marginLeft: 10,
     marginRight: 20,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
 
 export default InventoryScreen;

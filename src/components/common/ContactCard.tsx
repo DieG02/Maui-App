@@ -7,9 +7,10 @@ const { mainColor } = globalStyles;
 interface Props {
   data: IContact;
   type: string;
+  onPress: () => void;
 }
 
-const ContactCard = ({ data, type }: Props) => {
+const ContactCard = ({ data, type, onPress }: Props) => {
   const renderTypeContact = () => {
     switch (type) {
       case "client": {
@@ -75,6 +76,7 @@ const ContactCard = ({ data, type }: Props) => {
         justifyContent: "space-between",
         marginBottom: 20,
       }}
+      onPress={onPress}
     >
       <View
         style={{

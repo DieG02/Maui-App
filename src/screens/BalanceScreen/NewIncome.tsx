@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Dimensions,
@@ -10,7 +10,7 @@ import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import InputForm from "../../components/common/InputForm";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import { FAB } from "react-native-paper";
@@ -19,16 +19,17 @@ import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
-import { createIncomeBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import Spacer from "../../components/common/Spacer";
+import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 
 const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
-const paymentMethods = [
+const paymentMethods: { name: string; value: PaymentMethod }[] = [
   { name: "Efectivo", value: "CASH" },
   { name: "Tarjeta", value: "CARD" },
   { name: "Transferencia", value: "BANK_TRANSFER" },
@@ -38,7 +39,7 @@ const paymentMethods = [
 const STATE = ["Pagado", "Deuda"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const NewIncome = ({ navigation }: Props) => {
+const NewIncome = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [products, setProducts] = useState("");
@@ -52,55 +53,36 @@ const NewIncome = ({ navigation }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const isPaidState = useMemo(() => {
-    if (isPaid === "Pagado") {
-      return true;
-    } else {
-      return false;
+  useEffect(() => {
+    if (route.params?.contact) {
+      setClient(route.params.contact.name);
     }
-  }, [isPaid]);
+  }, [route.params?.contact]);
 
-  const paymentMethodHandler =
-    (): createIncomeBodyInputDto["paymentMethod"] => {
-      const payment = paymentMethods.find(
-        (method) => method.name === paymentMethod
-      );
-      return payment
-        ? (payment.value as createIncomeBodyInputDto["paymentMethod"])
-        : "CASH";
-    };
-
-  const form: createIncomeBodyInputDto = {
-    value: +amount,
-    name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
-    isPaid: isPaidState,
-    paymentMethod: paymentMethodHandler(),
-    date: date,
-    clientId: "121212",
+  const paymentMethodHandler = (): PaymentMethod => {
+    const payment = paymentMethods.find(
+      (method) => method.name === paymentMethod
+    );
+    return payment ? payment.value : "CASH";
   };
 
-  const { mutateAsync } = useMutation(
-    (form: createIncomeBodyInputDto) => {
-      return createNewIncome({
-        name: form.name,
-        value: form.value,
-        isPaid: form.isPaid,
-        paymentMethod: form.paymentMethod,
-        date: form.date,
-      });
+  const { mutateAsync } = useMutation(createNewIncome, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("balance");
+      queryClient.invalidateQueries("getMonthlyStats");
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("balance");
-        queryClient.invalidateQueries("getMonthlyStats");
-      },
-    }
-  );
+  });
 
-  const handleSubmit = (form: createIncomeBodyInputDto) => {
-    mutateAsync(form);
-  };
+  const handleSubmit = () =>
+    mutateAsync({
+      value: +amount,
+      name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
+      isPaid: isPaid === "Pagado",
+      paymentMethod: paymentMethodHandler(),
+      date: date,
+      clientId: route.params?.contact?.id,
+    });
 
   useEffect(() => {
     if (isPaid === "Pagado") {
@@ -232,6 +214,9 @@ const NewIncome = ({ navigation }: Props) => {
           value={client}
           setValue={setClient}
           marginBottom={25}
+          onPress={() =>
+            navigation.navigate("Clients", { screen: "NewIncome" })
+          }
         />
         <InputDate name="Fecha" date={date} setDate={setDate} color="#33E69B" />
         <Spacer height={10} />
@@ -259,7 +244,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
           small={false}
           icon="check"
-          onPress={() => handleSubmit(form)}
+          onPress={handleSubmit}
         />
       </View>
     </View>

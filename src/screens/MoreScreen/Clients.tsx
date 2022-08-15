@@ -14,18 +14,19 @@ import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
 import Search from "react-native-vector-icons/Feather";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
-const Consumers = ({ navigation }: Props) => {
+const Consumers = ({ navigation, route }: Props) => {
   const { setContacts } = useContext(GeneralContext);
 
   const {
@@ -44,6 +45,18 @@ const Consumers = ({ navigation }: Props) => {
     const res = data?.filter((item) => item.typeOfContact === "CLIENT");
     return res;
   }, [data]);
+
+  const handleOnPress = (item: IContact) => {
+    if (route.params !== undefined) {
+      navigation.navigate({
+        name: "NewIncome",
+        params: { contact: item },
+        merge: true,
+      });
+    } else {
+      Alert.alert("Contacto en Detalle");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -89,7 +102,13 @@ const Consumers = ({ navigation }: Props) => {
           getClients();
         }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => <ContactCard data={item} type="client" />}
+        renderItem={({ item }) => (
+          <ContactCard
+            data={item}
+            type="client"
+            onPress={() => handleOnPress(item)}
+          />
+        )}
       />
       <View
         style={{
@@ -106,7 +125,12 @@ const Consumers = ({ navigation }: Props) => {
           marginLeft={20}
           color={mainColor}
           text="Crear / Importar Contacto"
-          onPress={() => navigation.navigate("NewContact", { type: "client" })}
+          onPress={() =>
+            navigation.navigate("NewContact", {
+              type: "client",
+              screen: route.params?.screen,
+            })
+          }
         />
       </View>
     </SafeAreaView>

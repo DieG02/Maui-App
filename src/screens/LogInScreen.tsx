@@ -3,7 +3,7 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
-  Image,
+  Image
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
@@ -14,7 +14,6 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
-import { signInInputBodyDto } from "../../../Maui-Backend/src/controllers/types";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -28,19 +27,10 @@ export default function LoginScreen({ navigation }: Props) {
 
   const user = {
     email: email,
-    password: password,
+    password: password
   };
 
-  const { mutateAsync } = useMutation(
-    (data: signInInputBodyDto) => {
-      return signIn(data);
-    },
-    {
-      onError: (err) => {
-        console.log(err);
-      },
-    }
-  );
+  const { mutateAsync } = useMutation(signIn, { onError: console.log });
 
   const onPressLogin = async () => {
     const data = await mutateAsync(user);
@@ -56,13 +46,13 @@ export default function LoginScreen({ navigation }: Props) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "white"
       }}
     >
       <View
         style={{
           marginHorizontal: 40,
-          marginTop: 60,
+          marginTop: 60
         }}
       >
         <View style={{ alignItems: "center", marginBottom: 35 }}>
@@ -93,14 +83,14 @@ export default function LoginScreen({ navigation }: Props) {
             borderRadius: 12,
             alignItems: "center",
             justifyContent: "center",
-            marginTop: 30,
+            marginTop: 30
           }}
         >
           <Text
             style={{
               color: "white",
               fontFamily: "Gilroy-Bold",
-              fontSize: 16,
+              fontSize: 16
             }}
           >
             Iniciar Sesión
@@ -114,7 +104,7 @@ export default function LoginScreen({ navigation }: Props) {
             style={{
               color: secondaryColor,
               fontFamily: "Gilroy-Regular",
-              fontSize: 16,
+              fontSize: 16
             }}
           >
             ¿No tenes cuenta?
@@ -124,7 +114,7 @@ export default function LoginScreen({ navigation }: Props) {
               color: mainColor,
               fontFamily: "Gilroy-Bold",
               fontSize: 16,
-              marginLeft: 5,
+              marginLeft: 5
             }}
           >
             Crear cuenta

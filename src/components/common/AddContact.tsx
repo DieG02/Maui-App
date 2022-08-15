@@ -1,3 +1,4 @@
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useMutation, useQueryClient } from "react-query";
@@ -8,14 +9,25 @@ import globalStyles from "../../styles/globalStyles";
 
 interface Props {
   data: IContact;
+  screen: string;
   type: createContactBodyInputDto["typeOfContact"];
+  navigation: NavigationProp<any, any>;
 }
 
 const { mainColor } = globalStyles;
 
-const AddContact = ({ data, type }: Props) => {
+const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
   const queryClient = useQueryClient();
+
+  const handleOnPress = (data: IContact) => {
+    if (screen === "NewIncome") {
+      navigation.navigate("NewIncome", { contact: data });
+    }
+    if (screen === "NewExpense") {
+      navigation.navigate("NewExpense", { contact: data });
+    }
+  };
 
   const form: createContactBodyInputDto = {
     name: data.name,
@@ -30,9 +42,10 @@ const AddContact = ({ data, type }: Props) => {
       return createNewContact(form);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries("clients");
         queryClient.invalidateQueries("providers");
+        handleOnPress(data);
       },
     }
   );
