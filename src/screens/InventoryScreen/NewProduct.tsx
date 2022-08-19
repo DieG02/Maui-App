@@ -5,7 +5,7 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
-  Platform,
+  Platform
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -21,7 +21,7 @@ import { createNewProduct } from "../../services/products";
 import { createNewService } from "../../services/services";
 import {
   createNewProductBodyInputDto,
-  createServiceBodyInputDto,
+  createServiceBodyInputDto
 } from "../../../../Maui-Backend/src/controllers/types";
 import globalStyles from "../../styles/globalStyles";
 import { getItemCategories } from "../../services/itemCategories";
@@ -39,7 +39,7 @@ const UNITS = [
   { name: "Unidad", value: "UNIT" },
   { name: "Kilogramo", value: "KILOGRAM" },
   { name: "Litro", value: "LITER" },
-  { name: "Otro", value: "OTHER" },
+  { name: "Otro", value: "OTHER" }
 ];
 
 const NewIncome = ({ navigation }: Props) => {
@@ -76,32 +76,23 @@ const NewIncome = ({ navigation }: Props) => {
     retailPrice: +price,
     stock: +stock,
     categoryId: itemCategories && handleIdCategory(category, itemCategories),
-    unit: unit,
+    unit: unit
   };
 
   const service: createServiceBodyInputDto = {
     name: name,
     retailPrice: +price,
     categoryId: itemCategories && handleIdCategory(category, itemCategories),
-    description: description,
+    description: description
   };
 
-  const { mutateAsync } = useMutation(
-    (product: createNewProductBodyInputDto) => {
-      return createNewProduct(product);
-    }
-  );
-
-  const { mutateAsync: mutateAsyncService } = useMutation(
-    (service: createServiceBodyInputDto) => {
-      return createNewService(service);
-    }
-  );
+  const { mutateAsync: createProduct } = useMutation(createNewProduct);
+  const { mutateAsync: createService } = useMutation(createNewService);
 
   const handleSubmit = () => {
     if (isProduct === ITEM[0]) {
-      mutateAsync(product);
-    } else mutateAsyncService(service);
+      createProduct(product);
+    } else createService(service);
   };
 
   return (
@@ -110,14 +101,14 @@ const NewIncome = ({ navigation }: Props) => {
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: mainColor }),
+          backgroundColor: Platform.select({ ios: mainColor })
         }}
       />
       <View
         style={{
           backgroundColor: mainColor,
           borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
+          borderBottomLeftRadius: 30
         }}
       >
         <Header
@@ -134,7 +125,7 @@ const NewIncome = ({ navigation }: Props) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          marginHorizontal: 40,
+          marginHorizontal: 40
         }}
       >
         <View style={{ marginBottom: 60, marginTop: 15 }}>
@@ -143,7 +134,7 @@ const NewIncome = ({ navigation }: Props) => {
               fontSize: 18,
               color: secondaryColor,
               fontFamily: "Gilroy-Bold",
-              marginBottom: 10,
+              marginBottom: 10
             }}
           >
             Imagen
@@ -156,7 +147,7 @@ const NewIncome = ({ navigation }: Props) => {
                 width: 157,
                 borderRadius: 20,
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "center"
               }}
             >
               <Text>Imagen</Text>
@@ -183,13 +174,13 @@ const NewIncome = ({ navigation }: Props) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "space-between"
                 }}
               >
                 <View
                   style={{
                     display: "flex",
-                    width: (width - 100) / 2,
+                    width: (width - 100) / 2
                   }}
                 >
                   <InputForm
@@ -204,7 +195,7 @@ const NewIncome = ({ navigation }: Props) => {
                 <View
                   style={{
                     display: "flex",
-                    width: (width - 100) / 2,
+                    width: (width - 100) / 2
                   }}
                 >
                   <CommonInput
@@ -246,13 +237,13 @@ const NewIncome = ({ navigation }: Props) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "space-between"
                 }}
               >
                 <View
                   style={{
                     display: "flex",
-                    width: (width - 100) / 2,
+                    width: (width - 100) / 2
                   }}
                 >
                   <OptionModal
@@ -268,7 +259,7 @@ const NewIncome = ({ navigation }: Props) => {
                 <View
                   style={{
                     display: "flex",
-                    width: (width - 100) / 2,
+                    width: (width - 100) / 2
                   }}
                 >
                   <CommonInput
@@ -327,7 +318,7 @@ const NewIncome = ({ navigation }: Props) => {
           bottom: 0,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          position: "absolute"
         }}
       >
         <FAB
@@ -339,7 +330,7 @@ const NewIncome = ({ navigation }: Props) => {
             elevation: 0,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#B3B3B3",
+            backgroundColor: "#B3B3B3"
           }}
           small={false}
           icon="check"
