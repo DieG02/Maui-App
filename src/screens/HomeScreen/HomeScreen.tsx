@@ -18,13 +18,8 @@ import HomeState from "../../components/HomeScreen/HomeState";
 import TransactionsContainer from "../../components/containers/TransactionsContainer";
 import globalStyles from "../../styles/globalStyles";
 import { useQuery, useQueryClient } from "react-query";
-import {
-  getDailyTransactions,
-  getTransactions,
-} from "../../services/transactions";
+import { getTransactions } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
-import { getItemCategories } from "../../services/itemCategories";
-import { getAllProducts } from "../../services/products";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -40,18 +35,13 @@ const HomeScreen = ({ navigation }: Props) => {
   );
   useQuery("balance", getBalance);
   useQuery("getMonthlyStats", getMonthlyMainStats);
-  useQuery("daylyTransactions", getDailyTransactions);
-  useQuery("itemCategories", getItemCategories);
   useQuery("transactionsBalance", () => getTransactions());
-  useQuery("products", getAllProducts);
 
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
 
   const isFetchingTransactions =
     queryClient.getQueryState("transactions")?.data;
-
-  const isFetchingProducts = queryClient.getQueryState("products")?.data;
 
   const isFetchingGetMonthlyState =
     queryClient.getQueryState("getMonthlyStats")?.data;
@@ -65,7 +55,6 @@ const HomeScreen = ({ navigation }: Props) => {
   };
 
   if (
-    !isFetchingProducts ||
     !isFetchingTransactions ||
     !isFetchingGetMonthlyState ||
     isFetchingBalance === undefined
@@ -108,7 +97,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={10} />
         <HomeState />
         <Spacer height={20} />
-        <Title title="Ultimos registros">
+        <Title title="Últimos registros">
           {data?.length !== 0 && (
             <TouchableOpacity onPress={() => navigation.navigate("balance")}>
               <Text

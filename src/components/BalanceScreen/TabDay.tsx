@@ -8,7 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const TabDay = () => {
   const { data, refetch: getTransaction } = useQuery(
-    "daylyTransactions",
+    "dailyTransactions",
     getDailyTransactions
   );
 

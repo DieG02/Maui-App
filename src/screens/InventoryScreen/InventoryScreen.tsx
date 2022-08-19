@@ -6,7 +6,8 @@ import {
   Dimensions,
   Alert,
   SafeAreaView,
-  FlatList
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -20,7 +21,7 @@ import InputModal from "../../components/common/InputModal";
 import { useMutation, useQuery } from "react-query";
 import {
   createNewItemCategory,
-  getItemCategories
+  getItemCategories,
 } from "../../services/itemCategories";
 import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
@@ -43,21 +44,37 @@ const InventoryScreen = ({ navigation }: Props) => {
     getItemCategories
   );
 
-  const { data: products, refetch: getProducts } = useQuery(
-    "products",
-    getAllProducts
-  );
+  const {
+    data: products,
+    refetch: getProducts,
+    isLoading,
+  } = useQuery("products", getAllProducts);
 
   const form: createOneProductCategoryInputDto = {
-    name: category
+    name: category,
   };
   const { mutateAsync } = useMutation(createNewItemCategory, {
     onSuccess() {
       setModalState(false);
       setCategory("");
       getCategories();
-    }
+    },
   });
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#141414" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -110,7 +127,7 @@ const InventoryScreen = ({ navigation }: Props) => {
         style={{
           backgroundColor: "white",
           height: 64,
-          width: "100%"
+          width: "100%",
         }}
       >
         <Fab
@@ -133,33 +150,33 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
-    height: 40
+    height: 40,
   },
   out: {
     backgroundColor: "#E6EFF8",
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
-    height: 40
+    height: 40,
   },
   text: {
     marginHorizontal: 20,
     fontSize: 18,
-    color: "white"
+    color: "white",
   },
   text1: {
     marginHorizontal: 20,
     fontSize: 18,
     color: mainColor,
-    fontWeight: "500"
+    fontWeight: "500",
   },
   container: {
     marginLeft: 10,
     marginRight: 20,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 export default InventoryScreen;
