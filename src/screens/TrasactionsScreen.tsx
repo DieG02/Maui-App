@@ -7,20 +7,17 @@ import More from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
-import {
-  //   getDailyTransactions,
-  getTransactions,
-} from "../services/transactions";
+import { getTransactions } from "../services/transactions";
 import Fab from "../components/common/Fab";
-import { Text } from "react-native-paper";
 import TransactionModal from "../components/common/TransactionsModal";
+import EmptyState from "../components/common/EmptyState";
 // import TransactionsDropdown from "../components/common/TransactionsDropdown";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 const statusBarStyle = "dark-content";
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 const TransactionsScreen = ({ navigation }: Props) => {
   const { data, refetch: getAlltransactions } = useQuery(
     "transactionsBalance",
@@ -56,23 +53,10 @@ const TransactionsScreen = ({ navigation }: Props) => {
           <TransactionModal data={item} key={item.id} />
         )}
         ListEmptyComponent={() => (
-          <View
-            style={{
-              height: height - 200,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                color: "#A5A5A5",
-                fontFamily: "Gilroy-SemiBold",
-              }}
-            >
-              No tenes transacciones registradas
-            </Text>
-          </View>
+          <EmptyState
+            title=" No tenes transacciones registradas"
+            percentage={0.25}
+          />
         )}
       />
       <View

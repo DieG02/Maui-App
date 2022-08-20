@@ -77,6 +77,7 @@ const HomeScreen = ({ navigation }: Props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView
+        overScrollMode="never"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

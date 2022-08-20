@@ -26,6 +26,7 @@ import {
 import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
 import { getAllProducts } from "../../services/products";
+import EmptyState from "../../components/common/EmptyState";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -119,9 +120,14 @@ const InventoryScreen = ({ navigation }: Props) => {
         onEndReached={() => {
           getProducts();
         }}
+        ListEmptyComponent={() => (
+          <EmptyState title="No tienes productos en tu inventario" />
+        )}
         onEndReachedThreshold={0.5}
         keyExtractor={(item) => item.id.toString()}
-        style={{ marginHorizontal: 30 }}
+        style={{
+          marginHorizontal: 20,
+        }}
       />
       <View
         style={{

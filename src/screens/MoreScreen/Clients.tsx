@@ -18,6 +18,7 @@ import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
+import EmptyState from "../../components/common/EmptyState";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -90,9 +91,16 @@ const Consumers = ({ navigation, route }: Props) => {
         </Icon>
       </Header>
       <FlatList
+        overScrollMode="never"
         data={clients}
         style={{ flex: 1, backgroundColor: "white", marginHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title=" No tenes clientes registrados"
+            percentage={0.25}
+          />
+        )}
         keyExtractor={(item) => item.id}
         refreshing={false}
         onRefresh={() => {

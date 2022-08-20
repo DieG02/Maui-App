@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
   StatusBar,
+  Appearance,
 } from "react-native";
 import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
@@ -18,11 +19,15 @@ import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
+import EmptyState from "../../components/common/EmptyState";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
+
+const colorScheme = Appearance.getColorScheme();
+console.log("colorScheme", colorScheme);
 const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
@@ -41,9 +46,11 @@ const Providers = ({ navigation, route }: Props) => {
     },
   });
 
-  const clients = useMemo(() => {
+  const providers = useMemo(() => {
     return data?.filter((item) => item.typeOfContact === "PROVIDER");
   }, [data]);
+
+  console.log("providers", providers?.length);
 
   const handleOnPress = (item: IContact) => {
     if (route.params !== undefined) {
@@ -73,7 +80,12 @@ const Providers = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colorScheme === "dark" ? "black" : "white",
+      }}
+    >
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header
         name="Proveedores"
@@ -90,11 +102,18 @@ const Providers = ({ navigation, route }: Props) => {
       </Header>
 
       <FlatList
-        data={clients}
+        overScrollMode="never"
+        data={providers}
         style={{ flex: 1, backgroundColor: "white", marginHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         refreshing={false}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title=" No tenes proveedores registrados"
+            percentage={0.25}
+          />
+        )}
         onRefresh={() => {
           getProviders();
         }}
