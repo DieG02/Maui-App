@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   ActivityIndicator,
   StatusBar,
-  Appearance,
 } from "react-native";
 import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
@@ -26,8 +25,6 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
-const colorScheme = Appearance.getColorScheme();
-console.log("colorScheme", colorScheme);
 const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
@@ -49,8 +46,6 @@ const Providers = ({ navigation, route }: Props) => {
   const providers = useMemo(() => {
     return data?.filter((item) => item.typeOfContact === "PROVIDER");
   }, [data]);
-
-  console.log("providers", providers?.length);
 
   const handleOnPress = (item: IContact) => {
     if (route.params !== undefined) {
@@ -83,7 +78,7 @@ const Providers = ({ navigation, route }: Props) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colorScheme === "dark" ? "black" : "white",
+        backgroundColor: "white",
       }}
     >
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
