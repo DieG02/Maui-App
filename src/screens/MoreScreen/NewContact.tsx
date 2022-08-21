@@ -19,6 +19,8 @@ import {
   requestContactPermission,
 } from "../../../utils";
 import AddContact from "../../components/common/AddContact";
+import Fab from "../../components/common/Fab";
+import ContactForm from "../../components/common/ContactForm";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -26,7 +28,7 @@ interface Props {
 }
 const statusBarStyle = "dark-content";
 
-const { mainColor } = globalStyles;
+const { mainColor, width } = globalStyles;
 
 interface Contact {
   name: string;
@@ -35,10 +37,17 @@ interface Contact {
 }
 
 const NewContact = ({ route, navigation }: Props) => {
+  const { params } = route;
+
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { params } = route;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [comments, setComments] = useState("");
 
   const getContacts = async () => {
     setIsLoading(true);
@@ -97,7 +106,7 @@ const NewContact = ({ route, navigation }: Props) => {
         style={{ flex: 1, backgroundColor: "white" }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
+        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
           {contacts &&
             contacts.map((item) => (
               <AddContact
@@ -109,7 +118,40 @@ const NewContact = ({ route, navigation }: Props) => {
               />
             ))}
         </View>
+        <ContactForm
+          comments={comments}
+          setComments={setComments}
+          email={email}
+          setEmail={setEmail}
+          name={name}
+          setName={setName}
+          phone={phone}
+          setPhone={setPhone}
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          type={params?.type}
+          screen={params?.screen}
+          navigation={navigation}
+        />
       </ScrollView>
+      <View
+        style={{
+          backgroundColor: "white",
+          height: 64,
+          width: "100%",
+        }}
+      >
+        <Fab
+          bottom={0}
+          left={0}
+          width={width - 40}
+          height={50}
+          marginLeft={20}
+          color={mainColor}
+          text="Crear nuevo contacto"
+          onPress={() => setIsModalVisible(true)}
+        />
+      </View>
     </SafeAreaView>
   );
 };
