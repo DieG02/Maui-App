@@ -25,8 +25,8 @@ import {
 } from "../../services/itemCategories";
 import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
-import { getAllProducts } from "../../services/products";
 import EmptyState from "../../components/common/EmptyState";
+import { getAllItem } from "../../services/items";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -45,11 +45,15 @@ const InventoryScreen = ({ navigation }: Props) => {
     getItemCategories
   );
 
-  const {
-    data: products,
-    refetch: getProducts,
-    isLoading,
-  } = useQuery("products", getAllProducts);
+  // const {
+  //   data: products,
+  //   refetch: getProducts,
+  //   isLoading,
+  // } = useQuery("products", getAllProducts);
+
+  const { data: items, isLoading } = useQuery("items", getAllItem);
+
+  console.log("items", items);
 
   const form: createOneProductCategoryInputDto = {
     name: category,
@@ -110,16 +114,17 @@ const InventoryScreen = ({ navigation }: Props) => {
       </View>
       <FlatList
         overScrollMode="never"
-        data={products}
+        // data={products}
+        data={items}
         renderItem={({ item }) => <ProductCard data={item} />}
         showsVerticalScrollIndicator={false}
         refreshing={false}
-        onRefresh={() => {
-          getProducts();
-        }}
-        onEndReached={() => {
-          getProducts();
-        }}
+        // onRefresh={() => {
+        //   getProducts();
+        // }}
+        // onEndReached={() => {
+        //   getProducts();
+        // }}
         ListEmptyComponent={() => (
           <EmptyState title="No tienes productos en tu inventario" />
         )}
