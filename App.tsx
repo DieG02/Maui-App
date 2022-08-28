@@ -9,7 +9,6 @@ import InventoryScreen from "./src/screens/InventoryScreen/InventoryScreen";
 import Budget from "./src/screens/HomeScreen/Budget";
 import NotificationsScreen from "./src/screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./src/screens/MoreScreen/MoreScreen";
-import ContactsScreen from "./src/screens/MoreScreen/ContactsScreen";
 import ClientsScreen from "./src/screens/MoreScreen/Clients";
 import NewProduct from "./src/screens/InventoryScreen/NewProduct";
 import SearchScreen from "./src/screens/SearchScreen";
@@ -49,7 +48,6 @@ const App = () => {
               <Stack.Screen name="NewContact" component={NewContact} />
               <Stack.Screen name="Providers" component={ProvidersScreen} />
               <Stack.Screen name="Debts" component={DebtsScreen} />
-              <Stack.Screen name="Contacts" component={ContactsScreen} />
               <Stack.Screen name="NewProduct" component={NewProduct} />
               <Stack.Screen name="SearchScreen" component={SearchScreen} />
             </Stack.Navigator>
