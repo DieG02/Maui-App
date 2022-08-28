@@ -10,9 +10,9 @@ import TabDay from "../../components/BalanceScreen/TabDay";
 import TabWeek from "../../components/BalanceScreen/TabWeek";
 import TabMonth from "../../components/BalanceScreen/TabMonth";
 import TabYear from "../../components/BalanceScreen/TabYear";
-import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
+import Button from "../../components/common/Button";
 
 const { mainColor, secondaryColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -78,26 +78,33 @@ export default function BalanceScreen({ navigation }: Props) {
           backgroundColor: "white",
           height: 64,
           width: "100%",
+          justifyContent: "center",
         }}
       >
-        <Fab
-          right={0}
-          bottom={0}
-          width={(width - 60) / 2}
-          color="#FD6363"
-          text="Egreso"
-          marginRight={20}
-          onPress={() => navigation.navigate("NewExpense")}
-        />
-        <Fab
-          left={0}
-          bottom={0}
-          width={(width - 60) / 2}
-          color="#33E69B"
-          text="Ingreso"
-          marginLeft={20}
-          onPress={() => navigation.navigate("NewIncome")}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: 20,
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            onPress={() => navigation.navigate("NewIncome")}
+            text="Nueva Venta"
+            style={{
+              backgroundColor: "#33E69B",
+              width: (width - 60) / 2,
+            }}
+          />
+          <Button
+            onPress={() => navigation.navigate("NewExpense")}
+            text="Nueva Gasto"
+            style={{
+              backgroundColor: "#FD6363",
+              width: (width - 60) / 2,
+            }}
+          />
+        </View>
       </View>
     </NavigationContainer>
   );

@@ -19,8 +19,8 @@ import {
   requestContactPermission,
 } from "../../../utils";
 import AddContact from "../../components/common/AddContact";
-import Fab from "../../components/common/Fab";
 import ContactForm from "../../components/common/ContactForm";
+import Button from "../../components/common/Button";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -134,22 +134,24 @@ const NewContact = ({ route, navigation }: Props) => {
           navigation={navigation}
         />
       </ScrollView>
+
       <View
         style={{
-          backgroundColor: "white",
-          height: 64,
           width: "100%",
+          height: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Fab
-          bottom={0}
-          left={0}
-          width={width - 40}
-          height={50}
-          marginLeft={20}
-          color={mainColor}
+        <Button
           text="Crear nuevo contacto"
           onPress={() => setIsModalVisible(true)}
+          style={{
+            backgroundColor: mainColor,
+            width: width - 40,
+            elevation: 4,
+          }}
         />
       </View>
     </SafeAreaView>

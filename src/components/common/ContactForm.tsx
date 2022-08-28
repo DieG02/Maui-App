@@ -71,7 +71,6 @@ const ContactForm = ({
     {
       onSuccess: (data) => {
         handleOnPress(data);
-        console.log("data", data);
       },
     }
   );

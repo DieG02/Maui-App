@@ -30,7 +30,7 @@ export default function LoginScreen({ navigation }: Props) {
     password: password,
   };
 
-  const { mutateAsync } = useMutation(signIn, { onError: console.log });
+  const { mutateAsync } = useMutation(signIn);
 
   const onPressLogin = async () => {
     const data = await mutateAsync(user);

@@ -13,7 +13,6 @@ import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { FAB } from "react-native-paper";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
@@ -21,6 +20,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
+import Button from "../../components/common/Button";
 
 const { width } = Dimensions.get("window");
 
@@ -140,17 +140,22 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={products}
           setValue={setProducts}
           marginBottom={25}
-          marginTop={15}
+          marginTop={10}
         />
         <InputForm
+          autoFocus={true}
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
           name="Valor"
           setValue={setAmount}
           marginBottom={25}
+          onSubmit={() => {
+            if (amount === "") {
+              setAmount("0,00");
+            }
+          }}
         />
-
         <CommonInput
           placeholder="¿Como quieres llamar a este ingreso?"
           name="Descripción"
@@ -224,27 +229,23 @@ const NewIncome = ({ navigation, route }: Props) => {
       <View
         style={{
           width: "100%",
-          height: 90,
-          bottom: 0,
+          height: 80,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          backgroundColor: "white",
         }}
       >
-        <FAB
-          color="white"
-          style={{
-            position: "absolute",
-            width: 50,
-            height: 50,
-            elevation: 0,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#B3B3B3",
-          }}
-          small={false}
-          icon="check"
+        <Button
+          disabled={amount === "" || amount === "0"}
           onPress={handleSubmit}
+          text="Registrar venta"
+          style={{
+            backgroundColor:
+              amount === "" || amount === "0" ? "#B3B3B3" : "#33E69B",
+            width: width - 80,
+            borderRadius: 25,
+            elevation: amount !== "" ? 3 : 0,
+          }}
         />
       </View>
     </View>

@@ -8,10 +8,9 @@ import { NavigationProp } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
 import { getTransactions } from "../services/transactions";
-import Fab from "../components/common/Fab";
 import TransactionModal from "../components/common/TransactionsModal";
 import EmptyState from "../components/common/EmptyState";
-// import TransactionsDropdown from "../components/common/TransactionsDropdown";
+import Button from "../components/common/Button";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -64,26 +63,35 @@ const TransactionsScreen = ({ navigation }: Props) => {
           backgroundColor: "white",
           height: 64,
           width: "100%",
+          justifyContent: "center",
         }}
       >
-        <Fab
-          right={0}
-          bottom={0}
-          width={(width - 60) / 2}
-          color="#FD6363"
-          text="Egreso"
-          marginRight={20}
-          onPress={() => navigation.navigate("NewExpense")}
-        />
-        <Fab
-          left={0}
-          bottom={0}
-          width={(width - 60) / 2}
-          color="#33E69B"
-          text="Ingreso"
-          marginLeft={20}
-          onPress={() => navigation.navigate("NewIncome")}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: 20,
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            onPress={() => navigation.navigate("NewIncome")}
+            text="Nueva Venta"
+            style={{
+              backgroundColor: "#33E69B",
+              width: (width - 60) / 2,
+              elevation: 4,
+            }}
+          />
+          <Button
+            onPress={() => navigation.navigate("NewExpense")}
+            text="Nueva Gasto"
+            style={{
+              backgroundColor: "#FD6363",
+              width: (width - 60) / 2,
+              elevation: 4,
+            }}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
