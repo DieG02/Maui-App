@@ -14,7 +14,6 @@ import Icon from "../../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
 import More from "react-native-vector-icons/Feather";
 import ProductCard from "../../components/common/ProductCard";
-import Fab from "../../components/common/Fab";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import InputModal from "../../components/common/InputModal";
@@ -27,6 +26,7 @@ import { createOneProductCategoryInputDto } from "../../../../Maui-Backend/src/c
 import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider";
 import EmptyState from "../../components/common/EmptyState";
 import { getAllItem } from "../../services/items";
+import Button from "../../components/common/Button";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -45,15 +45,7 @@ const InventoryScreen = ({ navigation }: Props) => {
     getItemCategories
   );
 
-  // const {
-  //   data: products,
-  //   refetch: getProducts,
-  //   isLoading,
-  // } = useQuery("products", getAllProducts);
-
   const { data: items, isLoading } = useQuery("items", getAllItem);
-
-  console.log("items", items);
 
   const form: createOneProductCategoryInputDto = {
     name: category,
@@ -136,19 +128,21 @@ const InventoryScreen = ({ navigation }: Props) => {
       />
       <View
         style={{
-          backgroundColor: "white",
-          height: 64,
           width: "100%",
+          height: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Fab
-          bottom={0}
-          left={0}
-          width={width - 40}
-          marginLeft={20}
-          color={mainColor}
-          text="Crear Item"
+        <Button
           onPress={() => navigation.navigate("NewProduct")}
+          text="Registrar item"
+          style={{
+            backgroundColor: mainColor,
+            width: width - 60,
+            elevation: 4,
+          }}
         />
       </View>
     </SafeAreaView>

@@ -9,7 +9,6 @@ import {
 import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
-import Fab from "../../components/common/Fab";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
@@ -19,6 +18,7 @@ import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 import EmptyState from "../../components/common/EmptyState";
+import Button from "../../components/common/Button";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -95,7 +95,6 @@ const Providers = ({ navigation, route }: Props) => {
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
       </Header>
-
       <FlatList
         overScrollMode="never"
         data={providers}
@@ -126,18 +125,14 @@ const Providers = ({ navigation, route }: Props) => {
       />
       <View
         style={{
-          backgroundColor: "white",
-          height: 64,
           width: "100%",
+          height: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Fab
-          bottom={0}
-          left={0}
-          width={width - 40}
-          height={50}
-          marginLeft={20}
-          color={mainColor}
+        <Button
           text="Crear / Importar Contacto"
           onPress={() =>
             navigation.navigate("NewContact", {
@@ -145,6 +140,11 @@ const Providers = ({ navigation, route }: Props) => {
               screen: route.params?.screen,
             })
           }
+          style={{
+            backgroundColor: mainColor,
+            width: width - 40,
+            elevation: 4,
+          }}
         />
       </View>
     </SafeAreaView>
