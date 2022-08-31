@@ -3,16 +3,14 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  Dimensions,
-  Alert,
   SafeAreaView,
   FlatList,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
-import More from "react-native-vector-icons/Feather";
 import ProductCard from "../../components/common/ProductCard";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
@@ -28,24 +26,36 @@ import EmptyState from "../../components/common/EmptyState";
 import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
 
-const { mainColor } = globalStyles;
+import Close from "react-native-vector-icons/AntDesign";
+
 const statusBarStyle = "dark-content";
-const { width } = Dimensions.get("window");
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
+const { mainColor, secondaryColor, width } = globalStyles;
+
 const InventoryScreen = ({ navigation }: Props) => {
   const [modalState, setModalState] = useState(false);
   const [category, setCategory] = useState("");
 
+  const [text, onChangeText] = useState("");
+
+  const [isSearch, setIsSearch] = useState(false);
+
+  const { data: items, isLoading } = useQuery("items", getAllItem);
   const { data: itemCategories, refetch: getCategories } = useQuery(
     "itemCategories",
     getItemCategories
   );
 
-  const { data: items, isLoading } = useQuery("items", getAllItem);
+  const filterData = () => {
+    const filtered = items?.filter((item) =>
+      item.name.toLowerCase().startsWith(text.toLowerCase())
+    );
+    return filtered;
+  };
 
   const form: createOneProductCategoryInputDto = {
     name: category,
@@ -76,50 +86,84 @@ const InventoryScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header name="Inventario">
-        <Icon onPress={() => navigation.navigate("SearchScreen")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-        <Icon onPress={() => Alert.alert("Search")}>
-          <More name="more-vertical" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
-      <View>
-        <View style={styles.container}>
-          <View style={{ marginRight: 10 }}>
-            <InputModal
-              isDataEmpty={itemCategories?.length === 0}
-              isModalVisible={modalState}
-              setIsModalVisible={setModalState}
-              setSelectedOption={setCategory}
-              selectedOption={category}
-              buttonDisabled={category == ""}
-              buttonText="Crear Categoría"
-              buttonStyle={{ backgroundColor: mainColor, height: 55 }}
-              onPress={() => mutateAsync(form)}
-            />
-          </View>
-          {itemCategories?.length !== 0 && (
-            <CategoriesSlider itemCategories={itemCategories} />
-          )}
+      {!isSearch ? (
+        <Header name="Inventario">
+          <Icon onPress={() => setIsSearch(true)}>
+            <Search name="search" size={25} color="#302F3C" />
+          </Icon>
+        </Header>
+      ) : (
+        <View
+          style={{
+            height: 60,
+            backgroundColor: "white",
+            borderColor: "#e0e0e0",
+            borderBottomWidth: 1,
+            flexDirection: "row",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <TextInput
+            onChangeText={onChangeText}
+            value={text}
+            autoFocus={true}
+            placeholder="Buscar ..."
+            placeholderTextColor={secondaryColor}
+            style={{
+              marginLeft: 20,
+              width: width - 80,
+              fontSize: 16,
+            }}
+            autoCapitalize="none"
+          />
+
+          <Icon
+            onPress={() => {
+              onChangeText("");
+              setIsSearch(false);
+            }}
+          >
+            <Close name="close" size={25} color={secondaryColor} />
+          </Icon>
         </View>
+      )}
+
+      <View>
+        {!isSearch && (
+          <View style={styles.container}>
+            <View style={{ marginRight: 10 }}>
+              <InputModal
+                isDataEmpty={itemCategories?.length === 0}
+                isModalVisible={modalState}
+                setIsModalVisible={setModalState}
+                setSelectedOption={setCategory}
+                selectedOption={category}
+                buttonDisabled={category == ""}
+                buttonText="Crear Categoría"
+                buttonStyle={{ backgroundColor: mainColor, height: 55 }}
+                onPress={() => mutateAsync(form)}
+              />
+            </View>
+            {itemCategories?.length !== 0 && (
+              <CategoriesSlider itemCategories={itemCategories} />
+            )}
+          </View>
+        )}
       </View>
       <FlatList
         overScrollMode="never"
-        // data={products}
-        data={items}
+        data={filterData()}
         renderItem={({ item }) => <ProductCard data={item} />}
         showsVerticalScrollIndicator={false}
         refreshing={false}
-        // onRefresh={() => {
-        //   getProducts();
-        // }}
-        // onEndReached={() => {
-        //   getProducts();
-        // }}
-        ListEmptyComponent={() => (
-          <EmptyState title="No tienes productos en tu inventario" />
-        )}
+        ListEmptyComponent={() =>
+          text.length !== 0 ? (
+            <EmptyState title="No se encontraron coincidencias" />
+          ) : (
+            <EmptyState title="No tienes productos en tu inventario" />
+          )
+        }
         onEndReachedThreshold={0.5}
         keyExtractor={(item) => item.id.toString()}
         style={{
