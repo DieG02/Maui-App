@@ -1,9 +1,8 @@
-import { StatusBar, Alert, View, Dimensions, FlatList } from "react-native";
-import React from "react";
+import { StatusBar, View, Dimensions, FlatList } from "react-native";
+import React, { useState } from "react";
 import Header from "../components/common/Header";
 import Icon from "../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
-import More from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
@@ -11,6 +10,7 @@ import { getTransactions } from "../services/transactions";
 import TransactionModal from "../components/common/TransactionsModal";
 import EmptyState from "../components/common/EmptyState";
 import Button from "../components/common/Button";
+import SearchBar from "../components/common/SearchBar";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -18,25 +18,45 @@ interface Props {
 const statusBarStyle = "dark-content";
 const { width } = Dimensions.get("window");
 const TransactionsScreen = ({ navigation }: Props) => {
+  const [text, onChangeText] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
+
   const { data, refetch: getAlltransactions } = useQuery(
     "transactionsBalance",
     () => getTransactions()
   );
 
+  const filterData = () => {
+    const filtered = data?.filter((item) =>
+      item.name?.toLowerCase().startsWith(text.toLowerCase())
+    );
+    return filtered;
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header name="Balance">
-        <Icon onPress={() => navigation.navigate("SearchScreen")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-        <Icon onPress={() => Alert.alert("Search")}>
-          <More name="more-vertical" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
+      {!isSearch ? (
+        <Header name="Balance">
+          <Icon onPress={() => setIsSearch(true)}>
+            <Search name="search" size={25} color="#302F3C" />
+          </Icon>
+        </Header>
+      ) : (
+        <SearchBar
+          onChangeText={onChangeText}
+          text={text}
+          placeholder="Buscar ..."
+          onPress={() => {
+            onChangeText("");
+            setIsSearch(false);
+          }}
+          onBlur={() => text.length === 0 && setIsSearch(false)}
+        />
+      )}
       <FlatList
         overScrollMode="never"
-        data={data}
+        data={filterData()}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         refreshing={false}
@@ -51,12 +71,13 @@ const TransactionsScreen = ({ navigation }: Props) => {
         renderItem={({ item }) => (
           <TransactionModal data={item} key={item.id} />
         )}
-        ListEmptyComponent={() => (
-          <EmptyState
-            title=" No tenes transacciones registradas"
-            percentage={0.25}
-          />
-        )}
+        ListEmptyComponent={() =>
+          text.length !== 0 ? (
+            <EmptyState title="No se encontraron coincidencias" />
+          ) : (
+            <EmptyState title="No tenes transacciones registradas" />
+          )
+        }
       />
       <View
         style={{
