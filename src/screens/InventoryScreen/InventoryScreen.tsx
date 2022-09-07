@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   FlatList,
   ActivityIndicator,
-  TextInput,
 } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
@@ -26,7 +25,7 @@ import EmptyState from "../../components/common/EmptyState";
 import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
 
-import Close from "react-native-vector-icons/AntDesign";
+import SearchBar from "../../components/common/SearchBar";
 
 const statusBarStyle = "dark-content";
 
@@ -34,7 +33,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, secondaryColor, width } = globalStyles;
+const { mainColor, width } = globalStyles;
 
 const InventoryScreen = ({ navigation }: Props) => {
   const [modalState, setModalState] = useState(false);
@@ -93,42 +92,17 @@ const InventoryScreen = ({ navigation }: Props) => {
           </Icon>
         </Header>
       ) : (
-        <View
-          style={{
-            height: 60,
-            backgroundColor: "white",
-            borderColor: "#e0e0e0",
-            borderBottomWidth: 1,
-            flexDirection: "row",
-            display: "flex",
-            alignItems: "center",
+        <SearchBar
+          onChangeText={onChangeText}
+          text={text}
+          placeholder="Buscar ..."
+          onPress={() => {
+            onChangeText("");
+            setIsSearch(false);
           }}
-        >
-          <TextInput
-            onChangeText={onChangeText}
-            value={text}
-            autoFocus={true}
-            placeholder="Buscar ..."
-            placeholderTextColor={secondaryColor}
-            style={{
-              marginLeft: 20,
-              width: width - 80,
-              fontSize: 16,
-            }}
-            autoCapitalize="none"
-          />
-
-          <Icon
-            onPress={() => {
-              onChangeText("");
-              setIsSearch(false);
-            }}
-          >
-            <Close name="close" size={25} color={secondaryColor} />
-          </Icon>
-        </View>
+          onBlur={() => text.length === 0 && setIsSearch(false)}
+        />
       )}
-
       <View>
         {!isSearch && (
           <View style={styles.container}>
@@ -220,7 +194,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   container: {
-    marginLeft: 10,
+    marginLeft: 20,
     marginRight: 20,
     display: "flex",
     flexDirection: "row",
