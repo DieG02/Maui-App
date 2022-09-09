@@ -20,6 +20,7 @@ import ProvidersScreen from "./src/screens/MoreScreen/Providers";
 import NewContact from "./src/screens/MoreScreen/NewContact";
 import GeneralProvider from "./src/context/GeneralContext";
 import DebtsScreen from "./src/screens/MoreScreen/Debts";
+import AddItems from "./src/screens/BalanceScreen/AddItems";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => {
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="NewIncome" component={NewIncome} />
               <Stack.Screen name="NewExpense" component={NewExpense} />
+              <Stack.Screen name="AddItems" component={AddItems} />
               <Stack.Screen name="Inventory" component={InventoryScreen} />
               <Stack.Screen name="Budget" component={Budget} />
               <Stack.Screen
