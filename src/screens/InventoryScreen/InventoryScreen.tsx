@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
@@ -26,6 +25,7 @@ import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
 
 import SearchBar from "../../components/common/SearchBar";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const statusBarStyle = "dark-content";
 
@@ -83,7 +83,7 @@ const InventoryScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
         <Header name="Inventario">
@@ -163,7 +163,7 @@ const InventoryScreen = ({ navigation }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

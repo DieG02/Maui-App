@@ -4,13 +4,13 @@ import Header from "../components/common/Header";
 import Icon from "../components/common/Icon";
 import Search from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
 import { getTransactions } from "../services/transactions";
 import TransactionModal from "../components/common/TransactionsModal";
 import EmptyState from "../components/common/EmptyState";
 import Button from "../components/common/Button";
 import SearchBar from "../components/common/SearchBar";
+import ScreenContainer from "../components/containers/ScreenContainer";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -34,7 +34,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
         <Header name="Balance">
@@ -114,7 +114,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

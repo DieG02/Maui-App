@@ -5,7 +5,6 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
@@ -25,6 +24,7 @@ import Arrow from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "react-query";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const { mainColor } = globalStyles;
 
@@ -50,7 +50,7 @@ const More = ({ navigation }: Props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header
@@ -191,7 +191,7 @@ const More = ({ navigation }: Props) => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

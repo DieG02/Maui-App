@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Alert, SafeAreaView } from "react-native";
+import { Text, View, Alert } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
@@ -8,6 +8,7 @@ import Bill from "react-native-vector-icons/FontAwesome5";
 import Bank from "react-native-vector-icons/FontAwesome";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const { mainColor } = globalStyles;
 
@@ -17,7 +18,7 @@ interface Props {
 
 const Budget = ({ navigation }: Props) => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fafafa" }}>
+    <ScreenContainer>
       <Header
         name="Presupuestos"
         color="#f8f8f8"
@@ -115,7 +116,7 @@ const Budget = ({ navigation }: Props) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 
