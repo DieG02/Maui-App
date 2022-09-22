@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import CommonInput from "../components/common/CommonInput";
@@ -13,6 +7,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signUp } from "../services/auth";
 import { signUpInputBodyDto } from "../../../Maui-Backend/src/controllers/types";
+import ScreenContainer from "../components/containers/ScreenContainer";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -47,12 +42,7 @@ export default function SignUpScreen({ navigation }: Props) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-      }}
-    >
+    <ScreenContainer>
       <View
         style={{
           marginHorizontal: 40,
@@ -125,6 +115,6 @@ export default function SignUpScreen({ navigation }: Props) {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }

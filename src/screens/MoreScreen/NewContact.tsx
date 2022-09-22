@@ -1,5 +1,4 @@
 import {
-  SafeAreaView,
   StatusBar,
   Alert,
   ScrollView,
@@ -21,6 +20,7 @@ import {
 import AddContact from "../../components/common/AddContact";
 import ContactForm from "../../components/common/ContactForm";
 import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -86,7 +86,7 @@ const NewContact = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header
         name="Agregar Contactos"
@@ -101,6 +101,7 @@ const NewContact = ({ route, navigation }: Props) => {
           <Search name="search" size={25} color="#302F3C" />
         </Icon>
       </Header>
+
       <ScrollView
         overScrollMode="never"
         style={{ flex: 1, backgroundColor: "white" }}
@@ -154,7 +155,7 @@ const NewContact = ({ route, navigation }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

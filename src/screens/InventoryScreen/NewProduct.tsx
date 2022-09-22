@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
+import { Text, View, Dimensions, StatusBar, Platform } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
@@ -24,6 +17,8 @@ import {
 import globalStyles from "../../styles/globalStyles";
 import { getItemCategories } from "../../services/itemCategories";
 import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const { width } = Dimensions.get("window");
 
@@ -95,7 +90,7 @@ const NewIncome = ({ navigation }: Props) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar backgroundColor={mainColor} />
       <View
         style={{
@@ -103,30 +98,18 @@ const NewIncome = ({ navigation }: Props) => {
           backgroundColor: Platform.select({ ios: mainColor }),
         }}
       />
-      <View
-        style={{
-          backgroundColor: mainColor,
-          borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
-        }}
-      >
-        <Header
-          titleColor="white"
-          name="Registrar Item"
-          color={mainColor}
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color="white" />
-            </Icon>
-          }
-        />
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
+      <Header
+        titleColor="white"
+        name="Registrar Item"
+        color={mainColor}
+        icon={
+          <Icon onPress={() => navigation.goBack()}>
+            <Arrow name="arrow-back" size={30} color="white" />
+          </Icon>
+        }
+      />
+
+      <ScrollContainer>
         <View style={{ marginTop: 15 }}>
           <Text
             style={{
@@ -309,7 +292,7 @@ const NewIncome = ({ navigation }: Props) => {
             </>
           )}
         </View>
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
@@ -328,7 +311,7 @@ const NewIncome = ({ navigation }: Props) => {
           }}
         />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewIncome;

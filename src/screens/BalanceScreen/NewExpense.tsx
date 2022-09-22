@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
+import { View, Dimensions, StatusBar, Platform } from "react-native";
 import Header from "../../components/common/Header";
 import Icon from "../../components/common/Icon";
 import Arrow from "react-native-vector-icons/Ionicons";
@@ -22,6 +16,8 @@ import { getExpenseCategories } from "../../services/expenseCategories";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const { width } = Dimensions.get("window");
 
@@ -107,7 +103,7 @@ const NewExpense = ({ navigation, route }: Props) => {
   }, [isPaid]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar backgroundColor="#FD6363" />
       <View
         style={{
@@ -133,12 +129,8 @@ const NewExpense = ({ navigation, route }: Props) => {
           }
         />
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
+
+      <ScrollContainer>
         <View>
           <Spacer height={10} />
           <OptionModal
@@ -239,7 +231,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           />
           <Spacer height={10} />
         </View>
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
@@ -266,7 +258,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           }}
         />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewExpense;

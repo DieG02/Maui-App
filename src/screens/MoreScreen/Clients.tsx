@@ -2,7 +2,6 @@ import {
   View,
   Alert,
   FlatList,
-  SafeAreaView,
   ActivityIndicator,
   StatusBar,
 } from "react-native";
@@ -19,6 +18,7 @@ import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -75,7 +75,7 @@ const Consumers = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <Header
         name="Clientes"
@@ -142,7 +142,7 @@ const Consumers = ({ navigation, route }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

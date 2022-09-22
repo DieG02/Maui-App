@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Text,
   RefreshControl,
-  SafeAreaView,
   View,
   ActivityIndicator,
 } from "react-native";
@@ -20,6 +19,7 @@ import globalStyles from "../../styles/globalStyles";
 import { useQuery, useQueryClient } from "react-query";
 import { getTransactions } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
 const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
@@ -74,8 +74,9 @@ const HomeScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
+
       <ScrollView
         overScrollMode="never"
         refreshControl={
@@ -117,7 +118,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={10} />
         <TransactionsContainer data={data} />
       </ScrollView>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

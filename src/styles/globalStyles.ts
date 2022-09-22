@@ -8,6 +8,8 @@ const globalStyles = {
   secondaryColor: "#3a3a3a",
   width: width,
   height: height,
+  background: "#ffff",
+  marginHorizontal: 30,
 };
 
 export default globalStyles;
