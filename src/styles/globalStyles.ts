@@ -9,7 +9,11 @@ const globalStyles = {
   width: width,
   height: height,
   background: "#ffff",
+  white: "#fff",
   marginHorizontal: 30,
+  income: "#33E69B",
+  expense: "#FD6363",
+  item: "#3784F9",
 };
 
 export default globalStyles;

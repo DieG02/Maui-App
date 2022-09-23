@@ -1,12 +1,7 @@
 import React from "react";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
-import globalStyles from "../../styles/globalStyles";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-
-const { mainColor } = globalStyles;
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -15,14 +10,9 @@ interface Props {
 const NotificationsScreen = ({ navigation }: Props) => {
   return (
     <ScreenContainer>
-      <Header
-        name="Notificaciones"
-        color="white"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
+      <BackHeaderTitle
+        label="Notificaciones"
+        onPressBack={() => navigation.goBack()}
       />
     </ScreenContainer>
   );

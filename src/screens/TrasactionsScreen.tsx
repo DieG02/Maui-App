@@ -1,8 +1,5 @@
 import { StatusBar, View, Dimensions, FlatList } from "react-native";
 import React, { useState } from "react";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
-import Search from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getTransactions } from "../services/transactions";
@@ -11,6 +8,7 @@ import EmptyState from "../components/common/EmptyState";
 import Button from "../components/common/Button";
 import SearchBar from "../components/common/SearchBar";
 import ScreenContainer from "../components/containers/ScreenContainer";
+import { HeaderTitle } from "../components/common/HeaderTitle";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -37,11 +35,11 @@ const TransactionsScreen = ({ navigation }: Props) => {
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
-        <Header name="Balance">
-          <Icon onPress={() => setIsSearch(true)}>
-            <Search name="search" size={25} color="#302F3C" />
-          </Icon>
-        </Header>
+        <HeaderTitle
+          label="Balance"
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
       ) : (
         <SearchBar
           onChangeText={onChangeText}

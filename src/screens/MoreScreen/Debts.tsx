@@ -1,11 +1,16 @@
-import { View, Text } from "react-native";
 import React from "react";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import { NavigationProp } from "@react-navigation/native";
+interface Props {
+  navigation: NavigationProp<any, any>;
+}
 
-const Debts = () => {
+const Debts = ({ navigation }: Props) => {
   return (
-    <View>
-      <Text>Debts</Text>
-    </View>
+    <ScreenContainer>
+      <BackHeaderTitle label="Deudas" onPressBack={() => navigation.goBack()} />
+    </ScreenContainer>
   );
 };
 

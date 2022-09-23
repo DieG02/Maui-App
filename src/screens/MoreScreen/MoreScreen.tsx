@@ -18,13 +18,11 @@ import Faq from "react-native-vector-icons/FontAwesome5";
 import Budget from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 const { mainColor } = globalStyles;
 
@@ -53,14 +51,9 @@ const More = ({ navigation }: Props) => {
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Header
-          name="Perfil"
-          color="white"
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color={mainColor} />
-            </Icon>
-          }
+        <BackHeaderTitle
+          label="Perfil"
+          onPressBack={() => navigation.goBack()}
         />
         <Spacer height={10} />
         <View style={{ marginHorizontal: 20 }}>
