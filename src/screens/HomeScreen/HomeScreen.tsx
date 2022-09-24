@@ -89,10 +89,12 @@ const HomeScreen = ({ navigation }: Props) => {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader
+          avatar="JR"
+          welcome="Hola Juan"
           onPressNotifications={() => navigation.navigate("Notifications")}
           onPressUser={() => navigation.navigate("More")}
         />
-        <Spacer height={20} />
+        <Spacer height={10} />
         <HomeBalance />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
