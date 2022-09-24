@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import HomeHeader from "../../components/HomeScreen/HomeHeader";
-import HomeBalance from "../../components/HomeScreen/HomeBalance";
+import GeneralBalance from "../../components/HomeScreen/GeneralBalance";
 import Spacer from "../../components/common/Spacer";
 import Title from "../../components/common/Title";
 import HomeState from "../../components/HomeScreen/HomeState";
@@ -21,7 +21,7 @@ import { getTransactions } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 
-const { mainColor } = globalStyles;
+const { mainColor, textBlack } = globalStyles;
 const statusBarStyle = "dark-content";
 
 interface Props {
@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }: Props) => {
           justifyContent: "center",
         }}
       >
-        <ActivityIndicator size="large" color="#141414" />
+        <ActivityIndicator size="large" color={textBlack} />
       </View>
     );
   }
@@ -95,7 +95,7 @@ const HomeScreen = ({ navigation }: Props) => {
           onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={10} />
-        <HomeBalance />
+        <GeneralBalance />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
         <Spacer height={10} />

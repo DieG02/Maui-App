@@ -15,6 +15,8 @@ const globalStyles = {
   income: "#33E69B",
   expense: "#FD6363",
   item: "#3784F9",
+  balanceCard: "##F8F8F8",
+  balanceCardBorder: "#ECECEC",
 };
 
 export default globalStyles;

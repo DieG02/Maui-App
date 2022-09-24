@@ -90,8 +90,8 @@ const HomeHeader = ({
             backgroundColor: mainColor,
             position: "absolute",
             zIndex: 90,
-            top: 2,
-            right: 7,
+            top: 3,
+            right: 6,
           }}
         />
         <Bell name="bell" size={28} color={textBlack} />
