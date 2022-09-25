@@ -2,27 +2,26 @@ import {
   View,
   Alert,
   FlatList,
-  SafeAreaView,
   ActivityIndicator,
   StatusBar,
 } from "react-native";
 import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
-import Fab from "../../components/common/Fab";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
-import Search from "react-native-vector-icons/Feather";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
+import EmptyState from "../../components/common/EmptyState";
+import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
+
 const { mainColor, width } = globalStyles;
 const statusBarStyle = "dark-content";
 
@@ -41,7 +40,7 @@ const Providers = ({ navigation, route }: Props) => {
     },
   });
 
-  const clients = useMemo(() => {
+  const providers = useMemo(() => {
     return data?.filter((item) => item.typeOfContact === "PROVIDER");
   }, [data]);
 
@@ -73,28 +72,26 @@ const Providers = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header
-        name="Proveedores"
-        color="white"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
-      >
-        <Icon onPress={() => Alert.alert("Search")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
-
+      <BackHeaderTitle
+        label="Proveedores"
+        onPressBack={() => navigation.goBack()}
+        withSearch
+      />
       <FlatList
-        data={clients}
+        overScrollMode="never"
+        data={providers}
         style={{ flex: 1, backgroundColor: "white", marginHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         refreshing={false}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title=" No tenes proveedores registrados"
+            percentage={0.25}
+          />
+        )}
         onRefresh={() => {
           getProviders();
         }}
@@ -112,18 +109,14 @@ const Providers = ({ navigation, route }: Props) => {
       />
       <View
         style={{
-          backgroundColor: "white",
-          height: 64,
           width: "100%",
+          height: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
         }}
       >
-        <Fab
-          bottom={0}
-          left={0}
-          width={width - 40}
-          height={50}
-          marginLeft={20}
-          color={mainColor}
+        <Button
           text="Crear / Importar Contacto"
           onPress={() =>
             navigation.navigate("NewContact", {
@@ -131,9 +124,14 @@ const Providers = ({ navigation, route }: Props) => {
               screen: route.params?.screen,
             })
           }
+          style={{
+            backgroundColor: mainColor,
+            width: width - 40,
+            elevation: 4,
+          }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

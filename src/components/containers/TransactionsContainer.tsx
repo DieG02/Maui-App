@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import TransactionModal from "../common/TransactionsModal";
-import { Text } from "react-native-paper";
+import EmptyState from "../common/EmptyState";
 
 interface Props {
   data: any;
@@ -21,23 +21,10 @@ const TransactionsContainer = ({ data }: Props) => {
               <TransactionModal data={item} key={item.id} />
             ))
           ) : (
-            <View
-              style={{
-                height: 200,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: "#A5A5A5",
-                  fontFamily: "Gilroy-SemiBold",
-                }}
-              >
-                No tenes transacciones registradas
-              </Text>
-            </View>
+            <EmptyState
+              title=" No tenes transacciones registradas"
+              percentage={0.7}
+            />
           )}
         </View>
       </View>

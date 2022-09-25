@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
+import { View, Dimensions, StatusBar, Platform } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -22,8 +13,15 @@ import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
+import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");
+
+const { income } = globalStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -70,7 +68,7 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewIncome, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("transactionsBalance");
       queryClient.invalidateQueries("balance");
       queryClient.invalidateQueries("getMonthlyStats");
     },
@@ -101,46 +99,21 @@ const NewIncome = ({ navigation, route }: Props) => {
   }, [amount, isPaid, client, date])
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor="#33E69B" />
+    <ScreenContainer>
+      <StatusBar backgroundColor={income} />
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#33E69B" }),
+          backgroundColor: Platform.select({ ios: income }),
         }}
       />
-      <View
-        style={{
-          backgroundColor: "#33E69B",
-          borderBottomRightRadius: 20,
-          borderBottomLeftRadius: 20,
-        }}
-      >
-        <Header
-          titleColor="white"
-          name="Registrar Ingreso"
-          color="#33E69B"
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color="white" />
-            </Icon>
-          }
-        />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        ></View>
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
+      <BackHeaderTitle
+        label="Nuevo Ingreso"
+        onPressBack={() => navigation.goBack()}
+        hasType
+        color={income}
+      />
+      <ScrollContainer>
         <CommonInput
           placeholder="Seleccione productos"
           name="Productos"
@@ -148,17 +121,22 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={products}
           setValue={setProducts}
           marginBottom={25}
-          marginTop={15}
+          marginTop={10}
         />
         <InputForm
+          autoFocus={true}
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
           name="Valor *"
           setValue={setAmount}
           marginBottom={25}
+          onSubmit={() => {
+            if (amount === "") {
+              setAmount("0,00");
+            }
+          }}
         />
-
         <CommonInput
           placeholder="¿Como quieres llamar a este ingreso?"
           name="Descripción"
@@ -226,44 +204,32 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.navigate("Clients", { screen: "NewIncome" })
           }
         />
-        <InputDate name="Fecha *" date={date} setDate={setDate} color="#33E69B" />
+        <InputDate name="Fecha" date={date} setDate={setDate} color={income} />
         <Spacer height={10} />
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
-          height: 90,
-          bottom: 0,
+          height: 80,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          backgroundColor: "white",
         }}
       >
-        {/* <FAB
-          color="white"
-          style={{
-            position: "absolute",
-            width: 50,
-            height: 50,
-            elevation: 0,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#B3B3B3",
-          }}
-          small={false}
-          icon="check"
+        <Button
+          disabled={amount === "" || amount === "0"}
           onPress={handleSubmit}
-        /> */} 
-          <Fab
-            bottom={0}
-            width={(width - 80)}
-            color={isValidForm ? "#33E69B": "#7888a8"}
-            text="Guardar"
-            disabled={!isValidForm}
-            onPress={() => console.log("something1")}
-          />
+          text="Registrar venta"
+          style={{
+            backgroundColor:
+              amount === "" || amount === "0" ? "#B3B3B3" : income,
+            width: width - 80,
+            borderRadius: 25,
+            elevation: amount !== "" ? 3 : 0,
+          }}
+        />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewIncome;

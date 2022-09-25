@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image
-} from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
@@ -14,6 +8,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
+import ScreenContainer from "../components/containers/ScreenContainer";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -27,10 +22,10 @@ export default function LoginScreen({ navigation }: Props) {
 
   const user = {
     email: email,
-    password: password
+    password: password,
   };
 
-  const { mutateAsync } = useMutation(signIn, { onError: console.log });
+  const { mutateAsync } = useMutation(signIn);
 
   const onPressLogin = async () => {
     const data = await mutateAsync(user);
@@ -43,16 +38,11 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white"
-      }}
-    >
+    <ScreenContainer>
       <View
         style={{
           marginHorizontal: 40,
-          marginTop: 60
+          marginTop: 60,
         }}
       >
         <View style={{ alignItems: "center", marginBottom: 35 }}>
@@ -65,6 +55,8 @@ export default function LoginScreen({ navigation }: Props) {
           value={email}
           marginBottom={25}
           placeholder="Ingrese su email"
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
 
         <CommonInput
@@ -73,6 +65,7 @@ export default function LoginScreen({ navigation }: Props) {
           value={password}
           placeholder="Ingrese su contraseña"
           marginBottom={25}
+          autoCapitalize="none"
         />
 
         <TouchableOpacity
@@ -83,14 +76,14 @@ export default function LoginScreen({ navigation }: Props) {
             borderRadius: 12,
             alignItems: "center",
             justifyContent: "center",
-            marginTop: 30
+            marginTop: 30,
           }}
         >
           <Text
             style={{
               color: "white",
               fontFamily: "Gilroy-Bold",
-              fontSize: 16
+              fontSize: 16,
             }}
           >
             Iniciar Sesión
@@ -104,7 +97,7 @@ export default function LoginScreen({ navigation }: Props) {
             style={{
               color: secondaryColor,
               fontFamily: "Gilroy-Regular",
-              fontSize: 16
+              fontSize: 16,
             }}
           >
             ¿No tenes cuenta?
@@ -114,13 +107,13 @@ export default function LoginScreen({ navigation }: Props) {
               color: mainColor,
               fontFamily: "Gilroy-Bold",
               fontSize: 16,
-              marginLeft: 5
+              marginLeft: 5,
             }}
           >
             Crear cuenta
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }

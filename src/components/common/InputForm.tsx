@@ -12,6 +12,8 @@ interface Props {
   name: string;
   marginBottom?: number;
   marginTop?: number;
+  autoFocus?: boolean;
+  onSubmit?: () => void;
 }
 
 const { secondaryColor } = globalStyles;
@@ -24,6 +26,8 @@ const InputForm = ({
   name,
   marginBottom,
   marginTop,
+  autoFocus,
+  onSubmit,
 }: Props) => {
   return (
     <View style={{ marginBottom, marginTop }}>
@@ -70,13 +74,16 @@ const InputForm = ({
           value={value}
           onChangeText={(text) => {
             const [integer, decimal] = text.split(",");
-            const formated = separator(integer) + (decimal !== undefined ? "," + decimal : "");
-            if(formated.length <= 20) setValue(formated);
+            const formated =
+              separator(integer) + (decimal !== undefined ? "," + decimal : "");
+            if (formated.length <= 20) setValue(formated);
           }}
           onBlur={() => setValue(round(value))}
           placeholder={placeholder}
           keyboardType={keyboardType}
           maxLength={20}
+          autoFocus={autoFocus}
+          onSubmitEditing={onSubmit}
         />
       </View>
     </View>

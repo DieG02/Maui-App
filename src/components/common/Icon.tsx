@@ -18,8 +18,8 @@ const Icon = ({ onPress, children, style }: Props) => {
 };
 const styles = StyleSheet.create({
   icons: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderColor: "#F0F1F5",
 
     borderRadius: 14,

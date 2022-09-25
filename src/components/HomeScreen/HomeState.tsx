@@ -1,13 +1,8 @@
 import React from "react";
 import { View, Dimensions, ScrollView } from "react-native";
-import StateCard from "./StateCard";
-import Down from "react-native-vector-icons/Ionicons";
-import Top from "react-native-vector-icons/Ionicons";
-import globalStyles from "../../styles/globalStyles";
+import BalanceStateCard from "./BalanceStateCard";
 import { useQuery } from "react-query";
 import { getMonthlyMainStats } from "../../services/balance";
-
-const { mainColor } = globalStyles;
 
 const { width } = Dimensions.get("window");
 
@@ -26,37 +21,32 @@ const HomeState = () => {
           <View
             style={{
               flexDirection: "row",
-              paddingVertical: 2,
             }}
           >
-            <StateCard
-              color="#fafafa"
+            <BalanceStateCard
               state="Ingresos"
               value={"$" + data?.incomes}
               left={30}
-              icon={<Top name="arrow-up-circle" size={60} color="#33E69B" />}
+              type="ingreso"
             />
-            <StateCard
-              color="#fafafa"
+            <BalanceStateCard
               state="Egresos"
               value={"$" + data?.expenses}
               left={20}
-              icon={<Down name="arrow-down-circle" size={60} color="#FD6363" />}
+              type="egreso"
             />
-            <StateCard
-              color="#fafafa"
+            <BalanceStateCard
               state="Deudas por Cobrar"
               value={"$" + data?.toCollect}
               left={20}
-              icon={<Top name="arrow-up-circle" size={60} color={mainColor} />}
+              type="cobrar"
             />
-            <StateCard
-              color="#fafafa"
+            <BalanceStateCard
               state="Deudas por pagar"
               value={"$" + data?.debt}
               left={20}
               right={30}
-              icon={<Down name="arrow-down-circle" size={60} color="#f89f38" />}
+              type="pagar"
             />
           </View>
         </View>

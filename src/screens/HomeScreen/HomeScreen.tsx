@@ -5,28 +5,23 @@ import {
   TouchableOpacity,
   Text,
   RefreshControl,
-  SafeAreaView,
   View,
   ActivityIndicator,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import HomeHeader from "../../components/HomeScreen/HomeHeader";
-import HomeBalance from "../../components/HomeScreen/HomeBalance";
+import GeneralBalance from "../../components/HomeScreen/GeneralBalance";
 import Spacer from "../../components/common/Spacer";
 import Title from "../../components/common/Title";
 import HomeState from "../../components/HomeScreen/HomeState";
 import TransactionsContainer from "../../components/containers/TransactionsContainer";
 import globalStyles from "../../styles/globalStyles";
 import { useQuery, useQueryClient } from "react-query";
-import {
-  getDailyTransactions,
-  getTransactions,
-} from "../../services/transactions";
+import { getTransactions } from "../../services/transactions";
 import { getBalance, getMonthlyMainStats } from "../../services/balance";
-import { getItemCategories } from "../../services/itemCategories";
-import { getAllProducts } from "../../services/products";
+import ScreenContainer from "../../components/containers/ScreenContainer";
 
-const { mainColor } = globalStyles;
+const { mainColor, textBlack } = globalStyles;
 const statusBarStyle = "dark-content";
 
 interface Props {
@@ -36,22 +31,17 @@ interface Props {
 const HomeScreen = ({ navigation }: Props) => {
   const { data, refetch: getTransactionsFromHome } = useQuery(
     "transactions",
-    () => getTransactions({ take: 4 })
+    () => getTransactions({ take: 6 })
   );
   useQuery("balance", getBalance);
   useQuery("getMonthlyStats", getMonthlyMainStats);
-  useQuery("daylyTransactions", getDailyTransactions);
-  useQuery("itemCategories", getItemCategories);
   useQuery("transactionsBalance", () => getTransactions());
-  useQuery("products", getAllProducts);
 
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
 
   const isFetchingTransactions =
     queryClient.getQueryState("transactions")?.data;
-
-  const isFetchingProducts = queryClient.getQueryState("products")?.data;
 
   const isFetchingGetMonthlyState =
     queryClient.getQueryState("getMonthlyStats")?.data;
@@ -65,7 +55,6 @@ const HomeScreen = ({ navigation }: Props) => {
   };
 
   if (
-    !isFetchingProducts ||
     !isFetchingTransactions ||
     !isFetchingGetMonthlyState ||
     isFetchingBalance === undefined
@@ -79,15 +68,17 @@ const HomeScreen = ({ navigation }: Props) => {
           justifyContent: "center",
         }}
       >
-        <ActivityIndicator size="large" color="#141414" />
+        <ActivityIndicator size="large" color={textBlack} />
       </View>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
+
       <ScrollView
+        overScrollMode="never"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -98,17 +89,19 @@ const HomeScreen = ({ navigation }: Props) => {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader
+          avatar="JR"
+          welcome="Hola Juan"
           onPressNotifications={() => navigation.navigate("Notifications")}
           onPressUser={() => navigation.navigate("More")}
         />
-        <Spacer height={20} />
-        <HomeBalance />
+        <Spacer height={10} />
+        <GeneralBalance />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
-        <Spacer height={10} />
+        <Spacer height={20} />
         <HomeState />
         <Spacer height={20} />
-        <Title title="Ultimos registros">
+        <Title title="Últimos registros">
           {data?.length !== 0 && (
             <TouchableOpacity onPress={() => navigation.navigate("balance")}>
               <Text
@@ -127,7 +120,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={10} />
         <TransactionsContainer data={data} />
       </ScrollView>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

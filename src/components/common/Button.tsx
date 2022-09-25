@@ -1,19 +1,18 @@
 import React from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 
+type props = React.FC<Props & React.ComponentProps<typeof TouchableOpacity>>;
 interface Props {
-  onPress: () => void;
   text: string;
-  style?: object;
   disabled?: boolean;
 }
 
-const Button = ({ style, text, onPress, disabled }: Props) => {
+const Button: props = ({ style, text, disabled, ...otherProps }) => {
   return (
     <TouchableOpacity
-      onPress={onPress}
       style={[styles.root, style]}
       disabled={disabled}
+      {...otherProps}
     >
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>

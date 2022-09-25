@@ -1,21 +1,9 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
+import { Text, View, Dimensions, StatusBar, Platform } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { FAB } from "react-native-paper";
-
 import { useMutation, useQuery } from "react-query";
 import { createNewProduct } from "../../services/products";
 import { createNewService } from "../../services/services";
@@ -25,10 +13,14 @@ import {
 } from "../../../../Maui-Backend/src/controllers/types";
 import globalStyles from "../../styles/globalStyles";
 import { getItemCategories } from "../../services/itemCategories";
+import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 const { width } = Dimensions.get("window");
 
-const { mainColor, secondaryColor } = globalStyles;
+const { secondaryColor, item } = globalStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -86,58 +78,32 @@ const NewIncome = ({ navigation }: Props) => {
     description: description,
   };
 
-  const { mutateAsync } = useMutation(
-    (product: createNewProductBodyInputDto) => {
-      return createNewProduct(product);
-    }
-  );
-
-  const { mutateAsync: mutateAsyncService } = useMutation(
-    (service: createServiceBodyInputDto) => {
-      return createNewService(service);
-    }
-  );
+  const { mutateAsync: createProduct } = useMutation(createNewProduct);
+  const { mutateAsync: createService } = useMutation(createNewService);
 
   const handleSubmit = () => {
     if (isProduct === ITEM[0]) {
-      mutateAsync(product);
-    } else mutateAsyncService(service);
+      createProduct(product);
+    } else createService(service);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={mainColor} />
+    <ScreenContainer>
+      <StatusBar backgroundColor={item} />
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: mainColor }),
+          backgroundColor: Platform.select({ ios: item }),
         }}
       />
-      <View
-        style={{
-          backgroundColor: mainColor,
-          borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
-        }}
-      >
-        <Header
-          titleColor="white"
-          name="Registrar Item"
-          color={mainColor}
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color="white" />
-            </Icon>
-          }
-        />
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
-        <View style={{ marginBottom: 60, marginTop: 15 }}>
+      <BackHeaderTitle
+        label="Nuevo Item"
+        onPressBack={() => navigation.goBack()}
+        hasType
+        color={item}
+      />
+      <ScrollContainer>
+        <View style={{ marginTop: 15 }}>
           <Text
             style={{
               fontSize: 18,
@@ -319,34 +285,26 @@ const NewIncome = ({ navigation }: Props) => {
             </>
           )}
         </View>
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
-          height: 90,
-          bottom: 0,
+          height: 80,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          backgroundColor: "white",
         }}
       >
-        <FAB
-          color="white"
+        <Button
+          onPress={handleSubmit}
+          text="Registrar item"
           style={{
-            position: "absolute",
-            width: 50,
-            height: 50,
-            elevation: 0,
-            alignItems: "center",
-            justifyContent: "center",
             backgroundColor: "#B3B3B3",
+            width: width - 60,
           }}
-          small={false}
-          icon="check"
-          onPress={() => handleSubmit()}
         />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewIncome;

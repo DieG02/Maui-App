@@ -1,17 +1,6 @@
-import {
-  SafeAreaView,
-  StatusBar,
-  Alert,
-  ScrollView,
-  View,
-  ActivityIndicator,
-} from "react-native";
+import { StatusBar, ScrollView, View, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { RouteProp, NavigationProp } from "@react-navigation/native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
-import Search from "react-native-vector-icons/Feather";
 import globalStyles from "../../styles/globalStyles";
 import {
   checkPermission,
@@ -19,6 +8,10 @@ import {
   requestContactPermission,
 } from "../../../utils";
 import AddContact from "../../components/common/AddContact";
+import ContactForm from "../../components/common/ContactForm";
+import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -26,7 +19,7 @@ interface Props {
 }
 const statusBarStyle = "dark-content";
 
-const { mainColor } = globalStyles;
+const { mainColor, width } = globalStyles;
 
 interface Contact {
   name: string;
@@ -35,10 +28,17 @@ interface Contact {
 }
 
 const NewContact = ({ route, navigation }: Props) => {
+  const { params } = route;
+
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { params } = route;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [comments, setComments] = useState("");
 
   const getContacts = async () => {
     setIsLoading(true);
@@ -77,27 +77,20 @@ const NewContact = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header
-        name="Agregar Contactos"
-        color="white"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
-      >
-        <Icon onPress={() => Alert.alert("Search")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
+      <BackHeaderTitle
+        label="Agregar Contactos"
+        onPressBack={() => navigation.goBack()}
+        withSearch
+      />
+
       <ScrollView
         overScrollMode="never"
         style={{ flex: 1, backgroundColor: "white" }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 60 }}>
+        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
           {contacts &&
             contacts.map((item) => (
               <AddContact
@@ -109,8 +102,43 @@ const NewContact = ({ route, navigation }: Props) => {
               />
             ))}
         </View>
+        <ContactForm
+          comments={comments}
+          setComments={setComments}
+          email={email}
+          setEmail={setEmail}
+          name={name}
+          setName={setName}
+          phone={phone}
+          setPhone={setPhone}
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          type={params?.type}
+          screen={params?.screen}
+          navigation={navigation}
+        />
       </ScrollView>
-    </SafeAreaView>
+
+      <View
+        style={{
+          width: "100%",
+          height: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Button
+          text="Crear nuevo contacto"
+          onPress={() => setIsModalVisible(true)}
+          style={{
+            backgroundColor: mainColor,
+            width: width - 40,
+            elevation: 4,
+          }}
+        />
+      </View>
+    </ScreenContainer>
   );
 };
 

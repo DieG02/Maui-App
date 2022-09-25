@@ -2,6 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../../styles/globalStyles";
+import Right from "react-native-vector-icons/Entypo";
 
 const { mainColor } = globalStyles;
 interface Props {
@@ -96,29 +97,19 @@ const ContactCard = ({ data, type, onPress }: Props) => {
           >
             {data.name}
           </Text>
-          {type === "client" ? (
-            <Text
-              style={{
-                color: "#131313",
-                fontSize: 14,
-                fontFamily: "Gilroy-Regular",
-              }}
-            >
-              Ventas Acumuladas: $0
-            </Text>
-          ) : (
-            <Text
-              style={{
-                color: "#131313",
-                fontSize: 14,
-                fontFamily: "Gilroy-Regular",
-              }}
-            >
-              Compras Acumuladas: $0
-            </Text>
-          )}
+
+          <Text
+            style={{
+              color: "#131313",
+              fontSize: 14,
+              fontFamily: "Gilroy-Regular",
+            }}
+          >
+            {data.phone}
+          </Text>
         </View>
       </View>
+      <Right name="chevron-small-right" color="#60708F" size={35} />
     </TouchableOpacity>
   );
 };

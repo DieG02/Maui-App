@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
+import { View, Dimensions, StatusBar, Platform } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { FAB } from "react-native-paper";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
@@ -22,9 +12,15 @@ import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
+import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");
 
+const { expense } = globalStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -81,7 +77,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewExpense, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("transactionsBalance");
       queryClient.invalidateQueries("balance");
       queryClient.invalidateQueries("getMonthlyStats");
     },
@@ -107,40 +103,23 @@ const NewExpense = ({ navigation, route }: Props) => {
   }, [isPaid]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor="#FD6363" />
+    <ScreenContainer>
+      <StatusBar backgroundColor={expense} />
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#FD6363" }),
+          backgroundColor: Platform.select({ ios: expense }),
         }}
       />
-      <View
-        style={{
-          backgroundColor: "#FD6363",
-          borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
-        }}
-      >
-        <Header
-          titleColor="white"
-          name="Registrar Gasto"
-          color="#FD6363"
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color="white" />
-            </Icon>
-          }
-        />
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
+      <BackHeaderTitle
+        label="Nueva Gasto"
+        onPressBack={() => navigation.goBack()}
+        color={expense}
+        hasType
+      />
+      <ScrollContainer>
         <View>
-          <Spacer height={15} />
+          <Spacer height={10} />
           <OptionModal
             title="Categoría"
             options={data?.map((category) => category?.name) ?? []}
@@ -157,6 +136,11 @@ const NewExpense = ({ navigation, route }: Props) => {
             name="Valor"
             setValue={setAmount}
             marginBottom={25}
+            onSubmit={() => {
+              if (amount === "") {
+                setAmount("0,00");
+              }
+            }}
           />
           <CommonInput
             placeholder="¿Como quieres llamar a este egreso?"
@@ -230,38 +214,38 @@ const NewExpense = ({ navigation, route }: Props) => {
             name="Fecha"
             date={date}
             setDate={setDate}
-            color="#FD6363"
+            color={expense}
           />
           <Spacer height={10} />
         </View>
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
-          height: 90,
-          bottom: 0,
+          height: 80,
           alignItems: "center",
           justifyContent: "center",
-          position: "absolute",
+          backgroundColor: "white",
         }}
       >
-        <FAB
-          color="white"
-          style={{
-            position: "absolute",
-            width: 50,
-            height: 50,
-            elevation: 0,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#B3B3B3",
-          }}
-          small={false}
-          icon="check"
+        <Button
           onPress={handleSubmit}
+          text="Registrar gasto"
+          style={{
+            backgroundColor:
+              amount !== "" && expenseCategory !== "Seleccione una categoría"
+                ? expense
+                : "#B3B3B3",
+            width: width - 80,
+            borderRadius: 25,
+            elevation:
+              amount !== "" && expenseCategory !== "Seleccione una categoría"
+                ? 3
+                : 0,
+          }}
         />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewExpense;

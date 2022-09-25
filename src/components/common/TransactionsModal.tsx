@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
 import globalStyles from "../../styles/globalStyles";
 import { getTransactionsResponseDto } from "../../../../Maui-Backend/src/controllers/types";
 import { paymentsMethod } from "../../utils/translate";
+import { useMutation, useQueryClient } from "react-query";
+import { deleteExpense } from "../../services/expenses";
+import { deleteIncome } from "../../services/incomes";
 
 const { mainColor, secondaryColor } = globalStyles;
 
@@ -16,9 +27,64 @@ interface Props {
 const TransactionModal = ({ data }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteOutcome, isLoading } = useMutation(deleteExpense, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("transactions");
+      queryClient.invalidateQueries("transactionsBalance");
+    },
+  });
+  const { mutateAsync: deleteSale, isLoading: isLoadingIncome } = useMutation(
+    deleteIncome,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("transactions");
+        queryClient.invalidateQueries("transactionsBalance");
+      },
+    }
+  );
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  const handleDelete = (category: string, id: string) => {
+    if (category !== "Venta") {
+      deleteOutcome(id);
+    } else {
+      deleteSale(id);
+    }
+  };
+
+  const handleMenuDelete = (category: string, id: string) => {
+    setModalVisible(false);
+    Alert.alert(
+      "Eliminar",
+      "¿Estás seguro que deseas eliminar esta transacción?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleDelete(category, id) },
+      ]
+    );
+  };
+
+  if (isLoading || isLoadingIncome) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#141414" />
+      </View>
+    );
+  }
 
   return (
     <View>
@@ -34,7 +100,7 @@ const TransactionModal = ({ data }: Props) => {
         <View
           style={{
             backgroundColor: "white",
-            height: 450,
+            height: data.category.name !== "Venta" ? 450 : 380,
             borderTopLeftRadius: 25,
             borderTopRightRadius: 25,
           }}
@@ -88,6 +154,7 @@ const TransactionModal = ({ data }: Props) => {
               />
             </View>
             <TouchableOpacity
+              onPress={() => handleMenuDelete(data.category.name, data.id)}
               style={{
                 backgroundColor: "#ECECED",
                 width: 50,
@@ -165,31 +232,35 @@ const TransactionModal = ({ data }: Props) => {
               </Text>
               <Icon name="chevron-right" size={25} color="#666666" />
             </TouchableOpacity>
-
-            <View
-              style={{
-                marginTop: 10,
-                width: "80%",
-                height: 56,
-                borderRadius: 10,
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 25,
-                backgroundColor: "#E6EFF8",
-              }}
-            >
-              <Text
-                style={{ color: mainColor, fontSize: 16, fontWeight: "600" }}
+            {data.category.name !== "Venta" && (
+              <View
+                style={{
+                  marginTop: 10,
+                  width: "80%",
+                  height: 56,
+                  borderRadius: 10,
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 25,
+                  backgroundColor: "#E6EFF8",
+                }}
               >
-                {data?.categoryId ? data.category?.name : "Venta"}
-              </Text>
-              {data.category?.name !== "Venta" && (
+                <Text
+                  style={{
+                    color: mainColor,
+                    fontSize: 16,
+                    fontWeight: "600",
+                  }}
+                >
+                  {data.category?.name}
+                </Text>
+
                 <TouchableOpacity>
                   <Text style={{ color: mainColor }}>Cambiar</Text>
                 </TouchableOpacity>
-              )}
-            </View>
+              </View>
+            )}
           </View>
         </View>
       </Modal>

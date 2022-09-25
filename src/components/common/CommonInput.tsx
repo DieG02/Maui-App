@@ -23,6 +23,8 @@ interface Props {
   children?: React.ReactNode;
   touchable?: boolean;
   onPress?: () => void;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
+  multiline?: boolean;
 }
 
 const CommonInput = ({
@@ -35,6 +37,8 @@ const CommonInput = ({
   marginTop,
   touchable,
   onPress,
+  autoCapitalize,
+  multiline,
 }: Props) => {
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -92,7 +96,7 @@ const CommonInput = ({
       ) : (
         <View
           style={{
-            height: 55,
+            height: multiline ? "auto" : 55,
             borderRadius: 12,
             borderColor: "#EAEAEA",
             borderWidth: 1,
@@ -108,6 +112,9 @@ const CommonInput = ({
             style={{
               marginHorizontal: 20,
             }}
+            autoCapitalize={autoCapitalize}
+            multiline={multiline}
+            numberOfLines={multiline ? 4 : 1}
           />
         </View>
       )}

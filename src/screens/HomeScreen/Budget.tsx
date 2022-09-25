@@ -1,13 +1,11 @@
 import React from "react";
-import { Text, View, Alert, SafeAreaView } from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
-import Plus from "react-native-vector-icons/Feather";
+import { Text, View } from "react-native";
 import Bill from "react-native-vector-icons/FontAwesome5";
 import Bank from "react-native-vector-icons/FontAwesome";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 const { mainColor } = globalStyles;
 
@@ -17,20 +15,12 @@ interface Props {
 
 const Budget = ({ navigation }: Props) => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fafafa" }}>
-      <Header
-        name="Presupuestos"
-        color="#f8f8f8"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
-      >
-        <Icon onPress={() => Alert.alert("Agregar Cuenta")}>
-          <Plus name="plus" size={30} color={mainColor} />
-        </Icon>
-      </Header>
+    <ScreenContainer>
+      <BackHeaderTitle
+        label="Presupuestos"
+        onPressBack={() => navigation.goBack()}
+        withSearch
+      />
       <View style={{ marginHorizontal: 30, marginTop: 10 }}>
         <View
           style={{
@@ -115,7 +105,7 @@ const Budget = ({ navigation }: Props) => {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

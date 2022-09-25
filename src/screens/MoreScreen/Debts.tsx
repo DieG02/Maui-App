@@ -1,21 +1,17 @@
 import React from "react";
-import { NavigationProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-
+import { NavigationProp } from "@react-navigation/native";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const NotificationsScreen = ({ navigation }: Props) => {
+const Debts = ({ navigation }: Props) => {
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label="Notificaciones"
-        onPressBack={() => navigation.goBack()}
-      />
+      <BackHeaderTitle label="Deudas" onPressBack={() => navigation.goBack()} />
     </ScreenContainer>
   );
 };
 
-export default NotificationsScreen;
+export default Debts;
