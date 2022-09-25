@@ -14,6 +14,7 @@ interface Props {
   onPress?: () => void;
   height?: number;
   position?: "absolute" | "relative";
+  disabled?: boolean
 }
 
 const Fab = ({
@@ -28,6 +29,7 @@ const Fab = ({
   onPress,
   height,
   position,
+  disabled,
 }: Props) => {
   const styles = StyleSheet.create({
     fab: {
@@ -52,6 +54,7 @@ const Fab = ({
       label={text}
       color="white"
       icon={""}
+      disabled={disabled}
     />
   );
 };

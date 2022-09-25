@@ -14,6 +14,7 @@ import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import { FAB } from "react-native-paper";
+import Fab from "../../components/common/Fab";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
@@ -48,6 +49,7 @@ const NewIncome = ({ navigation, route }: Props) => {
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
   const [date, setDate] = useState(TODAY);
 
+  const [isValidForm, setIsValidForm] = useState(false);
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
@@ -91,6 +93,12 @@ const NewIncome = ({ navigation, route }: Props) => {
       setPaymentMethod("");
     }
   }, [isPaid]);
+
+  useEffect(() => {
+    console.log({ amount, isPaid, client, date });
+    const transactionType = isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
+    setIsValidForm(!!amount && !!transactionType && !!date);
+  }, [amount, isPaid, client, date])
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -146,7 +154,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
-          name="Valor"
+          name="Valor *"
           setValue={setAmount}
           marginBottom={25}
         />
@@ -218,7 +226,7 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.navigate("Clients", { screen: "NewIncome" })
           }
         />
-        <InputDate name="Fecha" date={date} setDate={setDate} color="#33E69B" />
+        <InputDate name="Fecha *" date={date} setDate={setDate} color="#33E69B" />
         <Spacer height={10} />
       </ScrollView>
       <View
@@ -231,7 +239,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           position: "absolute",
         }}
       >
-        <FAB
+        {/* <FAB
           color="white"
           style={{
             position: "absolute",
@@ -245,7 +253,15 @@ const NewIncome = ({ navigation, route }: Props) => {
           small={false}
           icon="check"
           onPress={handleSubmit}
-        />
+        /> */} 
+          <Fab
+            bottom={0}
+            width={(width - 80)}
+            color={isValidForm ? "#33E69B": "#7888a8"}
+            text="Guardar"
+            disabled={!isValidForm}
+            onPress={() => console.log("something1")}
+          />
       </View>
     </View>
   );
