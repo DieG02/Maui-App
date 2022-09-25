@@ -98,7 +98,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <GeneralBalance />
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
-        <Spacer height={10} />
+        <Spacer height={20} />
         <HomeState />
         <Spacer height={20} />
         <Title title="Últimos registros">

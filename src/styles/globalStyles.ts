@@ -13,9 +13,14 @@ const globalStyles = {
   white: "#fff",
   marginHorizontal: 30,
   income: "#33E69B",
+  incomeLight: "#99FFD4",
   expense: "#FD6363",
+  expenseLight: "#FFCCCC",
+  orange: "#FF8000",
+  orangeLight: "#FFC48A",
   item: "#3784F9",
-  balanceCard: "##F8F8F8",
+  itemLight: "#BED8FF",
+  balanceCard: "#F8F8F8",
   balanceCardBorder: "#ECECEC",
 };
 
