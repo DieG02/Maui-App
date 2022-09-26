@@ -21,7 +21,7 @@ import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");
 
-const { income } = globalStyles;
+const { income, marginHorizontal } = globalStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -93,9 +93,10 @@ const NewIncome = ({ navigation, route }: Props) => {
   }, [isPaid]);
 
   useEffect(() => {
-    console.log({ amount, isPaid, client, date });
-    const transactionType = isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
-    setIsValidForm(!!amount && !!transactionType && !!date);
+    const isValidAmount = !!amount && amount !== "0";
+    const isValidTransaction = isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
+    setIsValidForm(isValidAmount && isValidTransaction && !!date);
+    console.log(isValidAmount && isValidTransaction && !!date);
   }, [amount, isPaid, client, date])
 
   return (
@@ -128,14 +129,10 @@ const NewIncome = ({ navigation, route }: Props) => {
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
-          name="Valor *"
-          setValue={setAmount}
+          name="Valor"
+          setValue={(val) => !!val && val !== "NaN" ? setAmount(val) : setAmount("")}
           marginBottom={25}
-          onSubmit={() => {
-            if (amount === "") {
-              setAmount("0,00");
-            }
-          }}
+          required
         />
         <CommonInput
           placeholder="¿Como quieres llamar a este ingreso?"
@@ -196,6 +193,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         <CommonInput
           placeholder="Seleccione un cliente"
           name="Cliente"
+          required={isPaid === "Deuda"}
           touchable={true}
           value={client}
           setValue={setClient}
@@ -209,23 +207,19 @@ const NewIncome = ({ navigation, route }: Props) => {
       </ScrollContainer>
       <View
         style={{
-          width: "100%",
           height: 80,
-          alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          marginHorizontal: marginHorizontal,
         }}
       >
         <Button
-          disabled={amount === "" || amount === "0"}
+          disabled={!isValidForm}
           onPress={handleSubmit}
           text="Registrar venta"
           style={{
-            backgroundColor:
-              amount === "" || amount === "0" ? "#B3B3B3" : income,
-            width: width - 80,
+            backgroundColor: isValidForm ? income : "#B3B3B3",
             borderRadius: 25,
-            elevation: amount !== "" ? 3 : 0,
+            elevation: isValidForm ? 3 : 0,
           }}
         />
       </View>

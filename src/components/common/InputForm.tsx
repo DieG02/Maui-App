@@ -14,9 +14,10 @@ interface Props {
   marginTop?: number;
   autoFocus?: boolean;
   onSubmit?: () => void;
+  required?: boolean;
 }
 
-const { secondaryColor } = globalStyles;
+const { secondaryColor, expense } = globalStyles;
 
 const InputForm = ({
   keyboardType,
@@ -28,6 +29,7 @@ const InputForm = ({
   marginTop,
   autoFocus,
   onSubmit,
+  required,
 }: Props) => {
   return (
     <View style={{ marginBottom, marginTop }}>
@@ -39,7 +41,7 @@ const InputForm = ({
           marginBottom: 10,
         }}
       >
-        {name}
+        {name} {required && <Text style={{ color: expense }}>*</Text>}
       </Text>
       <View
         style={{
@@ -74,8 +76,7 @@ const InputForm = ({
           value={value}
           onChangeText={(text) => {
             const [integer, decimal] = text.split(",");
-            const formated =
-              separator(integer) + (decimal !== undefined ? "," + decimal : "");
+            const formated = separator(integer) + (decimal !== undefined ? "," + decimal : "");
             if (formated.length <= 20) setValue(formated);
           }}
           onBlur={() => setValue(round(value))}

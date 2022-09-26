@@ -3,7 +3,7 @@ import React from "react";
 import globalStyles from "../../styles/globalStyles";
 import Down from "react-native-vector-icons/Entypo";
 
-const { secondaryColor, mainColor } = globalStyles;
+const { secondaryColor, mainColor, expense } = globalStyles;
 
 interface Props {
   value: string;
@@ -25,6 +25,7 @@ interface Props {
   onPress?: () => void;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   multiline?: boolean;
+  required?: boolean;
 }
 
 const CommonInput = ({
@@ -39,6 +40,7 @@ const CommonInput = ({
   onPress,
   autoCapitalize,
   multiline,
+  required
 }: Props) => {
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -50,7 +52,7 @@ const CommonInput = ({
           marginBottom: 10,
         }}
       >
-        {name}
+        {name} {required && <Text style={{ color: expense }}>*</Text> }
       </Text>
       {touchable ? (
         <TouchableOpacity
