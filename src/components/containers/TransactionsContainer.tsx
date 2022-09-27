@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import TransactionModal from "../common/TransactionsModal";
 import EmptyState from "../common/EmptyState";
+import TransactionCard from "../common/TransactionCard/TransactionCard";
 
 interface Props {
   data: any;
@@ -18,7 +18,7 @@ const TransactionsContainer = ({ data }: Props) => {
         >
           {data?.length !== 0 ? (
             data?.map((item: any) => (
-              <TransactionModal data={item} key={item.id} />
+              <TransactionCard data={item} key={item.id} />
             ))
           ) : (
             <EmptyState

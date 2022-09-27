@@ -83,6 +83,8 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
   });
 
+  console.log("provider", route.params?.contact?.id);
+
   const handleSubmit = () => {
     mutateAsync({
       value: +amount,
@@ -91,6 +93,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
       date: date,
+      providerId: route.params?.contact?.id,
     });
   };
 

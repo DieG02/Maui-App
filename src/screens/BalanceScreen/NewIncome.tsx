@@ -71,6 +71,8 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
   });
 
+  console.log("client", route.params?.contact?.id);
+
   const handleSubmit = () =>
     mutateAsync({
       value: +amount,

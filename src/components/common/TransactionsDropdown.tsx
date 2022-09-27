@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import TransactionsModal from "./TransactionsModal";
+import TransactionsModal from "./TransactionCard/TransactionsModal";
 import Title from "./Title";
 import Spacer from "./Spacer";
 import globalStyles from "../../styles/globalStyles";
