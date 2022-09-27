@@ -1,59 +1,100 @@
 import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
-import Bell from "react-native-vector-icons/FontAwesome";
-import User from "react-native-vector-icons/Ionicons";
-import logo from "../../assets/logo.png";
+import { View, TouchableOpacity, Text } from "react-native";
+import Bell from "react-native-vector-icons/Fontisto";
 import globalStyles from "../../styles/globalStyles";
 
-const { mainColor } = globalStyles;
+const { mainColor, textBlack, background } = globalStyles;
 
-type Props = {
+interface Props {
   onPressNotifications: () => void;
   onPressUser: () => void;
-};
+  avatar: string;
+  welcome: string;
+}
 
-const HomeHeader = ({ onPressNotifications, onPressUser }: Props) => {
+const HomeHeader = ({
+  onPressNotifications,
+  onPressUser,
+  avatar,
+  welcome,
+}: Props) => {
   return (
     <View
       style={{
-        marginHorizontal: 30,
+        marginLeft: 30,
+        marginRight: 22,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         marginTop: 10,
+        height: 60,
+        backgroundColor: background,
       }}
     >
       <TouchableOpacity
         onPress={onPressUser}
         style={{
-          width: 50,
-          height: 50,
-          // borderColor: "#F0F1F5",
-          // borderWidth: 1.5,
-          // borderRadius: 14,
+          display: "flex",
+          flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
         }}
       >
-        {/* <Icon name="user" size={30} color={secondaryColor} /> */}
-        <User name="person" size={30} color={mainColor} />
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: mainColor,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontFamily: "Gilroy-SemiBold",
+              color: background,
+            }}
+          >
+            {avatar}
+          </Text>
+        </View>
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: "Gilroy-SemiBold",
+            color: textBlack,
+            paddingLeft: 10,
+          }}
+        >
+          {welcome}
+        </Text>
       </TouchableOpacity>
-      <Image source={logo} style={{ width: 100, height: 30 }} />
       <TouchableOpacity
         onPress={onPressNotifications}
         style={{
-          width: 50,
-          height: 50,
-          // borderColor: "#F0F1F5",
-          // borderWidth: 1.5,
-          // borderRadius: 14,
+          width: 40,
+          height: 40,
+          borderRadius: 20,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        {/* <Icon name="bell" size={30} color={secondaryColor} /> */}
-        <Bell name="bell" size={30} color={mainColor} />
+        <View
+          style={{
+            width: 15,
+            height: 15,
+            borderRadius: 10,
+            alignItems: "center",
+            backgroundColor: mainColor,
+            position: "absolute",
+            zIndex: 90,
+            top: 3,
+            right: 6,
+          }}
+        />
+        <Bell name="bell" size={28} color={textBlack} />
       </TouchableOpacity>
     </View>
   );

@@ -3,13 +3,9 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Search from "react-native-vector-icons/Feather";
 import ProductCard from "../../components/common/ProductCard";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
@@ -26,6 +22,8 @@ import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
 
 import SearchBar from "../../components/common/SearchBar";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { HeaderTitle } from "../../components/common/HeaderTitle";
 
 const statusBarStyle = "dark-content";
 
@@ -83,14 +81,14 @@ const InventoryScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
-        <Header name="Inventario">
-          <Icon onPress={() => setIsSearch(true)}>
-            <Search name="search" size={25} color="#302F3C" />
-          </Icon>
-        </Header>
+        <HeaderTitle
+          label="Catálogo"
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
       ) : (
         <SearchBar
           onChangeText={onChangeText}
@@ -163,7 +161,7 @@ const InventoryScreen = ({ navigation }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

@@ -2,23 +2,20 @@ import {
   View,
   Alert,
   FlatList,
-  SafeAreaView,
   ActivityIndicator,
   StatusBar,
 } from "react-native";
 import React, { useContext, useMemo } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
-import Search from "react-native-vector-icons/Feather";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -75,26 +72,13 @@ const Providers = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-      }}
-    >
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header
-        name="Proveedores"
-        color="white"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
-      >
-        <Icon onPress={() => Alert.alert("Search")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
+      <BackHeaderTitle
+        label="Proveedores"
+        onPressBack={() => navigation.goBack()}
+        withSearch
+      />
       <FlatList
         overScrollMode="never"
         data={providers}
@@ -147,7 +131,7 @@ const Providers = ({ navigation, route }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

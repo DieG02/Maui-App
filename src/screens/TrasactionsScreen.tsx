@@ -1,16 +1,14 @@
 import { StatusBar, View, Dimensions, FlatList } from "react-native";
 import React, { useState } from "react";
-import Header from "../components/common/Header";
-import Icon from "../components/common/Icon";
-import Search from "react-native-vector-icons/Feather";
 import { NavigationProp } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
 import { getTransactions } from "../services/transactions";
-import TransactionModal from "../components/common/TransactionsModal";
 import EmptyState from "../components/common/EmptyState";
 import Button from "../components/common/Button";
 import SearchBar from "../components/common/SearchBar";
+import ScreenContainer from "../components/containers/ScreenContainer";
+import { HeaderTitle } from "../components/common/HeaderTitle";
+import TransactionCard from "../components/common/TransactionCard/TransactionCard";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -34,14 +32,14 @@ const TransactionsScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
-        <Header name="Balance">
-          <Icon onPress={() => setIsSearch(true)}>
-            <Search name="search" size={25} color="#302F3C" />
-          </Icon>
-        </Header>
+        <HeaderTitle
+          label="Balance"
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
       ) : (
         <SearchBar
           onChangeText={onChangeText}
@@ -68,9 +66,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
         }}
         style={{ marginHorizontal: 20 }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => (
-          <TransactionModal data={item} key={item.id} />
-        )}
+        renderItem={({ item }) => <TransactionCard data={item} key={item.id} />}
         ListEmptyComponent={() =>
           text.length !== 0 ? (
             <EmptyState title="No se encontraron coincidencias" />
@@ -114,7 +110,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

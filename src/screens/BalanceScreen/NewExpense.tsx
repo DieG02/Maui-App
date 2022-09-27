@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Dimensions,
-  ScrollView,
-  StatusBar,
-  Platform,
-} from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
+import { View, Dimensions, StatusBar, Platform } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -22,9 +13,14 @@ import { getExpenseCategories } from "../../services/expenseCategories";
 import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
+import ScrollContainer from "../../components/containers/ScrollContainer";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import globalStyles from "../../styles/globalStyles";
 
 const { width } = Dimensions.get("window");
 
+const { expense } = globalStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -87,6 +83,8 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
   });
 
+  console.log("provider", route.params?.contact?.id);
+
   const handleSubmit = () => {
     mutateAsync({
       value: +amount,
@@ -95,6 +93,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
       date: date,
+      providerId: route.params?.contact?.id,
     });
   };
 
@@ -107,38 +106,21 @@ const NewExpense = ({ navigation, route }: Props) => {
   }, [isPaid]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor="#FD6363" />
+    <ScreenContainer>
+      <StatusBar backgroundColor={expense} />
       <View
         style={{
           height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: "#FD6363" }),
+          backgroundColor: Platform.select({ ios: expense }),
         }}
       />
-      <View
-        style={{
-          backgroundColor: "#FD6363",
-          borderBottomRightRadius: 30,
-          borderBottomLeftRadius: 30,
-        }}
-      >
-        <Header
-          titleColor="white"
-          name="Registrar Gasto"
-          color="#FD6363"
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color="white" />
-            </Icon>
-          }
-        />
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{
-          marginHorizontal: 40,
-        }}
-      >
+      <BackHeaderTitle
+        label="Nueva Gasto"
+        onPressBack={() => navigation.goBack()}
+        color={expense}
+        hasType
+      />
+      <ScrollContainer>
         <View>
           <Spacer height={10} />
           <OptionModal
@@ -235,11 +217,11 @@ const NewExpense = ({ navigation, route }: Props) => {
             name="Fecha"
             date={date}
             setDate={setDate}
-            color="#FD6363"
+            color={expense}
           />
           <Spacer height={10} />
         </View>
-      </ScrollView>
+      </ScrollContainer>
       <View
         style={{
           width: "100%",
@@ -255,7 +237,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           style={{
             backgroundColor:
               amount !== "" && expenseCategory !== "Seleccione una categoría"
-                ? "#FD6363"
+                ? expense
                 : "#B3B3B3",
             width: width - 80,
             borderRadius: 25,
@@ -266,7 +248,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           }}
         />
       </View>
-    </View>
+    </ScreenContainer>
   );
 };
 export default NewExpense;

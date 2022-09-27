@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-// import globalStyles from "../../styles/globalStyles";
+import { View, Text, StyleSheet } from "react-native";
+import globalStyles from "../../styles/globalStyles";
 
-// const { secondaryColor } = globalStyles;
+const { textBlack, background } = globalStyles;
 
 interface Props {
   title: string;
@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
   root: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "space-between",
     marginHorizontal: 30,
+    backgroundColor: background,
   },
   text: {
     fontSize: 18,
-    // color: secondaryColor,
-    color: "#7888a8",
+    color: textBlack,
     fontFamily: "Gilroy-SemiBold",
   },
 });

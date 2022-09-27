@@ -1,17 +1,6 @@
-import {
-  SafeAreaView,
-  StatusBar,
-  Alert,
-  ScrollView,
-  View,
-  ActivityIndicator,
-} from "react-native";
+import { StatusBar, ScrollView, View, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { RouteProp, NavigationProp } from "@react-navigation/native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Arrow from "react-native-vector-icons/Ionicons";
-import Search from "react-native-vector-icons/Feather";
 import globalStyles from "../../styles/globalStyles";
 import {
   checkPermission,
@@ -21,6 +10,8 @@ import {
 import AddContact from "../../components/common/AddContact";
 import ContactForm from "../../components/common/ContactForm";
 import Button from "../../components/common/Button";
+import ScreenContainer from "../../components/containers/ScreenContainer";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -86,21 +77,14 @@ const NewContact = ({ route, navigation }: Props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <Header
-        name="Agregar Contactos"
-        color="white"
-        icon={
-          <Icon onPress={() => navigation.goBack()}>
-            <Arrow name="arrow-back" size={30} color={mainColor} />
-          </Icon>
-        }
-      >
-        <Icon onPress={() => Alert.alert("Search")}>
-          <Search name="search" size={25} color="#302F3C" />
-        </Icon>
-      </Header>
+      <BackHeaderTitle
+        label="Agregar Contactos"
+        onPressBack={() => navigation.goBack()}
+        withSearch
+      />
+
       <ScrollView
         overScrollMode="never"
         style={{ flex: 1, backgroundColor: "white" }}
@@ -154,7 +138,7 @@ const NewContact = ({ route, navigation }: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
 

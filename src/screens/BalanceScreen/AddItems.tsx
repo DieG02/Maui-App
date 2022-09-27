@@ -7,13 +7,10 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Search from "react-native-vector-icons/Feather";
+
 import ProductCard from "../../components/common/ProductCard";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
-import Arrow from "react-native-vector-icons/Ionicons";
 
 import { useQuery } from "react-query";
 import { getItemCategories } from "../../services/itemCategories";
@@ -23,6 +20,7 @@ import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
 
 import SearchBar from "../../components/common/SearchBar";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
 const statusBarStyle = "dark-content";
 
@@ -38,8 +36,6 @@ const AddItems = ({ navigation }: Props) => {
   const [isSearch, setIsSearch] = useState(false);
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-
-  console.log("selectedItems", selectedItems);
 
   const handleSelect = (item: string) => {
     if (selectedItems.includes(item)) {
@@ -81,19 +77,12 @@ const AddItems = ({ navigation }: Props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
-        <Header
-          name="Añadir items"
-          color="white"
-          icon={
-            <Icon onPress={() => navigation.goBack()}>
-              <Arrow name="arrow-back" size={30} color={mainColor} />
-            </Icon>
-          }
-        >
-          <Icon onPress={() => setIsSearch(true)}>
-            <Search name="search" size={25} color="#302F3C" />
-          </Icon>
-        </Header>
+        <BackHeaderTitle
+          label="Añadir items"
+          onPressBack={() => navigation.goBack()}
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
       ) : (
         <SearchBar
           onChangeText={onChangeText}

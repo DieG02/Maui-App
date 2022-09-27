@@ -5,7 +5,7 @@ import globalStyles from "../../styles/globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import ButtonSale from "./ButtonSale";
 
-const { secondaryColor, mainColor } = globalStyles;
+const { textBlack, mainColor } = globalStyles;
 
 interface Props {
   onPress?: () => void;
@@ -70,7 +70,7 @@ const ProductCard = ({ onPress, data, isAdd, disabled }: Props) => {
             style={{
               fontSize: 16,
               fontFamily: "Gilroy-SemiBold",
-              color: secondaryColor,
+              color: textBlack,
             }}
           >
             {data.name}
@@ -111,7 +111,7 @@ const ProductCard = ({ onPress, data, isAdd, disabled }: Props) => {
                 style={{
                   fontSize: 18,
                   fontFamily: "Gilroy-SemiBold",
-                  color: secondaryColor,
+                  color: textBlack,
                 }}
               >
                 $ {data.retailPrice}

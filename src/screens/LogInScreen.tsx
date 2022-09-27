@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
@@ -14,6 +8,7 @@ import logo from "../assets/logo.png";
 import { useMutation } from "react-query";
 import { signIn } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
+import ScreenContainer from "../components/containers/ScreenContainer";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -43,12 +38,7 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-      }}
-    >
+    <ScreenContainer>
       <View
         style={{
           marginHorizontal: 40,
@@ -124,6 +114,6 @@ export default function LoginScreen({ navigation }: Props) {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </ScreenContainer>
   );
 }

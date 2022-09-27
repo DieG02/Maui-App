@@ -3,7 +3,7 @@ import React from "react";
 import globalStyles from "../../styles/globalStyles";
 import Down from "react-native-vector-icons/Entypo";
 
-const { secondaryColor, mainColor } = globalStyles;
+const { mainColor, textBlack } = globalStyles;
 
 interface Props {
   value: string;
@@ -45,7 +45,7 @@ const CommonInput = ({
       <Text
         style={{
           fontSize: 18,
-          color: secondaryColor,
+          color: textBlack,
           fontFamily: "Gilroy-Bold",
           marginBottom: 10,
         }}
@@ -70,7 +70,7 @@ const CommonInput = ({
             <Text
               style={{
                 marginLeft: 20,
-                color: "#383838",
+                color: textBlack,
                 fontFamily: "Gilroy-Bold",
               }}
             >

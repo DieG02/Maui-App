@@ -5,13 +5,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import HomeTabs from "./src/navigation/HomeTabs";
 import NewIncome from "./src/screens/BalanceScreen/NewIncome";
 import NewExpense from "./src/screens/BalanceScreen/NewExpense";
-import InventoryScreen from "./src/screens/InventoryScreen/InventoryScreen";
 import Budget from "./src/screens/HomeScreen/Budget";
 import NotificationsScreen from "./src/screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./src/screens/MoreScreen/MoreScreen";
 import ClientsScreen from "./src/screens/MoreScreen/Clients";
 import NewProduct from "./src/screens/InventoryScreen/NewProduct";
-import SearchScreen from "./src/screens/SearchScreen";
 import LoginScreen from "./src/screens/LogInScreen";
 import SplashScreen from "./src/screens/SplashScreen";
 import AuthProvider from "./src/context/AuthContext";
@@ -39,7 +37,6 @@ const App = () => {
               <Stack.Screen name="NewIncome" component={NewIncome} />
               <Stack.Screen name="NewExpense" component={NewExpense} />
               <Stack.Screen name="AddItems" component={AddItems} />
-              <Stack.Screen name="Inventory" component={InventoryScreen} />
               <Stack.Screen name="Budget" component={Budget} />
               <Stack.Screen
                 name="Notifications"
@@ -51,7 +48,6 @@ const App = () => {
               <Stack.Screen name="Providers" component={ProvidersScreen} />
               <Stack.Screen name="Debts" component={DebtsScreen} />
               <Stack.Screen name="NewProduct" component={NewProduct} />
-              <Stack.Screen name="SearchScreen" component={SearchScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </GeneralProvider>
