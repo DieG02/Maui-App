@@ -5,7 +5,7 @@ import Close from "react-native-vector-icons/AntDesign";
 import React from "react";
 import globalStyles from "../../styles/globalStyles";
 
-const { secondaryColor, width } = globalStyles;
+const { secondaryColor, width, textBlack } = globalStyles;
 
 interface Props {
   onChangeText: (text: string) => void;
@@ -49,7 +49,7 @@ const SearchBar = ({
         autoCapitalize="none"
       />
       <Icon onPress={onPress}>
-        <Close name="close" size={25} color={secondaryColor} />
+        <Close name="close" size={25} color={textBlack} />
       </Icon>
     </View>
   );

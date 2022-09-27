@@ -115,6 +115,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           setValue={setProducts}
           marginBottom={25}
           marginTop={10}
+          onPress={() => navigation.navigate("AddItems")}
         />
         <InputForm
           autoFocus={true}
