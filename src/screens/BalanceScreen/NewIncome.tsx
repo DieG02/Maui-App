@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, StatusBar, Platform } from "react-native";
+import { View, Dimensions, StatusBar } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { FAB } from "react-native-paper";
-import Fab from "../../components/common/Fab";
 import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
@@ -18,6 +16,7 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import globalStyles from "../../styles/globalStyles";
+import SelectionModal from "../../components/common/Modals/SelectionModal";
 
 const { width } = Dimensions.get("window");
 
@@ -74,8 +73,6 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
   });
 
-  console.log("client", route.params?.contact?.id);
-
   const handleSubmit = () =>
     mutateAsync({
       value: +amount,
@@ -96,20 +93,15 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   useEffect(() => {
     const isValidAmount = !!amount && amount !== "0";
-    const isValidTransaction = isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
+    const isValidTransaction =
+      isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
     setIsValidForm(isValidAmount && isValidTransaction && !!date);
     console.log(isValidAmount && isValidTransaction && !!date);
-  }, [amount, isPaid, client, date])
+  }, [amount, isPaid, client, date]);
 
   return (
     <ScreenContainer>
       <StatusBar backgroundColor={income} />
-      <View
-        style={{
-          height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: income }),
-        }}
-      />
       <BackHeaderTitle
         label="Nuevo Ingreso"
         onPressBack={() => navigation.goBack()}
@@ -128,12 +120,13 @@ const NewIncome = ({ navigation, route }: Props) => {
           onPress={() => navigation.navigate("AddItems")}
         />
         <InputForm
-          autoFocus={true}
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
           name="Valor"
-          setValue={(val) => !!val && val !== "NaN" ? setAmount(val) : setAmount("")}
+          setValue={(val) =>
+            !!val && val !== "NaN" ? setAmount(val) : setAmount("")
+          }
           marginBottom={25}
           required
         />
@@ -193,17 +186,20 @@ const NewIncome = ({ navigation, route }: Props) => {
             setSelectedOption={setIsPaid}
           />
         )}
-        <CommonInput
+        <SelectionModal
           placeholder="Seleccione un cliente"
           name="Cliente"
           required={isPaid === "Deuda"}
-          touchable={true}
           value={client}
           setValue={setClient}
           marginBottom={25}
-          onPress={() =>
-            navigation.navigate("Clients", { screen: "NewIncome" })
-          }
+          onPress={() => {
+            navigation.navigate("Clients", { screen: "NewIncome" });
+          }}
+          onPressClose={() => {
+            setClient("");
+            navigation.setParams({ contact: undefined });
+          }}
         />
         <InputDate name="Fecha" date={date} setDate={setDate} color={income} />
         <Spacer height={10} />

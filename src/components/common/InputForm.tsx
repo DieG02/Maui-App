@@ -58,7 +58,7 @@ const InputForm = ({
           style={{
             fontSize: 20,
             fontWeight: "400",
-            color: "#383838",
+            color: textBlack,
             fontFamily: "Gilroy-Medium",
             marginLeft: 20,
           }}
@@ -70,13 +70,14 @@ const InputForm = ({
             height: 60,
             width: "100%",
             fontSize: 20,
-            color: "#383838",
+            color: textBlack,
             fontFamily: "Gilroy-Medium",
           }}
           value={value}
           onChangeText={(text) => {
             const [integer, decimal] = text.split(",");
-            const formated = separator(integer) + (decimal !== undefined ? "," + decimal : "");
+            const formated =
+              separator(integer) + (decimal !== undefined ? "," + decimal : "");
             if (formated.length <= 20) setValue(formated);
           }}
           onBlur={() => setValue(round(value))}

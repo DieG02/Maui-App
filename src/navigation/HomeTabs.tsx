@@ -9,6 +9,10 @@ import BalanceIcon from "react-native-vector-icons/MaterialIcons";
 import InventoryIcon from "react-native-vector-icons/MaterialIcons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MainBottomTabParamList } from "../screens/types";
+import globalStyles from "../styles/globalStyles";
+import { Platform } from "react-native";
+
+const { mainColor, textOutline } = globalStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 
@@ -19,10 +23,10 @@ const HomeTabs = () => {
         initialRouteName="home"
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: "#3784F9",
-          tabBarInactiveTintColor: "#7888a8",
+          tabBarActiveTintColor: mainColor,
+          tabBarInactiveTintColor: textOutline,
           tabBarStyle: {
-            height: 60,
+            height: Platform.OS === "ios" ? 90 : 60,
             borderTopWidth: 0,
             elevation: 0,
           },
@@ -35,7 +39,7 @@ const HomeTabs = () => {
             tabBarLabel: "Inicio",
             tabBarLabelStyle: {
               fontSize: 14,
-              marginBottom: 4,
+              marginBottom: Platform.OS === "ios" ? 0 : 4,
             },
             tabBarIconStyle: { borderRadius: 20 },
             tabBarIcon: ({ color }) => (
@@ -50,13 +54,12 @@ const HomeTabs = () => {
         />
         <Tab.Screen
           name="balance"
-          // component={BalanceScreen}
           component={TransactionsScreen}
           options={{
             tabBarLabel: "Balance",
             tabBarLabelStyle: {
               fontSize: 14,
-              marginBottom: 4,
+              marginBottom: Platform.OS === "ios" ? 0 : 4,
             },
             tabBarIcon: ({ color }) => (
               <BalanceIcon
@@ -76,7 +79,7 @@ const HomeTabs = () => {
             tabBarLabel: "Inventario",
             tabBarLabelStyle: {
               fontSize: 14,
-              marginBottom: 4,
+              marginBottom: Platform.OS === "ios" ? 0 : 4,
             },
             tabBarIcon: ({ color }) => (
               <InventoryIcon
