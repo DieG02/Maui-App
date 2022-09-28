@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, StatusBar, Platform } from "react-native";
+import { View, Dimensions, StatusBar } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -16,6 +16,7 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import globalStyles from "../../styles/globalStyles";
+import SelectionModal from "../../components/common/Modals/SelectionModal";
 
 const { width } = Dimensions.get("window");
 
@@ -71,8 +72,6 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
   });
 
-  console.log("client", route.params?.contact?.id);
-
   const handleSubmit = () =>
     mutateAsync({
       value: +amount,
@@ -94,12 +93,6 @@ const NewIncome = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <StatusBar backgroundColor={income} />
-      <View
-        style={{
-          height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: income }),
-        }}
-      />
       <BackHeaderTitle
         label="Nuevo Ingreso"
         onPressBack={() => navigation.goBack()}
@@ -118,7 +111,6 @@ const NewIncome = ({ navigation, route }: Props) => {
           onPress={() => navigation.navigate("AddItems")}
         />
         <InputForm
-          autoFocus={true}
           keyboardType="numeric"
           placeholder="0,00"
           value={amount}
@@ -187,16 +179,19 @@ const NewIncome = ({ navigation, route }: Props) => {
             setSelectedOption={setIsPaid}
           />
         )}
-        <CommonInput
+        <SelectionModal
           placeholder="Seleccione un cliente"
           name="Cliente"
-          touchable={true}
           value={client}
           setValue={setClient}
           marginBottom={25}
-          onPress={() =>
-            navigation.navigate("Clients", { screen: "NewIncome" })
-          }
+          onPress={() => {
+            navigation.navigate("Clients", { screen: "NewIncome" });
+          }}
+          onPressClose={() => {
+            setClient("");
+            navigation.setParams({ contact: undefined });
+          }}
         />
         <InputDate name="Fecha" date={date} setDate={setDate} color={income} />
         <Spacer height={10} />
