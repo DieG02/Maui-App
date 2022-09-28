@@ -6,7 +6,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import "moment-timezone";
 
-const { secondaryColor } = globalStyles;
+const { textBlack } = globalStyles;
 
 interface Props {
   name: string;
@@ -67,7 +67,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
       <Text
         style={{
           fontSize: 18,
-          color: secondaryColor,
+          color: textBlack,
           fontFamily: "Gilroy-Bold",
           marginBottom: 10,
         }}

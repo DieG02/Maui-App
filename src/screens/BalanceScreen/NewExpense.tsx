@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, StatusBar, Platform } from "react-native";
+import { View, Dimensions, StatusBar } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -17,6 +17,7 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import globalStyles from "../../styles/globalStyles";
+import SelectionModal from "../../components/common/Modals/SelectionModal";
 
 const { width } = Dimensions.get("window");
 
@@ -83,8 +84,6 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
   });
 
-  console.log("provider", route.params?.contact?.id);
-
   const handleSubmit = () => {
     mutateAsync({
       value: +amount,
@@ -108,12 +107,6 @@ const NewExpense = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <StatusBar backgroundColor={expense} />
-      <View
-        style={{
-          height: Platform.select({ ios: 52, android: 0 }),
-          backgroundColor: Platform.select({ ios: expense }),
-        }}
-      />
       <BackHeaderTitle
         label="Nueva Gasto"
         onPressBack={() => navigation.goBack()}
@@ -202,16 +195,19 @@ const NewExpense = ({ navigation, route }: Props) => {
               setSelectedOption={setIsPaid}
             />
           )}
-          <CommonInput
+          <SelectionModal
             placeholder="Seleccione un Proveedor"
             name="Proveedor"
-            touchable={true}
             value={client}
             setValue={setClient}
             marginBottom={25}
-            onPress={() =>
-              navigation.navigate("Providers", { screen: "NewExpense" })
-            }
+            onPress={() => {
+              navigation.navigate("Providers", { screen: "NewExpense" });
+            }}
+            onPressClose={() => {
+              setClient("");
+              navigation.setParams({ contact: undefined });
+            }}
           />
           <InputDate
             name="Fecha"
