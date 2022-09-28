@@ -5,7 +5,7 @@ import Icon from "./Icon";
 import Search from "react-native-vector-icons/Feather";
 import Arrow from "react-native-vector-icons/Ionicons";
 
-const { secondaryColor, background, white } = globalStyles;
+const { background, white, textBlack } = globalStyles;
 
 interface SimpleProps {
   label: string;
@@ -39,14 +39,14 @@ export const HeaderTitle = ({
         style={{
           fontSize: 22,
           fontFamily: "Gilroy-Bold",
-          color: secondaryColor,
+          color: textBlack,
         }}
       >
         {label}
       </Text>
       {withSearch && (
         <Icon onPress={onPressSearch}>
-          <Search name="search" size={25} color={secondaryColor} />
+          <Search name="search" size={25} color={textBlack} />
         </Icon>
       )}
     </View>
@@ -78,14 +78,14 @@ export const BackHeaderTitle = ({
           <Arrow
             name="arrow-back"
             size={30}
-            color={hasType ? white : secondaryColor}
+            color={hasType ? white : textBlack}
           />
         </Icon>
         <Text
           style={{
             fontSize: 22,
             fontFamily: "Gilroy-Bold",
-            color: hasType ? white : secondaryColor,
+            color: hasType ? white : textBlack,
             paddingLeft: 10,
           }}
         >
@@ -94,11 +94,7 @@ export const BackHeaderTitle = ({
       </View>
       {withSearch && (
         <Icon onPress={onPressSearch}>
-          <Search
-            name="search"
-            size={25}
-            color={hasType ? white : secondaryColor}
-          />
+          <Search name="search" size={25} color={hasType ? white : textBlack} />
         </Icon>
       )}
     </View>

@@ -17,7 +17,7 @@ interface Props {
   required?: boolean;
 }
 
-const { secondaryColor, expense } = globalStyles;
+const { textBlack, expense } = globalStyles;
 
 const InputForm = ({
   keyboardType,
@@ -36,7 +36,7 @@ const InputForm = ({
       <Text
         style={{
           fontSize: 18,
-          color: secondaryColor,
+          color: textBlack,
           fontFamily: "Gilroy-Bold",
           marginBottom: 10,
         }}

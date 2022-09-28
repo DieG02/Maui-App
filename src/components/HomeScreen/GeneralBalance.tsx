@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { getBalance } from "../../services/balance";
 import globalStyles from "../../styles/globalStyles";
 
-const { textBlack, balanceCard, balanceCardBorder } = globalStyles;
+const { textBlack, secondaryColorBorder, secondaryColor } = globalStyles;
 
 const GeneralBalance = () => {
   const { data: balance } = useQuery("balance", getBalance);
@@ -16,8 +16,8 @@ const GeneralBalance = () => {
     <View
       style={{
         marginHorizontal: 30,
-        backgroundColor: balanceCard,
-        borderColor: balanceCardBorder,
+        backgroundColor: secondaryColor,
+        borderColor: secondaryColorBorder,
         borderWidth: 1,
         borderRadius: 15,
         height: 100,

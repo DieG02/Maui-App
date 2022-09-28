@@ -74,6 +74,8 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
   });
 
+  console.log("client", route.params?.contact?.id);
+
   const handleSubmit = () =>
     mutateAsync({
       value: +amount,
@@ -123,6 +125,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           setValue={setProducts}
           marginBottom={25}
           marginTop={10}
+          onPress={() => navigation.navigate("AddItems")}
         />
         <InputForm
           autoFocus={true}

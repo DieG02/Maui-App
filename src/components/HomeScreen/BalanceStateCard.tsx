@@ -5,8 +5,8 @@ import Top from "react-native-vector-icons/Ionicons";
 import globalStyles from "../../styles/globalStyles";
 
 const {
-  balanceCard,
-  balanceCardBorder,
+  secondaryColor,
+  secondaryColorBorder,
   textBlack,
   item,
   itemLight,
@@ -102,8 +102,8 @@ const BalanceStateCard = ({ state, value, type, left, right }: Props) => {
   return (
     <View
       style={{
-        backgroundColor: balanceCard,
-        borderColor: balanceCardBorder,
+        backgroundColor: secondaryColor,
+        borderColor: secondaryColorBorder,
         borderWidth: 1,
         width: (width - 120) / 2,
         borderRadius: 15,
@@ -124,7 +124,7 @@ const BalanceStateCard = ({ state, value, type, left, right }: Props) => {
       >
         <View
           style={{
-            marginVertical: 5,
+            marginVertical: 4,
           }}
         >
           {handleIcon(type)}
@@ -150,7 +150,7 @@ const BalanceStateCard = ({ state, value, type, left, right }: Props) => {
           style={{
             color: textBlack,
             fontSize: 20,
-            marginBottom: 8,
+            marginBottom: 6,
             fontFamily: "Gilroy-SemiBold",
           }}
         >

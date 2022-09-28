@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getTransactions } from "../services/transactions";
-import TransactionModal from "../components/common/TransactionsModal";
 import EmptyState from "../components/common/EmptyState";
 import Button from "../components/common/Button";
 import SearchBar from "../components/common/SearchBar";
 import ScreenContainer from "../components/containers/ScreenContainer";
 import { HeaderTitle } from "../components/common/HeaderTitle";
+import TransactionCard from "../components/common/TransactionCard/TransactionCard";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -66,9 +66,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
         }}
         style={{ marginHorizontal: 20 }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => (
-          <TransactionModal data={item} key={item.id} />
-        )}
+        renderItem={({ item }) => <TransactionCard data={item} key={item.id} />}
         ListEmptyComponent={() =>
           text.length !== 0 ? (
             <EmptyState title="No se encontraron coincidencias" />
