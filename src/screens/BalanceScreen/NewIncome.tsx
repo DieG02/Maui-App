@@ -9,7 +9,6 @@ import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
-import Spacer from "../../components/common/Spacer";
 import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
@@ -17,6 +16,7 @@ import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import globalStyles from "../../styles/globalStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
+import ProductModal from "../../components/common/Modals/ProductModal";
 
 const { width } = Dimensions.get("window");
 
@@ -40,7 +40,7 @@ const TODAY = moment.parseZone().format("DD-MM-YYYY");
 const NewIncome = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
-  const [products, setProducts] = useState("");
+  // const [products, setProducts] = useState("");
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
@@ -109,7 +109,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         color={income}
       />
       <ScrollContainer>
-        <CommonInput
+        {/* <CommonInput
           placeholder="Seleccione productos"
           name="Productos"
           touchable={true}
@@ -117,6 +117,11 @@ const NewIncome = ({ navigation, route }: Props) => {
           setValue={setProducts}
           marginBottom={25}
           marginTop={10}
+          onPress={() => navigation.navigate("AddItems")}
+        /> */}
+        <ProductModal
+          marginBottom={20}
+          marginTop={15}
           onPress={() => navigation.navigate("AddItems")}
         />
         <InputForm
@@ -127,13 +132,13 @@ const NewIncome = ({ navigation, route }: Props) => {
           setValue={(val) =>
             !!val && val !== "NaN" ? setAmount(val) : setAmount("")
           }
-          marginBottom={25}
+          marginBottom={20}
           required
         />
         <CommonInput
           placeholder="¿Como quieres llamar a este ingreso?"
           name="Descripción"
-          marginBottom={25}
+          marginBottom={20}
           value={detail}
           setValue={setDetail}
         />
@@ -192,7 +197,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           required={isPaid === "Deuda"}
           value={client}
           setValue={setClient}
-          marginBottom={25}
+          marginBottom={20}
           onPress={() => {
             navigation.navigate("Clients", { screen: "NewIncome" });
           }}
@@ -202,7 +207,6 @@ const NewIncome = ({ navigation, route }: Props) => {
           }}
         />
         <InputDate name="Fecha" date={date} setDate={setDate} color={income} />
-        <Spacer height={10} />
       </ScrollContainer>
       <View
         style={{
