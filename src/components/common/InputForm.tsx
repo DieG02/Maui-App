@@ -14,9 +14,10 @@ interface Props {
   marginTop?: number;
   autoFocus?: boolean;
   onSubmit?: () => void;
+  required?: boolean;
 }
 
-const { textBlack } = globalStyles;
+const { textBlack, expense } = globalStyles;
 
 const InputForm = ({
   keyboardType,
@@ -28,6 +29,7 @@ const InputForm = ({
   marginTop,
   autoFocus,
   onSubmit,
+  required,
 }: Props) => {
   return (
     <View style={{ marginBottom, marginTop }}>
@@ -39,7 +41,7 @@ const InputForm = ({
           marginBottom: 10,
         }}
       >
-        {name}
+        {name} {required && <Text style={{ color: expense }}>*</Text>}
       </Text>
       <View
         style={{
@@ -56,7 +58,7 @@ const InputForm = ({
           style={{
             fontSize: 20,
             fontWeight: "400",
-            color: "#383838",
+            color: textBlack,
             fontFamily: "Gilroy-Medium",
             marginLeft: 20,
           }}
@@ -68,7 +70,7 @@ const InputForm = ({
             height: 60,
             width: "100%",
             fontSize: 20,
-            color: "#383838",
+            color: textBlack,
             fontFamily: "Gilroy-Medium",
           }}
           value={value}

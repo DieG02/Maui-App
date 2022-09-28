@@ -4,7 +4,8 @@ import Down from "react-native-vector-icons/AntDesign";
 import Close from "react-native-vector-icons/Entypo";
 import globalStyles from "../../../styles/globalStyles";
 
-const { mainColor, textBlack, textLight, secondaryColorBorder } = globalStyles;
+const { mainColor, textBlack, textLight, secondaryColorBorder, expense } =
+  globalStyles;
 
 interface Props {
   value: string;
@@ -15,6 +16,7 @@ interface Props {
   marginTop?: number;
   onPress?: () => void;
   onPressClose?: () => void;
+  required?: boolean;
 }
 
 const SelectionModal = ({
@@ -25,6 +27,7 @@ const SelectionModal = ({
   marginTop,
   onPress,
   onPressClose,
+  required,
 }: Props) => {
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -36,7 +39,7 @@ const SelectionModal = ({
           marginBottom: 10,
         }}
       >
-        {name}
+        {name} {required && <Text style={{ color: expense }}>*</Text>}
       </Text>
       {value !== "" && value?.length !== 0 ? (
         <TouchableOpacity
