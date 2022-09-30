@@ -8,6 +8,7 @@ const globalStyles = {
   secondaryColorBorder: "#ECECEC",
   textBlack: "#191919",
   textLight: "#BDC0C3",
+  textBlue: "#7888A8",
   textOutline: "#717171",
   width: width,
   height: height,

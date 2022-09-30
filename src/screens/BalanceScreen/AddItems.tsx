@@ -7,8 +7,6 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-
-import ProductCard from "../../components/common/ProductCard";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 
@@ -21,29 +19,28 @@ import Button from "../../components/common/Button";
 
 import SearchBar from "../../components/common/SearchBar";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import AddProduct from "../../components/common/Products/AddProduct";
 
 const statusBarStyle = "dark-content";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
+interface Product {
+  id: string;
+  price: number;
+  quantity: number;
+}
 
 const { mainColor, width } = globalStyles;
 
 const AddItems = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
-
   const [isSearch, setIsSearch] = useState(false);
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const handleSelect = (item: string) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(selectedItems.filter((i) => i !== item));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
-  };
+  console.log("products", products);
 
   const { data: items, isLoading } = useQuery("items", getAllItem);
   const { data: itemCategories } = useQuery(
@@ -108,12 +105,10 @@ const AddItems = ({ navigation }: Props) => {
         overScrollMode="never"
         data={filterData()}
         renderItem={({ item }) => (
-          <ProductCard
+          <AddProduct
             data={item}
-            onPress={() => handleSelect(item.id)}
-            isSelected={selectedItems.includes(item.id)}
-            isAdd={true}
-            disabled
+            setProducts={setProducts}
+            products={products}
           />
         )}
         showsVerticalScrollIndicator={false}
@@ -141,7 +136,8 @@ const AddItems = ({ navigation }: Props) => {
         }}
       >
         <Button
-          text={`${selectedItems.length} items `}
+          text={`${products.length} items `}
+          // text="Añadir items"
           style={{
             backgroundColor: mainColor,
             width: width - 60,
