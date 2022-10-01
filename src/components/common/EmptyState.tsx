@@ -1,7 +1,8 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
+import globalStyles from "../../styles/globalStyles";
 
-const { height } = Dimensions.get("window");
+const { height, textLight, background } = globalStyles;
 
 interface Props {
   color?: string;
@@ -15,14 +16,14 @@ const EmptyState = ({ color, title, percentage }: Props) => {
       style={{
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: color || "white",
+        backgroundColor: color || background,
         height: height - height * (percentage || 0.3),
       }}
     >
       <Text
         style={{
           fontSize: 18,
-          color: "#A5A5A5",
+          color: textLight,
           fontFamily: "Gilroy-SemiBold",
         }}
       >

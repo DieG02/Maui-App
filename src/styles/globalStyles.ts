@@ -24,6 +24,7 @@ const globalStyles = {
   orangeLight: "#FFEFEF",
   item: "#3784F9",
   itemLight: "#EBF3FF",
+  ligthBlue: "#E6EFF8",
 };
 
 export default globalStyles;
