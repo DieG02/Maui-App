@@ -150,7 +150,6 @@ const Consumers = ({ navigation, route }: Props) => {
           style={{
             backgroundColor: mainColor,
             width: width - 40,
-            elevation: 4,
             marginTop: 6,
           }}
         />

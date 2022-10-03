@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../../styles/globalStyles";
 import Right from "react-native-vector-icons/Entypo";
 
-const { mainColor, ligthBlue, textBlack, background } = globalStyles;
+const { mainColor, textBlack, background, secondaryColor } = globalStyles;
 interface Props {
   data: IContact;
   type: string;
@@ -20,14 +20,14 @@ const ContactCard = ({ data, type, onPress }: Props) => {
             style={{
               width: 50,
               height: 50,
-              backgroundColor: ligthBlue,
+              backgroundColor: secondaryColor,
               borderRadius: 15,
               marginRight: 30,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="user" size={20} color={mainColor} />
+            <Icon name="user" size={25} color={mainColor} />
           </View>
         );
       }
@@ -36,16 +36,16 @@ const ContactCard = ({ data, type, onPress }: Props) => {
         return (
           <View
             style={{
-              width: 60,
-              height: 60,
-              backgroundColor: ligthBlue,
+              width: 50,
+              height: 50,
+              backgroundColor: secondaryColor,
               borderRadius: 15,
               marginRight: 30,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="truck" size={30} color={mainColor} />
+            <Icon name="truck" size={25} color={mainColor} />
           </View>
         );
       }
