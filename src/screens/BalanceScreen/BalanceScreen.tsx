@@ -1,11 +1,9 @@
 import React from "react";
-import { StatusBar, Dimensions, Alert, Platform, View } from "react-native";
+import { StatusBar, Dimensions, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Header from "../../components/common/Header";
-import Icon from "../../components/common/Icon";
-import Search from "react-native-vector-icons/Feather";
-import More from "react-native-vector-icons/Feather";
+// import Header from "../../components/common/Header";
+import { HeaderTitle } from "../../components/common/HeaderTitle";
 import TabDay from "../../components/BalanceScreen/TabDay";
 import TabWeek from "../../components/BalanceScreen/TabWeek";
 import TabMonth from "../../components/BalanceScreen/TabMonth";
@@ -14,7 +12,7 @@ import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import Button from "../../components/common/Button";
 
-const { mainColor, secondaryColor } = globalStyles;
+const { mainColor } = globalStyles;
 const statusBarStyle = "dark-content";
 const Tab = createMaterialTopTabNavigator();
 
@@ -37,14 +35,7 @@ export default function BalanceScreen({ navigation }: Props) {
           }),
         }}
       />
-      <Header name="Balance">
-        <Icon onPress={() => navigation.navigate("SearchScreen")}>
-          <Search name="search" size={25} color={secondaryColor} />
-        </Icon>
-        <Icon onPress={() => Alert.alert("Search")}>
-          <More name="more-vertical" size={25} color={secondaryColor} />
-        </Icon>
-      </Header>
+      <HeaderTitle label="Balance" />
       <Tab.Navigator
         style={{ backgroundColor: "#fff" }}
         screenOptions={{

@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   StatusBar,
 } from "react-native";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -16,17 +16,20 @@ import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import SearchBar from "../../components/common/SearchBar";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
 
-const { mainColor, width } = globalStyles;
+const { mainColor, width, background } = globalStyles;
 const statusBarStyle = "dark-content";
 
 const Providers = ({ navigation, route }: Props) => {
   const { setContacts } = useContext(GeneralContext);
+  const [text, onChangeText] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const {
     data,
@@ -41,8 +44,12 @@ const Providers = ({ navigation, route }: Props) => {
   });
 
   const providers = useMemo(() => {
-    return data?.filter((item) => item.typeOfContact === "PROVIDER");
-  }, [data]);
+    const res = data?.filter((item) => item.typeOfContact === "PROVIDER");
+    const filtered = res?.filter((item) =>
+      item.name?.toLowerCase().startsWith(text.toLowerCase())
+    );
+    return filtered;
+  }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
     if (route.params !== undefined) {
@@ -74,11 +81,25 @@ const Providers = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <BackHeaderTitle
-        label="Proveedores"
-        onPressBack={() => navigation.goBack()}
-        withSearch
-      />
+      {!isSearch ? (
+        <BackHeaderTitle
+          label="Proveedores"
+          onPressBack={() => navigation.goBack()}
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
+      ) : (
+        <SearchBar
+          onChangeText={onChangeText}
+          text={text}
+          placeholder="Buscar ..."
+          onPress={() => {
+            onChangeText("");
+            setIsSearch(false);
+          }}
+          onBlur={() => text.length === 0 && setIsSearch(false)}
+        />
+      )}
       <FlatList
         overScrollMode="never"
         data={providers}
@@ -110,10 +131,9 @@ const Providers = ({ navigation, route }: Props) => {
       <View
         style={{
           width: "100%",
-          height: 80,
+          height: 90,
           alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "white",
+          backgroundColor: background,
         }}
       >
         <Button
@@ -127,7 +147,7 @@ const Providers = ({ navigation, route }: Props) => {
           style={{
             backgroundColor: mainColor,
             width: width - 40,
-            elevation: 4,
+            marginTop: 6,
           }}
         />
       </View>

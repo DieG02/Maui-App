@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import globalStyles from "../../styles/globalStyles";
 import Right from "react-native-vector-icons/Entypo";
 
-const { mainColor } = globalStyles;
+const { mainColor, textBlack, background, secondaryColor } = globalStyles;
 interface Props {
   data: IContact;
   type: string;
@@ -20,14 +20,14 @@ const ContactCard = ({ data, type, onPress }: Props) => {
             style={{
               width: 50,
               height: 50,
-              backgroundColor: "#E6EFF8",
+              backgroundColor: secondaryColor,
               borderRadius: 15,
               marginRight: 30,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="user" size={20} color={mainColor} />
+            <Icon name="user" size={25} color={mainColor} />
           </View>
         );
       }
@@ -36,33 +36,16 @@ const ContactCard = ({ data, type, onPress }: Props) => {
         return (
           <View
             style={{
-              width: 60,
-              height: 60,
-              backgroundColor: "#E6EFF8",
+              width: 50,
+              height: 50,
+              backgroundColor: secondaryColor,
               borderRadius: 15,
               marginRight: 30,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="truck" size={30} color={mainColor} />
-          </View>
-        );
-      }
-      case "employee": {
-        return (
-          <View
-            style={{
-              width: 60,
-              height: 60,
-              backgroundColor: "#E6EFF8",
-              borderRadius: 15,
-              marginRight: 30,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="group" size={30} color={mainColor} />
+            <Icon name="truck" size={25} color={mainColor} />
           </View>
         );
       }
@@ -75,7 +58,8 @@ const ContactCard = ({ data, type, onPress }: Props) => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginBottom: 20,
+        paddingVertical: 5,
+        backgroundColor: background,
       }}
       onPress={onPress}
     >
@@ -89,18 +73,16 @@ const ContactCard = ({ data, type, onPress }: Props) => {
         <View style={{ flexDirection: "column" }}>
           <Text
             style={{
-              color: "#131313",
+              color: textBlack,
               fontSize: 16,
-
               fontFamily: "Gilroy-SemiBold",
             }}
           >
             {data.name}
           </Text>
-
           <Text
             style={{
-              color: "#131313",
+              color: textBlack,
               fontSize: 14,
               fontFamily: "Gilroy-Regular",
             }}
@@ -109,7 +91,7 @@ const ContactCard = ({ data, type, onPress }: Props) => {
           </Text>
         </View>
       </View>
-      <Right name="chevron-small-right" color="#60708F" size={35} />
+      <Right name="chevron-small-right" color={textBlack} size={35} />
     </TouchableOpacity>
   );
 };

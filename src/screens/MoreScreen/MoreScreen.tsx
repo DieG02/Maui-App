@@ -9,13 +9,10 @@ import {
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
 import Right from "react-native-vector-icons/Entypo";
-import Profile from "react-native-vector-icons/FontAwesome";
 import Business from "react-native-vector-icons/FontAwesome";
 import Debts from "react-native-vector-icons/FontAwesome5";
 import Costumer from "react-native-vector-icons/FontAwesome";
-import Message from "react-native-vector-icons/MaterialIcons";
 import Faq from "react-native-vector-icons/FontAwesome5";
-import Budget from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -118,14 +115,6 @@ const More = ({ navigation }: Props) => {
             icon={<Business name="building" color={mainColor} size={20} />}
           />
           <Spacer height={5} />
-          <OptionCard
-            title="Presupuestos"
-            onPress={() => navigation.navigate("Budget")}
-            arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
-            }
-            icon={<Budget name="sale" color={mainColor} size={25} />}
-          />
           <Spacer height={5} />
           <OptionCard
             title="Deudas"
@@ -155,20 +144,6 @@ const More = ({ navigation }: Props) => {
           />
           <Spacer height={5} />
           <Spacer height={5} />
-          <OptionCard
-            title="Soporte"
-            arrow={<Profile name="whatsapp" color="#00bb2d" size={22} />}
-            icon={<Message name="message" color={mainColor} size={20} />}
-          />
-          <Spacer height={5} />
-          <OptionCard
-            title="Preguntas Frecuentes"
-            arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
-            }
-            icon={<Faq name="question-circle" color={mainColor} size={20} />}
-          />
-          <Spacer height={10} />
           <OptionCard
             title="Cerrar Sesión"
             onPress={() => handleLogout()}

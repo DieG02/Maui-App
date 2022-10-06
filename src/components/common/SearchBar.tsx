@@ -5,7 +5,7 @@ import Close from "react-native-vector-icons/AntDesign";
 import React from "react";
 import globalStyles from "../../styles/globalStyles";
 
-const { secondaryColor, width, textBlack } = globalStyles;
+const { width, textBlack, textLight } = globalStyles;
 
 interface Props {
   onChangeText: (text: string) => void;
@@ -40,7 +40,7 @@ const SearchBar = ({
         autoFocus={true}
         placeholder={placeholder}
         onBlur={onBlur}
-        placeholderTextColor={secondaryColor}
+        placeholderTextColor={textLight}
         style={{
           marginLeft: 20,
           width: width - 80,

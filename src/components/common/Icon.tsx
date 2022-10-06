@@ -20,8 +20,6 @@ const styles = StyleSheet.create({
   icons: {
     width: 40,
     height: 40,
-    borderColor: "#F0F1F5",
-
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",

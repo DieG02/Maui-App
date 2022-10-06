@@ -6,7 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import ProductCard from "../../components/common/ProductCard";
+import ProductCard from "../../components/common/Products/ProductCard";
 import { NavigationProp } from "@react-navigation/native";
 import globalStyles from "../../styles/globalStyles";
 import InputModal from "../../components/common/InputModal";

@@ -28,9 +28,9 @@ export const HeaderTitle = ({
       style={{
         backgroundColor: background,
         height: 60,
-        paddingLeft: 30,
+        paddingLeft: 20,
         justifyContent: "space-between",
-        paddingRight: 15,
+        paddingRight: 10,
         flexDirection: "row",
         alignItems: "center",
       }}
@@ -66,9 +66,9 @@ export const BackHeaderTitle = ({
       style={{
         backgroundColor: hasType ? color : background,
         height: 60,
-        paddingLeft: 15,
+        paddingLeft: 10,
         justifyContent: "space-between",
-        paddingRight: 15,
+        paddingRight: 10,
         flexDirection: "row",
         alignItems: "center",
       }}

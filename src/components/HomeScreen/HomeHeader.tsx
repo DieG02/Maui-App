@@ -1,6 +1,5 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import Bell from "react-native-vector-icons/Fontisto";
 import globalStyles from "../../styles/globalStyles";
 
 const { mainColor, textBlack, background } = globalStyles;
@@ -12,12 +11,7 @@ interface Props {
   welcome: string;
 }
 
-const HomeHeader = ({
-  onPressNotifications,
-  onPressUser,
-  avatar,
-  welcome,
-}: Props) => {
+const HomeHeader = ({ onPressUser, avatar, welcome }: Props) => {
   return (
     <View
       style={{
@@ -70,31 +64,6 @@ const HomeHeader = ({
         >
           {welcome}
         </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={onPressNotifications}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            width: 15,
-            height: 15,
-            borderRadius: 10,
-            alignItems: "center",
-            backgroundColor: mainColor,
-            position: "absolute",
-            zIndex: 90,
-            top: 3,
-            right: 6,
-          }}
-        />
-        <Bell name="bell" size={28} color={textBlack} />
       </TouchableOpacity>
     </View>
   );

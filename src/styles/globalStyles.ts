@@ -8,6 +8,7 @@ const globalStyles = {
   secondaryColorBorder: "#ECECEC",
   textBlack: "#191919",
   textLight: "#BDC0C3",
+  textBlue: "#7888A8",
   textOutline: "#717171",
   width: width,
   height: height,
@@ -23,6 +24,7 @@ const globalStyles = {
   orangeLight: "#FFEFEF",
   item: "#3784F9",
   itemLight: "#EBF3FF",
+  ligthBlue: "#E6EFF8",
 };
 
 export default globalStyles;

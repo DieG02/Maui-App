@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
   StatusBar,
 } from "react-native";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -16,16 +16,19 @@ import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import SearchBar from "../../components/common/SearchBar";
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
-const { mainColor, width } = globalStyles;
+const { mainColor, width, background } = globalStyles;
 const statusBarStyle = "dark-content";
 
 const Consumers = ({ navigation, route }: Props) => {
   const { setContacts } = useContext(GeneralContext);
+  const [text, onChangeText] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const {
     data,
@@ -41,8 +44,11 @@ const Consumers = ({ navigation, route }: Props) => {
 
   const clients = useMemo(() => {
     const res = data?.filter((item) => item.typeOfContact === "CLIENT");
-    return res;
-  }, [data]);
+    const filtered = res?.filter((item) =>
+      item.name?.toLowerCase().startsWith(text.toLowerCase())
+    );
+    return filtered;
+  }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
     if (route.params !== undefined) {
@@ -74,16 +80,33 @@ const Consumers = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <BackHeaderTitle
-        label="Clientes"
-        onPressBack={() => navigation.goBack()}
-        withSearch
-        onPressSearch={() => Alert.alert("Search")}
-      />
+      {!isSearch ? (
+        <BackHeaderTitle
+          label="Clientes"
+          onPressBack={() => navigation.goBack()}
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
+      ) : (
+        <SearchBar
+          onChangeText={onChangeText}
+          text={text}
+          placeholder="Buscar ..."
+          onPress={() => {
+            onChangeText("");
+            setIsSearch(false);
+          }}
+          onBlur={() => text.length === 0 && setIsSearch(false)}
+        />
+      )}
       <FlatList
         overScrollMode="never"
         data={clients}
-        style={{ flex: 1, backgroundColor: "white", marginHorizontal: 20 }}
+        style={{
+          flex: 1,
+          backgroundColor: background,
+          marginHorizontal: 20,
+        }}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <EmptyState
@@ -111,10 +134,9 @@ const Consumers = ({ navigation, route }: Props) => {
       <View
         style={{
           width: "100%",
-          height: 80,
+          height: 90,
           alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "white",
+          backgroundColor: background,
         }}
       >
         <Button
@@ -128,7 +150,7 @@ const Consumers = ({ navigation, route }: Props) => {
           style={{
             backgroundColor: mainColor,
             width: width - 40,
-            elevation: 4,
+            marginTop: 6,
           }}
         />
       </View>
