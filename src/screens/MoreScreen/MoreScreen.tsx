@@ -21,7 +21,7 @@ import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 
-const { mainColor } = globalStyles;
+const { textBlack, textBlue } = globalStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -88,7 +88,7 @@ const More = ({ navigation }: Props) => {
                 style={{
                   fontSize: 20,
                   color: "#131313",
-
+                  fontWeight: "bold",
                   fontFamily: "Gilroy-Medium",
                 }}
               >
@@ -97,50 +97,62 @@ const More = ({ navigation }: Props) => {
               <TouchableOpacity>
                 <Text
                   style={{
-                    color: mainColor,
+                    color: textBlack,
                     fontFamily: "Gilroy-Regular",
                     fontSize: 15,
                   }}
                 >
-                  Ver mi perfil
+                  example@gmail.com
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
+          <Text style={{color: textBlue, fontSize:20, paddingLeft: 15}}>Mi Perfil</Text>
+          <Spacer height={10} />
           <OptionCard
-            title="Negocio"
+            title="Mis datos"
             arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={35} />
             }
-            icon={<Business name="building" color={mainColor} size={20} />}
+            icon={<Business name="building" color={textBlack} size={20} />}
+          />
+          <Spacer height={5} />
+          <OptionCard
+            title="Mi negocio"
+            arrow={
+              <Right name="chevron-small-right" color={textBlack} size={35} />
+            }
+            icon={<Business name="building" color={textBlack} size={20} />}
           />
           <Spacer height={5} />
           <Spacer height={5} />
+          <Text style={{color: textBlue, fontSize:20, paddingLeft: 15}}>General</Text>
+          <Spacer height={10} />
           <OptionCard
             title="Deudas"
             onPress={() => navigation.navigate("Debts")}
             arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={35} />
             }
-            icon={<Debts name="calculator" color={mainColor} size={20} />}
+            icon={<Debts name="calculator" color={textBlack} size={20} />}
           />
           <Spacer height={5} />
           <OptionCard
             title="Clientes"
             onPress={() => navigation.navigate("Clients")}
             arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={35} />
             }
-            icon={<Costumer name="user" color={mainColor} size={25} />}
+            icon={<Costumer name="user" color={textBlack} size={25} />}
           />
           <Spacer height={5} />
           <OptionCard
             title="Provedores"
             onPress={() => navigation.navigate("Providers")}
             arrow={
-              <Right name="chevron-small-right" color={mainColor} size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={35} />
             }
-            icon={<Costumer name="truck" color={mainColor} size={25} />}
+            icon={<Costumer name="truck" color={textBlack} size={25} />}
           />
           <Spacer height={5} />
           <Spacer height={5} />
