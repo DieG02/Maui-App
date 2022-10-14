@@ -4,7 +4,6 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TouchableOpacity,
 } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
@@ -20,9 +19,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import ProfileComponent from "./ProfileComponent";
+import ProfileComponent from "../../components/common/ProfileComponent";
+import { profileData } from "../../services/profiles";
 
 const { textBlack, textBlue } = globalStyles;
+const { name, lastName, email, img} = profileData;
 
 const statusBarStyle = "dark-content";
 
@@ -55,7 +56,7 @@ const More = ({ navigation }: Props) => {
         />
         <Spacer height={10} />
         <View style={{ marginHorizontal: 20 }}>
-          <ProfileComponent userName="Danilo" userLastName="Bautista" email="danilobautista2004@gmail.com" imgProfile="https://sintesistv.com.mx/wp-content/uploads/2019/02/portada-breaking-bad-1024x768.jpg"/>
+          <ProfileComponent userName={name} userLastName={lastName} email={email} imgProfile={img}/>
           <Text style={{color: textBlue, fontSize:20, paddingLeft: 15}}>Mi Perfil</Text>
           <Spacer height={10} />
           <OptionCard

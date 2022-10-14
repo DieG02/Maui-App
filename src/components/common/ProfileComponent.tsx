@@ -13,35 +13,6 @@ interface Props{
 }
 
 const ProfileComponent = ({userName, userLastName, imgProfile, email }:Props) => {
-  const renderImage = (visible?:string) =>{
-    if(visible){
-      return(
-        <Image
-          source={{uri: imgProfile }}
-          resizeMode="contain"
-          style={{
-            width:"100%",
-            height:"100%",
-            borderRadius: 40
-          }}
-        />
-      )
-    }
-    else if(!visible){
-      return(
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          {getInitialLetters(userName, userLastName)}
-        </Text>
-      )
-    }
-  }
-
   return (
           <View
             style={{
@@ -62,7 +33,28 @@ const ProfileComponent = ({userName, userLastName, imgProfile, email }:Props) =>
                 justifyContent: "center",
               }}
             >
-            {renderImage(imgProfile)}
+            { imgProfile ? (
+              <Image
+              source={{uri: imgProfile }}
+              resizeMode="contain"
+              style={{
+                width:"100%",
+                height:"100%",
+                borderRadius: 40
+              }}
+              />
+              ) : (
+                <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+                >
+                  {getInitialLetters(userName, userLastName)}
+                </Text>
+              )
+            }
             </View>
             <View>
               <Text
