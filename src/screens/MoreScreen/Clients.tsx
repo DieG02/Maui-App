@@ -1,10 +1,4 @@
-import {
-  View,
-  Alert,
-  FlatList,
-  ActivityIndicator,
-  StatusBar,
-} from "react-native";
+import { View, FlatList, ActivityIndicator, StatusBar } from "react-native";
 import React, { useContext, useMemo, useState } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import globalStyles from "../../styles/globalStyles";
@@ -58,7 +52,7 @@ const Consumers = ({ navigation, route }: Props) => {
         merge: true,
       });
     } else {
-      Alert.alert("Contacto en Detalle");
+      navigation.navigate("ContactDetail", { contact: item });
     }
   };
 

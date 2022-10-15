@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import TransactionsModal from "./TransactionCard/TransactionsModal";
+import TransactionCard from "./TransactionCard/TransactionCard";
 import Title from "./Title";
 import Spacer from "./Spacer";
 import globalStyles from "../../styles/globalStyles";
@@ -56,7 +56,7 @@ const TransactionsDropdown = ({ item }: Props) => {
           }}
         >
           {item.items.map((data) => (
-            <TransactionsModal data={data} key={data.id} />
+            <TransactionCard data={data} key={data.id} />
           ))}
         </View>
       ) : (
