@@ -10,7 +10,9 @@ const { background, white, textBlack } = globalStyles;
 interface SimpleProps {
   label: string;
   onPressSearch?: () => void;
+  onPressDelete?: () => void;
   withSearch?: boolean;
+  withDelete?: boolean;
 }
 interface Props extends SimpleProps {
   onPressBack: () => void;
@@ -56,7 +58,9 @@ export const HeaderTitle = ({
 export const BackHeaderTitle = ({
   label,
   withSearch,
+  withDelete,
   onPressSearch,
+  onPressDelete,
   onPressBack,
   hasType,
   color,
@@ -95,6 +99,15 @@ export const BackHeaderTitle = ({
       {withSearch && (
         <Icon onPress={onPressSearch}>
           <Search name="search" size={25} color={hasType ? white : textBlack} />
+        </Icon>
+      )}
+      {withDelete && (
+        <Icon onPress={onPressDelete}>
+          <Search
+            name="trash-2"
+            size={25}
+            color={hasType ? white : textBlack}
+          />
         </Icon>
       )}
     </View>
