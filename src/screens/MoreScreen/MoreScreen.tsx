@@ -61,6 +61,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={10} />
           <OptionCard
             title="Mis datos"
+            onPress={() => navigation.navigate("UserData")}
             arrow={
               <Right name="chevron-small-right" color={textBlack} size={35} />
             }

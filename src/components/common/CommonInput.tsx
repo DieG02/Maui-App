@@ -113,6 +113,7 @@ const CommonInput = ({
             keyboardType={keyboardType}
             style={{
               marginHorizontal: 20,
+              color: textBlack,
             }}
             autoCapitalize={autoCapitalize}
             multiline={multiline}
