@@ -4,7 +4,6 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TouchableOpacity,
 } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
@@ -20,8 +19,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import ProfileComponent from "../../components/common/ProfileComponent";
+import { profileData } from "../../services/profiles";
 
 const { textBlack, textBlue } = globalStyles;
+const { name, lastName, email, img} = profileData;
 
 const statusBarStyle = "dark-content";
 
@@ -49,64 +51,12 @@ const More = ({ navigation }: Props) => {
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackHeaderTitle
-          label="Perfil"
+          label="Mi Cuenta"
           onPressBack={() => navigation.goBack()}
         />
         <Spacer height={10} />
         <View style={{ marginHorizontal: 20 }}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 20,
-            }}
-          >
-            <View
-              style={{
-                width: 60,
-                height: 60,
-                marginRight: 20,
-                backgroundColor: "#7888a8",
-                borderRadius: 40,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  color: "white",
-                }}
-              >
-                BB
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "#131313",
-                  fontWeight: "bold",
-                  fontFamily: "Gilroy-Medium",
-                }}
-              >
-                Billy Bautista
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    color: textBlack,
-                    fontFamily: "Gilroy-Regular",
-                    fontSize: 15,
-                  }}
-                >
-                  example@gmail.com
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <ProfileComponent userName={name} userLastName={lastName} email={email} imgProfile={img}/>
           <Text style={{color: textBlue, fontSize:20, paddingLeft: 15}}>Mi Perfil</Text>
           <Spacer height={10} />
           <OptionCard
