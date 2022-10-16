@@ -96,7 +96,6 @@ const NewIncome = ({ navigation, route }: Props) => {
     const isValidTransaction =
       isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
     setIsValidForm(isValidAmount && isValidTransaction && !!date);
-    console.log(isValidAmount && isValidTransaction && !!date);
   }, [amount, isPaid, client, date]);
 
   return (
@@ -109,16 +108,6 @@ const NewIncome = ({ navigation, route }: Props) => {
         color={income}
       />
       <ScrollContainer>
-        {/* <CommonInput
-          placeholder="Seleccione productos"
-          name="Productos"
-          touchable={true}
-          value={products}
-          setValue={setProducts}
-          marginBottom={25}
-          marginTop={10}
-          onPress={() => navigation.navigate("AddItems")}
-        /> */}
         <ProductModal
           marginBottom={20}
           marginTop={15}

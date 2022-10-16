@@ -37,10 +37,7 @@ const { mainColor, width } = globalStyles;
 const AddItems = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
-
   const [products, setProducts] = useState<Product[]>([]);
-
-  console.log("products", products);
 
   const { data: items, isLoading } = useQuery("items", getAllItem);
   const { data: itemCategories } = useQuery(

@@ -2,6 +2,8 @@ import MauiApi from "../clientProvider";
 import {
   createContactBodyInputDto,
   createContactResponseDto,
+  editContactBodyInputDto,
+  editContactResponseDto,
   getAllContactsResponseDto,
   getContactByIdResponseDto,
 } from "../../../Maui-Backend/src/controllers/types";
@@ -27,3 +29,24 @@ export const getContactById = async (contactId: string) =>
       Authorization: await getUserAuthenticationHeader(),
     },
   }).then((res) => res.data);
+
+export const deleteContactById = async (contactId: string) =>
+  await MauiApi.delete("/deleteContact/" + contactId, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+export const updateContactById = async (
+  contactId: string,
+  data: editContactBodyInputDto
+) =>
+  await MauiApi.patch<editContactResponseDto>(
+    "/editContact/" + contactId,
+    data,
+    {
+      headers: {
+        Authorization: await getUserAuthenticationHeader(),
+      },
+    }
+  ).then((res) => res.data);
