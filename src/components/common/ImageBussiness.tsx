@@ -1,14 +1,13 @@
 import { View, Image, Text } from "react-native";
-import { getInitialLetters } from "../../utils/helper";
+import { getInitialLettersBussiness } from "../../utils/helper";
 import React from "react";
 
 interface Props {
     url?:string,
-    name: string;
-    lastName: string;
+    name: string,
 }
 
-const ImageProfile = ({url, name, lastName}:Props) => {
+const ImageProfile = ({url, name}:Props) => {
   return (
     <View
             style={{
@@ -44,10 +43,9 @@ const ImageProfile = ({url, name, lastName}:Props) => {
                         color: "white",
                     }}
                 >
-                    {getInitialLetters(name, lastName)}
+                    {getInitialLettersBussiness(name)}
                 </Text>
-              )
-            }
+              )}
                  </View>
             </View>
   );

@@ -16,7 +16,7 @@ const {name, lastName, phone, email, img} = profileData;
 
 interface Props {
     navigation: NavigationProp<any, any>;
-  }
+}
 
 const UserData = ({navigation}: Props) => {
     const [disabledBtn, setDisabledBtn] = useState(true);
@@ -49,7 +49,7 @@ const UserData = ({navigation}: Props) => {
         />
         <View style={{ marginHorizontal: 20 }}>
             <Spacer height={10} />
-            <ImageProfile url={img}/>
+            <ImageProfile url={img} name={userInfo.name} lastName={userInfo.lastName}/>
             <Spacer height={10} />
             <CommonInput value={userInfo.name} setValue={(value) => setUserInfo({ ...userInfo, name: value})} name="Nombre"  marginBottom={20} autoCapitalize="words"/>
             <Spacer height={5} />

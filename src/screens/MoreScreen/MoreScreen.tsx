@@ -70,6 +70,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={5} />
           <OptionCard
             title="Mi negocio"
+            onPress={() => navigation.navigate("UserBussiness")}
             arrow={
               <Right name="chevron-small-right" color={textBlack} size={35} />
             }
