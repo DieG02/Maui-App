@@ -33,17 +33,20 @@ const NewIncome = ({ navigation }: Props) => {
     "itemCategories",
     getItemCategories
   );
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [stock, setStock] = useState("");
-  const [description, setDescription] = useState("");
-  const [costUnit, setCostUnit] = useState("");
-  const [category, setCategory] = useState("Seleccione una categoría");
-  const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("Ingrese el valor");
 
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
   const [modalUnit, setModalUnit] = useState(false);
+
+  const [product, setProduct] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    description: "",
+    cost: "",
+    category: "Seleccione una categoría",
+    quantity: "",
+    unit: "Ingrese el valor",
+  });
 
   const handleIdCategory = (expense: string, data: any[]) => {
     const category = data.find(
@@ -52,21 +55,22 @@ const NewIncome = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
-  const product: createNewProductBodyInputDto = {
-    cost: +costUnit,
-    description: description,
-    name: name,
-    quantity: +quantity,
-    retailPrice: +price,
-    stock: +stock,
-    categoryId: itemCategories && handleIdCategory(category, itemCategories),
-    unit: unit,
+  const data: createNewProductBodyInputDto = {
+    ...product,
+    quantity: +product.quantity,
+    retailPrice: +product.price,
+    stock: +product.stock,
+    cost: +product.cost,
+    categoryId:
+      itemCategories && handleIdCategory(product.category, itemCategories),
   };
+
+  console.log("producto ==>", data);
 
   const { mutateAsync: createProduct } = useMutation(createNewProduct);
 
   const handleSubmit = () => {
-    createProduct(product);
+    createProduct(data);
   };
 
   return (
@@ -114,8 +118,8 @@ const NewIncome = ({ navigation }: Props) => {
             placeholder="¿Como quieres llamar a este producto?"
             name="Nombre del Producto"
             marginBottom={25}
-            value={name}
-            setValue={setName}
+            setValue={(value) => setProduct({ ...product, name: value })}
+            value={product.name}
           />
           <View
             style={{
@@ -133,9 +137,9 @@ const NewIncome = ({ navigation }: Props) => {
               <InputForm
                 keyboardType="numeric"
                 placeholder="0,00"
-                value={price}
                 name="Valor"
-                setValue={setPrice}
+                value={product.price}
+                setValue={(value) => setProduct({ ...product, price: value })}
                 marginBottom={25}
               />
             </View>
@@ -149,8 +153,8 @@ const NewIncome = ({ navigation }: Props) => {
                 placeholder="Ingrese el valor"
                 name="Stock"
                 marginBottom={25}
-                value={stock}
-                setValue={setStock}
+                value={product.stock}
+                setValue={(value) => setProduct({ ...product, stock: value })}
                 keyboardType="numeric"
               />
             </View>
@@ -159,23 +163,25 @@ const NewIncome = ({ navigation }: Props) => {
             placeholder="Desciripción Opcional"
             name="Descripción"
             marginBottom={25}
-            value={description}
-            setValue={setDescription}
+            value={product.description}
+            setValue={(value) => setProduct({ ...product, description: value })}
           />
           <OptionModal
             title="Categoría"
             options={itemCategories?.map((category) => category?.name) ?? []}
             isModalVisible={modalExpenseCategory}
             setIsModalVisible={setModalExpenseCategory}
-            selectedOption={category}
-            setSelectedOption={setCategory}
+            selectedOption={product.category}
+            setSelectedOption={(value) =>
+              setProduct({ ...product, category: value })
+            }
           />
           <InputForm
             keyboardType="numeric"
             placeholder="0,00"
-            value={costUnit}
             name="Costo Unitario"
-            setValue={setCostUnit}
+            value={product.cost}
+            setValue={(value) => setProduct({ ...product, cost: value })}
             marginBottom={25}
           />
           <View
@@ -196,8 +202,10 @@ const NewIncome = ({ navigation }: Props) => {
                 options={UNITS?.map((category) => category?.name) ?? []}
                 isModalVisible={modalUnit}
                 setIsModalVisible={setModalUnit}
-                selectedOption={unit}
-                setSelectedOption={setUnit}
+                selectedOption={product.unit}
+                setSelectedOption={(value) =>
+                  setProduct({ ...product, unit: value })
+                }
               />
             </View>
 
@@ -211,8 +219,10 @@ const NewIncome = ({ navigation }: Props) => {
                 placeholder="Ingrese el valor"
                 name="Cantidad"
                 marginBottom={25}
-                value={quantity}
-                setValue={setQuantity}
+                value={product.quantity}
+                setValue={(value) =>
+                  setProduct({ ...product, quantity: value })
+                }
                 keyboardType="numeric"
               />
             </View>
