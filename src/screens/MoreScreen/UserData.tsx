@@ -1,4 +1,4 @@
-import { View, StatusBar, Image } from "react-native";
+import { View, StatusBar } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import React, {useState, useEffect} from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -11,35 +11,17 @@ import { profileData } from "../../services/profiles";
 import ImageProfile from "../../components/common/ImageProfile";
 
 const statusBarStyle = "dark-content";
-const {disabledBtnColor, mainColor} = globalStyles;
-const {name, lastName, phone, email, img} = profileData;
+const {mainColor} = globalStyles;
 
 interface Props {
     navigation: NavigationProp<any, any>;
 }
 
 const UserData = ({navigation}: Props) => {
-    const [disabledBtn, setDisabledBtn] = useState(true);
-    const [userInfo, setUserInfo]  = useState({
-        name: name,
-        lastName: lastName,
-        phone: phone,
-        email: email,
-    });
-    const userInfoRef = {
-        name: name,
-        lastName: lastName,
-        phone: phone,
-        email: email,
-    };
+    const [userInfo, setUserInfo]  = useState(profileData); 
 
-    useEffect(() => {
-        const textChange = JSON.stringify(userInfo) == JSON.stringify(userInfoRef);
-        textChange?setDisabledBtn(!textChange):setDisabledBtn(!textChange)
-    }, [userInfo.name, userInfo.lastName, userInfo.phone, userInfo.email])
-
-    const colorBtn = !disabledBtn?disabledBtnColor:mainColor;
-
+    const isChanged = JSON.stringify(profileData) !== JSON.stringify(userInfo);
+    console.log(isChanged)
     return (
     <ScreenContainer>
         <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
@@ -49,7 +31,7 @@ const UserData = ({navigation}: Props) => {
         />
         <View style={{ marginHorizontal: 20 }}>
             <Spacer height={10} />
-            <ImageProfile url={img} name={userInfo.name} lastName={userInfo.lastName}/>
+            <ImageProfile url={userInfo.img} name={userInfo.name} lastName={userInfo.lastName}/>
             <Spacer height={10} />
             <CommonInput value={userInfo.name} setValue={(value) => setUserInfo({ ...userInfo, name: value})} name="Nombre"  marginBottom={20} autoCapitalize="words"/>
             <Spacer height={5} />
@@ -60,7 +42,9 @@ const UserData = ({navigation}: Props) => {
             <CommonInput value={userInfo.email} setValue={(value) => setUserInfo({ ...userInfo, email: value})} name="Correo"  marginBottom={20} keyboardType="email-address" autoCapitalize="none"/>
             <Spacer height={10} />
             <View>
-                <Button text="Guardar" disabled={!disabledBtn} style={{backgroundColor: colorBtn}}/>
+                <Button text="Guardar" disabled={!isChanged} 
+                style={{ backgroundColor: isChanged ? mainColor : "#B3B3B3" 
+                }}/>
             </View>
         </View>
     </ScreenContainer>

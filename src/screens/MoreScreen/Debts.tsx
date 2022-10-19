@@ -1,10 +1,13 @@
 import React from "react";
 import ScreenContainer from "../../components/containers/ScreenContainer";
+import Button from "../../components/common/Button";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View } from "react-native";
+import { Text, View, Dimensions } from "react-native";
 import globalStyles from "../../styles/globalStyles";
+
+const { width } = Dimensions.get("window");
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -32,13 +35,13 @@ const IncomeDebt = () => {
             backgroundColor: secondaryColor,
           }}
         >
-          <Text>Total a cobrar</Text>
+          <Text style={{color:"black"}}> Deudas por cobrar</Text>
         </View>
       </View>
     </View>
   );
 };
-const ExpenseDebt = () => {
+const ExpenseDebt = ({navigation}:Props) => {
   return (
     <View
       style={{
@@ -51,7 +54,9 @@ const ExpenseDebt = () => {
           marginTop: 20,
           backgroundColor: background,
         }}
-      ></View>
+      >
+        <Button onPress={()=>navigation.navigate("NewIncome")} text="Pagar" style={{backgroundColor: "#dbdbdb", width: (width - 60) / 2,}}/>
+      </View>
     </View>
   );
 };

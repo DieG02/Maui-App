@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import HomeTabs from "./src/navigation/HomeTabs";
 import NewIncome from "./src/screens/BalanceScreen/NewIncome";
 import NewExpense from "./src/screens/BalanceScreen/NewExpense";
+import DebtsModal from "./src/components/common/Modals/DebtsModal";
 import Budget from "./src/screens/HomeScreen/Budget";
 import NotificationsScreen from "./src/screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./src/screens/MoreScreen/MoreScreen";
@@ -39,6 +40,7 @@ const App = () => {
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="NewIncome" component={NewIncome} />
               <Stack.Screen name="NewExpense" component={NewExpense} />
+              <Stack.Screen name="DebtsModal" component={DebtsModal} />
               <Stack.Screen name="AddItems" component={AddItems} />
               <Stack.Screen name="Budget" component={Budget} />
               <Stack.Screen

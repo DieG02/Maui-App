@@ -6,7 +6,6 @@ const globalStyles = {
   mainColor: "#3784F9",
   secondaryColor: "#F8F8F8",
   secondaryColorBorder: "#ECECEC",
-  disabledBtnColor: "#B3B3B3",
   textBlack: "#191919",
   textLight: "#BDC0C3",
   textBlue: "#7888A8",
