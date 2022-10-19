@@ -4,26 +4,29 @@ import React from "react";
 
 interface Props {
     url:string,
+    name: string,
+    lastName: string,
 }
 
-const ImageProfile = ({url}:Props) => {
+const ImageProfile = ({url, name, lastName}:Props) => {
   return (
     <View
+        style={{
+            display: "flex",
+            alignItems: "center",
+        }}
+    >
+        <View
             style={{
-                display: "flex",
+                width: 120,
+                height: 120,
+                backgroundColor: "#7888a8",
+                borderRadius: 100,
                 alignItems: "center",
+                justifyContent: "center",
             }}
             >
-            <View
-                style={{
-                    width: 120,
-                    height: 120,
-                    backgroundColor: "#7888a8",
-                    borderRadius: 100,
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-                >
+            { url ? (
                 <Image
                     source={{uri: (url) }}
                     resizeMode="contain"
@@ -33,8 +36,19 @@ const ImageProfile = ({url}:Props) => {
                         borderRadius: 100
                     }}
                 />
-                 </View>
-            </View>
+            ):(
+                <Text
+                    style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: "white",
+                    }}
+                    >
+                    {getInitialLetters(name, lastName)}
+                </Text>
+            )}
+        </View>
+    </View>
   );
 };
 
