@@ -65,8 +65,6 @@ const NewIncome = ({ navigation }: Props) => {
       itemCategories && handleIdCategory(product.category, itemCategories),
   };
 
-  console.log("producto ==>", data);
-
   const { mutateAsync: createProduct } = useMutation(createNewProduct);
 
   const handleSubmit = () => {

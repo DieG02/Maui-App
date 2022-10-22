@@ -82,8 +82,6 @@ const ProductDetail = ({ route, navigation }: Props) => {
       itemCategories && handleIdCategory(product.category, itemCategories),
   };
 
-  console.log("data ==>", data);
-
   return (
     <ScreenContainer>
       <StatusBar backgroundColor={item} />
