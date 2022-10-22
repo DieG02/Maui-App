@@ -8,6 +8,7 @@ import NewExpense from "./src/screens/BalanceScreen/NewExpense";
 import Budget from "./src/screens/HomeScreen/Budget";
 import NotificationsScreen from "./src/screens/HomeScreen/NotificationsScreen";
 import MoreScreen from "./src/screens/MoreScreen/MoreScreen";
+import UserDataScreen from "./src/screens/MoreScreen/UserData";
 import ClientsScreen from "./src/screens/MoreScreen/Clients";
 import NewProduct from "./src/screens/InventoryScreen/NewProduct";
 import LoginScreen from "./src/screens/LogInScreen";
@@ -45,6 +46,7 @@ const App = () => {
                 component={NotificationsScreen}
               />
               <Stack.Screen name="More" component={MoreScreen} />
+              <Stack.Screen name="UserData" component={UserDataScreen} />
               <Stack.Screen name="Clients" component={ClientsScreen} />
               <Stack.Screen name="Providers" component={ProvidersScreen} />
               <Stack.Screen name="ContactDetail" component={ContactDetail} />
