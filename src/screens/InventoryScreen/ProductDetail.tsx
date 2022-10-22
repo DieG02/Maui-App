@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Text, View, Dimensions, StatusBar, Platform } from "react-native";
+import { View, Dimensions, StatusBar, Platform, Image } from "react-native";
 import InputForm from "../../components/common/InputForm";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { useMutation, useQuery } from "react-query";
-import { createNewProduct } from "../../services/products";
+import { useQuery } from "react-query";
 import { createNewProductBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
 import globalStyles from "../../styles/globalStyles";
 import { getItemCategories } from "../../services/itemCategories";
@@ -13,12 +12,14 @@ import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const { width } = Dimensions.get("window");
 
-const { item, textBlack } = globalStyles;
+const { item, textBlue, mainColor } = globalStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 const UNITS = [
@@ -28,7 +29,9 @@ const UNITS = [
   { name: "Otro", value: "OTHER" },
 ];
 
-const NewIncome = ({ navigation }: Props) => {
+const ProductDetail = ({ route, navigation }: Props) => {
+  const { params } = route;
+
   const { data: itemCategories } = useQuery(
     "itemCategories",
     getItemCategories
@@ -37,16 +40,12 @@ const NewIncome = ({ navigation }: Props) => {
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
   const [modalUnit, setModalUnit] = useState(false);
 
-  const [product, setProduct] = useState({
-    name: "",
-    price: "",
-    stock: "",
-    description: "",
-    cost: "",
-    category: "Seleccione una categoría",
-    quantity: "",
-    unit: "Ingrese el valor",
-  });
+  const handleReverseIdCategory = (id: string, data: any[]) => {
+    const category = data.find(
+      (category: { id: string }) => category.id === id
+    );
+    return category ? category.name : null;
+  };
 
   const handleIdCategory = (expense: string, data: any[]) => {
     const category = data.find(
@@ -55,20 +54,32 @@ const NewIncome = ({ navigation }: Props) => {
     return category ? category.id : null;
   };
 
+  const initialProduct = {
+    name: params?.item.name || "",
+    price: params?.item.retailPrice || "",
+    stock: params?.item.stock || "",
+    description: params?.item.description || "",
+    cost: params?.item.cost || "",
+    category:
+      (itemCategories &&
+        handleReverseIdCategory(params?.item.categoryId, itemCategories)) ||
+      "Seleccione una categoría",
+    quantity: params?.item.quantity || "",
+    unit: params?.item.unit || "Ingrese el valor",
+    image: params?.item.image || "",
+  };
+
+  const [product, setProduct] = useState(initialProduct);
+
+  const isChanged = JSON.stringify(initialProduct) !== JSON.stringify(product);
+
   const data: createNewProductBodyInputDto = {
     ...product,
     quantity: +product.quantity,
     retailPrice: +product.price,
     stock: +product.stock,
-    cost: +product.cost,
     categoryId:
       itemCategories && handleIdCategory(product.category, itemCategories),
-  };
-
-  const { mutateAsync: createProduct } = useMutation(createNewProduct);
-
-  const handleSubmit = () => {
-    createProduct(data);
   };
 
   return (
@@ -81,36 +92,35 @@ const NewIncome = ({ navigation }: Props) => {
         }}
       />
       <BackHeaderTitle
-        label="Nuevo Item"
+        label="Detalle del producto"
         onPressBack={() => navigation.goBack()}
-        hasType
-        color={item}
+        withDelete
       />
       <ScrollContainer>
         <View style={{ marginTop: 15 }}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: textBlack,
-              fontFamily: "Gilroy-Bold",
-              marginBottom: 10,
-            }}
-          >
-            Imagen
-          </Text>
           <View style={{ alignItems: "center", marginBottom: 30 }}>
-            <View
-              style={{
-                backgroundColor: "beige",
-                height: 157,
-                width: 157,
-                borderRadius: 20,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text>Imagen</Text>
-            </View>
+            {product.image ? (
+              <Image
+                resizeMode="contain"
+                source={{
+                  uri: product.image,
+                }}
+                style={{ width: 150, height: 150, borderRadius: 10 }}
+              />
+            ) : (
+              <View
+                style={{
+                  width: 150,
+                  height: 150,
+                  borderRadius: 10,
+                  backgroundColor: textBlue,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Icon name="file-image" size={60} color="white" />
+              </View>
+            )}
           </View>
           <CommonInput
             placeholder="¿Como quieres llamar a este producto?"
@@ -136,7 +146,7 @@ const NewIncome = ({ navigation }: Props) => {
                 keyboardType="numeric"
                 placeholder="0,00"
                 name="Valor"
-                value={product.price}
+                value={product.price.toString()}
                 setValue={(value) => setProduct({ ...product, price: value })}
                 marginBottom={25}
               />
@@ -151,7 +161,7 @@ const NewIncome = ({ navigation }: Props) => {
                 placeholder="Ingrese el valor"
                 name="Stock"
                 marginBottom={25}
-                value={product.stock}
+                value={product.stock.toString()}
                 setValue={(value) => setProduct({ ...product, stock: value })}
                 keyboardType="numeric"
               />
@@ -178,7 +188,7 @@ const NewIncome = ({ navigation }: Props) => {
             keyboardType="numeric"
             placeholder="0,00"
             name="Costo Unitario"
-            value={product.cost}
+            value={product.cost.toString()}
             setValue={(value) => setProduct({ ...product, cost: value })}
             marginBottom={25}
           />
@@ -217,7 +227,7 @@ const NewIncome = ({ navigation }: Props) => {
                 placeholder="Ingrese el valor"
                 name="Cantidad"
                 marginBottom={25}
-                value={product.quantity}
+                value={product.quantity.toString()}
                 setValue={(value) =>
                   setProduct({ ...product, quantity: value })
                 }
@@ -237,15 +247,18 @@ const NewIncome = ({ navigation }: Props) => {
         }}
       >
         <Button
-          onPress={handleSubmit}
-          text="Registrar item"
+          disabled={!isChanged}
+          text="Actualizar producto"
           style={{
-            backgroundColor: "#B3B3B3",
-            width: width - 60,
+            backgroundColor: isChanged ? mainColor : "#B3B3B3",
+            borderRadius: 25,
+            elevation: 0,
+            width: width - 40,
+            marginTop: 6,
           }}
         />
       </View>
     </ScreenContainer>
   );
 };
-export default NewIncome;
+export default ProductDetail;

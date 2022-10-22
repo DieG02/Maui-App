@@ -20,7 +20,6 @@ import CategoriesSlider from "../../components/InventoryScreen/CategoriesSlider"
 import EmptyState from "../../components/common/EmptyState";
 import { getAllItem } from "../../services/items";
 import Button from "../../components/common/Button";
-
 import SearchBar from "../../components/common/SearchBar";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { HeaderTitle } from "../../components/common/HeaderTitle";
@@ -41,7 +40,11 @@ const InventoryScreen = ({ navigation }: Props) => {
 
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data: items, isLoading } = useQuery("items", getAllItem);
+  const {
+    data: items,
+    refetch: getAllProducts,
+    isLoading,
+  } = useQuery("items", getAllItem);
   const { data: itemCategories, refetch: getCategories } = useQuery(
     "itemCategories",
     getItemCategories
@@ -126,7 +129,13 @@ const InventoryScreen = ({ navigation }: Props) => {
       <FlatList
         overScrollMode="never"
         data={filterData()}
-        renderItem={({ item }) => <ProductCard data={item} />}
+        renderItem={({ item }) => (
+          <ProductCard
+            data={item}
+            onPress={() => navigation.navigate("ProductDetail", { item })}
+          />
+        )}
+        onRefresh={() => getAllProducts()}
         showsVerticalScrollIndicator={false}
         refreshing={false}
         ListEmptyComponent={() =>
