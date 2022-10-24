@@ -27,3 +27,12 @@ interface IContact {
   phone: string;
   name: string;
 }
+
+interface DebtContact {
+  id: string,
+  name: string,
+  purchases: string,
+  sales: string,
+  price: string,
+  date: string
+}

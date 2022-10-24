@@ -1,20 +1,21 @@
 import React from "react";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import Button from "../../components/common/Button";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View, Dimensions } from "react-native";
+import { View } from "react-native";
 import globalStyles from "../../styles/globalStyles";
-
-const { width } = Dimensions.get("window");
+import DebtContactCard from "../../components/common/DebtContactCard";
+import {income, expense} from "../../services/debts";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, background, textLight, secondaryColor } = globalStyles;
+const { mainColor, background } = globalStyles;
 
 const Tab = createMaterialTopTabNavigator();
+
+const nada = () =>{}
 
 const IncomeDebt = () => {
   return (
@@ -30,20 +31,14 @@ const IncomeDebt = () => {
           backgroundColor: background,
         }}
       >
-        <View
-          style={{
-            backgroundColor: secondaryColor,
-          }}
-        >
-          <Text style={{color:"black"}}> Deudas por cobrar</Text>
-        </View>
+        <DebtContactCard data={income} type="client" onPress={nada}/>
       </View>
     </View>
   );
 };
-const ExpenseDebt = ({navigation}:Props) => {
+const ExpenseDebt = () => {
   return (
-    <View
+<View
       style={{
         flex: 1,
         backgroundColor: background,
@@ -55,7 +50,7 @@ const ExpenseDebt = ({navigation}:Props) => {
           backgroundColor: background,
         }}
       >
-        <Button onPress={()=>navigation.navigate("NewIncome")} text="Pagar" style={{backgroundColor: "#dbdbdb", width: (width - 60) / 2,}}/>
+        <DebtContactCard data={expense} type="provider" onPress={nada}/>
       </View>
     </View>
   );
@@ -66,24 +61,25 @@ const Debts = ({ navigation }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle label="Deudas" onPressBack={() => navigation.goBack()} />
       <Tab.Navigator
-        style={{ backgroundColor: background }}
-        overScrollMode="never"
+        style={{ backgroundColor: "#fff" }}
         screenOptions={{
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontWeight: "bold",
-            marginBottom: 6,
-          },
           tabBarStyle: {
             elevation: 0,
-            marginHorizontal: 25,
+            marginHorizontal: 20,
+            backgroundColor: "white",
           },
           tabBarPressColor: "white",
-          tabBarActiveTintColor: mainColor,
-          tabBarInactiveTintColor: textLight,
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: mainColor,
+          tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
           tabBarIndicatorStyle: {
             backgroundColor: mainColor,
-            height: 3,
+            height: 50,
+            borderRadius: 15,
+          },
+          tabBarItemStyle: {
+            borderRadius: 15,
+            height: 50,
           },
         }}
       >
