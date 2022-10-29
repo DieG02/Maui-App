@@ -45,6 +45,7 @@ const InventoryScreen = ({ navigation }: Props) => {
     refetch: getAllProducts,
     isLoading,
   } = useQuery("items", getAllItem);
+
   const { data: itemCategories, refetch: getCategories } = useQuery(
     "itemCategories",
     getItemCategories

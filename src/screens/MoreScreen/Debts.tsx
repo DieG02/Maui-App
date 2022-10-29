@@ -3,15 +3,19 @@ import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import globalStyles from "../../styles/globalStyles";
+import DebtContactCard from "../../components/common/DebtContactCard";
+import {income, expense} from "../../services/debts";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, background, textLight, secondaryColor } = globalStyles;
+const { mainColor, background } = globalStyles;
 
 const Tab = createMaterialTopTabNavigator();
+
+const nada = () =>{}
 
 const IncomeDebt = () => {
   return (
@@ -27,20 +31,14 @@ const IncomeDebt = () => {
           backgroundColor: background,
         }}
       >
-        <View
-          style={{
-            backgroundColor: secondaryColor,
-          }}
-        >
-          <Text>Total a cobrar</Text>
-        </View>
+        <DebtContactCard data={income} type="client" onPress={nada}/>
       </View>
     </View>
   );
 };
 const ExpenseDebt = () => {
   return (
-    <View
+<View
       style={{
         flex: 1,
         backgroundColor: background,
@@ -51,7 +49,9 @@ const ExpenseDebt = () => {
           marginTop: 20,
           backgroundColor: background,
         }}
-      ></View>
+      >
+        <DebtContactCard data={expense} type="provider" onPress={nada}/>
+      </View>
     </View>
   );
 };
@@ -61,24 +61,25 @@ const Debts = ({ navigation }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle label="Deudas" onPressBack={() => navigation.goBack()} />
       <Tab.Navigator
-        style={{ backgroundColor: background }}
-        overScrollMode="never"
+        style={{ backgroundColor: "#fff" }}
         screenOptions={{
-          tabBarLabelStyle: {
-            fontSize: 14,
-            fontWeight: "bold",
-            marginBottom: 6,
-          },
           tabBarStyle: {
             elevation: 0,
-            marginHorizontal: 25,
+            marginHorizontal: 20,
+            backgroundColor: "white",
           },
           tabBarPressColor: "white",
-          tabBarActiveTintColor: mainColor,
-          tabBarInactiveTintColor: textLight,
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: mainColor,
+          tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
           tabBarIndicatorStyle: {
             backgroundColor: mainColor,
-            height: 3,
+            height: 50,
+            borderRadius: 15,
+          },
+          tabBarItemStyle: {
+            borderRadius: 15,
+            height: 50,
           },
         }}
       >

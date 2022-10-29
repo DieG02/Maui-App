@@ -21,6 +21,7 @@ const UserData = ({ navigation }: Props) => {
   const [userInfo, setUserInfo] = useState(profileData);
 
   const isChanged = JSON.stringify(profileData) !== JSON.stringify(userInfo);
+
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
