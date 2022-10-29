@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { View } from "react-native";
 import globalStyles from "../../styles/globalStyles";
 import DebtContactCard from "../../components/common/DebtContactCard";
-import {income, expense} from "../../services/debts";
+import { income, expense } from "../../services/debts";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -14,8 +14,6 @@ interface Props {
 const { mainColor, background } = globalStyles;
 
 const Tab = createMaterialTopTabNavigator();
-
-const nada = () =>{}
 
 const IncomeDebt = () => {
   return (
@@ -31,14 +29,14 @@ const IncomeDebt = () => {
           backgroundColor: background,
         }}
       >
-        <DebtContactCard data={income} type="client" onPress={nada}/>
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
       </View>
     </View>
   );
 };
 const ExpenseDebt = () => {
   return (
-<View
+    <View
       style={{
         flex: 1,
         backgroundColor: background,
@@ -50,7 +48,7 @@ const ExpenseDebt = () => {
           backgroundColor: background,
         }}
       >
-        <DebtContactCard data={expense} type="provider" onPress={nada}/>
+        <DebtContactCard data={expense} type="provider" onPress={() => {}} />
       </View>
     </View>
   );
