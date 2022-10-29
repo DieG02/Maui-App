@@ -50,6 +50,7 @@ const OptionModal = ({
               marginBottom={40}
               value={selectedOption}
               setValue={setSelectedOption}
+              name="Nueva Categoría"
             />
 
             {buttonDisabled ? (
