@@ -16,7 +16,7 @@ import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import globalStyles from "../../styles/globalStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
-import ProductModal from "../../components/common/Modals/ProductModal";
+// import ProductModal from "../../components/common/Modals/ProductModal";
 
 const { width } = Dimensions.get("window");
 
@@ -102,17 +102,17 @@ const NewIncome = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <StatusBar backgroundColor={income} />
       <BackHeaderTitle
-        label="Nuevo Ingreso"
+        label="Nuevo Venta"
         onPressBack={() => navigation.goBack()}
         hasType
         color={income}
       />
       <ScrollContainer>
-        <ProductModal
+        {/* <ProductModal
           marginBottom={20}
           marginTop={15}
           onPress={() => navigation.navigate("AddItems")}
-        />
+        /> */}
         <InputForm
           keyboardType="numeric"
           placeholder="0,00"
@@ -122,6 +122,8 @@ const NewIncome = ({ navigation, route }: Props) => {
             !!val && val !== "NaN" ? setAmount(val) : setAmount("")
           }
           marginBottom={20}
+          marginTop={15}
+          autoFocus
           required
         />
         <CommonInput
