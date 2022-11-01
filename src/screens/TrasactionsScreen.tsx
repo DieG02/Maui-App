@@ -9,6 +9,7 @@ import SearchBar from "../components/common/SearchBar";
 import ScreenContainer from "../components/containers/ScreenContainer";
 import { HeaderTitle } from "../components/common/HeaderTitle";
 import TransactionCard from "../components/common/TransactionCard/TransactionCard";
+import IncomeTypeModal from "../components/common/IncomeTypeModal";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -18,6 +19,7 @@ const { width } = Dimensions.get("window");
 const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const { data, refetch: getAlltransactions } = useQuery(
     "transactionsBalance",
@@ -83,6 +85,15 @@ const TransactionsScreen = ({ navigation }: Props) => {
           justifyContent: "center",
         }}
       >
+        <IncomeTypeModal
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          onPressProduct={() => {}}
+          onPressSale={() => {
+            navigation.navigate("NewIncome");
+            setModalVisible(false);
+          }}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -91,7 +102,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           }}
         >
           <Button
-            onPress={() => navigation.navigate("NewIncome")}
+            onPress={() => setModalVisible(true)}
             text="Nueva Venta"
             style={{
               backgroundColor: "#33E69B",
