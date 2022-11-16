@@ -118,7 +118,7 @@ const HomeScreen = ({ navigation }: Props) => {
           )}
         </Title>
         <Spacer height={10} />
-        <TransactionsContainer data={data} />
+        <TransactionsContainer data={data} navigation={navigation} />
       </ScrollView>
     </ScreenContainer>
   );

@@ -68,7 +68,13 @@ const TransactionsScreen = ({ navigation }: Props) => {
         }}
         style={{ marginHorizontal: 20 }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => <TransactionCard data={item} key={item.id} />}
+        renderItem={({ item }) => (
+          <TransactionCard
+            data={item}
+            key={item.id}
+            onPress={() => navigation.navigate("TransactionDetail", { item })}
+          />
+        )}
         ListEmptyComponent={() =>
           text.length !== 0 ? (
             <EmptyState title="No se encontraron coincidencias" />
@@ -88,7 +94,10 @@ const TransactionsScreen = ({ navigation }: Props) => {
         <IncomeTypeModal
           isModalVisible={isModalVisible}
           setModalVisible={setModalVisible}
-          onPressProduct={() => {}}
+          onPressProduct={() => {
+            navigation.navigate("AddItems");
+            setModalVisible(false);
+          }}
           onPressSale={() => {
             navigation.navigate("NewIncome");
             setModalVisible(false);

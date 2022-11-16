@@ -1,3 +1,4 @@
+import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import EmptyState from "../common/EmptyState";
@@ -5,9 +6,10 @@ import TransactionCard from "../common/TransactionCard/TransactionCard";
 
 interface Props {
   data: any;
+  navigation: NavigationProp<any, any>;
 }
 
-const TransactionsContainer = ({ data }: Props) => {
+const TransactionsContainer = ({ data, navigation }: Props) => {
   return (
     <View style={styles.root}>
       <View style={styles.container}>
@@ -18,7 +20,13 @@ const TransactionsContainer = ({ data }: Props) => {
         >
           {data?.length !== 0 ? (
             data?.map((item: any) => (
-              <TransactionCard data={item} key={item.id} />
+              <TransactionCard
+                data={item}
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate("TransactionDetail", { item })
+                }
+              />
             ))
           ) : (
             <EmptyState

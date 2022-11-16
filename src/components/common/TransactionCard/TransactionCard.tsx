@@ -10,9 +10,10 @@ import TransactionModal from "./TransactionsModal";
 
 interface Props {
   data: getTransactionsResponseDto[0];
+  onPress: () => void;
 }
 
-const TransactionCard = ({ data }: Props) => {
+const TransactionCard = ({ data, onPress }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const queryClient = useQueryClient();
@@ -31,10 +32,6 @@ const TransactionCard = ({ data }: Props) => {
       },
     }
   );
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
 
   const handleDelete = (category: string, id: string) => {
     if (category !== "Venta") {
@@ -82,7 +79,7 @@ const TransactionCard = ({ data }: Props) => {
         setModalVisible={setModalVisible}
         handleMenuDelete={handleMenuDelete}
       />
-      <TransactionComponent onPress={() => toggleModal()} data={data} />
+      <TransactionComponent onPress={onPress} data={data} />
     </View>
   );
 };
