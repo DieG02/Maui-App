@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Share,
+  Alert,
+} from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Entypo";
 import Icon2 from "react-native-vector-icons/FontAwesome5";
@@ -29,6 +36,29 @@ const TransactionModal = ({
   setModalVisible,
   handleMenuDelete,
 }: Props) => {
+  // share image from react native
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: "Hola",
+        url: "https://assets.iprofesional.com/assets/jpg/2020/05/497231.jpg",
+        title: "React Native",
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
+  };
+
   return (
     <Modal
       isVisible={isModalVisible}
@@ -163,6 +193,7 @@ const TransactionModal = ({
             <Icon name="chevron-right" size={25} color={textBlack} />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={onShare}
             style={{
               marginTop: 10,
               width: "80%",

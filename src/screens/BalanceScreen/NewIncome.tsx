@@ -123,7 +123,6 @@ const NewIncome = ({ navigation, route }: Props) => {
           }
           marginBottom={20}
           marginTop={15}
-          autoFocus
           required
         />
         <CommonInput

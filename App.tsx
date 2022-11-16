@@ -24,6 +24,7 @@ import DebtsScreen from "./src/screens/MoreScreen/Debts";
 import AddItems from "./src/screens/BalanceScreen/AddItems";
 import ContactDetail from "./src/screens/MoreScreen/ContactDetail";
 import ProductDetail from "./src/screens/InventoryScreen/ProductDetail";
+import TransactionDetail from "./src/screens/BalanceScreen/TransactionDetail";
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -45,12 +46,19 @@ const App = () => {
               <Stack.Screen name="AddItems" component={AddItems} />
               <Stack.Screen name="Budget" component={Budget} />
               <Stack.Screen
+                name="TransactionDetail"
+                component={TransactionDetail}
+              />
+              <Stack.Screen
                 name="Notifications"
                 component={NotificationsScreen}
               />
               <Stack.Screen name="More" component={MoreScreen} />
               <Stack.Screen name="UserData" component={UserDataScreen} />
-              <Stack.Screen name="UserBussiness" component={UserBussinessScreen} />
+              <Stack.Screen
+                name="UserBussiness"
+                component={UserBussinessScreen}
+              />
               <Stack.Screen name="Clients" component={ClientsScreen} />
               <Stack.Screen name="Providers" component={ProvidersScreen} />
               <Stack.Screen name="ContactDetail" component={ContactDetail} />

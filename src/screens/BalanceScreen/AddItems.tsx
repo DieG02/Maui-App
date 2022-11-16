@@ -32,7 +32,7 @@ interface Product {
   quantity: number;
 }
 
-const { mainColor, width } = globalStyles;
+const { mainColor, width, income } = globalStyles;
 
 const AddItems = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
@@ -136,7 +136,7 @@ const AddItems = ({ navigation }: Props) => {
           text={`${products.length} items `}
           // text="Añadir items"
           style={{
-            backgroundColor: mainColor,
+            backgroundColor: income,
             width: width - 60,
             elevation: 4,
           }}

@@ -5,7 +5,7 @@ const { width, height } = Dimensions.get("window");
 const globalStyles = {
   mainColor: "#3784F9",
   secondaryColor: "#F8F8F8",
-  secondaryColorBorder: "#ECECEC",
+  secondaryColorBorder: "#f8f8f8",
   textBlack: "#191919",
   textLight: "#BDC0C3",
   textBlue: "#7888A8",
