@@ -8,6 +8,7 @@ import {
   searchProductsByNameResponseDto,
   getProductsByCategoryResponseDto,
   GetProductsByCategoryQueryParamsDto,
+  editProductBodyInputDto,
 } from "../../../Maui-Backend/src/controllers/types";
 import { getUserAuthenticationHeader } from "../../utils";
 
@@ -50,4 +51,14 @@ export const getProductsByCategory = async (
       Authorization: await getUserAuthenticationHeader(),
     },
     params: queryParams,
+  }).then((res) => res.data);
+
+export const updateProductById = async (
+  productId: string,
+  data: editProductBodyInputDto
+) =>
+  MauiApi.put<editProductBodyInputDto>("/editProduct/" + productId, data, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
   }).then((res) => res.data);
