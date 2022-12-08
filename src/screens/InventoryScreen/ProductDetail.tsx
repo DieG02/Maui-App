@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { View, Dimensions, StatusBar, Platform, Image } from "react-native";
+import {
+  View,
+  Dimensions,
+  StatusBar,
+  Platform,
+  Image,
+  ToastAndroid,
+} from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
-import { useQuery } from "react-query";
-import { createNewProductBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import globalStyles from "../../styles/globalStyles";
 import { getItemCategories } from "../../services/itemCategories";
 import Button from "../../components/common/Button";
@@ -13,6 +19,8 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { updateProductById } from "../../services/products";
+import { EditProductBodyInputGuard } from "../../../../Maui-Backend/src/controllers/products/editProduct/input.dto";
 
 const { width } = Dimensions.get("window");
 
@@ -36,6 +44,7 @@ const ProductDetail = ({ route, navigation }: Props) => {
     "itemCategories",
     getItemCategories
   );
+  const queryClient = useQueryClient();
 
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
   const [modalUnit, setModalUnit] = useState(false);
@@ -73,16 +82,38 @@ const ProductDetail = ({ route, navigation }: Props) => {
 
   const isChanged = JSON.stringify(initialProduct) !== JSON.stringify(product);
 
-  const data: createNewProductBodyInputDto = {
-    ...product,
-    quantity: +product.quantity,
+  const data: EditProductBodyInputGuard = {
+    name: product.name,
     retailPrice: +product.price,
+    cost: product.cost,
+    unit: product.unit,
+    quantity: +product.quantity,
+    image: product.image,
     stock: +product.stock,
+    description: product.description,
     categoryId:
       itemCategories && handleIdCategory(product.category, itemCategories),
   };
 
-  console.log(data);
+  console.log("product", product);
+
+  const showToast = () => {
+    ToastAndroid.show(
+      "El contacto fue editado satisfactoriamente",
+      ToastAndroid.SHORT
+    );
+  };
+
+  const { mutateAsync: updateProduct } = useMutation(
+    () => updateProductById(params?.item.id, data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("items");
+        navigation.goBack();
+        showToast();
+      },
+    }
+  );
 
   return (
     <ScreenContainer>
@@ -250,6 +281,7 @@ const ProductDetail = ({ route, navigation }: Props) => {
       >
         <Button
           disabled={!isChanged}
+          onPress={() => updateProduct()}
           text="Actualizar producto"
           style={{
             backgroundColor: isChanged ? mainColor : "#B3B3B3",
