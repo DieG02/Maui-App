@@ -13,7 +13,7 @@ import ScreenContainer from "../components/containers/ScreenContainer";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
-const { mainColor, secondaryColor } = globalStyles;
+const { mainColor, textBlack } = globalStyles;
 
 export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
@@ -95,7 +95,7 @@ export default function LoginScreen({ navigation }: Props) {
         >
           <Text
             style={{
-              color: secondaryColor,
+              color: textBlack,
               fontFamily: "Gilroy-Regular",
               fontSize: 16,
             }}
