@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Alert, ActivityIndicator } from "react-native";
 
-import { getTransactionsResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
+import { getTransactionsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteExpense } from "../../../services/expenses";
 import { deleteIncome } from "../../../services/incomes";

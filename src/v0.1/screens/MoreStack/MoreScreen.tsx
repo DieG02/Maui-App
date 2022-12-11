@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, ScrollView, StatusBar } from "react-native";
+import { View, ScrollView, StatusBar, Text } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
 import Right from "react-native-vector-icons/Entypo";
@@ -12,10 +12,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import ProfileComponent from "../../components/common/ProfileComponent";
+import ProfileBadge from "../../components/Library/ProfileBadge";
 import { profileData } from "../../services/profiles";
+import customStyles from "../../styles/customStyles";
 
 const { name, lastName, email, img } = profileData;
+
+const { textBlack } = customStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -52,15 +55,37 @@ const More = ({ navigation }: Props) => {
         <View
           style={{
             backgroundColor: "#f3f6f8",
+            alignItems: "center",
           }}
         >
-          <ProfileComponent
+          <ProfileBadge
             userName={name}
             userLastName={lastName}
-            email={email}
+            // email={email}
             imgProfile={img}
+            size="large"
           />
-          <Spacer height={10} />
+          <Text
+            style={{
+              fontSize: 25,
+              color: textBlack,
+              fontFamily: "Gilroy-Medium",
+              marginTop: 20,
+            }}
+          >
+            {name} {lastName}
+          </Text>
+          <Text
+            style={{
+              color: textBlack,
+              fontFamily: "Gilroy-Regular",
+              marginTop: 5,
+              fontSize: 18,
+            }}
+          >
+            {email}
+          </Text>
+          <Spacer height={20} />
         </View>
         <View style={{ marginHorizontal: 10 }}>
           <Spacer height={10} />

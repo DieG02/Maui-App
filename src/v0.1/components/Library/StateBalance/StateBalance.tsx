@@ -1,14 +1,17 @@
 import React from "react";
-import { View, Dimensions, ScrollView } from "react-native";
-import BalanceStateCard from "./BalanceStateCard";
-import { useQuery } from "react-query";
-import { getMonthlyMainStats } from "../../services/balance";
+import { View, ScrollView } from "react-native";
+import customStyles from "../../../styles/customStyles";
+import styles from "./style";
+import { getMonthlyMainStatsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
+import StateBalanceCard from "../StateBalanceCard";
 
-const { width } = Dimensions.get("window");
+const { width, marginHorizontal } = customStyles;
 
-const HomeState = () => {
-  const { data } = useQuery("getMonthlyStats", getMonthlyMainStats);
+interface Props {
+  data: getMonthlyMainStatsResponseDto | undefined;
+}
 
+const StateBalance = ({ data }: Props) => {
   return (
     <ScrollView
       horizontal
@@ -16,36 +19,32 @@ const HomeState = () => {
       snapToInterval={width - 60}
       decelerationRate={0.5}
     >
-      <View style={{ display: "flex", flexDirection: "row" }}>
+      <View style={styles.wrapper}>
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <BalanceStateCard
+          <View style={styles.wrapper}>
+            <StateBalanceCard
               state="Ingresos"
               value={"$" + data?.incomes}
-              left={30}
+              left={marginHorizontal}
               type="ingreso"
             />
-            <BalanceStateCard
+            <StateBalanceCard
               state="Egresos"
               value={"$" + data?.expenses}
               left={20}
               type="egreso"
             />
-            <BalanceStateCard
+            <StateBalanceCard
               state="Deudas por Cobrar"
               value={"$" + data?.toCollect}
               left={20}
               type="cobrar"
             />
-            <BalanceStateCard
+            <StateBalanceCard
               state="Deudas por pagar"
               value={"$" + data?.debt}
               left={20}
-              right={30}
+              right={marginHorizontal}
               type="pagar"
             />
           </View>
@@ -55,4 +54,4 @@ const HomeState = () => {
   );
 };
 
-export default HomeState;
+export default StateBalance;

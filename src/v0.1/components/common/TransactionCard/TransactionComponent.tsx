@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import React from "react";
 import customStyles from "../../../styles/customStyles";
 import { paymentsMethod } from "../../../utils/translate";
-import { getTransactionsResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
+import { getTransactionsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
 
 const { background, secondaryColor, textBlack, textLight, positive } =
   customStyles;
