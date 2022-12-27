@@ -1,8 +1,9 @@
 import React from "react";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import { HeaderTitle } from "../../components/common/HeaderTitle";
+import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import SummaryDebt from "../../components/common/SummaryDebt";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import customStyles from "../../styles/customStyles";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import { income, expense } from "../../services/debts";
@@ -10,6 +11,10 @@ import { income, expense } from "../../services/debts";
 const { mainColor, background } = customStyles;
 
 const Tab = createMaterialTopTabNavigator();
+
+interface Props {
+  navigation: any
+}
 
 const IncomeDebt = () => {
   return (
@@ -19,14 +24,27 @@ const IncomeDebt = () => {
         backgroundColor: background,
       }}
     >
-      <View
+      <ScrollView
         style={{
           marginTop: 20,
           backgroundColor: background,
         }}
       >
         <DebtContactCard data={income} type="client" onPress={() => {}} />
-      </View>
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={income} type="client" onPress={() => {}} />
+        <DebtContactCard data={expense} type="provider" onPress={() => { }} />
+      </ScrollView>
+      <SummaryDebt type="income" amount={3500} clients={6} />
     </View>
   );
 };
@@ -38,24 +56,31 @@ const ExpenseDebt = () => {
         backgroundColor: background,
       }}
     >
-      <View
+      <ScrollView
         style={{
           marginTop: 20,
           backgroundColor: background,
         }}
       >
+        
         <DebtContactCard data={expense} type="provider" onPress={() => {}} />
-      </View>
+      </ScrollView>
+      <SummaryDebt type="expense" amount={5600} clients={4}/>
     </View>
   );
 };
 
-const Debts = () => {
+const Debts = ({
+  navigation
+}: Props) => {
+
+  console.log(navigation);
   return (
     <ScreenContainer>
-      <HeaderTitle label="Deudas" />
+      <BackHeaderTitle label="Deudas" onPressBack={navigation.goBack}/>
       <Tab.Navigator
         style={{ backgroundColor: "#fff" }}
+        initialRouteName="Por Cobrar"
         screenOptions={{
           tabBarStyle: {
             elevation: 0,
