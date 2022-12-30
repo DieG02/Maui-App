@@ -7,7 +7,7 @@ const styles = (align?: string, color?: string) =>
   StyleSheet.create({
     wrapper: {
       height: 50,
-      marginTop: 10,
+      marginTop: 8,
       marginBottom: 10,
       backgroundColor: background,
     },
