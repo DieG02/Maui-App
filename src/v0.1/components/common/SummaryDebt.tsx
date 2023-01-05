@@ -33,7 +33,7 @@ const SummaryDebt = ({
         Total a {`${type === "income" ? "cobrar" : "pagar" }`}:
       </Text>
       <Text style={{ color: "white" }}>
-        ${amount} de {clients} Clientes
+        ${amount} de {clients} {`${type === "income" ? "Clientes" : "Provedores" }`}:
       </Text>
     </View>
   );
