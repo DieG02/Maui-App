@@ -10,7 +10,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MainBottomTabParamList } from "../screens/types";
 import customStyles from "../styles/customStyles";
 import { Platform } from "react-native";
-import Debts from "../screens/MoreStack/Debts";
+import Debts from "../screens/DebtStack/Debts";
 
 const { mainColor, disabled } = customStyles;
 

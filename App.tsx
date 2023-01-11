@@ -10,7 +10,6 @@ import HomeTabs from "./src/v0.1/navigation/HomeTabs";
 import DebtsModal from "./src/v0.1/components/common/Modals/DebtsModal";
 import UserDataScreen from "./src/v0.1/screens/MoreStack/UserData";
 import MoreScreen from "./src/v0.1/screens/MoreStack/MoreScreen";
-import DebtsScreen from "./src/v0.1/screens/MoreStack/Debts";
 
 // AUTH STACK
 import SignInScreen from "./src/v0.1/screens/AuthStack/SignInScreen";
@@ -27,6 +26,10 @@ import ClientsScreen from "./src/v0.1/screens/ContactStack/Clients";
 import ContactDetail from "./src/v0.1/screens/ContactStack/ContactDetail";
 import ProvidersScreen from "./src/v0.1/screens/ContactStack/Providers";
 import NewContact from "./src/v0.1/screens/ContactStack/NewContact";
+
+// DEBT STACK
+import DebtsScreen from "./src/v0.1/screens/DebtStack/Debts";
+import DebtorScreen from "./src/v0.1/screens/DebtStack/DebtorProfile";
 
 // v0.2
 
@@ -65,6 +68,7 @@ const App = () => {
               <Stack.Screen name="ContactDetail" component={ContactDetail} />
               <Stack.Screen name="NewContact" component={NewContact} />
               <Stack.Screen name="Debts" component={DebtsScreen} />
+              <Stack.Screen name="DebtorScreen" component={DebtorScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </GeneralProvider>
