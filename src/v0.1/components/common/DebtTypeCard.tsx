@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 interface Item {
-    item: {
+    item?: {
         icon: String
         title: String
         subtitle: String
@@ -11,13 +11,14 @@ interface Item {
     }
 }
 
-const DebtorItem = ({ item }: Item) => {
+const DebtTypeCard = ({ item }: Item) => {
     const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            margin: 10
+            marginHorizontal: 5,
+            marginBottom: 15,
         },
         icon: {
             minWidth: 50,
@@ -70,4 +71,4 @@ const DebtorItem = ({ item }: Item) => {
     )
 }
 
-export default DebtorItem;
+export default DebtTypeCard;

@@ -18,7 +18,6 @@ const Debts = ({
   navigation
 }: Props) => {
 
-  console.log(navigation);
   return (
     <ScreenContainer>
       <BackHeaderTitle label="Deudas" onPressBack={navigation.goBack}/>
@@ -29,7 +28,8 @@ const Debts = ({
           tabBarStyle: {
             elevation: 0,
             marginHorizontal: 20,
-            backgroundColor: "white",
+            backgroundColor: "#f8f8f8",
+            borderRadius: 15,
           },
           tabBarPressColor: "white",
           tabBarActiveTintColor: "white",
@@ -37,12 +37,12 @@ const Debts = ({
           tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
           tabBarIndicatorStyle: {
             backgroundColor: mainColor,
-            height: 50,
+            height: 45,
             borderRadius: 15,
           },
           tabBarItemStyle: {
             borderRadius: 15,
-            height: 50,
+            height: 45,
           },
         }}
       >

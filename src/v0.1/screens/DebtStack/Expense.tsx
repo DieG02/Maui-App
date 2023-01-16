@@ -27,7 +27,6 @@ const ExpenseDebt = () => {
             backgroundColor: background,
           }}
         >
-          
           <DebtContactCard data={expense} type="provider" onPress={() => {}} />
           <DebtContactCard data={expense} type="provider" onPress={() => {}} />
         </ScrollView>

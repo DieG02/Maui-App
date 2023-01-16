@@ -2,24 +2,28 @@ import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Button from "../../components/common/Button";
 import customStyles from "../../styles/customStyles";
-import DebtorItem from "../../components/common/DebtorItem";
+import { NavigationProp } from "@react-navigation/native";
+
+import DebtTypes from "./DebtTypes";
 
 interface Props {
-    navigation: any
-  }
-  
-  
+    navigation: NavigationProp<any, any>
+}
+
+const { mainColor, expense, secondaryColor, orange } = customStyles;
+const Tab = createMaterialTopTabNavigator();
+
 const DebtorProfile = ({ navigation }: Props) => {
     const percent = 700/2000*100;
-    const { mainColor, expense, secondaryColor, orange, textOutline } = customStyles;
 
     const styles = StyleSheet.create({
         body: {
             flex: 1,
             marginHorizontal: 20,
-            paddingBottom: 15,
+            paddingBottom: 20,
         },
         cardContainer: {
             backgroundColor: secondaryColor,
@@ -29,13 +33,34 @@ const DebtorProfile = ({ navigation }: Props) => {
             alignItems: "center",   
             marginHorizontal: 10,
             padding: 15,
+            marginBottom: 20,
         },
         cardLabel: {
             justifyContent: "space-between",
             flexDirection: "row",
             width: "100%",
         },
-
+        progressBarBase: {
+            width: "100%",
+            backgroundColor: "#EAEAEA",
+            borderRadius: 12,
+            height: 18,
+        },
+        progressBar: {
+            backgroundColor: orange,
+            width: percent <= 10 ? "10%" : percent + "%",
+            position: "absolute",
+            borderRadius: 10,
+            height: "100%",
+            justifyContent: "center"
+        },
+        processBarLabel: {
+            paddingRight: 10,
+            textAlign: "right",
+            fontSize: 10,
+            fontWeight: "bold",
+            color: "white",
+        }
     });
 
     return (
@@ -49,46 +74,43 @@ const DebtorProfile = ({ navigation }: Props) => {
                             <Text style={{color: expense}}>$700</Text> / $2000
                         </Text>
                     </View>
-                    <View style={{
-                        width: "100%",
-                        backgroundColor: "#EAEAEA",
-                        borderRadius: 12,
-                        height: 18,
-                    }}>
-                        <View style={{ 
-                            backgroundColor: orange,
-                            width: percent <= 10 ? "10%" : percent + "%",
-                            position: "absolute",
-                            borderRadius: 12,
-                            height: "100%",
-                            justifyContent: "center"
-                        }}>
-                        <Text style={{ 
-                            paddingRight: 10,
-                            textAlign: "right",
-                            fontSize: 10,
-                            fontWeight: "bold",
-                            color: "white",
-                            }}>{percent}%</Text>
+                    <View style={styles.progressBarBase}>
+                        <View style={styles.progressBar}>
+                            <Text style={styles.processBarLabel}>
+                                {percent}%
+                            </Text>
                         </View>
-                        
                     </View>
                 </View>
 
-                <Text style={{ marginVertical: 15 }}>Inserte tab bar acá</Text>
-                <ScrollView>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                    <DebtorItem/>
-                </ScrollView>
-
+                <Tab.Navigator
+                    style={{ backgroundColor: "#fff" }}
+                    initialRouteName="Por Cobrar"
+                    screenOptions={{
+                        tabBarStyle: {
+                            elevation: 0,
+                            marginHorizontal: 0,
+                            backgroundColor: "#f8f8f8",
+                            borderRadius: 15,
+                        },
+                        tabBarPressColor: "white",
+                        tabBarActiveTintColor: "white",
+                        tabBarInactiveTintColor: mainColor,
+                        tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
+                        tabBarIndicatorStyle: {
+                            backgroundColor: mainColor,
+                            height: 45,
+                            borderRadius: 15,
+                        },
+                        tabBarItemStyle: {
+                            borderRadius: 15,
+                            height: 45,
+                        },
+                    }}
+                >
+                    <Tab.Screen name="Deuda" component={DebtTypes} />
+                    <Tab.Screen name="Abonado" component={DebtTypes} />
+                </Tab.Navigator>
                 <Button
                     onPress={() => console.log("Abonado!!")}
                     text="Abonar"

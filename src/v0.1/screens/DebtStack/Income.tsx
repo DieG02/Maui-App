@@ -36,12 +36,6 @@ const IncomeDebt = () => {
           <DebtContactCard data={income} type="client" onPress={() => {}} />
           <DebtContactCard data={income} type="client" onPress={() => {}} />
           <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
           <DebtContactCard data={expense} type="provider" onPress={() => navigation.navigate("DebtorScreen")} />
         </ScrollView>
         <SummaryDebt type="income" amount={3500} clients={6} />
