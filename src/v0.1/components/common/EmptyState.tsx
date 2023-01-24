@@ -10,6 +10,7 @@ interface Props {
   percentage?: number;
 }
 
+// TODO: Refactor this component to use styled components
 const EmptyState = ({ color, title, percentage }: Props) => {
   return (
     <View
