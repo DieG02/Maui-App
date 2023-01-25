@@ -82,7 +82,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
             style={{
               backgroundColor: date === d.value ? color : "white",
               borderColor: color,
-              borderWidth: date === d.value ? 0 : 1.8,
+              borderWidth: date === d.value ? 0 : 1.5,
               paddingHorizontal: 20,
               marginRight: 10,
               height: 40,
@@ -93,7 +93,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: date === d.value ? "white" : color,
                 fontFamily: "Gilroy-Bold",
               }}
@@ -116,7 +116,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
               display: "flex",
               flexDirection: "row",
               borderColor: color,
-              borderWidth: 1.8,
+              borderWidth: 1.5,
               borderRadius: 20,
               paddingHorizontal: 10,
               alignItems: "center",
@@ -125,7 +125,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
             <Icon name="calendar" size={25} color={color} />
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 color: color,
                 marginLeft: 10,
                 fontFamily: "Gilroy-Bold",

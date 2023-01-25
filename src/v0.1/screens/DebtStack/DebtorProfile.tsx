@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -8,6 +8,7 @@ import customStyles from "../../styles/customStyles";
 import { NavigationProp } from "@react-navigation/native";
 
 import DebtTypes from "./DebtTypes";
+import RepayModal from "../../components/common/Modals/RepayModal";
 
 interface Props {
     navigation: NavigationProp<any, any>
@@ -18,6 +19,12 @@ const Tab = createMaterialTopTabNavigator();
 
 const DebtorProfile = ({ navigation }: Props) => {
     const percent = 700/2000*100;
+    const [showModal, setShowModal] = useState(false);
+    const toogleModal = (): void => setShowModal(!showModal);
+    const [value, setValue] = useState("");
+    const [comments, setComments] = useState("");
+    const [date, setDate] = useState("");
+
 
     const styles = StyleSheet.create({
         body: {
@@ -65,7 +72,7 @@ const DebtorProfile = ({ navigation }: Props) => {
 
     return (
         <ScreenContainer>
-            <BackHeaderTitle label="Estaban Gonzalez" onPressBack={navigation.goBack}/>
+            <BackHeaderTitle label="Estaban Gonzalez" onPresssBack={navigation.goBack}/>
             <View style={styles.body}>
                 <View style={styles.cardContainer}>
                     <View style={styles.cardLabel}>
@@ -112,9 +119,19 @@ const DebtorProfile = ({ navigation }: Props) => {
                     <Tab.Screen name="Abonado" component={DebtTypes} />
                 </Tab.Navigator>
                 <Button
-                    onPress={() => console.log("Abonado!!")}
+                    onPress={() => setShowModal(!showModal)}
                     text="Abonar"
                     style={{ backgroundColor: mainColor }}
+                />
+                <RepayModal 
+                    isModalVisible={showModal}
+                    setIsModalVisible={toogleModal}
+                    value={value}
+                    setValue={setValue}
+                    comments={comments}
+                    setComments={setComments}
+                    date={date}
+                    setDate={setDate}
                 />
             </View>
         </ScreenContainer>
