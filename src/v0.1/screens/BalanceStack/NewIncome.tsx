@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, StatusBar } from "react-native";
+import { View, StatusBar } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -18,9 +18,9 @@ import customStyles from "../../styles/customStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
 // import ProductModal from "../../components/common/Modals/ProductModal";
 
-const { width } = Dimensions.get("window");
+// TODO:Refactor this component
 
-const { marginHorizontal, mainColor } = customStyles;
+const { marginHorizontal, mainColor, width } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -40,7 +40,6 @@ const TODAY = moment.parseZone().format("DD-MM-YYYY");
 const NewIncome = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
-  // const [products, setProducts] = useState("");
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].name);
@@ -108,11 +107,6 @@ const NewIncome = ({ navigation, route }: Props) => {
         color={mainColor}
       />
       <ScrollContainer>
-        {/* <ProductModal
-          marginBottom={20}
-          marginTop={15}
-          onPress={() => navigation.navigate("AddItems")}
-        /> */}
         <InputForm
           keyboardType="numeric"
           placeholder="0,00"

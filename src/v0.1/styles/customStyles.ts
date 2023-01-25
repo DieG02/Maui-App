@@ -10,6 +10,7 @@ const customStyles = {
   textLight: "#BDC0C3",
   marginHorizontal: 30,
 
+  iconColor: "#292D38",
   income: "#33E69B",
   incomeLight: "#99FFD4",
   expense: "#FD6363",

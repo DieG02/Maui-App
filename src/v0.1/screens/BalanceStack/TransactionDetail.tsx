@@ -8,6 +8,7 @@ import RowTransaction from "../../components/common/TransactionCard/RowTransacti
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 
+// TODO: Refactor this component
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;

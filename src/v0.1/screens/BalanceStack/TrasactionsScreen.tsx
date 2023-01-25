@@ -1,29 +1,29 @@
-import { StatusBar, View, Dimensions, FlatList } from "react-native";
+import { StatusBar, View, FlatList } from "react-native";
 import React, { useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import { useQuery } from "react-query";
 import { getTransactions } from "../../services/transactions";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
-import SearchBar from "../../components/common/SearchBar";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import { HeaderTitle } from "../../components/common/HeaderTitle";
-import TransactionCard from "../../components/common/TransactionCard/TransactionCard";
-import IncomeTypeModal from "../../components/common/IncomeTypeModal";
 import customStyles from "../../styles/customStyles";
 
+import Header from "../../components/Library/Header";
+import SearchBar from "../../components/Library/SearchBar";
+import TransactionCard from "../../components/Library/TransactionCard";
+
+// TODO: Refactor this component
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, textBlack } = customStyles;
+const { mainColor, textBlack, width, marginHorizontal } = customStyles;
 
 const statusBarStyle = "dark-content";
-const { width } = Dimensions.get("window");
+
 const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const { data, refetch: getAlltransactions } = useQuery(
     "transactionsBalance",
@@ -41,11 +41,13 @@ const TransactionsScreen = ({ navigation }: Props) => {
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
-        <HeaderTitle
-          label="Balance"
-          withSearch
-          onPressSearch={() => setIsSearch(true)}
-        />
+        <>
+          <Header
+            label="Balance"
+            withSearch
+            onPressSearch={() => setIsSearch(true)}
+          />
+        </>
       ) : (
         <SearchBar
           onChangeText={onChangeText}
@@ -70,7 +72,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
         onEndReached={() => {
           getAlltransactions();
         }}
-        style={{ marginHorizontal: 20 }}
+        style={{ marginHorizontal: marginHorizontal }}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <TransactionCard
@@ -89,29 +91,18 @@ const TransactionsScreen = ({ navigation }: Props) => {
       />
       <View
         style={{
-          backgroundColor: "white",
-          height: 64,
+          height: 70,
           width: "100%",
           justifyContent: "center",
         }}
       >
-        <IncomeTypeModal
-          isModalVisible={isModalVisible}
-          setModalVisible={setModalVisible}
-          onPressProduct={() => {
-            navigation.navigate("AddItems");
-            setModalVisible(false);
-          }}
-          onPressSale={() => {
-            navigation.navigate("NewIncome");
-            setModalVisible(false);
-          }}
-        />
         <View
           style={{
             flexDirection: "row",
             marginHorizontal: 20,
             justifyContent: "space-between",
+            height: 70,
+            alignItems: "flex-start",
           }}
         >
           <Button
