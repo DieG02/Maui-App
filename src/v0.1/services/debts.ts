@@ -1,3 +1,41 @@
+import MauiApi from "../clientProvider";
+import {
+  createIncomeBodyInputDto,
+  createIncomeResponseDto,
+} from "../../../../Maui-Backend/src/controllers/types";
+import { getUserAuthenticationHeader } from "../requests";
+
+export const createNewIncome = async (data: createIncomeBodyInputDto) =>
+  await MauiApi.post<createIncomeResponseDto>("/createNewIncome", data, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+
+export const deleteIncome = async (incomeId: string) =>
+  await MauiApi.delete("/deleteIncome/" + incomeId, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+export const getAllIncome = async () =>
+  await MauiApi.get("/getAllIncomeDebts/", {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+export const getAllExpense = async () =>
+  await MauiApi.get("/getAllExpenseDebts/", {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+
+
 export const income = {
     id: "1",
     name: "Danilo Bautista",
@@ -12,6 +50,6 @@ export const expense = {
     name: "Diego Bautista",
     purchases: "2",
     sales: "",
-    price: "$1400",
+    price: "1400",
     date: "14 de Diciembre",
   }

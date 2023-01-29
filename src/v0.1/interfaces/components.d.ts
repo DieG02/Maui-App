@@ -28,11 +28,27 @@ interface IContact {
   name: string;
 }
 
-interface DebtContact {
-  id: string,
-  name: string,
-  purchases: string,
-  sales: string,
-  price: string,
-  date: string
+interface IDebtContact {
+  id: string;
+  name: string;
+  purchases?: string;
+  sales: number;
+  totalPrice: number;
+  date: string;
+}
+
+type IncomeDebt = {
+    id: string;
+    clientName: string;
+    sales: number;
+    totalPrice: number,
+    startingDate: string
+}
+
+type ExpenseDebt = {
+  id: string;
+  providerName: string;
+  sales: number;
+  totalPrice: number,
+  startingDate: string
 }
