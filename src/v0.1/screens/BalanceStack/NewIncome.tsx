@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, TextInput } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -38,7 +38,7 @@ const STATE = ["Pagado", "Deuda"];
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
 const NewIncome = ({ navigation, route }: Props) => {
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [detail, setDetail] = useState("");
   const [client, setClient] = useState("");
   const [isPaid, setIsPaid] = useState(STATE[0]);
@@ -72,15 +72,19 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
   });
 
-  const handleSubmit = () =>
-    mutateAsync({
+  const handleSubmit = () => {
+    const income = {
       value: +amount,
       name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
       date: date,
       clientId: route.params?.contact?.id,
-    });
+    }
+    console.log("income: ", income);
+    return mutateAsync(income);
+  }
+ 
 
   useEffect(() => {
     if (isPaid === "Pagado") {
@@ -112,9 +116,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           placeholder="0,00"
           value={amount}
           name="Valor"
-          setValue={(val) =>
-            !!val && val !== "NaN" ? setAmount(val) : setAmount("")
-          }
+          setValue={setAmount}
           marginBottom={20}
           marginTop={15}
           required

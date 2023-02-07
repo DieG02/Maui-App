@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import SummaryDebt from "../../components/common/SummaryDebt";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import customStyles from "../../styles/customStyles";
-import { getAllIncome } from "../../services/debts";
+import { getAllIncomeDebts } from "../../services/debts";
 
 const { background } = customStyles;
 interface Props {
@@ -24,10 +24,10 @@ const IncomeDebt = () => {
     const {
       data,
       isLoading
-    } = useQuery("clients", getAllIncome, {
+    } = useQuery("clients", getAllIncomeDebts, {
       onSuccess(data: IncomeDebt[]) {
         let total = 0;
-        const parser = data.map((debt: IncomeDebt): IDebtContact => {
+        const parser = data.map((debt): IDebtContact => {
           total += debt.totalPrice;
           return {
             id: debt.id,
@@ -58,12 +58,20 @@ const IncomeDebt = () => {
             backgroundColor: background,
           }}
         >
-          {/* Acá deberia hacer el llamado al back para renderear la data de all Income */}
           {income.map((debt: any, i: number) => (
-            <DebtContactCard data={debt} type="client" onPress={() => navigation.navigate("DebtorScreen")} key={i}/>
+            <DebtContactCard
+              data={debt}
+              type="client"
+              onPress={() => navigation.navigate("DebtorScreen")}
+              key={i}
+            />
           ))}
         </ScrollView>
-        <SummaryDebt type="income" amount={summary.amount} stakeholders={summary.stakeholders} />
+        <SummaryDebt
+          type="income"
+          amount={summary.amount}
+          stakeholders={summary.stakeholders}
+        />
       </View>
     );
 };

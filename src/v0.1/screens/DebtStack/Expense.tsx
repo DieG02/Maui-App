@@ -4,7 +4,7 @@ import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import SummaryDebt from "../../components/common/SummaryDebt";
 import { View, ScrollView } from "react-native";
 import { useQuery } from "react-query";
-import { getAllExpense } from "../../services/debts";
+import { getAllExpenseDebts } from "../../services/debts";
 import customStyles from "../../styles/customStyles";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import { useNavigation } from "@react-navigation/native";
@@ -26,7 +26,7 @@ const ExpenseDebt = () => {
     const {
       data,
       isLoading
-    } = useQuery("providers", getAllExpense, {
+    } = useQuery("providers", getAllExpenseDebts, {
       onSuccess(data: ExpenseDebt[]) {
         let total = 0;
         const parser = data.map((debt): IDebtContact => {
@@ -43,6 +43,7 @@ const ExpenseDebt = () => {
           amount: total,
           stakeholders: data.length
         });
+        console.log({ data, isLoading, total });
         setExpenses(parser);
       },
     });
@@ -61,10 +62,19 @@ const ExpenseDebt = () => {
           }}
         >
           {expenses.map((debt: any, i: number) => (
-            <DebtContactCard data={debt} type="provider" onPress={() => navigation.navigate("DebtorScreen")} key={i}/>
+            <DebtContactCard 
+              data={debt} 
+              type="provider" 
+              onPress={() => navigation.navigate("DebtorScreen")}
+              key={i}
+            />
           ))}
         </ScrollView>
-        <SummaryDebt type="expense" amount={summary.amount} stakeholders={summary.stakeholders}/>
+        <SummaryDebt 
+          type="expense"
+          amount={summary.amount.toLocaleString("ES")}
+          stakeholders={summary.stakeholders}
+        />
       </View>
     );
   };

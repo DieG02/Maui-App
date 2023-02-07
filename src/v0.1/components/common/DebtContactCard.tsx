@@ -91,14 +91,14 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
       case "client": {
         return (
           <Text style={[styles.label, { color: income }]}>
-            ${data.totalPrice}
+            ${data.totalPrice.toLocaleString("ES")}
           </Text>
         );
       }
       case "provider": {
         return (
           <Text style={[styles.label, { color: expense }]}>
-            ${Number.parseInt(data.totalPrice)}
+            ${data.totalPrice.toLocaleString("ES")}
           </Text>
         );
       }

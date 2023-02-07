@@ -72,7 +72,7 @@ const DebtorProfile = ({ navigation }: Props) => {
 
     return (
         <ScreenContainer>
-            <BackHeaderTitle label="Estaban Gonzalez" onPresssBack={navigation.goBack}/>
+            <BackHeaderTitle label="Estaban Gonzalez" onPressBack={navigation.goBack}/>
             <View style={styles.body}>
                 <View style={styles.cardContainer}>
                     <View style={styles.cardLabel}>
