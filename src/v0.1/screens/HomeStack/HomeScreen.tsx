@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar, ScrollView, RefreshControl } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import Spacer from "../../components/common/Spacer";
@@ -13,6 +13,7 @@ import Title from "../../components/Library/Title";
 import GeneralBalance from "../../components/Library/GeneralBalance";
 import StateBalance from "../../components/Library/StateBalance";
 import TransactionsContainer from "../../components/Library/TransactionsContainer";
+import { getUserAccount } from "../../services/userAccount";
 const { mainColor } = customStyles;
 const statusBarStyle = "dark-content";
 
@@ -32,6 +33,8 @@ const HomeScreen = ({ navigation }: Props) => {
   );
   useQuery("transactionsBalance", () => getTransactions());
 
+  const { data: user, refetch } = useQuery('getUserAccount', getUserAccount);
+
   const queryClient = useQueryClient();
   const isFetchingBalance = queryClient.getQueryState("balance")?.data;
 
@@ -42,6 +45,14 @@ const HomeScreen = ({ navigation }: Props) => {
     queryClient.getQueryState("getMonthlyStats")?.data;
 
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      refetch();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -72,8 +83,8 @@ const HomeScreen = ({ navigation }: Props) => {
         }
       >
         <ProfileComponent
-          userName="Billy"
-          userLastName="Batista"
+          userName={user.name}
+          imgProfile={user.image}
           onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={10} />

@@ -1,14 +1,16 @@
 import { View, Image, Text } from "react-native";
 import { getInitialLetters } from "../../utils/helper";
 import React from "react";
+import customStyles from "../../styles/customStyles";
 
 interface Props {
-  url: string;
+  url?: string;
   name: string;
-  lastName: string;
 }
 
-const ImageProfile = ({ url, name, lastName }: Props) => {
+const { mainColor } = customStyles;
+
+const ImageProfile = ({ url, name }: Props) => {
   return (
     <View
       style={{
@@ -20,7 +22,7 @@ const ImageProfile = ({ url, name, lastName }: Props) => {
         style={{
           width: 120,
           height: 120,
-          backgroundColor: "#7888a8",
+          backgroundColor: mainColor,
           borderRadius: 100,
           alignItems: "center",
           justifyContent: "center",
@@ -44,7 +46,7 @@ const ImageProfile = ({ url, name, lastName }: Props) => {
               color: "white",
             }}
           >
-            {getInitialLetters(name, lastName)}
+            {getInitialLetters(name)}
           </Text>
         )}
       </View>

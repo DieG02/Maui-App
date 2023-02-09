@@ -6,14 +6,12 @@ import styles from "./style";
 // TODO: Refactor this interface to use the correct types
 interface Props {
   userName: string;
-  userLastName: string;
   imgProfile?: string;
   size?: "small" | "large";
 }
 
 const ProfileBadge = ({
   userName,
-  userLastName,
   imgProfile,
   size = "small",
 }: Props) => {
@@ -26,7 +24,7 @@ const ProfileBadge = ({
   ) : (
     <View style={styles(size).wrapper}>
       <Text style={styles(size).text}>
-        {getInitialLetters(userName, userLastName)}
+        {getInitialLetters(userName)}
       </Text>
     </View>
   );
