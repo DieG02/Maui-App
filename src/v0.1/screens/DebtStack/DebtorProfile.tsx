@@ -1,29 +1,51 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Button from "../../components/common/Button";
 import customStyles from "../../styles/customStyles";
+import { useQuery } from "react-query";
+import { getAllExpenses } from "../../services/debts";
 import { NavigationProp } from "@react-navigation/native";
 
 import DebtTypes from "./DebtTypes";
 import RepayModal from "../../components/common/Modals/RepayModal";
 
 interface Props {
-    navigation: NavigationProp<any, any>
+    navigation: NavigationProp<any, any>;
+    route: { 
+        key: string;
+        name: string;
+        params: null | { expenseId: string };
+    };
 }
 
 const { mainColor, expense, secondaryColor, orange } = customStyles;
 const Tab = createMaterialTopTabNavigator();
 
-const DebtorProfile = ({ navigation }: Props) => {
+const DebtorProfile = ({ navigation, route }: Props) => {
     const percent = 700/2000*100;
     const [showModal, setShowModal] = useState(false);
     const toogleModal = (): void => setShowModal(!showModal);
     const [value, setValue] = useState("");
     const [comments, setComments] = useState("");
     const [date, setDate] = useState("");
+
+    const { data, isLoading } = useQuery("allExpenses", getAllExpenses);
+    const expenseId = route.params?.expenseId;
+    const profileDebtor = data?.filter((debt: any) => debt.expenseDebtIds[0] === expenseId);
+
+    const DebtComponent = () => {
+        return (
+            <DebtTypes items={profileDebtor.filter((val: any) => !val.isPaid)}/>
+        )
+    };
+    const PayComponent = () => {
+        return (
+            <DebtTypes items={profileDebtor.filter((val: any) => !!val.isPaid)}/>
+        )
+    };
 
 
     const styles = StyleSheet.create({
@@ -69,14 +91,13 @@ const DebtorProfile = ({ navigation }: Props) => {
             color: "white",
         }
     });
-
     return (
         <ScreenContainer>
             <BackHeaderTitle label="Estaban Gonzalez" onPressBack={navigation.goBack}/>
             <View style={styles.body}>
                 <View style={styles.cardContainer}>
                     <View style={styles.cardLabel}>
-                        <Text>Abonado </Text>
+                        <Text>Abonado</Text>
                         <Text style={{ fontWeight: "bold", color: "#191919" }}> 
                             <Text style={{color: expense}}>$700</Text> / $2000
                         </Text>
@@ -115,8 +136,8 @@ const DebtorProfile = ({ navigation }: Props) => {
                         },
                     }}
                 >
-                    <Tab.Screen name="Deuda" component={DebtTypes} />
-                    <Tab.Screen name="Abonado" component={DebtTypes} />
+                    <Tab.Screen name="Deuda" component={DebtComponent} />
+                    <Tab.Screen name="Abonado" component={PayComponent} />
                 </Tab.Navigator>
                 <Button
                     onPress={() => setShowModal(!showModal)}

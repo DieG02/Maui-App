@@ -16,17 +16,14 @@ interface Props {
 }
 
 const ExpenseDebt = () => {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const [expenses, setExpenses] = useState<IDebtContact[]>([]);
     const [summary, setSummary] = useState<any>({
       amount: null,
       stakeholders: null,
     });
 
-    const {
-      data,
-      isLoading
-    } = useQuery("providers", getAllExpenseDebts, {
+    const { data } = useQuery("expenseDebts", getAllExpenseDebts, {
       onSuccess(data: ExpenseDebt[]) {
         let total = 0;
         const parser = data.map((debt): IDebtContact => {
@@ -43,7 +40,6 @@ const ExpenseDebt = () => {
           amount: total,
           stakeholders: data.length
         });
-        console.log({ data, isLoading, total });
         setExpenses(parser);
       },
     });
@@ -55,24 +51,19 @@ const ExpenseDebt = () => {
           backgroundColor: background,
         }}
       >
-        <ScrollView
-          style={{
-            marginTop: 20,
-            backgroundColor: background,
-          }}
-        >
+        <ScrollView style={{ marginTop: 20 }}>
           {expenses.map((debt: any, i: number) => (
             <DebtContactCard 
               data={debt} 
               type="provider" 
-              onPress={() => navigation.navigate("DebtorScreen")}
+              onPress={() => navigation.push("DebtorScreen", { expenseId: debt.id })}
               key={i}
             />
           ))}
         </ScrollView>
         <SummaryDebt 
           type="expense"
-          amount={summary.amount.toLocaleString("ES")}
+          amount={summary.amount?.toLocaleString("es")}
           stakeholders={summary.stakeholders}
         />
       </View>

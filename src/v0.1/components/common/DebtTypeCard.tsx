@@ -1,17 +1,37 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import moment from "moment";
+// import 'moment/locale/es';
 
-interface Item {
-    item?: {
-        icon: String
-        title: String
-        subtitle: String
-        value: Number | String
-        method: "Tarjeta" | "Efectivo" | String
-    }
+enum PaymentMethods {
+    CASH,
+    CARD,
 }
 
-const DebtTypeCard = ({ item }: Item) => {
+interface Item {
+    data: {
+        id: string;
+        icon?: string;
+        value: number;
+        name: string;
+        date: string;
+        createdAt: string;
+        categoryId: string;
+        isPaid: boolean;
+        paymentMethod: PaymentMethods;
+        ownerId: string;
+        expenseDebtIds: any[];
+    }
+} 
+
+const DebtTypeCard = ({ data }: Item) => {
+    moment.locale("es");
+    const formattedDate = moment(data.createdAt).format('DD [de] MMMM');
+    const methods: any = {
+        "CASH": "Efectivo",
+        "CARD": "Tarjeta"
+    }
+    
     const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
@@ -44,28 +64,18 @@ const DebtTypeCard = ({ item }: Item) => {
             alignItems: "flex-end",
         }
     });
-
-    const example = {
-        icon: "IMG",
-        title: "Compra de materiales",
-        subtitle: "06 de Julio",
-        value: "-$300",
-        method: "Tarjeta" 
-    }
-    item = item ? item : example;
-
     return (
         <View style={styles.container}>
             <View style={styles.icon}>
-                <Text>{item.icon}</Text>
+                <Text>{data?.icon}</Text>
             </View>
             <View style={styles.content}>
-                <Text style={styles.mainContent}>{item.title}</Text>
-                <Text style={styles.subContent}>{item.subtitle}</Text>
+                <Text style={styles.mainContent}>{data.name}</Text>
+                <Text style={styles.subContent}>{formattedDate}</Text>
             </View>
             <View style={styles.payment}>
-                <Text style={styles.mainContent}>{item.value}</Text>
-                <Text style={styles.subContent}>{item.method}</Text>
+                <Text style={styles.mainContent}>${data.value}</Text>
+                <Text style={styles.subContent}>{methods[data.paymentMethod]}</Text>
             </View>
         </View>
     )

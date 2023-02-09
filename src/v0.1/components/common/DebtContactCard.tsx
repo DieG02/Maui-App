@@ -4,7 +4,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import customStyles from "../../styles/customStyles";
 import Right from "react-native-vector-icons/Entypo";
 import moment from "moment";
-import "moment-timezone";
 
 const { mainColor, textBlack, background, secondaryColor, expense, income } =
   customStyles;
@@ -16,37 +15,8 @@ interface Props {
 
 const DebtContactCard = ({ data, type, onPress }: Props) => {
 
-  const styles = StyleSheet.create({
-    container: {
-      marginHorizontal: 20,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      paddingVertical: 5,
-      backgroundColor: background,
-    },
-    iconType: {
-      width: 50,
-      height: 50,
-      backgroundColor: secondaryColor,
-      borderRadius: 15,
-      marginRight: 30,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    descriptionType: {
-      color: textBlack,
-      fontSize: 14,
-      fontFamily: "Gilroy-Regular",
-    },
-    label: {
-      fontSize: 16,
-      fontFamily: "Gilroy-SemiBold",
-    },
-    row: {
-      flexDirection: "row",
-    }
-  });
+  moment.locale("es");
+  const formattedDate = moment(data.date).format('D [de] MMMM');
 
   const renderTypeContact = () => {
     switch (type) {
@@ -91,20 +61,51 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
       case "client": {
         return (
           <Text style={[styles.label, { color: income }]}>
-            ${data.totalPrice.toLocaleString("ES")}
+            ${data.totalPrice?.toLocaleString("es")}
           </Text>
         );
       }
       case "provider": {
         return (
           <Text style={[styles.label, { color: expense }]}>
-            ${data.totalPrice.toLocaleString("ES")}
+            ${data.totalPrice?.toLocaleString("es")}
           </Text>
         );
       }
     }
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      marginHorizontal: 20,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: 5,
+      backgroundColor: background,
+    },
+    iconType: {
+      width: 50,
+      height: 50,
+      backgroundColor: secondaryColor,
+      borderRadius: 15,
+      marginRight: 30,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    descriptionType: {
+      color: textBlack,
+      fontSize: 14,
+      fontFamily: "Gilroy-Regular",
+    },
+    label: {
+      fontSize: 16,
+      fontFamily: "Gilroy-SemiBold",
+    },
+    row: {
+      flexDirection: "row",
+    }
+  });
   return (
     <TouchableOpacity
       style={styles.container}
@@ -123,7 +124,7 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
         <View style={{ alignItems: "flex-end" }}>
           {renderTypePrice()}
           <Text style={styles.descriptionType}>
-            {moment.parseZone(data.date).format("DD MMMM")}
+            {formattedDate}
           </Text>
         </View>
         <Right name="chevron-small-right" color={textBlack} size={35} />

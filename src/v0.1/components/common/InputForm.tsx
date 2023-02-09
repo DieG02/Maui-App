@@ -32,7 +32,6 @@ const InputForm = ({
   required,
 }: Props) => {
 
-  // const [value, setValue] = useState(0); // real value
   const [formattedValue, setFormattedValue] = useState("");
 
   function onChangeText(text: string) {
@@ -44,7 +43,6 @@ const InputForm = ({
     const parsedFloat = decimal ? decimal.slice(0, 2) : "";
     const value = Number(`${parsedInt}.${parsedFloat}`);
     
-    // console.log({ parsedFloat, parsedInt, value });
     setValue(value);
     setFormattedValue(parsedInt.toLocaleString("ES") + (parsedFloat ? "," + parsedFloat : ""));
   }

@@ -81,7 +81,6 @@ const NewIncome = ({ navigation, route }: Props) => {
       date: date,
       clientId: route.params?.contact?.id,
     }
-    console.log("income: ", income);
     return mutateAsync(income);
   }
  
