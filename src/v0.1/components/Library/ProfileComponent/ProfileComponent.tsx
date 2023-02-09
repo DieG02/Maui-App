@@ -11,13 +11,11 @@ const { textBlack } = customStyles;
 interface Props {
   onPressUser: () => void;
   userName: string;
-  userLastName: string;
   imgProfile?: string;
 }
 
 const ProfileComponent = ({
   onPressUser,
-  userLastName,
   userName,
   imgProfile,
 }: Props) => {
@@ -26,7 +24,6 @@ const ProfileComponent = ({
       <TouchableOpacity onPress={onPressUser} style={styles.container}>
         <ProfileBadge
           userName={userName}
-          userLastName={userLastName}
           imgProfile={imgProfile}
           size="small"
         />

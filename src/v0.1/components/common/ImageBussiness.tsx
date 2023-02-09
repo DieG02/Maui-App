@@ -1,5 +1,5 @@
 import { View, Image, Text } from "react-native";
-import { getInitialLettersBussiness } from "../../utils/helper";
+import { getInitialLetters } from "../../utils/helper";
 import React from "react";
 
 interface Props {
@@ -43,7 +43,7 @@ const ImageProfile = ({url, name}:Props) => {
                         color: "white",
                     }}
                 >
-                    {getInitialLettersBussiness(name)}
+                    {getInitialLetters(name)}
                 </Text>
               )}
                  </View>
