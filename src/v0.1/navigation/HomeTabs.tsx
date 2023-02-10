@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeStack/HomeScreen";
-// import BalanceScreen from "../screens/BalanceScreen/BalanceScreen";
 import TransactionsScreen from "../screens/BalanceStack/TrasactionsScreen";
 import HomeIcon from "react-native-vector-icons/Entypo";
 import BalanceIcon from "react-native-vector-icons/MaterialIcons";
@@ -11,12 +10,31 @@ import { MainBottomTabParamList } from "../screens/types";
 import customStyles from "../styles/customStyles";
 import { Platform } from "react-native";
 import Debts from "../screens/DebtStack/Debts";
+import LoadingComponent from "../components/Library/LoadingComponent";
+import useGetTransactions from "../services/Transactions/useGetAllTransactions";
+import useGetMonthlyStats from "../services/Balance/useGetStats";
+import useGetBalance from "../services/Balance/useGetBalance";
+import useGetAccount from "../services/Account/useGetAccount";
 
 const { mainColor, disabled } = customStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 
 const HomeTabs = () => {
+  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
+  const isFetchingBalance = useGetBalance().isLoading;
+  const isFetchingAccount = useGetAccount().isLoading;
+
+  const isLoading =
+    isFetchingTransactions ||
+    isFetchingGetMonthlyState ||
+    isFetchingBalance ||
+    isFetchingAccount;
+
+  if (isLoading) {
+    return <LoadingComponent color={mainColor} />;
+  }
   return (
     <SafeAreaProvider>
       <Tab.Navigator
