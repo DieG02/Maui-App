@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { createNewExpense } from "../../services/expenses";
 import { getExpenseCategories } from "../../services/expenseCategories";
 import Spacer from "../../components/common/Spacer";
-import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
+import { PaymentMethod } from "../../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -78,15 +78,15 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewExpense, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactionsBalance");
-      queryClient.invalidateQueries("balance");
-      queryClient.invalidateQueries("getMonthlyStats");
+      queryClient.invalidateQueries("Transactions");
+      queryClient.invalidateQueries("Balance");
+      queryClient.invalidateQueries("Monthly_Stats");
     },
   });
 
   const handleSubmit = () => {
     mutateAsync({
-      value: +amount,
+      value: parseFloat(amount.replace(".", "").replace(",", ".")),
       name: detail !== "" ? detail : expenseCategory,
       categoryId: data && handleIdCategory(expenseCategory, data),
       isPaid: isPaid === "Pagado",
