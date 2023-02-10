@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, Platform } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
 import customStyles from "../../../styles/customStyles";
 import styles from "./style";
 
@@ -32,15 +31,10 @@ const GeneralBalance = ({ data }: Props) => {
           <Text style={styles.textPrice}>$****</Text>
         ) : (
           <Text style={styles.textPrice}>
-            {Platform.OS === "ios"
-              ? data?.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                })
-              : `$${data?.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                })}`}
+            {data?.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}
           </Text>
         )}
       </View>

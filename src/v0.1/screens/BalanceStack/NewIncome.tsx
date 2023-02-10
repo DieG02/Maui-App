@@ -9,7 +9,7 @@ import moment from "moment";
 import "moment-timezone";
 import { useMutation, useQueryClient } from "react-query";
 import { createNewIncome } from "../../services/incomes";
-import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
+import { PaymentMethod } from "../../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -66,15 +66,15 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { mutateAsync } = useMutation(createNewIncome, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactionsBalance");
-      queryClient.invalidateQueries("balance");
-      queryClient.invalidateQueries("getMonthlyStats");
+      queryClient.invalidateQueries("Transactions");
+      queryClient.invalidateQueries("Balance");
+      queryClient.invalidateQueries("Monthly_Stats");
     },
   });
 
   const handleSubmit = () =>
     mutateAsync({
-      value: +amount,
+      value: parseFloat(amount.replace(".", "").replace(",", ".")),
       name: detail !== "" ? detail : `Venta ${moment.parseZone().unix()}`,
       isPaid: isPaid === "Pagado",
       paymentMethod: paymentMethodHandler(),
