@@ -1,8 +1,6 @@
 import { StatusBar, View, FlatList } from "react-native";
 import React, { useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
-import { useQuery } from "react-query";
-import { getTransactions } from "../../services/transactions";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -11,13 +9,14 @@ import customStyles from "../../styles/customStyles";
 import Header from "../../components/Library/Header";
 import SearchBar from "../../components/Library/SearchBar";
 import TransactionCard from "../../components/Library/TransactionCard";
+import useGetTransactions from "../../services/Transactions/useGetAllTransactions";
 
 // TODO: Refactor this component
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, textBlack, width, marginHorizontal } = customStyles;
+const { mainColor, textBlack, width, marginHorizontal, white } = customStyles;
 
 const statusBarStyle = "dark-content";
 
@@ -25,10 +24,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data, refetch: getAlltransactions } = useQuery(
-    "transactionsBalance",
-    () => getTransactions()
-  );
+  const { data, refetch: getAlltransactions } = useGetTransactions();
 
   const filterData = () => {
     const filtered = data?.filter((item) =>
@@ -39,7 +35,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
+      <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
       {!isSearch ? (
         <>
           <Header
