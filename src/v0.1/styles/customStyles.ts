@@ -19,6 +19,7 @@ const customStyles = {
   orangeLight: "#FFEFEF",
   item: "#3784F9",
   itemLight: "#EBF3FF",
+  white: "#ffff",
 
   // TODO: Define the rest of the colors here.
   disabled: "#b3b3b3",
@@ -30,7 +31,6 @@ const customStyles = {
   width: width,
   height: height,
 
-  white: "#fff",
   positive: "#48BB8B",
 
   ligthBlue: "#E6EFF8",

@@ -14,7 +14,7 @@ import useGetBalance from "../../services/Balance/useGetBalance";
 import useGetMonthlyStats from "../../services/Balance/useGetStats";
 import useGetAccount from "../../services/Account/useGetAccount";
 
-const { mainColor } = customStyles;
+const { mainColor, white } = customStyles;
 const statusBarStyle = "dark-content";
 
 interface Props {
@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
+      <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
       <ScrollView
         overScrollMode="never"
         showsVerticalScrollIndicator={false}

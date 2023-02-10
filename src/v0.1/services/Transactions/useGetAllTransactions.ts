@@ -23,5 +23,7 @@ export const getTransactions = async (
 };
 
 const useGetTransactions = (queryParams?: getTransactionsQueryParamsDto) =>
-  useQuery([QUERY_NAME] as QueryKey, () => getTransactions(queryParams));
+  useQuery([QUERY_NAME, queryParams] as QueryKey, () =>
+    getTransactions(queryParams)
+  );
 export default useGetTransactions;
