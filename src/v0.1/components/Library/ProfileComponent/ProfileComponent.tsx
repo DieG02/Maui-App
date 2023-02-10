@@ -14,11 +14,7 @@ interface Props {
   imgProfile?: string;
 }
 
-const ProfileComponent = ({
-  onPressUser,
-  userName,
-  imgProfile,
-}: Props) => {
+const ProfileComponent = ({ onPressUser, userName, imgProfile }: Props) => {
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity onPress={onPressUser} style={styles.container}>

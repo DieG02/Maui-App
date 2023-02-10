@@ -2,11 +2,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PermissionsAndroid } from "react-native";
 import Contacts from "react-native-contacts";
 
-export async function getUserAuthenticationHeader() {
+export const getUserAuthenticationHeader = async (): Promise<string> => {
   const user = await AsyncStorage.getItem("userInfo");
   const token = user ? JSON.parse(user).token : "";
   return `Bearer ${token}`;
-}
+};
 
 export const fetchContacts = async () => {
   const contacts = await Contacts.getAll();
