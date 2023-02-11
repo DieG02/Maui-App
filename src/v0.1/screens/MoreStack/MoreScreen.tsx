@@ -72,11 +72,7 @@ const More = ({ navigation }: Props) => {
             alignItems: "center",
           }}
         >
-          <ProfileBadge
-            userName={data?.name || ""}
-            imgProfile={data?.image || ""}
-            size="large"
-          />
+          <ProfileBadge user={data} size="large" />
           <Text
             style={{
               fontSize: 25,

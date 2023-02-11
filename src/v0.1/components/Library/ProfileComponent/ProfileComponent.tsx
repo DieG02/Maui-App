@@ -10,19 +10,16 @@ const { textBlack } = customStyles;
 // TODO: Refactor this interface to use the correct types
 interface Props {
   onPressUser: () => void;
-  userName: string;
+  userName?: string;
   imgProfile?: string;
+  user: any;
 }
 
-const ProfileComponent = ({ onPressUser, userName, imgProfile }: Props) => {
+const ProfileComponent = ({ onPressUser, user }: Props) => {
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity onPress={onPressUser} style={styles.container}>
-        <ProfileBadge
-          userName={userName}
-          imgProfile={imgProfile}
-          size="small"
-        />
+        <ProfileBadge user={user} size="small" />
         <Spacer width={10} />
         <Text
           style={{
@@ -31,7 +28,7 @@ const ProfileComponent = ({ onPressUser, userName, imgProfile }: Props) => {
             color: textBlack,
           }}
         >
-          Hola {userName}
+          Hola {user.name}
         </Text>
       </TouchableOpacity>
     </View>
