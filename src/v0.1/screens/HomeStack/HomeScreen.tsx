@@ -52,8 +52,7 @@ const HomeScreen = ({ navigation }: Props) => {
         }
       >
         <ProfileComponent
-          userName={user?.name || ""}
-          imgProfile={user?.image || ""}
+          user={user}
           onPressUser={() => navigation.navigate("More")}
         />
         <Spacer height={10} />
