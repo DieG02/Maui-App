@@ -94,20 +94,20 @@ const UserData = ({ navigation, route }: Props) => {
           fontFamily: "Gilroy-Bold",
           marginBottom: 10,
         }}
-      >
-        Correo
-      </Text>
+        >
+          Correo
+        </Text>
         <Text
-            style={{
-              color: textBlack,
-              fontFamily: "Gilroy-Regular",
-              marginTop: 5,
-              marginLeft: 20,
-              fontSize: 18,
-            }}
-          >
-            {email}
-          </Text>
+          style={{
+            color: textBlack,
+            fontFamily: "Gilroy-Regular",
+            marginTop: 5,
+            marginLeft: 20,
+            fontSize: 18,
+          }}
+        >
+          {email}
+        </Text>
         <Spacer height={15} />
         <View>
           <Button
