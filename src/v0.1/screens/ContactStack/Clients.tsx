@@ -11,7 +11,6 @@ import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import SearchBar from "../../components/common/SearchBar";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
-
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -105,14 +104,12 @@ const Consumers = ({ navigation, route }: Props) => {
           />
         )}
       />
-      <View
-        style={{
-          width: '100%',
-          height: 90,
-          alignItems: "center",
-        }}
-      >
         <Button
+          container={{
+            width: '100%',
+            height: 90,
+            alignItems: "center"
+          }}
           onPress={() =>
             navigation.navigate("NewContact", {
               type: "client",
@@ -126,7 +123,6 @@ const Consumers = ({ navigation, route }: Props) => {
             marginTop: 6,
           }}
         />
-      </View>
     </ScreenContainer>
   );
 };
