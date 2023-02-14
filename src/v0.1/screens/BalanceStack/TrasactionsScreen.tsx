@@ -10,6 +10,7 @@ import Header from "../../components/Library/Header";
 import SearchBar from "../../components/Library/SearchBar";
 import TransactionCard from "../../components/Library/TransactionCard";
 import useGetTransactions from "../../services/Transactions/useGetAllTransactions";
+import LoadingComponent from "../../components/Library/LoadingComponent";
 
 // TODO: Refactor this component
 interface Props {
@@ -24,7 +25,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data, refetch: getAlltransactions } = useGetTransactions();
+  const { data, refetch: getAlltransactions, isLoading } = useGetTransactions();
 
   const filteredData = useMemo(() => {
     const filtered = data?.filter((item) =>
@@ -32,6 +33,8 @@ const TransactionsScreen = ({ navigation }: Props) => {
     );
     return filtered;
   }, [data, text]);
+
+  if(isLoading) return <LoadingComponent color={mainColor}/>
 
   return (
     <ScreenContainer>
