@@ -1,5 +1,5 @@
 import { StatusBar, View, FlatList } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
@@ -26,12 +26,12 @@ const TransactionsScreen = ({ navigation }: Props) => {
 
   const { data, refetch: getAlltransactions } = useGetTransactions();
 
-  const filterData = () => {
+  const filteredData = useMemo(() => {
     const filtered = data?.filter((item) =>
-      item.name?.toLowerCase().startsWith(text.toLowerCase())
+      item?.deletedAt === null && item.name?.toLowerCase().startsWith(text)
     );
     return filtered;
-  };
+  }, [data, text]);
 
   return (
     <ScreenContainer>
@@ -58,7 +58,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
       )}
       <FlatList
         overScrollMode="never"
-        data={filterData()}
+        data={filteredData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         refreshing={false}

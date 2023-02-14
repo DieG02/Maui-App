@@ -28,7 +28,7 @@ const ImageProfile = ({ url, name }: Props) => {
           justifyContent: "center",
         }}
       >
-        {url ? (
+        {url !== null && url ? (
           <Image
             source={{ uri: url }}
             resizeMode="contain"

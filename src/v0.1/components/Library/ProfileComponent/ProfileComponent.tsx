@@ -10,8 +10,6 @@ const { textBlack } = customStyles;
 // TODO: Refactor this interface to use the correct types
 interface Props {
   onPressUser: () => void;
-  userName?: string;
-  imgProfile?: string;
   user: any;
 }
 
