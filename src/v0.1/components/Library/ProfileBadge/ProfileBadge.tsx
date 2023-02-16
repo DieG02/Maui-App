@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ProfileBadge = ({ user, size = "small" }: Props) => {
-  return user.image !== null && user.image.length > 0? (
+  return user.image ? (
     <Image
       source={{ uri: user.image }}
       resizeMode="contain"
