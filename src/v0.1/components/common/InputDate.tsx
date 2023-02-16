@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import customStyles from "../../styles/customStyles";
 import Icon from "react-native-vector-icons/Entypo";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -34,6 +34,23 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+const clasifyDate = (date: string) => {
+  if (date === TODAY) {
+    setDate(TODAY);
+    setIsOpen(true);
+  } else if (date === YESTERDAY) {
+    setDate(YESTERDAY);
+    setIsOpen(true);
+  } else {
+    setDate(date);
+    setIsOpen(false);
+  }
+}
+
+  useEffect(()=>{
+    clasifyDate(date);
+  },[date])
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -44,16 +61,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
 
   const handleConfirm = (date: Date) => {
     const OTHER_DAY = moment(date).parseZone().format("DD-MM-YYYY");
-    if (OTHER_DAY === TODAY) {
-      setDate(TODAY);
-      setIsOpen(true);
-    } else if (OTHER_DAY === YESTERDAY) {
-      setDate(YESTERDAY);
-      setIsOpen(true);
-    } else {
-      setDate(OTHER_DAY);
-      setIsOpen(false);
-    }
+    clasifyDate(OTHER_DAY);
     hideDatePicker();
   };
 

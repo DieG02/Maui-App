@@ -7,6 +7,7 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+import useGetContactById from "../../services/Contact/useGetContactById";
 
 // TODO: Refactor this component
 interface Props {
@@ -17,6 +18,10 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
+
+  const handleOnPress = () => {
+    navigation.navigate('EditIncome', {item: params?.item});
+  }
 
   return (
     <ScreenContainer>
@@ -100,6 +105,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       >
         <Button
           text="Editar"
+          onPress={handleOnPress}
           style={{
             backgroundColor: textBlue,
             width: width - 60,
