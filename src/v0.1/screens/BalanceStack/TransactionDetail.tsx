@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, ToastAndroid, View } from "react-native";
 import React from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -7,6 +7,8 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+import useDeleteExpense from "../../services/Expense/useDeleteExpense";
+import { useQueryClient } from "react-query";
 
 // TODO: Refactor this component
 interface Props {
@@ -18,12 +20,43 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
 
+  const queryClient = useQueryClient();
+
+  const flag = params?.item.category.name !== "Venta"
+
+  const showToast = () => {
+    if(flag){
+      ToastAndroid.show(
+        "El gasto fue eliminado satisfactoriamente",
+        ToastAndroid.SHORT
+      )
+    } else {
+      ToastAndroid.show(
+        "No es un gasto",
+        ToastAndroid.SHORT
+      )
+    }
+  };
+
+  const {mutateAsync: deleteExpense} = useDeleteExpense(params?.item.id, {onSuccess(){
+    navigation.goBack();
+    showToast();
+    queryClient.invalidateQueries("Transactions");
+    queryClient.invalidateQueries("Balance");
+    queryClient.invalidateQueries("Monthly_Stats");
+  }});
+
+  const handleDelete = () => {
+    flag ? deleteExpense() : showToast();
+  }
+
   return (
     <ScreenContainer>
       <BackHeaderTitle
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
+        onPressDelete={handleDelete}
       />
       <ScrollContainer>
         <View

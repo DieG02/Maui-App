@@ -94,6 +94,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       date: date,
       providerId: route.params?.contact?.id,
     });
+    navigation.goBack();
   };
 
   useEffect(() => {
