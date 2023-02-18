@@ -1,5 +1,5 @@
 import { StatusBar, View, FlatList } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { NavigationProp } from "@react-navigation/native";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
@@ -10,6 +10,7 @@ import Header from "../../components/Library/Header";
 import SearchBar from "../../components/Library/SearchBar";
 import TransactionCard from "../../components/Library/TransactionCard";
 import useGetTransactions from "../../services/Transactions/useGetAllTransactions";
+import LoadingComponent from "../../components/Library/LoadingComponent";
 
 // TODO: Refactor this component
 interface Props {
@@ -24,14 +25,16 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data, refetch: getAlltransactions } = useGetTransactions();
+  const { data, refetch: getAlltransactions, isLoading } = useGetTransactions();
 
-  const filterData = () => {
+  const filteredData = useMemo(() => {
     const filtered = data?.filter((item) =>
-      item.name?.toLowerCase().startsWith(text.toLowerCase())
+      item?.deletedAt === null && item.name?.toLowerCase().startsWith(text)
     );
     return filtered;
-  };
+  }, [data, text]);
+
+  if(isLoading) return <LoadingComponent color={mainColor}/>
 
   return (
     <ScreenContainer>
@@ -58,7 +61,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
       )}
       <FlatList
         overScrollMode="never"
-        data={filterData()}
+        data={filteredData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         refreshing={false}
