@@ -1,11 +1,12 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import { useMutation, useQueryClient } from "react-query";
-import { createContactBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
+import { useMutation } from "react-query";
+import { createContactBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
 import useMatchContact from "../../hooks/useMatchContact";
 import { createNewContact } from "../../services/contacts";
 import customStyles from "../../styles/customStyles";
+import { queryClient } from "../../utils/queryClient";
 
 interface Props {
   data: IContact;
@@ -18,7 +19,6 @@ const { mainColor } = customStyles;
 
 const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
-  const queryClient = useQueryClient();
 
   const handleOnPress = (data: IContact) => {
     if (screen === "NewIncome") {
