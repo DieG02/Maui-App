@@ -21,20 +21,17 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const queryClient = useQueryClient();
   const { params } = route;
 
-  const {mutateAsync: deleteIncome} = useDeleteIncome(params?.item.id, {
-    onSuccess(){
+  const showToast = () => {
+    ToastAndroid.show("El ingreso ha sido eliminado", ToastAndroid.SHORT);
+  };
+
+  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
+    onSuccess() {
       navigation.goBack();
       showToast();
       queryClient.invalidateQueries("Transactions");
-    }
+    },
   });
-
-  const showToast = () => {
-    ToastAndroid.show(
-      "El ingreso ha sido eliminado",
-      ToastAndroid.SHORT
-    );
-  };
 
   return (
     <ScreenContainer>
@@ -42,7 +39,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={()=>deleteIncome()}
+        onPressDelete={() => deleteIncome()}
       />
       <ScrollContainer>
         <View

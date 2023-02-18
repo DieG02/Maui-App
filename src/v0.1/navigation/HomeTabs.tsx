@@ -26,14 +26,14 @@ const HomeTabs = () => {
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingAccount = useGetAccount().isLoading;
-  const isFetchingClients = useGetAllContacts('Clients').isLoading;
+  const isFetchingContacts = useGetAllContacts().isLoading;
 
   const isLoading =
     isFetchingTransactions ||
     isFetchingGetMonthlyState ||
     isFetchingBalance ||
     isFetchingAccount ||
-    isFetchingClients;
+    isFetchingContacts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }

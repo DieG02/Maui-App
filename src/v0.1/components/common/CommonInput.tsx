@@ -3,7 +3,7 @@ import React from "react";
 import customStyles from "../../styles/customStyles";
 import Down from "react-native-vector-icons/Entypo";
 
-const { mainColor, textBlack, expense } = customStyles;
+const { mainColor, textBlack, expense, secondaryColorBorder } = customStyles;
 
 interface Props {
   value: string;
@@ -60,7 +60,7 @@ const CommonInput = ({
           style={{
             height: 55,
             borderRadius: 12,
-            borderColor: "#EAEAEA",
+            borderColor: secondaryColorBorder,
             borderWidth: 1,
             justifyContent: "space-between",
             display: "flex",
@@ -100,7 +100,7 @@ const CommonInput = ({
           style={{
             height: multiline ? "auto" : 55,
             borderRadius: 12,
-            borderColor: "#EAEAEA",
+            borderColor: secondaryColorBorder,
             borderWidth: 1,
             justifyContent: "center",
           }}

@@ -1,21 +1,22 @@
-import { View, FlatList, StatusBar } from "react-native";
+import { View, FlatList, ActivityIndicator, StatusBar } from "react-native";
 import React, { useContext, useMemo, useState } from "react";
 import ContactCard from "../../components/common/ContactCard";
 import customStyles from "../../styles/customStyles";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { useQuery } from "react-query";
+import { getAllContacts } from "../../services/contacts";
 import { GeneralContext } from "../../context/GeneralContext";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import SearchBar from "../../components/common/SearchBar";
-import LoadingComponent from "../../components/Library/LoadingComponent";
-import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
+
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
-const { mainColor, width, background, white, marginHorizontal } = customStyles;
+const { mainColor, width, background } = customStyles;
 const statusBarStyle = "dark-content";
 
 const Consumers = ({ navigation, route }: Props) => {
@@ -23,36 +24,56 @@ const Consumers = ({ navigation, route }: Props) => {
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
 
-  const {data, isLoading, refetch:getClients} = useGetAllContacts({
-    onSuccess(data){
+  const {
+    data,
+    isLoading,
+    refetch: getClients,
+  } = useQuery("clients", getAllContacts, {
+    onSuccess(data) {
       setContacts(
         data?.filter((item) => item.typeOfContact === "CLIENT") as []
       );
-  }});
+    },
+  });
 
   const clients = useMemo(() => {
-    if (!data || !text) return [];
-  
-    return data.filter(
-      (item) => item.typeOfContact === "CLIENT" && item.name?.toLowerCase().startsWith(text)
+    const res = data?.filter((item) => item.typeOfContact === "CLIENT");
+    const filtered = res?.filter((item) =>
+      item.name?.toLowerCase().startsWith(text.toLowerCase())
     );
+    return filtered;
   }, [data, text]);
-  
+
   const handleOnPress = (item: IContact) => {
-    navigation.navigate({
-      name: typeof route.params !== "undefined" ? "NewIncome" : "ContactDetail",
-      params: { contact: item },
-      ...(typeof route.params !== "undefined" && { merge: true }),
-    });
+    if (route.params !== undefined) {
+      navigation.navigate({
+        name: "NewIncome",
+        params: { contact: item },
+        merge: true,
+      });
+    } else {
+      navigation.navigate("ContactDetail", { contact: item });
+    }
   };
-  
+
   if (isLoading) {
-    return <LoadingComponent color={mainColor} />;
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color="#141414" />
+      </View>
+    );
   }
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
+      <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
       {!isSearch ? (
         <BackHeaderTitle
           label="Clientes"
@@ -104,12 +125,15 @@ const Consumers = ({ navigation, route }: Props) => {
           />
         )}
       />
+      <View
+        style={{
+          width: "100%",
+          height: 90,
+          alignItems: "center",
+          backgroundColor: background,
+        }}
+      >
         <Button
-          container={{
-            width: '100%',
-            height: 90,
-            alignItems: "center"
-          }}
           onPress={() =>
             navigation.navigate("NewContact", {
               type: "client",
@@ -123,6 +147,7 @@ const Consumers = ({ navigation, route }: Props) => {
             marginTop: 6,
           }}
         />
+      </View>
     </ScreenContainer>
   );
 };
