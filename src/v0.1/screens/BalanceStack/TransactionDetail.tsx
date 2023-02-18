@@ -1,4 +1,4 @@
-import { Image, Text, View, ToastAndroid } from "react-native";
+import { Image, Text, ToastAndroid, View } from "react-native";
 import React from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -7,8 +7,9 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
-import { useQueryClient } from "react-query";
+import { queryClient } from "../../utils/queryClient";
 
 // TODO: Refactor this component
 interface Props {
@@ -18,13 +19,31 @@ interface Props {
 const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
-  const queryClient = useQueryClient();
   const { params } = route;
 
+  const flag = params?.item.category.name !== "Venta";
+
   const showToast = () => {
-    ToastAndroid.show("El ingreso ha sido eliminado", ToastAndroid.SHORT);
+    if (flag) {
+      ToastAndroid.show(
+        "El egreso fue eliminado satisfactoriamente",
+        ToastAndroid.SHORT
+      );
+    } else {
+      ToastAndroid.show(
+        "El ingreso fue eliminado satisfactoriamente",
+        ToastAndroid.SHORT
+      );
+    }
   };
 
+  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.item.id, {
+    onSuccess() {
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries("Transactions");
+    },
+  });
   const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
     onSuccess() {
       navigation.goBack();
@@ -33,13 +52,17 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     },
   });
 
+  const handleDelete = () => {
+    flag ? deleteExpense() : deleteIncome();
+  };
+
   return (
     <ScreenContainer>
       <BackHeaderTitle
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={() => deleteIncome()}
+        onPressDelete={handleDelete}
       />
       <ScrollContainer>
         <View
