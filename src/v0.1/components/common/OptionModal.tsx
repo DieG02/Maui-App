@@ -14,6 +14,8 @@ interface Props {
   title: string;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
+  required?: boolean;
+  placeholder?: string;
 }
 
 const OptionModal = ({
@@ -23,6 +25,8 @@ const OptionModal = ({
   title,
   selectedOption,
   setSelectedOption,
+  required,
+  placeholder,
 }: Props) => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -65,6 +69,8 @@ const OptionModal = ({
         </View>
       </Modal>
       <CommonInput
+        placeholder={placeholder}
+        required={required}
         name={title}
         touchable={true}
         value={selectedOption}

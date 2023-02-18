@@ -1,6 +1,6 @@
 import { StatusBar, View, FlatList } from "react-native";
-import React, { useState } from "react";
-import { NavigationProp } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
+import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -32,6 +32,12 @@ const TransactionsScreen = ({ navigation }: Props) => {
     );
     return filtered;
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      getAlltransactions();
+    }, [])
+  );
 
   return (
     <ScreenContainer>

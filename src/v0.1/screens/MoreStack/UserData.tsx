@@ -10,7 +10,9 @@ import Button from "../../components/common/Button";
 import { editUserAccount } from "../../services/userAccount";
 import ImageProfile from "../../components/common/ImageProfile";
 import { useMutation } from "react-query";
-import { editUserAccountBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
+import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
+import LoadingComponent from "../../components/Library/LoadingComponent";
+import Form from "../../components/Library/Form";
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack } = customStyles;
@@ -21,26 +23,16 @@ interface Props {
 }
 
 const UserData = ({ navigation, route }: Props) => {
-  const {params} = route;
-  const [form, setForm] = useState(params?.data)
-  const email = params?.email
-  const isChanged = JSON.stringify(form) !== JSON.stringify(params?.data)
+  const { params } = route;
+  const [form, setForm] = useState(params?.data);
+  const email = params?.email;
+  const isChanged = JSON.stringify(form) !== JSON.stringify(params?.data);
 
   const data: editUserAccountBodyInputDto = {
     cellPhone: form.cellPhone,
     name: form.name,
     address: form.address,
-  }
-
-  const {mutateAsync: editAccount} = useMutation(
-    () => editUserAccount(data),
-    {
-      onSuccess: () => {
-        navigation.goBack();
-        showToast();
-      }
-    }
-  );
+  };
 
   const showToast = () => {
     ToastAndroid.show(
@@ -49,6 +41,19 @@ const UserData = ({ navigation, route }: Props) => {
     );
   };
 
+  const { mutateAsync: editAccount, isLoading } = useMutation(
+    () => editUserAccount(data),
+    {
+      onSuccess: () => {
+        navigation.goBack();
+        showToast();
+      },
+    }
+  );
+
+  if (isLoading) {
+    return <LoadingComponent color={mainColor} />;
+  }
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
@@ -56,12 +61,9 @@ const UserData = ({ navigation, route }: Props) => {
         label="Mis Datos"
         onPressBack={() => navigation.goBack()}
       />
-      <View style={{ marginHorizontal: 20 }}>
+      <Form>
         <Spacer height={10} />
-        <ImageProfile
-          url={form.image}
-          name={form.name}
-        />
+        <ImageProfile url={form.image} name={form.name} />
         <Spacer height={10} />
         <CommonInput
           value={form.name}
@@ -88,26 +90,26 @@ const UserData = ({ navigation, route }: Props) => {
         />
         <Spacer height={5} />
         <Text
-        style={{
-          fontSize: 18,
-          color: textBlack,
-          fontFamily: "Gilroy-Bold",
-          marginBottom: 10,
-        }}
-      >
-        Correo
-      </Text>
+          style={{
+            fontSize: 18,
+            color: textBlack,
+            fontFamily: "Gilroy-Bold",
+            marginBottom: 10,
+          }}
+        >
+          Correo
+        </Text>
         <Text
-            style={{
-              color: textBlack,
-              fontFamily: "Gilroy-Regular",
-              marginTop: 5,
-              marginLeft: 20,
-              fontSize: 18,
-            }}
-          >
-            {email}
-          </Text>
+          style={{
+            color: textBlack,
+            fontFamily: "Gilroy-Regular",
+            marginTop: 5,
+            marginLeft: 20,
+            fontSize: 18,
+          }}
+        >
+          {email}
+        </Text>
         <Spacer height={15} />
         <View>
           <Button
@@ -117,7 +119,7 @@ const UserData = ({ navigation, route }: Props) => {
             style={{ backgroundColor: isChanged ? mainColor : "#B3B3B3" }}
           />
         </View>
-      </View>
+      </Form>
     </ScreenContainer>
   );
 };
