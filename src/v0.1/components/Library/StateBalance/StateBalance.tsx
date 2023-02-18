@@ -15,6 +15,7 @@ const StateBalance = ({ data }: Props) => {
   return (
     <ScrollView
       horizontal
+      overScrollMode="never"
       showsHorizontalScrollIndicator={false}
       snapToInterval={width - 60}
       decelerationRate={0.5}

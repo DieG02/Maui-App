@@ -24,8 +24,8 @@ const customStyles = {
   // TODO: Define the rest of the colors here.
   disabled: "#b3b3b3",
   secondaryColor: "#F8F8F8",
-  secondaryColorBorder: "#f8f8f8",
-
+  // secondaryColorBorder: "#f8f8f8",
+  secondaryColorBorder: "#EAEAEA",
   textBlue: "#7888A8",
   textOutline: "#717171",
   width: width,

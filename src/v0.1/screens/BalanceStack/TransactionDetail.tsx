@@ -8,7 +8,8 @@ import RowTransaction from "../../components/common/TransactionCard/RowTransacti
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
-import { useQueryClient } from "react-query";
+import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
+import { queryClient } from "../../utils/queryClient";
 
 // TODO: Refactor this component
 interface Props {
@@ -20,35 +21,40 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
 
-  const queryClient = useQueryClient();
-
-  const flag = params?.item.category.name !== "Venta"
+  const flag = params?.item.category.name !== "Venta";
 
   const showToast = () => {
-    if(flag){
+    if (flag) {
       ToastAndroid.show(
-        "El gasto fue eliminado satisfactoriamente",
+        "El egreso fue eliminado satisfactoriamente",
         ToastAndroid.SHORT
-      )
+      );
     } else {
       ToastAndroid.show(
-        "No es un gasto",
+        "El ingreso fue eliminado satisfactoriamente",
         ToastAndroid.SHORT
-      )
+      );
     }
   };
 
-  const {mutateAsync: deleteExpense} = useDeleteExpense(params?.item.id, {onSuccess(){
-    navigation.goBack();
-    showToast();
-    queryClient.invalidateQueries("Transactions");
-    queryClient.invalidateQueries("Balance");
-    queryClient.invalidateQueries("Monthly_Stats");
-  }});
+  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.item.id, {
+    onSuccess() {
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries("Transactions");
+    },
+  });
+  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
+    onSuccess() {
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries("Transactions");
+    },
+  });
 
   const handleDelete = () => {
-    flag ? deleteExpense() : showToast();
-  }
+    flag ? deleteExpense() : deleteIncome();
+  };
 
   return (
     <ScreenContainer>
