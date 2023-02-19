@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
-// import 'moment/locale/es';
+import 'moment/locale/es';
 
 enum PaymentMethods {
     CASH,

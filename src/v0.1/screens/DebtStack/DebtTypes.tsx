@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { View, ScrollView } from "react-native";
 import DebtTypeCard from "../../components/common/DebtTypeCard";
 import customStyles from "../../styles/customStyles";
-import { useNavigation } from "@react-navigation/native";
 
 const { background } = customStyles;
 

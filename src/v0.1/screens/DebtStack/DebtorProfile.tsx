@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -25,28 +25,46 @@ const { mainColor, expense, secondaryColor, orange } = customStyles;
 const Tab = createMaterialTopTabNavigator();
 
 const DebtorProfile = ({ navigation, route }: Props) => {
-    const percent = 700/2000*100;
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
     const toogleModal = (): void => setShowModal(!showModal);
-    const [value, setValue] = useState("");
-    const [comments, setComments] = useState("");
-    const [date, setDate] = useState("");
+    const [value, setValue] = useState<string>("");
+    const [comments, setComments] = useState<string>("");
+    const [date, setDate] = useState<string>("");
+    const [paidValue, setPaidValue] = useState<{ total: number, current: number, percent: number }>({
+        total: 0,
+        current: 0,
+        percent: 0,
+    });
 
     const { data, isLoading } = useQuery("allExpenses", getAllExpenses);
     const expenseId = route.params?.expenseId;
-    const profileDebtor = data?.filter((debt: any) => debt.expenseDebtIds[0] === expenseId);
+    const profileDebtor = useMemo(() => {
+        return data?.filter((debt: any) => debt.expenseDebtIds[0] === expenseId);
+      }, [data, expenseId]);
 
     const DebtComponent = () => {
         return (
-            <DebtTypes items={profileDebtor.filter((val: any) => !val.isPaid)}/>
+            <DebtTypes items={profileDebtor?.filter((val: any) => !val.isPaid)}/>
         )
     };
     const PayComponent = () => {
         return (
-            <DebtTypes items={profileDebtor.filter((val: any) => !!val.isPaid)}/>
+            <DebtTypes items={profileDebtor?.filter((val: any) => !!val.isPaid)}/>
         )
     };
 
+    useEffect(() => {
+        let total: number = 0, current: number = 0;
+        profileDebtor?.map(({ value, isPaid }: {value: number, isPaid: boolean }) => {
+            total += value;
+            if(isPaid) current += value;
+        })
+        setPaidValue({
+            percent: Math.floor(current/total*100),
+            total,
+            current,
+        })
+    }, [profileDebtor]);
 
     const styles = StyleSheet.create({
         body: {
@@ -77,7 +95,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
         },
         progressBar: {
             backgroundColor: orange,
-            width: percent <= 10 ? "10%" : percent + "%",
+            width: paidValue.percent <= 10 ? "10%" : paidValue.percent + "%",
             position: "absolute",
             borderRadius: 10,
             height: "100%",
@@ -99,13 +117,13 @@ const DebtorProfile = ({ navigation, route }: Props) => {
                     <View style={styles.cardLabel}>
                         <Text>Abonado</Text>
                         <Text style={{ fontWeight: "bold", color: "#191919" }}> 
-                            <Text style={{color: expense}}>$700</Text> / $2000
+                            <Text style={{color: expense}}>${paidValue?.current}</Text> / ${paidValue?.total}
                         </Text>
                     </View>
                     <View style={styles.progressBarBase}>
                         <View style={styles.progressBar}>
                             <Text style={styles.processBarLabel}>
-                                {percent}%
+                                {paidValue.percent}%
                             </Text>
                         </View>
                     </View>

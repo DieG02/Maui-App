@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import customStyles from "../../styles/customStyles";
 import Right from "react-native-vector-icons/Entypo";
 import moment from "moment";
+import 'moment/locale/es';
 
 const { mainColor, textBlack, background, secondaryColor, expense, income } =
   customStyles;

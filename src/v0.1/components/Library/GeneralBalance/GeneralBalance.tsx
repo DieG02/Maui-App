@@ -33,11 +33,11 @@ const GeneralBalance = ({ data }: Props) => {
         ) : (
           <Text style={styles.textPrice}>
             {Platform.OS === "ios"
-              ? data?.toLocaleString("es-AR", {
+              ? data?.toLocaleString("es", {
                   style: "currency",
                   currency: "ARS",
                 })
-              : `$${data?.toLocaleString("es-AR", {
+              : `$${data?.toLocaleString("es", {
                   style: "currency",
                   currency: "ARS",
                 })}`}
