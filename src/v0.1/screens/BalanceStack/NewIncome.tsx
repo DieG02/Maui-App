@@ -121,7 +121,6 @@ const NewIncome = ({ navigation, route }: Props) => {
         color={mainColor}
       />
       <Form>
-        {/* <ScrollContainer> */}
         <InputForm
           keyboardType="numeric"
           placeholder="0,00"
@@ -220,7 +219,6 @@ const NewIncome = ({ navigation, route }: Props) => {
           setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
           color={mainColor}
         />
-        {/* </ScrollContainer> */}
       </Form>
       <View
         style={{

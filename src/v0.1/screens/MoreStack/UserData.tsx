@@ -77,6 +77,7 @@ const UserData = ({ navigation, route }: Props) => {
           value={form.address}
           setValue={(value) => setForm({ ...form, address: value })}
           name="Direccion"
+          placeholder="Escriba su direccion"
           marginBottom={20}
           autoCapitalize="words"
         />
