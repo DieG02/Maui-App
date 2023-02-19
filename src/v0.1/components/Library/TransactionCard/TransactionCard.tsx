@@ -27,15 +27,25 @@ const TransactionCard = ({ onPress, data }: Props) => {
             />
           </View>
           <View style={styles("left").textContainer}>
-            <Text style={styles("", textBlack).textTitle}>{data.name}</Text>
+            <Text style={styles("", textBlack).textTitle} numberOfLines={1}>{data.name}</Text>
             <Text style={styles().textSubtitle}>{data.date}</Text>
           </View>
         </View>
         <View style={styles().textContainer}>
           {data.category?.name === "Venta" ? (
-            <Text style={styles("", positive).textTitle}>${data?.value}</Text>
+            <Text style={styles("", positive).textTitle} 
+            numberOfLines={1}
+            >{data?.value.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}</Text>
           ) : (
-            <Text style={styles("", textBlack).textTitle}>-${data?.value}</Text>
+            <Text style={styles("", textBlack).textTitle}
+            numberOfLines={1}
+            >-{data?.value.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+            })}</Text>
           )}
           <Text style={styles().textSubtitle}>
             {data.paymentMethod && paymentsMethod[data.paymentMethod].es}
