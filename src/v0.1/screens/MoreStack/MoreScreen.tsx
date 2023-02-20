@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView, StatusBar, Text } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
@@ -9,17 +9,14 @@ import Contact from "react-native-vector-icons/MaterialIcons";
 import { NavigationProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";
-import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import ProfileBadge from "../../components/Library/ProfileBadge";
-import { profileData } from "../../services/profiles";
 import customStyles from "../../styles/customStyles";
-
-const { name, lastName, email, img } = profileData;
+import useGetAccount from "../../services/Account/useGetAccount";
+import { queryClient } from "../../utils/queryClient";
 
 const { textBlack } = customStyles;
-
 const statusBarStyle = "dark-content";
 
 interface Props {
@@ -28,8 +25,23 @@ interface Props {
 
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
+  const { data, refetch } = useGetAccount();
+  const [email, setEmail] = useState("");
 
-  const queryClient = useQueryClient();
+  const getEmail = async () => {
+    const storage = await AsyncStorage.getItem("userInfo");
+    const email = storage ? JSON.parse(storage).email : "";
+    return setEmail(email);
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getEmail();
+      refetch();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const handleLogout = async () => {
     await AsyncStorage.clear();
@@ -58,13 +70,7 @@ const More = ({ navigation }: Props) => {
             alignItems: "center",
           }}
         >
-          <ProfileBadge
-            userName={name}
-            userLastName={lastName}
-            // email={email}
-            imgProfile={img}
-            size="large"
-          />
+          <ProfileBadge user={data} size="large" />
           <Text
             style={{
               fontSize: 25,
@@ -73,7 +79,7 @@ const More = ({ navigation }: Props) => {
               marginTop: 20,
             }}
           >
-            {name} {lastName}
+            {data?.name}
           </Text>
           <Text
             style={{
@@ -91,7 +97,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={10} />
           <OptionCard
             title="Mis datos"
-            onPress={() => navigation.navigate("UserData")}
+            onPress={() => navigation.navigate("UserData", { data, email })}
             arrow={
               <Right name="chevron-small-right" color="#8B98B1" size={35} />
             }

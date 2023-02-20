@@ -1,29 +1,42 @@
+import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import React, { useState } from "react";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
 import { useMutation } from "react-query";
 import { signUp } from "../../services/auth";
-import { signUpInputBodyDto } from "../../../../Maui-Backend/src/controllers/types";
+import { signUpInputBodyDto } from "../../../../../Maui-Backend/src/controllers/types";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import Form from "../../components/Library/Form";
+import useForm from "../../hooks/useForm";
+import Button from "../../components/common/Button";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
+
+interface SignUpUser {
+  email: string;
+  password: string;
+  name: string;
+  cellphone: string;
+}
+
+const initialValues = {
+  email: "",
+  password: "",
+  name: "",
+  cellphone: "",
+};
+
 const { mainColor, textBlack } = customStyles;
 
-export default function SignUpScreen({ navigation }: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+const toValidate = ["email", "password", "name", "cellphone"];
 
-  const user = {
-    email: email,
-    password: password,
-  };
+export default function SignUpScreen({ navigation }: Props) {
+  const { setValues, validateValues, values } =
+    useForm<SignUpUser>(initialValues);
 
   const { mutateAsync } = useMutation(
     (data: signUpInputBodyDto) => {
@@ -40,7 +53,7 @@ export default function SignUpScreen({ navigation }: Props) {
   );
 
   const onPressSignUp = async () => {
-    await mutateAsync(user);
+    await mutateAsync(values);
   };
 
   return (
@@ -49,99 +62,123 @@ export default function SignUpScreen({ navigation }: Props) {
         label="Crear cuenta"
         onPressBack={() => navigation.goBack()}
       />
-      <View
-        style={{
-          marginHorizontal: 25,
-          marginTop: 25,
-        }}
-      >
-        <CommonInput
-          name="Nombre"
-          setValue={setName}
-          value={name}
-          marginBottom={15}
-          placeholder="Ingrese su nombre"
-          keyboardType="default"
-        />
-
-        <CommonInput
-          name="Celular"
-          setValue={setPhone}
-          value={phone}
-          marginBottom={15}
-          placeholder="Ingrese su Celular"
-          keyboardType="phone-pad"
-        />
-
-        <CommonInput
-          name="Email"
-          setValue={setEmail}
-          value={email}
-          marginBottom={15}
-          placeholder="Ingrese su email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-
-        <CommonInput
-          name="Contraseña"
-          setValue={setPassword}
-          value={password}
-          placeholder="Ingrese su contraseña"
-          marginBottom={15}
-          autoCapitalize="none"
-        />
-
-        <TouchableOpacity
-          onPress={onPressSignUp}
+      <Form>
+        <View
           style={{
-            backgroundColor: mainColor,
-            height: 55,
-            borderRadius: 12,
-            alignItems: "center",
-            justifyContent: "center",
             marginTop: 20,
           }}
         >
-          <Text
+          <CommonInput
+            required
+            name="Nombre"
+            setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+            value={values.name}
+            marginBottom={25}
+            placeholder="Ingrese su nombre"
+            keyboardType="default"
+          />
+
+          <CommonInput
+            required
+            name="Celular"
+            setValue={(text) =>
+              setValues((prev) => ({ ...prev, cellphone: text }))
+            }
+            value={values.cellphone}
+            marginBottom={25}
+            placeholder="Ingrese su Celular"
+            keyboardType="phone-pad"
+          />
+
+          <CommonInput
+            required
+            name="Email"
+            setValue={(text) => setValues((prev) => ({ ...prev, email: text }))}
+            value={values.email}
+            marginBottom={25}
+            placeholder="Ingrese su email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <CommonInput
+            required
+            name="Contraseña"
+            setValue={(text) =>
+              setValues((prev) => ({ ...prev, password: text }))
+            }
+            value={values.password}
+            placeholder="Ingrese su contraseña"
+            marginBottom={25}
+            autoCapitalize="none"
+          />
+
+          {/* <TouchableOpacity
+            onPress={onPressSignUp}
             style={{
-              color: "white",
-              fontFamily: "Gilroy-Bold",
-              fontSize: 16,
+              backgroundColor: mainColor,
+              height: 55,
+              borderRadius: 12,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 20,
             }}
           >
-            Crear cuenta
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Login")}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginVertical: 20,
-          }}
-        >
-          <Text
+            <Text
+              style={{
+                color: "white",
+                fontFamily: "Gilroy-Bold",
+                fontSize: 16,
+              }}
+            >
+              Crear cuenta
+            </Text>
+          </TouchableOpacity> */}
+          <Button
+            disabled={!validateValues(toValidate)}
+            onPress={onPressSignUp}
+            text="Crear cuenta"
             style={{
-              color: textBlack,
-              fontFamily: "Gilroy-Regular",
-              fontSize: 16,
+              backgroundColor: validateValues(toValidate)
+                ? mainColor
+                : "#B3B3B3",
+              height: 55,
+              borderRadius: 12,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 30,
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginVertical: 20,
             }}
           >
-            ¿Ya tenes cuenta?
-          </Text>
-          <Text
-            style={{
-              color: mainColor,
-              fontFamily: "Gilroy-Bold",
-              fontSize: 16,
-              marginLeft: 5,
-            }}
-          >
-            Iniciar sesión
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{
+                color: textBlack,
+                fontFamily: "Gilroy-Regular",
+                fontSize: 16,
+              }}
+            >
+              ¿Ya tenes cuenta?
+            </Text>
+            <Text
+              style={{
+                color: mainColor,
+                fontFamily: "Gilroy-Bold",
+                fontSize: 16,
+                marginLeft: 5,
+              }}
+            >
+              Iniciar sesión
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Form>
     </ScreenContainer>
   );
 }

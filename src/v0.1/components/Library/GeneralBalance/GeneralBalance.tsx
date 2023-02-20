@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
 import customStyles from "../../../styles/customStyles";
 import styles from "./style";
 

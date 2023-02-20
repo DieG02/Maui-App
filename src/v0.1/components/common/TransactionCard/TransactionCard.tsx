@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { View, Alert, ActivityIndicator } from "react-native";
 
 import { getTransactionsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { deleteExpense } from "../../../services/expenses";
 import { deleteIncome } from "../../../services/incomes";
 import TransactionComponent from "./TransactionComponent";
 import TransactionModal from "./TransactionsModal";
+import { queryClient } from "../../../utils/queryClient";
 
 interface Props {
   data: getTransactionsResponseDto[0];
@@ -16,7 +17,6 @@ interface Props {
 const TransactionCard = ({ data, onPress }: Props) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const queryClient = useQueryClient();
   const { mutateAsync: deleteOutcome, isLoading } = useMutation(deleteExpense, {
     onSuccess: () => {
       queryClient.invalidateQueries("transactions");

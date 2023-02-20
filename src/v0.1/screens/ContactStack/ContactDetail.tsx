@@ -7,9 +7,10 @@ import Spacer from "../../components/common/Spacer";
 import SimpleInput from "../../components/common/SimpleInput";
 import Button from "../../components/common/Button";
 import customStyles from "../../styles/customStyles";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { updateContactById, deleteContactById } from "../../services/contacts";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+import { queryClient } from "../../utils/queryClient";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -20,7 +21,6 @@ const { mainColor, background, width } = customStyles;
 
 const ContactDetail = ({ route, navigation }: Props) => {
   const { params } = route;
-  const queryClient = useQueryClient();
 
   const initial = {
     name: params?.contact.name,

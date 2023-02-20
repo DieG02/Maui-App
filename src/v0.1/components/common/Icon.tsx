@@ -6,16 +6,6 @@ interface Props {
   children: JSX.Element;
   style?: object;
 }
-
-const Icon = ({ onPress, children, style }: Props) => {
-  return (
-    <View>
-      <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-        <View style={[styles.icons, style]}>{children}</View>
-      </TouchableOpacity>
-    </View>
-  );
-};
 const styles = StyleSheet.create({
   icons: {
     width: 40,
@@ -26,5 +16,15 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
 });
+
+const Icon = ({ onPress, children, style }: Props) => {
+  return (
+    <View>
+      <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+        <View style={[styles.icons, style]}>{children}</View>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default Icon;

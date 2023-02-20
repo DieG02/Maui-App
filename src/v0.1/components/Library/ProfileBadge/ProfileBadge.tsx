@@ -5,29 +5,20 @@ import styles from "./style";
 
 // TODO: Refactor this interface to use the correct types
 interface Props {
-  userName: string;
-  userLastName: string;
-  imgProfile?: string;
+  user: any;
   size?: "small" | "large";
 }
 
-const ProfileBadge = ({
-  userName,
-  userLastName,
-  imgProfile,
-  size = "small",
-}: Props) => {
-  return imgProfile ? (
+const ProfileBadge = ({ user, size = "small" }: Props) => {
+  return user.image ? (
     <Image
-      source={{ uri: imgProfile }}
+      source={{ uri: user.image }}
       resizeMode="contain"
       style={styles(size).image}
     />
   ) : (
     <View style={styles(size).wrapper}>
-      <Text style={styles(size).text}>
-        {getInitialLetters(userName, userLastName)}
-      </Text>
+      <Text style={styles(size).text}>{getInitialLetters(user.name)}</Text>
     </View>
   );
 };
