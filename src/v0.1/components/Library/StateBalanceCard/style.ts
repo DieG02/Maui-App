@@ -13,7 +13,7 @@ const styles = ({ left, right, background }: Props) =>
   StyleSheet.create({
     wrapper: {
       backgroundColor: background2,
-      width: (width - 120) / 2,
+      width: (width - 100) / 2,
       borderRadius: 10,
       marginLeft: left,
       marginRight: right,
@@ -37,7 +37,7 @@ const styles = ({ left, right, background }: Props) =>
     },
     textValue: {
       color: textBlack,
-      fontSize: 20,
+      fontSize: 18,
       marginBottom: 6,
       fontFamily: "Gilroy-SemiBold",
     },

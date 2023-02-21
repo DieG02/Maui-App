@@ -111,8 +111,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           label="Total"
           value={
             params?.item.category.name === "Venta"
-              ? `$${params?.item.value}`
-              : `-$${params?.item.value}`
+              ? `${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
+              
+              : `-${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
           }
         />
 

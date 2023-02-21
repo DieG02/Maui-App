@@ -25,25 +25,37 @@ const StateBalance = ({ data }: Props) => {
           <View style={styles.wrapper}>
             <StateBalanceCard
               state="Ingresos"
-              value={"$" + data?.incomes}
+              value={data?.incomes.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
               left={marginHorizontal}
               type="ingreso"
             />
             <StateBalanceCard
               state="Egresos"
-              value={"$" + data?.expenses}
+              value={data?.expenses.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
               left={20}
               type="egreso"
             />
             <StateBalanceCard
               state="Deudas por Cobrar"
-              value={"$" + data?.toCollect}
+              value={data?.toCollect.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
               left={20}
               type="cobrar"
             />
             <StateBalanceCard
               state="Deudas por pagar"
-              value={"$" + data?.debt}
+              value={data?.debt.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}
               left={20}
               right={marginHorizontal}
               type="pagar"
