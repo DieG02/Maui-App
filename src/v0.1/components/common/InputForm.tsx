@@ -17,7 +17,7 @@ interface Props {
   required?: boolean;
 }
 
-const { textBlack, expense } = customStyles;
+const { textBlack, expense, secondaryColorBorder } = customStyles;
 
 const InputForm = ({
   keyboardType,
@@ -47,7 +47,7 @@ const InputForm = ({
         style={{
           height: 55,
           borderRadius: 12,
-          borderColor: "#EAEAEA",
+          borderColor: secondaryColorBorder,
           borderWidth: 1,
           display: "flex",
           alignItems: "center",

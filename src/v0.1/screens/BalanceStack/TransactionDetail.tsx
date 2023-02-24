@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, ToastAndroid, View } from "react-native";
 import React from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -7,7 +7,10 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
-import useGetContactById from "../../services/Contact/useGetContactById";
+
+import useDeleteExpense from "../../services/Expense/useDeleteExpense";
+import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
+import { queryClient } from "../../utils/queryClient";
 
 // TODO: Refactor this component
 interface Props {
@@ -19,9 +22,40 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
 
-  const handleOnPress = () => {
-    navigation.navigate('EditIncome', {item: params?.item});
-  }
+  const flag = params?.item.category.name !== "Venta";
+
+  const showToast = () => {
+    if (flag) {
+      ToastAndroid.show(
+        "El egreso fue eliminado satisfactoriamente",
+        ToastAndroid.SHORT
+      );
+    } else {
+      ToastAndroid.show(
+        "El ingreso fue eliminado satisfactoriamente",
+        ToastAndroid.SHORT
+      );
+    }
+  };
+
+  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.item.id, {
+    onSuccess() {
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries("Transactions");
+    },
+  });
+  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
+    onSuccess() {
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries("Transactions");
+    },
+  });
+
+  const handleDelete = () => {
+    flag ? deleteExpense() : deleteIncome();
+  };
 
   return (
     <ScreenContainer>
@@ -29,6 +63,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
+        onPressDelete={handleDelete}
       />
       <ScrollContainer>
         <View
@@ -77,8 +112,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           label="Total"
           value={
             params?.item.category.name === "Venta"
-              ? `$${params?.item.value}`
-              : `-$${params?.item.value}`
+              ? `${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
+              
+              : `-${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
           }
         />
 
@@ -105,7 +147,6 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       >
         <Button
           text="Editar"
-          onPress={handleOnPress}
           style={{
             backgroundColor: textBlue,
             width: width - 60,

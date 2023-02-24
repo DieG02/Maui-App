@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 import AuthProvider from "./src/v0.1/context/AuthContext";
 import GeneralProvider from "./src/v0.1/context/GeneralContext";
 import HomeTabs from "./src/v0.1/navigation/HomeTabs";
@@ -31,6 +31,7 @@ import NewContact from "./src/v0.1/screens/ContactStack/NewContact";
 // DEBT STACK
 import DebtsScreen from "./src/v0.1/screens/DebtStack/Debts";
 import DebtorScreen from "./src/v0.1/screens/DebtStack/DebtorProfile";
+import { queryClient } from "./src/v0.1/utils/queryClient";
 
 // v0.2
 
@@ -42,7 +43,6 @@ import DebtorScreen from "./src/v0.1/screens/DebtStack/DebtorProfile";
 // import NewProduct from "./src/v0.2/InventoryStack/NewProduct";
 
 const Stack = createNativeStackNavigator();
-const queryClient = new QueryClient();
 
 const App = () => {
   return (

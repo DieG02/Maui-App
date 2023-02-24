@@ -9,12 +9,12 @@ import Contact from "react-native-vector-icons/MaterialIcons";
 import { NavigationProp } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../context/AuthContext";
-import { useQueryClient } from "react-query";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import ProfileBadge from "../../components/Library/ProfileBadge";
 import customStyles from "../../styles/customStyles";
 import useGetAccount from "../../services/Account/useGetAccount";
+import { queryClient } from "../../utils/queryClient";
 
 const { textBlack } = customStyles;
 const statusBarStyle = "dark-content";
@@ -42,8 +42,6 @@ const More = ({ navigation }: Props) => {
 
     return unsubscribe;
   }, [navigation]);
-
-  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     await AsyncStorage.clear();

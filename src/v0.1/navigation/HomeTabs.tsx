@@ -15,6 +15,7 @@ import useGetTransactions from "../services/Transactions/useGetAllTransactions";
 import useGetMonthlyStats from "../services/Balance/useGetStats";
 import useGetBalance from "../services/Balance/useGetBalance";
 import useGetAccount from "../services/Account/useGetAccount";
+import useGetAllContacts from "../services/Contacts/useGetAllContacts";
 
 const { mainColor, disabled } = customStyles;
 
@@ -25,13 +26,14 @@ const HomeTabs = () => {
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingAccount = useGetAccount().isLoading;
+  const isFetchingContacts = useGetAllContacts().isLoading;
 
   const isLoading =
     isFetchingTransactions ||
     isFetchingGetMonthlyState ||
     isFetchingBalance ||
-    isFetchingAccount;
-
+    isFetchingAccount ||
+    isFetchingContacts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }

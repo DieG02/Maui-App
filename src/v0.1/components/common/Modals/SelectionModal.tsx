@@ -10,7 +10,6 @@ const { mainColor, textBlack, textLight, secondaryColorBorder, expense } =
 interface Props {
   value: string;
   name?: string;
-  setValue: (value: string) => void;
   placeholder?: string;
   marginBottom?: number;
   marginTop?: number;

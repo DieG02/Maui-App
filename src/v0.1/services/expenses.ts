@@ -7,12 +7,13 @@ import {
 } from "../../../../Maui-Backend/src/controllers/types";
 import { getUserAuthenticationHeader } from "../requests";
 
-export const createNewExpense = async (data: createExpenseBodyInputDto) =>
+export const createNewExpense = async (data: createExpenseBodyInputDto) => {
   await MauiApi.post<createExpenseResponseDto>("/createNewExpense", data, {
     headers: {
       Authorization: await getUserAuthenticationHeader(),
     },
   }).then((res) => res.data);
+};
 
 export const editExpense = async (
   expenseId: string,
