@@ -19,6 +19,7 @@ import SignUpScreen from "./src/v0.1/screens/AuthStack/SignUpScreen";
 // BALANCE STACK
 import NewIncome from "./src/v0.1/screens/BalanceStack/NewIncome";
 import NewExpense from "./src/v0.1/screens/BalanceStack/NewExpense";
+import EditExpense from "./src/v0.1/screens/BalanceStack/EditExpense";
 import TransactionDetail from "./src/v0.1/screens/BalanceStack/TransactionDetail";
 
 // CONTACT STACK
@@ -56,6 +57,7 @@ const App = () => {
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="NewIncome" component={NewIncome} />
               <Stack.Screen name="NewExpense" component={NewExpense} />
+              <Stack.Screen name="EditExpense" component={EditExpense}/>
               <Stack.Screen name="DebtsModal" component={DebtsModal} />
               <Stack.Screen
                 name="TransactionDetail"
