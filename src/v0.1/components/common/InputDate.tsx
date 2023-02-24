@@ -47,9 +47,9 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
     }
   }
   
-    useEffect(()=>{
-      clasifyDate(date);
-    },[date])
+  useEffect(()=>{
+    clasifyDate(date);
+  },[date])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);

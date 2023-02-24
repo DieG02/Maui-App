@@ -45,13 +45,20 @@ const Consumers = ({ navigation, route }: Props) => {
   }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
-    if (route.params !== undefined) {
+    if (route.params?.screen === 'EditIncome') {
+      navigation.navigate({
+        name: "EditIncome",
+        params: { contact: item },
+        merge: true,
+      });
+    } else if(route.params?.screen === 'NewIncome'){
       navigation.navigate({
         name: "NewIncome",
         params: { contact: item },
         merge: true,
       });
-    } else {
+    }
+    else {
       navigation.navigate("ContactDetail", { contact: item });
     }
   };

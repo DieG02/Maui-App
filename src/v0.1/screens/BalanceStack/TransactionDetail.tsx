@@ -7,6 +7,7 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
@@ -57,7 +58,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag?navigation.navigate('EditExpense', {expense:params?.item}):console.log('no es un gasto la trasanccion');
+    flag?navigation.navigate('EditExpense', {expense:params?.item}) : navigation.navigate('EditIncome', {income: params?.item})
   }
 
   return (
