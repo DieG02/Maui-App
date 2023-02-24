@@ -46,7 +46,7 @@ const validateOptions: ValidateOptions = {
 const EditIncome = ({ navigation, route }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
-  
+
   const {params} = route;
   const {data:clients} = useGetAllContacts();
 
@@ -98,7 +98,7 @@ const EditIncome = ({ navigation, route }: Props) => {
   };
   const { mutateAsync, isLoading } = useEditIncome(params?.income.id, {
     paymentMethod: handlePayment(values.paymentMethod),
-    providerId: route.params?.contact ? route.params?.contact?.id : params?.income.providerId,
+    clientId: route.params?.contact ? route.params?.contact?.id : params?.income.clientId,
     date: values.date,
     isPaid: values.isPaid,
   },
@@ -239,7 +239,7 @@ const EditIncome = ({ navigation, route }: Props) => {
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Editar ingreso"
+          text="Guardar cambios"
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
             borderRadius: 25,
