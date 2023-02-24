@@ -288,7 +288,7 @@ const EditExpense = ({ navigation, route }: Props) => {
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Editar egreso"
+          text="Guardar cambios"
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
             borderRadius: 25,
