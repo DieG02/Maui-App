@@ -209,7 +209,7 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.navigate("Clients", { screen: "NewIncome" });
           }}
           onPressClose={() => {
-            setValues((prev) => ({ ...prev, client: "" }));
+            setValues((prev) => ({ ...prev, clientId: "" }));
             navigation.setParams({ contact: "" });
           }}
         />

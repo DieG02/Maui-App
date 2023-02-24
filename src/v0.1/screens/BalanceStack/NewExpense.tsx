@@ -251,7 +251,7 @@ const NewExpense = ({ navigation, route }: Props) => {
               navigation.navigate("Providers", { screen: "NewExpense" });
             }}
             onPressClose={() => {
-              setValues((prev) => ({ ...prev, clientId: "" }));
+              setValues((prev) => ({ ...prev, providerId: "" }));
               navigation.setParams({ contact: "" });
             }}
           />
