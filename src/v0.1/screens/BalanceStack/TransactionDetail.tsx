@@ -58,7 +58,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag ? console.log('no es un ingreso la transaccion') : navigation.navigate('EditIncome', {income: params?.item})
+    flag?navigation.navigate('EditExpense', {expense:params?.item}) : navigation.navigate('EditIncome', {income: params?.item})
   }
 
   return (

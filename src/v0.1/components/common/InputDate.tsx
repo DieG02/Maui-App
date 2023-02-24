@@ -34,19 +34,19 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-const clasifyDate = (date: string) => {
-  if (date === TODAY) {
-    setDate(TODAY);
-    setIsOpen(true);
-  } else if (date === YESTERDAY) {
-    setDate(YESTERDAY);
-    setIsOpen(true);
-  } else {
-    setDate(date);
-    setIsOpen(false);
+  const clasifyDate = (date: string) => {
+    if (date === TODAY) {
+      setDate(TODAY);
+      setIsOpen(true);
+    } else if (date === YESTERDAY) {
+      setDate(YESTERDAY);
+      setIsOpen(true);
+    } else {
+      setDate(date);
+      setIsOpen(false);
+    }
   }
-}
-
+  
   useEffect(()=>{
     clasifyDate(date);
   },[date])
