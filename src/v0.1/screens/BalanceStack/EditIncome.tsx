@@ -19,6 +19,8 @@ import useCreateIncome from "../../services/Incomes/useCreateIncome";
 import useForm from "../../hooks/useForm";
 import usePayment from "../../hooks/usePayment";
 import Form from "../../components/Library/Form";
+import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
+import useEditIncome from "../../services/Incomes/useEditIncome";
 
 // TODO:Refactor this component
 
@@ -31,15 +33,6 @@ interface Props {
 
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const initialValues: InitialIncome = {
-  value: "",
-  name: "",
-  clientId: "",
-  isPaid: STATE["PAGADO"].value,
-  paymentMethod: paymentMethods["CASH"].es,
-  date: TODAY,
-};
-
 interface ValidateOptions {
   isPaid: string[];
   isPending: string[];
@@ -50,20 +43,40 @@ const validateOptions: ValidateOptions = {
   isPending: ["value", "clientId"],
 };
 
-const NewIncome = ({ navigation, route }: Props) => {
+const EditIncome = ({ navigation, route }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
-  const { values, setValues, validateValues } =
-    useForm<InitialIncome>(initialValues);
+  const {params} = route;
+  const {data:clients} = useGetAllContacts();
 
   const {
     handlePayment,
+    handlePaymentName,
     handleSelected,
     handleState,
     stateOptions,
     paymentsOptions,
   } = usePayment();
+
+  const handleClient = ( clientId: string, data: any[]) =>{
+    const client = data.find(
+      (contact: { id: string }) => contact.id === clientId
+    );
+    return client ? client.name : null;
+  }
+
+  const initialValues: InitialIncome = {
+    value: String(params?.income.value),
+    name: params?.income.name,
+    clientId: handleClient(params?.income.clientId, clients),
+    isPaid: params?.income.isPaid,
+    paymentMethod:  handlePaymentName(params?.income.paymentMethod),
+    date: params?.income.date,
+  };
+
+  const { values, setValues, validateValues } =
+  useForm<InitialIncome>(initialValues);
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -83,16 +96,12 @@ const NewIncome = ({ navigation, route }: Props) => {
       ToastAndroid.TOP
     );
   };
-
-  const { mutateAsync, isLoading } = useCreateIncome(
-    {
-      ...values,
-      name:
-        values.name !== "" ? values.name : `Venta ${moment.parseZone().unix()}`,
-      value: parseFloat(values.value.replace(".", "").replace(",", ".")),
-      paymentMethod: handlePayment(values.paymentMethod),
-      clientId: route.params?.contact?.id,
-    },
+  const { mutateAsync, isLoading } = useEditIncome(params?.income.id, {
+    paymentMethod: handlePayment(values.paymentMethod),
+    clientId: route.params?.contact ? route.params?.contact?.id : params?.income.clientId,
+    date: values.date,
+    isPaid: values.isPaid,
+  },
     {
       onSuccess: () => {
         navigation.goBack();
@@ -115,7 +124,7 @@ const NewIncome = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <StatusBar backgroundColor={mainColor} />
       <BackHeaderTitle
-        label="Nuevo Ingreso"
+        label="Editar Ingreso"
         onPressBack={() => navigation.goBack()}
         hasType
         color={mainColor}
@@ -206,7 +215,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={values.clientId}
           marginBottom={20}
           onPress={() => {
-            navigation.navigate("Clients", { screen: "NewIncome" });
+            navigation.navigate("Clients", { screen: "EditIncome" });
           }}
           onPressClose={() => {
             setValues((prev) => ({ ...prev, clientId: "" }));
@@ -230,7 +239,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Registrar ingreso"
+          text="Guardar cambios"
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
             borderRadius: 25,
@@ -240,4 +249,4 @@ const NewIncome = ({ navigation, route }: Props) => {
     </ScreenContainer>
   );
 };
-export default NewIncome;
+export default EditIncome;

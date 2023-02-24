@@ -23,11 +23,19 @@ const usePayment = () => {
     return selected;
   };
 
+  const handlePaymentName = (value: string) => {
+    const selected = Object.values(paymentMethods).find(
+      (payment) => payment.en === value
+    )?.es as string;
+    return selected;
+  };
+
   return {
     stateOptions,
     paymentsOptions,
     handleState,
     handlePayment,
+    handlePaymentName,
     handleSelected,
   };
 };

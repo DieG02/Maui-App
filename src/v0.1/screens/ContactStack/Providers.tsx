@@ -46,7 +46,13 @@ const Providers = ({ navigation, route }: Props) => {
   }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
-    if (route.params !== undefined) {
+    if (route.params?.screen === 'EditExpense') {
+      navigation.navigate({
+        name: "EditExpense",
+        params: { contact: item },
+        merge: true,
+      });
+    } else if(route.params?.screen === 'NewExpense'){
       navigation.navigate({
         name: "NewExpense",
         params: { contact: item },

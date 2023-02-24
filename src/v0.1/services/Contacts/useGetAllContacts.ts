@@ -13,6 +13,7 @@ export const getAllContacts = async () => {
   return response.data;
 };
 
-const useGetAllContacts = (options?: UseQueryOptions) =>
-  useQuery([QUERY_NAME] as QueryKey, getAllContacts, options);
+const useGetAllContacts = (
+  options?: UseQueryOptions<getAllContactsResponseDto>
+) => useQuery([QUERY_NAME] as QueryKey, getAllContacts, options);
 export default useGetAllContacts;

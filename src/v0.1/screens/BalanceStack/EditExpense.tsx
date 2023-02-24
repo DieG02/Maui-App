@@ -21,12 +21,12 @@ import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import customStyles from "../../styles/customStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
 import useForm from "../../hooks/useForm";
-import { STATE, paymentMethods } from "../../utils/payment";
 import usePayment from "../../hooks/usePayment";
-import useCreateExpense from "../../services/Expenses/useCreateExpense";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCategories";
 import Form from "../../components/Library/Form";
+import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
+import useEditExpense from "../../services/Expense/useEditExpense";
 
 const { width } = Dimensions.get("window");
 
@@ -38,16 +38,6 @@ interface Props {
 
 const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const initialValues: InitialExpense = {
-  value: "",
-  name: "",
-  providerId: "",
-  categoryId: "",
-  isPaid: STATE["PAGADO"].value,
-  paymentMethod: paymentMethods["CASH"].es,
-  date: TODAY,
-};
-
 interface ValidateOptions {
   isPaid: string[];
   isPending: string[];
@@ -58,21 +48,56 @@ const validateOptions: ValidateOptions = {
   isPending: ["value", "providerId", "categoryId"],
 };
 
-const NewExpense = ({ navigation, route }: Props) => {
+const EditExpense = ({ navigation, route }: Props) => {
+  const {params} = route;
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-
-  const { values, setValues, validateValues } =
-    useForm<InitialExpense>(initialValues);
-
+  
+  const { data } = useGetExpenseCategories();
+  const {data:providers} = useGetAllContacts();
   const {
     handlePayment,
+    handlePaymentName,
     handleSelected,
     handleState,
     stateOptions,
     paymentsOptions,
   } = usePayment();
+
+  const handleIdCategory = (expense: string, data: any[]) => {
+    const category = data.find(
+      (category: { name: string }) => category.name === expense
+    );
+    return category ? category.id : null;
+  };
+
+  const handleNameCategory = (expenseId: string, data: any[]) => {
+    const category = data.find(
+      (category: { id: string }) => category.id === expenseId
+    );
+    return category ? category.name : null;
+  };
+
+  const handleProvider = ( providerId: string, data: any[]) =>{
+    const provider = data.find(
+      (contact: { id: string }) => contact.id === providerId
+    );
+    return provider ? provider.name : null;
+  }
+
+  const initialValues: InitialExpense = {
+    value: String(params?.expense.value),
+    name: params?.expense.name,
+    providerId: handleProvider(params?.expense.providerId, providers),
+    categoryId: handleNameCategory(params?.expense.categoryId, data),
+    isPaid: params?.expense.isPaid,
+    paymentMethod: handlePaymentName(params?.expense.paymentMethod),
+    date: params?.expense.date,
+  };
+
+  const { values, setValues, validateValues } =
+    useForm<InitialExpense>(initialValues);
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -88,15 +113,6 @@ const NewExpense = ({ navigation, route }: Props) => {
     }
   }, [route.params?.contact]);
 
-  const { data } = useGetExpenseCategories();
-
-  const handleIdCategory = (expense: string, data: any[]) => {
-    const category = data.find(
-      (category: { name: string }) => category.name === expense
-    );
-    return category ? category.id : null;
-  };
-
   const showToast = () => {
     ToastAndroid.showWithGravity(
       "La transacción fue creada satisfactoriamente",
@@ -105,15 +121,13 @@ const NewExpense = ({ navigation, route }: Props) => {
     );
   };
 
-  const { mutateAsync, isLoading } = useCreateExpense(
-    {
-      ...values,
-      name: values.name !== "" ? values.name : values.categoryId,
-      value: parseFloat(values.value.replace(".", "").replace(",", ".")),
-      paymentMethod: handlePayment(values.paymentMethod),
-      providerId: route.params?.contact?.id,
-      categoryId: data && handleIdCategory(values.categoryId, data),
-    },
+  const { mutateAsync, isLoading } = useEditExpense(params?.expense.id, {
+    paymentMethod: handlePayment(values.paymentMethod),
+    providerId: route.params?.contact ? route.params?.contact?.id : params?.expense.providerId,
+    categoryId: data && handleIdCategory(values.categoryId, data),
+    date: values.date,
+    isPaid: values.isPaid,
+  },
     {
       onSuccess: () => {
         navigation.goBack();
@@ -124,7 +138,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const handleSubmit = () => {
     if (validateValues(toValidate)) {
-      mutateAsync();
+        mutateAsync();
     }
   };
 
@@ -136,7 +150,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <StatusBar backgroundColor="#E8F1FD" />
       <BackHeaderTitle
-        label="Nuevo Egreso"
+        label="Editar Egreso"
         onPressBack={() => navigation.goBack()}
         headerStyle={{ backgroundColor: "#E8F1FD" }}
       />
@@ -248,7 +262,7 @@ const NewExpense = ({ navigation, route }: Props) => {
             value={values.providerId}
             marginBottom={20}
             onPress={() => {
-              navigation.navigate("Providers", { screen: "NewExpense" });
+              navigation.navigate("Providers", { screen: "EditExpense" });
             }}
             onPressClose={() => {
               setValues((prev) => ({ ...prev, providerId: "" }));
@@ -274,7 +288,7 @@ const NewExpense = ({ navigation, route }: Props) => {
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Registrar egreso"
+          text="Guardar cambios"
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
             borderRadius: 25,
@@ -284,4 +298,4 @@ const NewExpense = ({ navigation, route }: Props) => {
     </ScreenContainer>
   );
 };
-export default NewExpense;
+export default EditExpense;

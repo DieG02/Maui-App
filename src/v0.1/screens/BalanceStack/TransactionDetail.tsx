@@ -7,6 +7,7 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
+
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
@@ -55,6 +56,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const handleDelete = () => {
     flag ? deleteExpense() : deleteIncome();
   };
+
+  const handleOnPress = () => {
+    flag?navigation.navigate('EditExpense', {expense:params?.item}) : navigation.navigate('EditIncome', {income: params?.item})
+  }
 
   return (
     <ScreenContainer>
@@ -111,8 +116,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           label="Total"
           value={
             params?.item.category.name === "Venta"
-              ? `$${params?.item.value}`
-              : `-$${params?.item.value}`
+              ? `${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
+              
+              : `-${params?.item.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}`
           }
         />
 
@@ -143,6 +155,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             backgroundColor: textBlue,
             width: width - 60,
           }}
+          onPress={handleOnPress}
         />
       </View>
     </ScreenContainer>
