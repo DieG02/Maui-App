@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { View, StatusBar } from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { View, StatusBar, ToastAndroid } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import InputDate from "../../components/common/InputDate";
+import moment from "moment";
 import "moment-timezone";
-import { useQueryClient } from "react-query";
-import { PaymentMethod } from "../../../../../Maui-Backend/node_modules/@prisma/client";
 import Button from "../../components/common/Button";
-import ScrollContainer from "../../components/containers/ScrollContainer";
+// import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import customStyles from "../../styles/customStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
-import { editIncomeBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
+import LoadingComponent from "../../components/Library/LoadingComponent";
+import { paymentMethods, STATE } from "../../utils/payment";
+import useCreateIncome from "../../services/Incomes/useCreateIncome";
+import useForm from "../../hooks/useForm";
+import usePayment from "../../hooks/usePayment";
+import Form from "../../components/Library/Form";
+import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import useEditIncome from "../../services/Incomes/useEditIncome";
-import useGetContactById from "../../services/Contact/useGetContactById";
-import moment from "moment-timezone";
+
+// TODO:Refactor this component
 
 const { marginHorizontal, mainColor, width } = customStyles;
 
@@ -26,70 +31,94 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
-const paymentMethods: { name: string; value: PaymentMethod }[] = [
-  { name: "Efectivo", value: "CASH" },
-  { name: "Tarjeta", value: "CARD" },
-  { name: "Transferencia", value: "BANK_TRANSFER" },
-  { name: "Otro", value: "OTHER" },
-];
+const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
-const STATE = ["Pagado", "Deuda"];
+interface ValidateOptions {
+  isPaid: string[];
+  isPending: string[];
+}
+
+const validateOptions: ValidateOptions = {
+  isPaid: ["value"],
+  isPending: ["value", "clientId"],
+};
 
 const EditIncome = ({ navigation, route }: Props) => {
-  const {params} = route;
-  const [operation, setOpetarion] = useState(params?.item);
-
-  const getPaymentMethod = (arr: Array<any>, value:string, key:string, result: string): PaymentMethod => {
-    return arr.find((item) => item[key] === value)?.[result];
-  };
-
-  const { data:contact } = useGetContactById(operation.clientId);
-
-  const [client, setClient] = useState({
-    name: contact?.name,
-    id: contact?.id,
-  });
-  const [isPaid, setIsPaid] = useState(operation.isPaid?"Pagado":"Deuda");
-  const [paymentMethod, setPaymentMethod] = useState(getPaymentMethod(paymentMethods, operation.paymentMethod, 'value', 'name'));
-  const [isValidForm, setIsValidForm] = useState(false);
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
+  
+  const {params} = route;
+  const {data:clients} = useGetAllContacts();
 
-  const queryClient = useQueryClient();
+  const {
+    handlePayment,
+    handlePaymentName,
+    handleSelected,
+    handleState,
+    stateOptions,
+    paymentsOptions,
+  } = usePayment();
 
-  const data: editIncomeBodyInputDto = {
-    value: operation.value,
-    name: operation.name !== "" ? operation.name : `Venta ${moment.parseZone().unix()}`,
-    isPaid: isPaid === "Pagado",
-    date: operation.date,
-    paymentMethod: getPaymentMethod(paymentMethods, paymentMethod, 'name', 'value'),
-    clientId: client.id,
+  const handleClient = ( clientId: string, data: any[]) =>{
+    const client = data.find(
+      (contact: { id: string }) => contact.id === clientId
+    );
+    return client ? client.name : null;
   }
 
-  const {mutateAsync: editIncome} = useEditIncome(params?.item.id, data, 
-    {
-      onSuccess(){
-        navigation.goBack();
-        queryClient.invalidateQueries("Transactions");
-        queryClient.invalidateQueries("Balance");
-        queryClient.invalidateQueries("Monthly_Stats");
-      }
-    });
-  useEffect(() => {
-    if (params?.contact) {
-      setClient({
-        name: params?.contact.name,
-        id:params?.contact.id
-      });
-    }
-  }, [params?.contact]);
+  const initialValues: InitialIncome = {
+    value: String(params?.income.value),
+    name: params?.income.name,
+    clientId: handleClient(params?.income.clientId, clients),
+    isPaid: params?.income.isPaid,
+    paymentMethod:  handlePaymentName(params?.income.paymentMethod),
+    date: params?.income.date,
+  };
+
+  const { values, setValues, validateValues } =
+  useForm<InitialIncome>(initialValues);
+
+  const toValidate = useMemo(
+    () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
+    [values.isPaid]
+  );
 
   useEffect(() => {
-    const isValidAmount = operation.value && operation.value !== 0;
-    const isValidTransaction =
-      isPaid === "Pagado" || (isPaid === "Deuda" && !!client);
-    setIsValidForm(isValidAmount && isValidTransaction && !!operation.date);
-  }, [operation.value, isPaid, client, operation.date]);
+    if (route.params?.contact) {
+      setValues((prev) => ({ ...prev, clientId: route.params?.contact.name }));
+    }
+  }, [route.params?.contact]);
+
+  const showToast = () => {
+    ToastAndroid.showWithGravity(
+      "La transacción fue creada satisfactoriamente",
+      ToastAndroid.LONG,
+      ToastAndroid.TOP
+    );
+  };
+  const { mutateAsync, isLoading } = useEditIncome(params?.income.id, {
+    paymentMethod: handlePayment(values.paymentMethod),
+    providerId: route.params?.contact ? route.params?.contact?.id : params?.income.providerId,
+    date: values.date,
+    isPaid: values.isPaid,
+  },
+    {
+      onSuccess: () => {
+        navigation.goBack();
+        showToast();
+      },
+    }
+  );
+
+  const handleSubmit = () => {
+    if (validateValues(toValidate)) {
+      mutateAsync();
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingComponent color={mainColor} />;
+  }
 
   return (
     <ScreenContainer>
@@ -100,13 +129,16 @@ const EditIncome = ({ navigation, route }: Props) => {
         hasType
         color={mainColor}
       />
-      <ScrollContainer>
+      <Form>
         <InputForm
           keyboardType="numeric"
           placeholder="0,00"
-          value={String(operation.value)}
+          value={values.value}
           name="Valor"
-          setValue={(item)=>setOpetarion({...operation, value:item})}
+          setValue={(val) => {
+            const newValue = !!val && val !== "NaN" ? val : "";
+            setValues((prev) => ({ ...prev, value: newValue }));
+          }}
           marginBottom={20}
           marginTop={15}
           required
@@ -115,10 +147,10 @@ const EditIncome = ({ navigation, route }: Props) => {
           placeholder="¿Como quieres llamar a este ingreso?"
           name="Descripción"
           marginBottom={20}
-          value={operation.name}
-          setValue={(item)=>setOpetarion({...operation, name:item})}
+          value={values.name}
+          setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
         />
-        {isPaid==='Pagado'? (
+        {values.isPaid === true ? (
           <View
             style={{
               display: "flex",
@@ -134,11 +166,13 @@ const EditIncome = ({ navigation, route }: Props) => {
             >
               <OptionModal
                 title="Estado"
-                options={STATE}
+                options={stateOptions}
                 isModalVisible={modalState}
                 setIsModalVisible={setModalState}
-                selectedOption={isPaid}
-                setSelectedOption={setIsPaid}
+                selectedOption={handleSelected(values.isPaid)}
+                setSelectedOption={(text) =>
+                  setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
+                }
               />
             </View>
             <View
@@ -149,46 +183,52 @@ const EditIncome = ({ navigation, route }: Props) => {
             >
               <OptionModal
                 title="Método de Pago"
-                options={paymentMethods.map((item) => item.name)}
+                options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={paymentMethod}
-                setSelectedOption={setPaymentMethod}
+                selectedOption={values.paymentMethod}
+                setSelectedOption={(text) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    paymentMethod: text,
+                  }))
+                }
               />
             </View>
           </View>
         ) : (
           <OptionModal
             title="Estado"
-            options={STATE}
+            options={stateOptions}
             isModalVisible={modalState}
             setIsModalVisible={setModalState}
-            selectedOption={isPaid}
-            setSelectedOption={setIsPaid}
+            selectedOption={handleSelected(values.isPaid)}
+            setSelectedOption={(text) =>
+              setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
+            }
           />
         )}
         <SelectionModal
           placeholder="Seleccione un cliente"
           name="Cliente"
-          required={isPaid === "Deuda"}
-          value={client.name}
-          setValue={(item)=>setClient({...client, name:item})}
+          required={values.isPaid === false}
+          value={values.clientId}
           marginBottom={20}
           onPress={() => {
             navigation.navigate("Clients", { screen: "EditIncome" });
           }}
           onPressClose={() => {
-            setClient({...client,name:"", id:""});
-            navigation.setParams({ contact: undefined });
+            setValues((prev) => ({ ...prev, clientId: "" }));
+            navigation.setParams({ contact: "" });
           }}
         />
         <InputDate
           name="Fecha"
-          date={operation.date}
-          setDate={(value)=>setOpetarion({...operation, date: value})}
+          date={values.date}
+          setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
           color={mainColor}
         />
-      </ScrollContainer>
+      </Form>
       <View
         style={{
           height: 80,
@@ -197,13 +237,12 @@ const EditIncome = ({ navigation, route }: Props) => {
         }}
       >
         <Button
-          disabled={!isValidForm}
-          onPress={()=>editIncome()}
-          text="Registrar venta"
+          disabled={!validateValues(toValidate)}
+          onPress={handleSubmit}
+          text="Editar ingreso"
           style={{
-            backgroundColor: isValidForm ? mainColor : "#B3B3B3",
+            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
             borderRadius: 25,
-            elevation: isValidForm ? 3 : 0,
           }}
         />
       </View>

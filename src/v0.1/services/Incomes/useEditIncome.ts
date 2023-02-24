@@ -11,5 +11,5 @@ const QUERY_NAME="editIncome"
   return response.data
 }
 
-const useEditIncome = (incomeId:string, data: editIncomeBodyInputDto, options?: UseMutationOptions) => useMutation([QUERY_NAME] as QueryKey, () => editIncome(incomeId, data), options)
+const useEditIncome = (incomeId:string, data: any, options?: UseMutationOptions) => useMutation([QUERY_NAME] as QueryKey, () => editIncome(incomeId, data), options)
 export default useEditIncome;
