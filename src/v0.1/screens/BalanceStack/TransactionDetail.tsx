@@ -56,6 +56,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     flag ? deleteExpense() : deleteIncome();
   };
 
+  const handleOnPress = () => {
+    flag?navigation.navigate('EditExpense', {expense:params?.item}):console.log('no es un gasto la trasanccion');
+  }
+
   return (
     <ScreenContainer>
       <BackHeaderTitle
@@ -150,6 +154,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             backgroundColor: textBlue,
             width: width - 60,
           }}
+          onPress={handleOnPress}
         />
       </View>
     </ScreenContainer>
