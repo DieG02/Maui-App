@@ -1,27 +1,21 @@
 import React from "react";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import customStyles from "../../styles/customStyles";
 import IncomeDebt from "./Income";
 import ExpenseDebt from "./Expense";
+import Header from "../../components/Library/Header";
 
 const { mainColor } = customStyles;
 
 const Tab = createMaterialTopTabNavigator();
 
-interface Props {
-  navigation: any
-}
-
-const Debts = ({
-  navigation
-}: Props) => {
-
+const Debts = () => {
   return (
     <ScreenContainer>
-      <BackHeaderTitle label="Deudas" onPressBack={navigation.goBack}/>
+      <Header label="Deudas" />
       <Tab.Navigator
+        overScrollMode="never"
         style={{ backgroundColor: "#fff" }}
         initialRouteName="Por Cobrar"
         screenOptions={{

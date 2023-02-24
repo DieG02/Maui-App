@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { TextInput, Text, View } from "react-native";
 import { separator, round } from "../../utils/math";
 import customStyles from "../../styles/customStyles";
@@ -7,8 +7,8 @@ interface Props {
   bottom?: number;
   keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
   placeholder: string;
-  value: number;
-  setValue: (value: number) => void;
+  value: string;
+  setValue: (value: string) => void;
   name: string;
   marginBottom?: number;
   marginTop?: number;
@@ -31,22 +31,6 @@ const InputForm = ({
   onSubmit,
   required,
 }: Props) => {
-
-  const [formattedValue, setFormattedValue] = useState("");
-
-  function onChangeText(text: string) {
-    if(!text) return setFormattedValue("");
-    if(text.slice(-1) === ",") return setFormattedValue(text);
-    const [integer, decimal = ""] = text.split(",");
-
-    const parsedInt = parseInt(integer.replace(/\./g, ''));
-    const parsedFloat = decimal ? decimal.slice(0, 2) : "";
-    const value = Number(`${parsedInt}.${parsedFloat}`);
-    
-    setValue(value);
-    setFormattedValue(parsedInt.toLocaleString("ES") + (parsedFloat ? "," + parsedFloat : ""));
-  }
-
   return (
     <View style={{ marginBottom, marginTop }}>
       <Text
@@ -89,8 +73,14 @@ const InputForm = ({
             color: textBlack,
             fontFamily: "Gilroy-Medium",
           }}
-          value={formattedValue}
-          onChangeText={onChangeText}
+          value={value}
+          onChangeText={(text) => {
+            const [integer, decimal] = text.split(",");
+            const formated =
+              separator(integer) + (decimal !== undefined ? "," + decimal : "");
+            if (formated.length <= 20) setValue(formated);
+          }}
+          onBlur={() => setValue(round(value))}
           placeholder={placeholder}
           keyboardType={keyboardType}
           maxLength={20}
