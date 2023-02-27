@@ -11,6 +11,7 @@ import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import Form from "../../components/Library/Form";
 import useForm from "../../hooks/useForm";
 import Button from "../../components/common/Button";
+import SecureInput from "../../components/common/SecureInput";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -77,7 +78,6 @@ export default function SignUpScreen({ navigation }: Props) {
             placeholder="Ingrese su nombre"
             keyboardType="default"
           />
-
           <CommonInput
             required
             name="Celular"
@@ -89,7 +89,6 @@ export default function SignUpScreen({ navigation }: Props) {
             placeholder="Ingrese su Celular"
             keyboardType="phone-pad"
           />
-
           <CommonInput
             required
             name="Email"
@@ -100,9 +99,9 @@ export default function SignUpScreen({ navigation }: Props) {
             keyboardType="email-address"
             autoCapitalize="none"
           />
-
-          <CommonInput
+          <SecureInput
             required
+            secureTextEntry={true}
             name="Contraseña"
             setValue={(text) =>
               setValues((prev) => ({ ...prev, password: text }))
@@ -110,30 +109,7 @@ export default function SignUpScreen({ navigation }: Props) {
             value={values.password}
             placeholder="Ingrese su contraseña"
             marginBottom={25}
-            autoCapitalize="none"
           />
-
-          {/* <TouchableOpacity
-            onPress={onPressSignUp}
-            style={{
-              backgroundColor: mainColor,
-              height: 55,
-              borderRadius: 12,
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 20,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontFamily: "Gilroy-Bold",
-                fontSize: 16,
-              }}
-            >
-              Crear cuenta
-            </Text>
-          </TouchableOpacity> */}
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressSignUp}

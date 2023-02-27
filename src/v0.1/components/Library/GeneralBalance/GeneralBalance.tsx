@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+import React from "react";
+import { Text, View } from "react-native";
+import useToogle from "../../../hooks/useToogle";
 import customStyles from "../../../styles/customStyles";
+import HiderComponent from "../../common/HiderComponent";
 import styles from "./style";
 
 const { textBlack } = customStyles;
@@ -12,22 +13,20 @@ interface Props {
 }
 
 const GeneralBalance = ({ data }: Props) => {
-  const [hide, setHide] = useState(false);
-
+  const {value, toogle} = useToogle();
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
         <Text style={styles.text}>Saldo General</Text>
-        <TouchableOpacity onPress={() => setHide(!hide)}>
-          {hide ? (
-            <Icon name="eye-off" size={30} color={textBlack} />
-          ) : (
-            <Icon name="eye" size={30} color={textBlack} />
-          )}
-        </TouchableOpacity>
+        <HiderComponent
+          size={30}
+          color={textBlack}
+          value={value}
+          toogle={toogle}
+        />
       </View>
       <View style={styles.container}>
-        {hide ? (
+        {value ? (
           <Text style={styles.textPrice}>$****</Text>
         ) : (
           <Text style={styles.textPrice}>

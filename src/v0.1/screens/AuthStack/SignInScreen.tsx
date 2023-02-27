@@ -12,6 +12,7 @@ import ScreenContainer from "../../components/containers/ScreenContainer";
 import Form from "../../components/Library/Form";
 import Button from "../../components/common/Button";
 import useForm from "../../hooks/useForm";
+import SecureInput from "../../components/common/SecureInput";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -73,8 +74,9 @@ export default function LoginScreen({ navigation }: Props) {
             setValue={(text) => setValues((prev) => ({ ...prev, email: text }))}
           />
 
-          <CommonInput
+          <SecureInput
             required
+            secureTextEntry={true}
             name="Contraseña"
             setValue={(text) =>
               setValues((prev) => ({ ...prev, password: text }))
@@ -82,7 +84,6 @@ export default function LoginScreen({ navigation }: Props) {
             value={values.password}
             placeholder="Ingrese su contraseña"
             marginBottom={25}
-            autoCapitalize="none"
           />
 
           <Button
