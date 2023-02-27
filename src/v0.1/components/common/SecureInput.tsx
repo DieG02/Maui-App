@@ -36,10 +36,9 @@ const SecureInput = ({
   secureTextEntry,
   marginBottom,
   marginTop,
-  required
+  required,
 }: Props) => {
-
-  const {value:isToogle, toogle} = useToogle();
+  const { value: isToogle, toogle } = useToogle();
 
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -55,10 +54,10 @@ const SecureInput = ({
       </Text>
       <View
         style={{
-          display:'flex',
-          flexDirection:'row',
-          flexWrap:'nowrap',
-          justifyContent:'space-between',
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          justifyContent: "space-between",
           borderRadius: 12,
           borderColor: secondaryColorBorder,
           borderWidth: 1,
@@ -71,30 +70,27 @@ const SecureInput = ({
           placeholder={placeholder}
           placeholderTextColor="#ACACAC"
           keyboardType={keyboardType}
-          secureTextEntry={!isToogle?secureTextEntry:!secureTextEntry}
+          secureTextEntry={!isToogle ? secureTextEntry : !secureTextEntry}
           style={{
             paddingHorizontal: 20,
             color: textBlack,
-            width:'80%'
+            width: "80%",
           }}
+          autoCapitalize="none"
         />
         <TouchableOpacity
+          onPress={toogle}
           style={{
-            width:'20%',
-            justifyContent: 'center',
-            alignItems: 'center',
+            width: "20%",
+            justifyContent: "center",
+            alignItems: "center",
             borderLeftWidth: 1,
             borderLeftColor: secondaryColorBorder,
           }}
         >
-          <HiderComponent
-            size={20}
-            color={textBlack}
-            value={isToogle}
-            toogle={toogle}
-          />
+          <HiderComponent size={20} color={textBlack} value={isToogle} />
         </TouchableOpacity>
-        </View>
+      </View>
     </View>
   );
 };

@@ -1,23 +1,17 @@
-import { TouchableOpacity } from 'react-native';
+import React from "react";
 import Icon from "react-native-vector-icons/Feather";
-import React from 'react';
 
 interface Props {
-  size:number,
-  color:string,
-  value:boolean,
-  toogle:()=>void,
+  size: number;
+  color: string;
+  value: boolean;
 }
-const HiderComponent = ({size, color, value, toogle}:Props) => {
-  return (
-    <TouchableOpacity onPress={toogle}>
-      {value ? (
-        <Icon name="eye-off" size={size} color={color} />
-      ) : (
-        <Icon name="eye" size={size} color={color} />
-      )}
-    </TouchableOpacity>
-  )
-}
+const HiderComponent = ({ size, color, value }: Props) => {
+  return value ? (
+    <Icon name="eye-off" size={size} color={color} />
+  ) : (
+    <Icon name="eye" size={size} color={color} />
+  );
+};
 
 export default HiderComponent;
