@@ -23,18 +23,18 @@ interface Item {
         ownerId: string;
         expenseDebtIds: any[];
     }
-} 
+}
 
-const DebtTypes = ({ items }: { items?: Item[]}) => {
-    return(
+const DebtTypes = ({ items }: { items?: Item[] }) => {
+    return (
         <View style={{
             flex: 1,
             backgroundColor: background,
             paddingTop: 20,
-          }}
+        }}
         >
             <ScrollView showsVerticalScrollIndicator={false}>
-                {items?.map(item => (<DebtTypeCard data={item}/>))}
+                {items?.map(item => <DebtTypeCard key={item.item.id} data={item} />)}
             </ScrollView>
         </View>
     )

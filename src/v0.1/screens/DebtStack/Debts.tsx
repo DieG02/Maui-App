@@ -17,7 +17,6 @@ const Debts = () => {
       <Tab.Navigator
         overScrollMode="never"
         style={{ backgroundColor: "#fff" }}
-        initialRouteName="Por Cobrar"
         screenOptions={{
           tabBarStyle: {
             elevation: 0,
