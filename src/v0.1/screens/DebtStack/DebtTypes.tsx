@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, ScrollView } from "react-native";
 import DebtTypeCard from "../../components/common/DebtTypeCard";
 import customStyles from "../../styles/customStyles";
-import { useNavigation } from "@react-navigation/native";
 
 const { background } = customStyles;
 
+enum PaymentMethods {
+    CASH,
+    CARD,
+}
 
 interface Item {
-    item?: {
-        icon: String
-        title: String
-        subtitle: String
-        value: Number | String
-        method: "Tarjeta" | "Efectivo" | String
+    item: {
+        id: string;
+        icon?: string;
+        value: number;
+        name: string;
+        date: string;
+        categoryId: string;
+        isPaid: boolean;
+        paymentMethod: PaymentMethods;
+        ownerId: string;
+        expenseDebtIds: any[];
     }
 } 
-const DebtTypes = ({ items }: { items?: Item[]}) => {
 
+const DebtTypes = ({ items }: { items?: Item[]}) => {
     return(
         <View style={{
             flex: 1,
@@ -26,14 +34,7 @@ const DebtTypes = ({ items }: { items?: Item[]}) => {
           }}
         >
             <ScrollView showsVerticalScrollIndicator={false}>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
-                <DebtTypeCard/>
+                {items?.map(item => (<DebtTypeCard data={item}/>))}
             </ScrollView>
         </View>
     )

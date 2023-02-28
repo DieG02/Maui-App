@@ -1,17 +1,25 @@
-export const income = {
-    id: "1",
-    name: "Danilo Bautista",
-    purchases: "",
-    sales: "1",
-    price: "$1100",
-    date: "12 de junio",
-  }
-  
-export const expense = {
-    id: "2",
-    name: "Diego Bautista",
-    purchases: "2",
-    sales: "",
-    price: "$1400",
-    date: "14 de Diciembre",
-  }
+import MauiApi from "../clientProvider";
+import { getUserAuthenticationHeader } from "../requests";
+
+export const getAllIncomeDebts = async () => {
+  return await MauiApi.get("/getAllIncomeDebts/", {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+}
+
+export const getAllExpenseDebts = async () =>
+  await MauiApi.get("/getAllExpenseDebts/", {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+
+
+export const getAllExpenses = async () =>
+  await MauiApi.get("/getAllExpenses/", {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);

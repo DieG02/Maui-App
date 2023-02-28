@@ -1,22 +1,50 @@
-import React from "react";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import SummaryDebt from "../../components/common/SummaryDebt";
+import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
-import customStyles from "../../styles/customStyles";
-import DebtContactCard from "../../components/common/DebtContactCard";
-import { income, expense } from "../../services/debts";
+import { useQuery } from "react-query";
 import { useNavigation } from "@react-navigation/native";
 
-const { background } = customStyles;
+import SummaryDebt from "../../components/common/SummaryDebt";
+import DebtContactCard from "../../components/common/DebtContactCard";
+import customStyles from "../../styles/customStyles";
+import { getAllIncomeDebts } from "../../services/debts";
 
+const { background } = customStyles;
 interface Props {
   navigation: any
 }
 
 const IncomeDebt = () => {
     const navigation = useNavigation();
-  
+    const [income, setIncomes] = useState<IDebtContact[]>([]);
+    const [summary, setSummary] = useState<any>({
+      amount: null,
+      stakeholders: null,
+    });
+
+    const {
+      data,
+      isLoading
+    } = useQuery("clients", getAllIncomeDebts, {
+      onSuccess(data: IncomeDebt[]) {
+        let total = 0;
+        const parser = data.map((debt): IDebtContact => {
+          total += debt.totalPrice;
+          return {
+            id: debt.id,
+            name: debt.clientName,
+            sales: debt.sales, 
+            date: debt.startingDate,
+            totalPrice: debt.totalPrice 
+          }
+        });
+        setSummary({ 
+          amount: total,
+          stakeholders: data.length
+        });
+        setIncomes(parser);
+      },
+    });
+
     return (
       <View
         style={{
@@ -30,15 +58,20 @@ const IncomeDebt = () => {
             backgroundColor: background,
           }}
         >
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={income} type="client" onPress={() => {}} />
-          <DebtContactCard data={expense} type="provider" onPress={() => navigation.navigate("DebtorScreen")} />
+          {income.map((debt: any, i: number) => (
+            <DebtContactCard
+              data={debt}
+              type="client"
+              onPress={() => navigation.navigate("DebtorScreen")}
+              key={i}
+            />
+          ))}
         </ScrollView>
-        <SummaryDebt type="income" amount={3500} clients={6} />
+        <SummaryDebt
+          type="income"
+          amount={summary.amount}
+          stakeholders={summary.stakeholders}
+        />
       </View>
     );
 };

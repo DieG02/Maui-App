@@ -10,13 +10,13 @@ const { width, textBlack, textLight } = customStyles;
 interface Props {
   type: string; // "income" || "expense"
   amount: number;
-  clients: number;
+  stakeholders: number;
 }
 
 const SummaryDebt = ({
   type,
   amount,
-  clients
+  stakeholders
 }: Props) => {
   return (
     <View
@@ -33,7 +33,7 @@ const SummaryDebt = ({
         Total a {`${type === "income" ? "cobrar" : "pagar" }`}:
       </Text>
       <Text style={{ color: "white" }}>
-        ${amount} de {clients} {`${type === "income" ? "Clientes" : "Provedores" }`}:
+        ${amount} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores" }`}:
       </Text>
     </View>
   );
