@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import SummaryDebt from "../../components/common/SummaryDebt";
-import { View } from "react-native";
+import { View, FlatList, RefreshControl } from "react-native";
 import { useQuery } from "react-query";
 import { getAllExpenseDebts } from "../../services/debts";
 import customStyles from "../../styles/customStyles";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import { useNavigation } from "@react-navigation/native";
-import ScrollRefreshContainer from "../../components/containers/ScrollRefreshContainer";
+import useRefresh from "../../hooks/useRefresh";
 
-const { background } = customStyles;
+const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
   const { push } = useNavigation<any>();
   const [expenses, setExpenses] = useState<IDebtContact[]>([]);
-  const [summary, setSummary] = useState<any>({
-    amount: null,
-    stakeholders: null,
-  });
+  const [summary, setSummary] = useState<Summary>();
 
   const { refetch } = useQuery("expenseDebts", getAllExpenseDebts, {
     onSuccess(data: ExpenseDebt[]) {
@@ -38,30 +35,45 @@ const ExpenseDebt = () => {
       setExpenses(parser);
     },
   });
+  const { refreshing, handleRefresh } = useRefresh(refetch)
 
   return (
-    <View
-      style={{
-        flex: 1,
+    <View style={{
+      flex: 1,
+      backgroundColor: background,
+    }}>
+      <View style={{
+        marginTop: 20,
         backgroundColor: background,
-      }}
-    >
-      <ScrollRefreshContainer refetch={refetch}
-        style={{ marginTop: 20 }}>
-        {expenses.map((debt: any) => (
-          <DebtContactCard
-            data={debt}
-            type="provider"
-            onPress={() => push("DebtorScreen", { expenseId: debt.id })}
-            key={debt.id}
-          />
-        ))}
-      </ScrollRefreshContainer>
-      <SummaryDebt
-        type="expense"
-        amount={summary.amount?.toLocaleString("es")}
-        stakeholders={summary.stakeholders}
-      />
+        flex: 1
+      }}>
+        <FlatList data={expenses}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={[mainColor]}
+            />
+          }
+          keyExtractor={item => item.id}
+          renderItem={({ item }) =>
+            <DebtContactCard
+              type="provider"
+              onPress={() => push("DebtorScreen", { expenseId: item.id, name: item.name })}
+              name={item.name}
+              date={item.date}
+              purchases={item.purchases as string}
+              sales={item.sales}
+              totalPrice={item.totalPrice} />
+          } />
+      </View>
+      {summary && (
+        <SummaryDebt
+          type="expense"
+          amount={summary?.amount}
+          stakeholders={summary?.stakeholders}
+        />
+      )}
     </View>
   );
 };

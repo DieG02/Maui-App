@@ -9,6 +9,15 @@ export const getAllIncomeDebts = async () => {
   }).then((res) => res.data);
 }
 
+export const getIncomeDebtById = async (id: string) => {
+  if (!id) return
+  return await MauiApi.get<IncomeData>("/getIncomeDebt/" + id, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data);
+}
+
 export const getAllExpenseDebts = async () =>
   await MauiApi.get("/getAllExpenseDebts/", {
     headers: {
@@ -23,3 +32,12 @@ export const getAllExpenses = async () =>
       Authorization: await getUserAuthenticationHeader(),
     },
   }).then((res) => res.data);
+
+export const getExpenseById = async (id: string) => {
+  if (!id) return
+  return await MauiApi.get<ExpenseData>("/getExpenseDebt/" + id, {
+    headers: {
+      Authorization: await getUserAuthenticationHeader(),
+    },
+  }).then((res) => res.data)
+}

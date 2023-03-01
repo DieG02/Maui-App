@@ -6,18 +6,22 @@ import Right from "react-native-vector-icons/Entypo";
 import moment from "moment";
 import 'moment/locale/es';
 
-const { mainColor, textBlack, background, secondaryColor, expense, income } =
-  customStyles;
+const { mainColor, textBlack, background, secondaryColor, expense, income } = customStyles;
+
 interface Props {
-  data: IDebtContact;
   type: string;
   onPress: () => void;
+  date: string
+  sales: number
+  purchases: string
+  totalPrice: number
+  name: string
 }
 
-const DebtContactCard = ({ data, type, onPress }: Props) => {
+const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, name }: Props) => {
 
   moment.locale("es");
-  const formattedDate = moment(data.date).format('D [de] MMMM');
+  const formattedDate = moment(date).format('D [de] MMMM');
 
   const renderTypeContact = () => {
     switch (type) {
@@ -43,14 +47,14 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
       case "client": {
         return (
           <Text style={styles.descriptionType}>
-            Ventas: {data.sales}
+            Ventas: {sales}
           </Text>
         );
       }
       case "provider": {
         return (
           <Text style={styles.descriptionType}>
-            Compras: {data.purchases}
+            Compras: {purchases}
           </Text>
         );
       }
@@ -62,14 +66,14 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
       case "client": {
         return (
           <Text style={[styles.label, { color: income }]}>
-            ${data.totalPrice?.toLocaleString("es")}
+            ${totalPrice?.toLocaleString("es")}
           </Text>
         );
       }
       case "provider": {
         return (
           <Text style={[styles.label, { color: expense }]}>
-            ${data.totalPrice?.toLocaleString("es")}
+            ${totalPrice?.toLocaleString("es")}
           </Text>
         );
       }
@@ -116,7 +120,7 @@ const DebtContactCard = ({ data, type, onPress }: Props) => {
         {renderTypeContact()}
         <View style={{ alignSelf: "center" }}>
           <Text style={[styles.label, { color: textBlack }]}>
-            {data.name}
+            {name}
           </Text>
           {renderTypeDescription()}
         </View>

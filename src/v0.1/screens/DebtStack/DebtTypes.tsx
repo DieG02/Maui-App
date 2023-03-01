@@ -1,41 +1,41 @@
-import React, { useContext } from "react";
-import { View, ScrollView } from "react-native";
+import { View, FlatList } from "react-native";
 import DebtTypeCard from "../../components/common/DebtTypeCard";
 import customStyles from "../../styles/customStyles";
 
 const { background } = customStyles;
 
-enum PaymentMethods {
-    CASH,
-    CARD,
+interface Props {
+    data?: IncomeOrExpense[]
+    paidData?: Payments[]
 }
 
-interface Item {
-    item: {
-        id: string;
-        icon?: string;
-        value: number;
-        name: string;
-        date: string;
-        categoryId: string;
-        isPaid: boolean;
-        paymentMethod: PaymentMethods;
-        ownerId: string;
-        expenseDebtIds: any[];
-    }
-}
+const DebtTypes = ({ data, paidData }: Props) => {
 
-const DebtTypes = ({ items }: { items?: Item[] }) => {
     return (
         <View style={{
             flex: 1,
             backgroundColor: background,
             paddingTop: 20,
-        }}
-        >
-            <ScrollView showsVerticalScrollIndicator={false}>
-                {items?.map(item => <DebtTypeCard key={item.item.id} data={item} />)}
-            </ScrollView>
+        }}>
+            {
+                data ?
+                    <FlatList data={data}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) =>
+                            <DebtTypeCard name={item.name}
+                                value={item.value}
+                                createdAt={item.createdAt} />
+                        } /> :
+                    <FlatList
+                        data={paidData}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) =>
+                            <DebtTypeCard value={item.amount}
+                                createdAt={item.paidAt}
+                                paymentMethod={item.paymentMethod} />
+                        } />
+            }
+
         </View>
     )
 }

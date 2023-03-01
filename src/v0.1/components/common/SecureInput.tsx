@@ -2,7 +2,7 @@ import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import customStyles from "../../styles/customStyles";
 import HiderComponent from "./HiderComponent";
-import useToogle from "../../hooks/useToogle";
+import useToogle from "../../hooks/useToggle";
 
 const { textBlack, expense, secondaryColorBorder } = customStyles;
 
@@ -12,12 +12,12 @@ interface Props {
   setValue: (value: string) => void;
   placeholder?: string;
   keyboardType?:
-    | "default"
-    | "email-address"
-    | "numeric"
-    | "phone-pad"
-    | "decimal-pad"
-    | "number-pad";
+  | "default"
+  | "email-address"
+  | "numeric"
+  | "phone-pad"
+  | "decimal-pad"
+  | "number-pad";
 
   marginBottom?: number;
   marginTop?: number;

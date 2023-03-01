@@ -1,69 +1,47 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { View, Text, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Button from "../../components/common/Button";
 import customStyles from "../../styles/customStyles";
 import { useQuery } from "react-query";
-import { getAllExpenses } from "../../services/debts";
+import { getExpenseById, getIncomeDebtById } from "../../services/debts";
 import { NavigationProp } from "@react-navigation/native";
 import DebtTypes from "./DebtTypes";
 import RepayModal from "../../components/common/Modals/RepayModal";
 
+const Tab = createMaterialTopTabNavigator();
+
 interface Props {
     navigation: NavigationProp<any, any>;
     route: {
-        key: string;
-        name: string;
-        params: null | { expenseId: string };
+        params: {
+            name: string,
+            expenseId: string,
+            incomeId: string
+        };
     };
 }
 
 const { mainColor, expense, secondaryColor, orange } = customStyles;
-const Tab = createMaterialTopTabNavigator();
 
 const DebtorProfile = ({ navigation, route }: Props) => {
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const toggleModal = (): void => setShowModal(!showModal);
-    const [value, setValue] = useState<string>("");
-    const [comments, setComments] = useState<string>("");
-    const [date, setDate] = useState<string>("");
-    const [paidValue, setPaidValue] = useState({
-        total: 0,
-        current: 0,
-        percent: 0,
-    });
-
-    const { data } = useQuery("allExpenses", getAllExpenses);
+    const [paidValue, setPaidValue] = useState(0);
     const expenseId = route.params?.expenseId;
-    const profileDebtor = useMemo(() => {
-        return data?.filter((debt: any) => debt.expenseDebtIds[0] === expenseId);
-    }, [data, expenseId]);
-
-    const DebtComponent = () => {
-        return (
-            <DebtTypes items={profileDebtor?.filter((val: any) => !val.isPaid)} />
-        )
-    };
-    const PayComponent = () => {
-        return (
-            <DebtTypes items={profileDebtor?.filter((val: any) => !!val.isPaid)} />
-        )
-    };
+    const incomeId = route.params?.incomeId;
+    const { data: incomeData } = useQuery(["incomeData", incomeId], () => getIncomeDebtById(incomeId))
+    const { data } = useQuery(["expense", expenseId], () => getExpenseById(expenseId))
 
     useEffect(() => {
-        let total: number = 0, current: number = 0;
-        profileDebtor?.map(({ value, isPaid }: { value: number, isPaid: boolean }) => {
-            total += value;
-            if (isPaid) current += value;
-        })
-        setPaidValue({
-            percent: Math.floor(current / total * 100),
-            total,
-            current,
-        })
-    }, [profileDebtor]);
+        const paid = (incomeData || data)?.amountPaid
+        const total = (incomeData || data)?.totalAmount
+        if (paid && total) setPaidValue(Number(((paid / total) * 100).toFixed(2)))
+    }, [incomeData, data])
+
+    const DebtComponent = () => <DebtTypes data={incomeData?.incomes || data?.expenses} />
+
+    const PayComponent = () => <DebtTypes paidData={data?.payments} />
 
     const styles = StyleSheet.create({
         body: {
@@ -94,7 +72,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
         },
         progressBar: {
             backgroundColor: orange,
-            width: paidValue.percent <= 10 ? "10%" : paidValue.percent + "%",
+            width: paidValue <= 10 ? "10%" : paidValue + "%",
             position: "absolute",
             borderRadius: 10,
             height: "100%",
@@ -108,26 +86,28 @@ const DebtorProfile = ({ navigation, route }: Props) => {
             color: "white",
         }
     });
+
     return (
         <ScreenContainer>
-            <BackHeaderTitle label="Estaban Gonzalez" onPressBack={navigation.goBack} />
+            <BackHeaderTitle label={route.params.name} onPressBack={navigation.goBack} />
             <View style={styles.body}>
                 <View style={styles.cardContainer}>
                     <View style={styles.cardLabel}>
                         <Text>Abonado</Text>
                         <Text style={{ fontWeight: "bold", color: "#191919" }}>
-                            <Text style={{ color: expense }}>${paidValue?.current}</Text> / ${paidValue?.total}
+                            <Text style={{ color: expense }}>
+                                ${(incomeData || data)?.amountPaid}
+                            </Text> / ${(incomeData || data)?.totalAmount}
                         </Text>
                     </View>
                     <View style={styles.progressBarBase}>
                         <View style={styles.progressBar}>
                             <Text style={styles.processBarLabel}>
-                                {paidValue.percent}%
+                                {paidValue}%
                             </Text>
                         </View>
                     </View>
                 </View>
-
                 <Tab.Navigator
                     style={{ backgroundColor: "#fff" }}
                     screenOptions={{
@@ -150,13 +130,12 @@ const DebtorProfile = ({ navigation, route }: Props) => {
                             borderRadius: 15,
                             height: 45,
                         },
-                    }}
-                >
+                    }}>
                     <Tab.Screen name="Deuda" component={DebtComponent} />
                     <Tab.Screen name="Abonado" component={PayComponent} />
                 </Tab.Navigator>
                 <Button
-                    onPress={() => setShowModal(!showModal)}
+                    onPress={() => { }}
                     text="Abonar"
                     style={{ backgroundColor: mainColor }}
                 />

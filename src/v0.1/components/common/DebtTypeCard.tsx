@@ -1,37 +1,23 @@
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
 import 'moment/locale/es';
 
-enum PaymentMethods {
-    CASH,
-    CARD,
+interface Props {
+    createdAt: Date
+    name?: string
+    value: number
+    paymentMethod?: PaymentMethods
+    icon?: string
 }
 
-interface Item {
-    data: {
-        id: string;
-        icon?: string;
-        value: number;
-        name: string;
-        date: string;
-        createdAt: string;
-        categoryId: string;
-        isPaid: boolean;
-        paymentMethod: PaymentMethods;
-        ownerId: string;
-        expenseDebtIds: any[];
-    }
-} 
-
-const DebtTypeCard = ({ data }: Item) => {
+const DebtTypeCard = ({ createdAt, name, value, paymentMethod, icon }: Props) => {
     moment.locale("es");
-    const formattedDate = moment(data.createdAt).format('DD [de] MMMM');
+    const formattedDate = moment(createdAt).format('DD [de] MMMM');
     const methods: any = {
         "CASH": "Efectivo",
         "CARD": "Tarjeta"
     }
-    
+
     const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
@@ -67,15 +53,15 @@ const DebtTypeCard = ({ data }: Item) => {
     return (
         <View style={styles.container}>
             <View style={styles.icon}>
-                <Text>{data?.icon}</Text>
+                <Text>{icon && icon}</Text>
             </View>
             <View style={styles.content}>
-                <Text style={styles.mainContent}>{data.name}</Text>
+                <Text style={styles.mainContent}>{name || 'Se pago'}</Text>
                 <Text style={styles.subContent}>{formattedDate}</Text>
             </View>
             <View style={styles.payment}>
-                <Text style={styles.mainContent}>${data.value}</Text>
-                <Text style={styles.subContent}>{methods[data.paymentMethod]}</Text>
+                <Text style={styles.mainContent}>${value}</Text>
+                <Text style={styles.subContent}>{paymentMethod && methods[paymentMethod]}</Text>
             </View>
         </View>
     )

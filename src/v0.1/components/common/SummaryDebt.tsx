@@ -30,10 +30,10 @@ const SummaryDebt = ({
       }}
     >
       <Text style={{ fontWeight: "bold", color: "white" }}>
-        Total a {`${type === "income" ? "cobrar" : "pagar" }`}:
+        Total a {`${type === "income" ? "cobrar" : "pagar"}`}
       </Text>
       <Text style={{ color: "white" }}>
-        ${amount} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores" }`}:
+        ${amount?.toLocaleString("es")} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores"}`}
       </Text>
     </View>
   );
