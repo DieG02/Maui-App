@@ -1,4 +1,4 @@
-import { View, StatusBar, ToastAndroid, Text } from "react-native";
+import { View, StatusBar, ToastAndroid, Text, TouchableOpacity } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import React, { useState } from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -13,9 +13,11 @@ import { useMutation } from "react-query";
 import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
+import Pencil from "react-native-vector-icons/Entypo";
+import ImagePicker from 'react-native-image-crop-picker';
 
 const statusBarStyle = "dark-content";
-const { mainColor, textBlack } = customStyles;
+const { mainColor, textBlack, background2 } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -33,6 +35,7 @@ const UserData = ({ navigation, route }: Props) => {
     name: form.name,
     address: form.address,
   };
+  console.log('form:', form);
 
   const showToast = () => {
     ToastAndroid.show(
@@ -51,6 +54,17 @@ const UserData = ({ navigation, route }: Props) => {
     }
   );
 
+  const pickImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+      setForm({ ...form, image: image.path })
+    });
+  }
+
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }
@@ -63,7 +77,29 @@ const UserData = ({ navigation, route }: Props) => {
       />
       <Form>
         <Spacer height={10} />
-        <ImageProfile url={form.image} name={form.name} />
+        <View>
+          <ImageProfile
+            url={form.image}
+            name={form.name}
+          />
+          <TouchableOpacity
+            style={{
+              top: -30,
+              marginHorizontal: "55%",
+              borderRadius: 50,
+              backgroundColor: background2,
+              width: 35,
+              height: 35,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: -30
+            }}
+            onPress={pickImage}
+          >
+            <Pencil name='pencil' size={18} color={mainColor} />
+          </TouchableOpacity>
+        </View>
         <Spacer height={10} />
         <CommonInput
           value={form.name}
