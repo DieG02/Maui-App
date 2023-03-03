@@ -15,6 +15,7 @@ import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
 import Pencil from "react-native-vector-icons/Entypo";
 import ImagePicker from 'react-native-image-crop-picker';
+import ImageModal from "../../components/common/Modals/ImageModal";
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack, background2 } = customStyles;
@@ -29,13 +30,17 @@ const UserData = ({ navigation, route }: Props) => {
   const [form, setForm] = useState(params?.data);
   const email = params?.email;
   const isChanged = JSON.stringify(form) !== JSON.stringify(params?.data);
+  const [isVisible, setVisible] = useState(false);
+
+  const toggleModal = () => {
+    setVisible(!isVisible);
+  };
 
   const data: editUserAccountBodyInputDto = {
     cellPhone: form.cellPhone,
     name: form.name,
     address: form.address,
   };
-  console.log('form:', form);
 
   const showToast = () => {
     ToastAndroid.show(
@@ -54,15 +59,33 @@ const UserData = ({ navigation, route }: Props) => {
     }
   );
 
-  const pickImage = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true
-    }).then(image => {
-      console.log(image);
+  const pickImage = async () => {
+    try {
+      const image = await ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true
+      })
       setForm({ ...form, image: image.path })
-    });
+      toggleModal();
+    } catch (error) {
+      console.log(error);
+      toggleModal();
+    }
+  }
+  const takePhoto = async () => {
+    try {
+      const image = await ImagePicker.openCamera({
+        width: 300,
+        height: 400,
+        cropping: true
+      })
+      setForm({ ...form, image: image.path })
+      toggleModal()
+    } catch (error) {
+      console.log(error);
+      toggleModal()
+    }
   }
 
   if (isLoading) {
@@ -95,9 +118,15 @@ const UserData = ({ navigation, route }: Props) => {
               alignItems: "center",
               marginBottom: -30
             }}
-            onPress={pickImage}
+            onPress={toggleModal}
           >
             <Pencil name='pencil' size={18} color={mainColor} />
+            <ImageModal
+              isVisible={isVisible}
+              setVisible={toggleModal}
+              takePhoto={takePhoto}
+              pickImage={pickImage}
+            />
           </TouchableOpacity>
         </View>
         <Spacer height={10} />
@@ -153,7 +182,11 @@ const UserData = ({ navigation, route }: Props) => {
             text="Guardar"
             onPress={() => editAccount()}
             disabled={!isChanged}
-            style={{ backgroundColor: isChanged ? mainColor : "#B3B3B3" }}
+            style={{
+              backgroundColor: isChanged ? mainColor : "#B3B3B3",
+              marginBottom: 30,
+              marginTop: 10
+            }}
           />
         </View>
       </Form>
