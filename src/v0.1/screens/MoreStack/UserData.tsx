@@ -16,6 +16,7 @@ import Form from "../../components/Library/Form";
 import Pencil from "react-native-vector-icons/Entypo";
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageModal from "../../components/common/Modals/ImageModal";
+import { checkCameraPermission, requestCameraPermission } from '../../requests'
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack, background2 } = customStyles;
@@ -24,6 +25,23 @@ interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
+
+const openCamera = async () => {
+  const photo = await ImagePicker.openCamera({
+    width: 300,
+    height: 400,
+    cropping: true
+  });
+
+  return photo;
+};
+
+const showToast = () => {
+  ToastAndroid.show(
+    "Tu cuenta fue editada satisfactoriamente",
+    ToastAndroid.SHORT
+  );
+};
 
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route;
@@ -40,13 +58,6 @@ const UserData = ({ navigation, route }: Props) => {
     cellPhone: form.cellPhone,
     name: form.name,
     address: form.address,
-  };
-
-  const showToast = () => {
-    ToastAndroid.show(
-      "Tu cuenta fue editada satisfactoriamente",
-      ToastAndroid.SHORT
-    );
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -72,16 +83,21 @@ const UserData = ({ navigation, route }: Props) => {
       console.log(error);
       toggleModal();
     }
-  }
+  };
+
   const takePhoto = async () => {
     try {
-      const image = await ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        cropping: true
-      })
-      setForm({ ...form, image: image.path })
-      toggleModal()
+      const hasPermission = await checkCameraPermission();
+      if (hasPermission){
+        const image = await openCamera()
+        setForm({ ...form, image: image.path })
+        toggleModal()
+      } else {
+        await requestCameraPermission();
+        const image = await openCamera()
+        setForm({ ...form, image: image.path })
+        toggleModal()
+      }
     } catch (error) {
       console.log(error);
       toggleModal()
