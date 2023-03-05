@@ -52,3 +52,10 @@ type ExpenseDebt = {
   totalPrice: number,
   startingDate: string
 }
+
+type CountryItem = {
+  id: string,
+  flag: string,
+  name: string,
+  prefix: string
+}
