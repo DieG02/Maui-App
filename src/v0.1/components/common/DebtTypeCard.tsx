@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
 import 'moment/locale/es';
+import customStyles from "../../styles/customStyles";
 
 interface Props {
     createdAt: Date
@@ -10,6 +11,8 @@ interface Props {
     icon?: string
 }
 
+const { secondaryColor, textBlack, textLight } = customStyles
+
 const DebtTypeCard = ({ createdAt, name, value, paymentMethod, icon }: Props) => {
     moment.locale("es");
     const formattedDate = moment(createdAt).format('DD [de] MMMM');
@@ -18,38 +21,6 @@ const DebtTypeCard = ({ createdAt, name, value, paymentMethod, icon }: Props) =>
         "CARD": "Tarjeta"
     }
 
-    const styles = StyleSheet.create({
-        container: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginHorizontal: 5,
-            marginBottom: 15,
-        },
-        icon: {
-            minWidth: 50,
-            minHeight: 50,
-            borderRadius: 25,
-            backgroundColor: "#F8F8F8",
-            justifyContent: "center",
-            alignItems: "center",
-        },
-        content: {
-            flex: 1,
-            paddingHorizontal: 10,
-        },
-        mainContent: {
-            color: "#191919",
-            fontWeight: "bold"
-        },
-        subContent: {
-            color: "#BDC0C3",
-        },
-        payment: {
-            width: "20%",
-            alignItems: "flex-end",
-        }
-    });
     return (
         <View style={styles.container}>
             <View style={styles.icon}>
@@ -60,11 +31,48 @@ const DebtTypeCard = ({ createdAt, name, value, paymentMethod, icon }: Props) =>
                 <Text style={styles.subContent}>{formattedDate}</Text>
             </View>
             <View style={styles.payment}>
-                <Text style={styles.mainContent}>${value}</Text>
+                <Text style={styles.mainContent}>
+                    {value.toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                    })}</Text>
                 <Text style={styles.subContent}>{paymentMethod && methods[paymentMethod]}</Text>
             </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginHorizontal: 5,
+        marginBottom: 15,
+    },
+    icon: {
+        minWidth: 50,
+        minHeight: 50,
+        borderRadius: 25,
+        backgroundColor: secondaryColor,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    content: {
+        flex: 1,
+        paddingHorizontal: 10,
+    },
+    mainContent: {
+        color: textBlack,
+        fontWeight: "bold"
+    },
+    subContent: {
+        color: textLight,
+    },
+    payment: {
+        width: "20%",
+        alignItems: "flex-end",
+    }
+})
 
 export default DebtTypeCard;

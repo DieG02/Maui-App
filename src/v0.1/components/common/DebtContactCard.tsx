@@ -13,7 +13,7 @@ interface Props {
   onPress: () => void;
   date: string
   sales: number
-  purchases: string
+  purchases?: string
   totalPrice: number
   name: string
 }
@@ -54,7 +54,7 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
       case "provider": {
         return (
           <Text style={styles.descriptionType}>
-            Compras: {purchases}
+            Compras: {purchases && purchases}
           </Text>
         );
       }

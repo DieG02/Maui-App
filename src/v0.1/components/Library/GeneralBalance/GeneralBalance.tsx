@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import useToogle from "../../../hooks/useToggle";
+import useToggle from "../../../hooks/useToggle";
 import customStyles from "../../../styles/customStyles";
 import HiderComponent from "../../common/HiderComponent";
 import styles from "./style";
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const GeneralBalance = ({ data }: Props) => {
-  const { value, toogle } = useToogle();
+  const { value, toggle } = useToggle();
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -22,7 +22,7 @@ const GeneralBalance = ({ data }: Props) => {
           size={30}
           color={textBlack}
           value={value}
-          toogle={toogle}
+          toogle={toggle}
         />
       </View>
       <View style={styles.container}>

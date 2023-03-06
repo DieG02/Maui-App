@@ -1,16 +1,12 @@
-import { View, TextInput, Text } from "react-native";
-import Icon from "../../components/common/Icon";
-import Close from "react-native-vector-icons/AntDesign";
+import { View, Text } from "react-native"
+import customStyles from "../../styles/customStyles"
 
-import React from "react";
-import customStyles from "../../styles/customStyles";
-
-const { width, textBlack, textLight } = customStyles;
+const { textBlue, white } = customStyles
 
 interface Props {
-  type: string; // "income" || "expense"
-  amount: number;
-  stakeholders: number;
+  type: "income" | "expense"
+  amount: number
+  stakeholders: number
 }
 
 const SummaryDebt = ({
@@ -22,21 +18,24 @@ const SummaryDebt = ({
     <View
       style={{
         height: 60,
-        backgroundColor: "#7888A8",
+        backgroundColor: textBlue,
         flexDirection: "column",
         display: "flex",
         paddingHorizontal: 20,
         justifyContent: "center",
       }}
     >
-      <Text style={{ fontWeight: "bold", color: "white" }}>
+      <Text style={{ fontWeight: "bold", color: white }}>
         Total a {`${type === "income" ? "cobrar" : "pagar"}`}
       </Text>
-      <Text style={{ color: "white" }}>
-        ${amount?.toLocaleString("es")} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores"}`}
+      <Text style={{ color: white }}>
+        {amount?.toLocaleString("es-AR", {
+          style: "currency",
+          currency: "ARS",
+        })} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores"}`}
       </Text>
     </View>
-  );
-};
+  )
+}
 
 export default SummaryDebt;
