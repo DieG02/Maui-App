@@ -31,7 +31,7 @@ const DebtTypeCard = ({ createdAt, name, value, paymentMethod, icon }: Props) =>
                 <Text style={styles.subContent}>{formattedDate}</Text>
             </View>
             <View style={styles.payment}>
-                <Text style={styles.mainContent}>
+                <Text style={styles.mainContent} numberOfLines={1}>
                     {value.toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",

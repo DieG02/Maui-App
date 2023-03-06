@@ -16,6 +16,7 @@ interface IncomeOrExpense {
     createdAt: Date,
     paidAt: string,
     value: number
+    url?: string
 }
 
 interface DebtData {

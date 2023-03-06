@@ -10,6 +10,7 @@ import { NavigationProp } from "@react-navigation/native";
 import DebtTypes from "./DebtTypes";
 import RepayModal from "../../components/common/Modals/RepayModal";
 import DebtPaidDetail from "./DebtPaidDetail";
+import PaymentTypes from "./PaymentTypes";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,7 +35,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
 
     const DebtComponent = () => <DebtTypes data={incomeData?.incomes || data?.expenses} />
 
-    const PayComponent = () => <DebtTypes paidData={data?.payments} />
+    const PayComponent = () => <PaymentTypes paidData={data?.payments} />
 
     return (
         <ScreenContainer>
