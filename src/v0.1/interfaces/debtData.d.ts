@@ -1,12 +1,14 @@
 enum PaymentMethods {
-    CASH,
-    CARD,
+    CASH = "Efectivo",
+    CARD = "Tarjeta",
+    BANK_TRANSFER = "Transferencia",
+    OTHER = "Otro"
 }
 
 interface Payments {
-    amount: number,
+    amount: number | string,
     id: string,
-    paidAt: Date,
+    paidAt: Date | string,
     paymentMethod: PaymentMethods
 }
 

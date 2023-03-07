@@ -2,7 +2,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { View } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import Button from "../../components/common/Button";
 import customStyles from "../../styles/customStyles";
 import { useQuery } from "react-query";
 import { getExpenseById, getIncomeDebtById } from "../../services/debts";
@@ -11,6 +10,8 @@ import DebtTypes from "./DebtTypes";
 import RepayModal from "../../components/common/Modals/RepayModal";
 import DebtPaidDetail from "./DebtPaidDetail";
 import PaymentTypes from "./PaymentTypes";
+import CustomModal from "../../components/common/Modals/CustomModal";
+import { useMemo } from "react";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,6 +33,13 @@ const DebtorProfile = ({ navigation, route }: Props) => {
     const incomeId = route.params?.incomeId;
     const { data: incomeData } = useQuery(["incomeData", incomeId], () => getIncomeDebtById(incomeId))
     const { data } = useQuery(["expense", expenseId], () => getExpenseById(expenseId))
+    const payValue = useMemo(() => {
+        const paid = (incomeData || data)?.amountPaid
+        const total = (incomeData || data)?.totalAmount
+        if (paid && total) {
+            return (total - paid).toLocaleString("es")
+        } else return total?.toLocaleString("es")
+    }, [incomeData, data])
 
     const DebtComponent = () => <DebtTypes data={incomeData?.incomes || data?.expenses} />
 
@@ -73,21 +81,9 @@ const DebtorProfile = ({ navigation, route }: Props) => {
                     <Tab.Screen name="Deuda" component={DebtComponent} />
                     <Tab.Screen name="Abonado" component={PayComponent} />
                 </Tab.Navigator>
-                <Button
-                    onPress={() => { }}
-                    text="Abonar"
-                    style={{ backgroundColor: mainColor }}
-                />
-                {/* <RepayModal
-                    isModalVisible={showModal}
-                    setIsModalVisible={toggleModal}
-                    value={value}
-                    setValue={setValue}
-                    comments={comments}
-                    setComments={setComments}
-                    date={date}
-                    setDate={setDate}
-                /> */}
+                <CustomModal title="Abonar">
+                    <RepayModal amount={payValue || ""} id={incomeId || expenseId} />
+                </CustomModal>
             </View>
         </ScreenContainer>
     )

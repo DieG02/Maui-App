@@ -1,126 +1,89 @@
-import React from "react";
-import Modal from "react-native-modal";
-import { View, ScrollView } from "react-native";
-import CommonInput from "../CommonInput";
+import { View } from "react-native";
 import InputForm from "../../../components/common/InputForm";
 import Button from "../Button";
 import customStyles from "../../../styles/customStyles";
-import { createContactBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
-import { useMutation } from "react-query";
-import ScrollContainer from "../../../components/containers/ScrollContainer";
 import InputDate from "../../../components/common/InputDate";
 import OptionModal from "../../../components/common/OptionModal";
 import { useNavigation } from "@react-navigation/native";
+import useForm from "../../../hooks/useForm";
+import moment from "moment";
+import usePayment from "../../../hooks/usePayment";
+import useToggle from "../../../hooks/useToggle";
 
-import { createNewContact } from "../../../services/contacts";
-import { NavigationProp } from "@react-navigation/native";
-
-const { mainColor, income } = customStyles;
-
+enum PaymentMethods {
+  CASH = "Efectivo",
+  CARD = "Tarjeta",
+  BANK_TRANSFER = "Transferencia",
+  OTHER = "Otro"
+}
 interface Props {
-  isModalVisible: boolean;
-  setIsModalVisible: (value: boolean) => void;
-  value: string,
-  setValue: (str: any) => void,
-  date: string,
-  setDate: (str: any) => void;
-  comments?: string;
-  setComments?: (value: string) => void;
-  screen?: string;
-  type?: createContactBodyInputDto["typeOfContact"];
-  navigation: NavigationProp<any, any>;
+  amount: string
+  id: string
 }
 
-const RepayModal = ({
-  isModalVisible,
-  setIsModalVisible,
-  value,
-  setValue,
-  comments,
-  setComments,
-  date,
-  setDate,
-  type,
-  screen,
-}: Props) => {
+const { mainColor, income, white } = customStyles
+const today = moment.parseZone().format("DD-MM-YYYY")
 
-  const navigation: any = useNavigation();
+const RepayModal = ({ amount, id }: Props) => {
+  const navigation: any = useNavigation()
+  const { value, toggle } = useToggle(false);
+  const { values, setValues, validateValues } = useForm<Payments>({
+    amount,
+    paidAt: today,
+    id,
+    paymentMethod: PaymentMethods.CASH
+  })
+  const { handlePayment, paymentsOptions } = usePayment();
 
-  const handleOnPress = (data: IContact) => {
-    if (screen === "NewIncome") {
-      navigation.navigate("NewIncome", { contact: data });
+  const handleSubmit = () => {
+    const toValidate = Object.keys(values)
+    if (validateValues(toValidate)) {
+      // mutateAsync()
     }
-    if (screen === "NewExpense") {
-      navigation.navigate("NewExpense", { contact: data });
-    } else {
-      type.toUpperCase() === "CLIENT"
-        ? navigation.navigate("Clients", { contact: data })
-        : navigation.navigate("Providers", { contact: data });
-    }
-  };
-
-
+  }
 
   return (
-    <Modal
-      isVisible={isModalVisible}
-      useNativeDriverForBackdrop={true}
-      // onBackdropPress={() => setIsModalVisible(false)}
-      // onSwipeComplete={() => setIsModalVisible(false)}
-      // onBackButtonPress={() => setIsModalVisible(false)}
-    >
-      <View
-        style={{
-          backgroundColor: "white",
-          padding: 20,
-          borderRadius: 15,
+    <View style={{
+      backgroundColor: white,
+      padding: 20,
+      borderRadius: 15,
+    }}>
+      <InputForm
+        keyboardType="numeric"
+        placeholder="0,00"
+        value={values.amount as string}
+        name="Valor"
+        setValue={val => {
+          const newValue = !!val && val !== "NaN" ? val : "";
+          setValues((prev) => ({ ...prev, amount: newValue }));
         }}
-      >
-          <InputForm
-            keyboardType="numeric"
-            placeholder="0,00"
-            value={"30"}
-            name="Valor"
-            setValue={(val) => "35"
-              // !!val && val !== "NaN" ? setAmount(val) : setAmount("")
-            }
-            marginBottom={20}
-            marginTop={15}
-            required
-          />
-          <CommonInput
-            placeholder="¿Como quieres llamar a este ingreso?"
-            name="Descripción"
-            marginBottom={20}
-            // value={"text"}
-            setValue={() => {}}
-          />
-          <OptionModal
-            title="Método de Pago"
-            // options={paymentMethods.map((item) => item.name)}
-            // isModalVisible={modalPayment}
-            // setIsModalVisible={setModalPayment}
-            // selectedOption={paymentMethod}
-            // setSelectedOption={setPaymentMethod}
-          />
-          <InputDate
-            name="Fecha"
-            date={"25-01-2023"}
-            setDate={() => {}}
-            color={income}
-            // style={{ display: "flex", width: "100%", margin: 10 }}
-          />
-
-          <Button 
-            text="Crear Abono"
-            style={{ 
-              backgroundColor: mainColor,
-              marginTop: 25
-            }}
-          />
-      </View>
-    </Modal>
-  );
+        marginBottom={20}
+        marginTop={15}
+        required />
+      <OptionModal title="Método de Pago"
+        options={paymentsOptions}
+        isModalVisible={value}
+        setIsModalVisible={toggle}
+        selectedOption={values.paymentMethod}
+        setSelectedOption={(text) =>
+          setValues(prev => ({
+            ...prev,
+            //@ts-ignore
+            paymentMethod: PaymentMethods[handlePayment(text)]
+          }))
+        } />
+      <InputDate name="Fecha"
+        date={values.paidAt as string}
+        setDate={date => setValues(prev => ({ ...prev, paidAt: date }))}
+        color={income} />
+      <Button text="Crear Abono"
+        onPress={handleSubmit}
+        style={{
+          backgroundColor: mainColor,
+          marginTop: 25
+        }} />
+    </View>
+  )
 };
 
 export default RepayModal;
