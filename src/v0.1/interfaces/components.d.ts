@@ -38,11 +38,11 @@ interface IDebtContact {
 }
 
 type IncomeDebt = {
-    id: string;
-    clientName: string;
-    sales: number;
-    totalPrice: number,
-    startingDate: string
+  id: string;
+  clientName: string;
+  sales: number;
+  totalPrice: number,
+  startingDate: string
 }
 
 type ExpenseDebt = {
@@ -51,4 +51,9 @@ type ExpenseDebt = {
   sales: number;
   totalPrice: number,
   startingDate: string
+}
+
+type Summary = {
+  amount: number
+  stakeholders: number
 }
