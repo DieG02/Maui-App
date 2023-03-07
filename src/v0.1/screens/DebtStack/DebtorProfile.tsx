@@ -36,9 +36,8 @@ const DebtorProfile = ({ navigation, route }: Props) => {
     const payValue = useMemo(() => {
         const paid = (incomeData || data)?.amountPaid
         const total = (incomeData || data)?.totalAmount
-        if (paid && total) {
-            return (total - paid).toLocaleString("es")
-        } else return total?.toLocaleString("es")
+        if (paid && total) (total - paid).toLocaleString("es")
+        else return total?.toLocaleString("es")
     }, [incomeData, data])
 
     const DebtComponent = () => <DebtTypes data={incomeData?.incomes || data?.expenses} />
