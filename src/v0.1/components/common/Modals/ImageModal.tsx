@@ -22,7 +22,16 @@ const ImageModal = (
     }: Props) => {
 
     return (
-        <Modal isVisible={isVisible}>
+        <Modal
+            isVisible={isVisible}
+            useNativeDriverForBackdrop={true}
+            onBackdropPress={setVisible}
+            onBackButtonPress={setVisible}
+            onSwipeComplete={setVisible}
+            swipeDirection="down"
+            animationOut="slideOutUp"
+            animationIn="slideInDown"
+        >
             <View
                 style={{
                     backgroundColor: background,

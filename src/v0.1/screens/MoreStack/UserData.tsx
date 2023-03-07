@@ -1,6 +1,6 @@
-import { View, StatusBar, ToastAndroid, Text, TouchableOpacity } from "react-native";
+import { View, StatusBar, ToastAndroid, Text } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import React, { useState } from "react";
+import React from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import customStyles from "../../styles/customStyles";
@@ -13,28 +13,16 @@ import { useMutation } from "react-query";
 import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
-import Pencil from "react-native-vector-icons/Entypo";
-import ImagePicker from 'react-native-image-crop-picker';
-import ImageModal from "../../components/common/Modals/ImageModal";
-import { checkCameraPermission, requestCameraPermission } from '../../requests'
+import useForm from "../../hooks/useForm";
+import PencilImageInput from "../../components/common/PencilImageInput";
 
 const statusBarStyle = "dark-content";
-const { mainColor, textBlack, background2 } = customStyles;
+const { mainColor, textBlack } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
-
-const openCamera = async () => {
-  const photo = await ImagePicker.openCamera({
-    width: 300,
-    height: 400,
-    cropping: true
-  });
-
-  return photo;
-};
 
 const showToast = () => {
   ToastAndroid.show(
@@ -45,19 +33,14 @@ const showToast = () => {
 
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route;
-  const [form, setForm] = useState(params?.data);
+  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
   const email = params?.email;
-  const isChanged = JSON.stringify(form) !== JSON.stringify(params?.data);
-  const [isVisible, setVisible] = useState(false);
-
-  const toggleModal = () => {
-    setVisible(!isVisible);
-  };
+  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
   const data: editUserAccountBodyInputDto = {
-    cellPhone: form.cellPhone,
-    name: form.name,
-    address: form.address,
+    cellPhone: values.cellPhone,
+    name: values.name,
+    address: values.address,
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -69,40 +52,6 @@ const UserData = ({ navigation, route }: Props) => {
       },
     }
   );
-
-  const pickImage = async () => {
-    try {
-      const image = await ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true
-      })
-      setForm({ ...form, image: image.path })
-      toggleModal();
-    } catch (error) {
-      console.log(error);
-      toggleModal();
-    }
-  };
-
-  const takePhoto = async () => {
-    try {
-      const hasPermission = await checkCameraPermission();
-      if (hasPermission){
-        const image = await openCamera()
-        setForm({ ...form, image: image.path })
-        toggleModal()
-      } else {
-        await requestCameraPermission();
-        const image = await openCamera()
-        setForm({ ...form, image: image.path })
-        toggleModal()
-      }
-    } catch (error) {
-      console.log(error);
-      toggleModal()
-    }
-  }
 
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
@@ -118,45 +67,26 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={10} />
         <View>
           <ImageProfile
-            url={form.image}
-            name={form.name}
+            url={values.image}
+            name={values.name}
           />
-          <TouchableOpacity
-            style={{
-              top: -30,
-              marginHorizontal: "55%",
-              borderRadius: 50,
-              backgroundColor: background2,
-              width: 35,
-              height: 35,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: -30
-            }}
-            onPress={toggleModal}
-          >
-            <Pencil name='pencil' size={18} color={mainColor} />
-            <ImageModal
-              isVisible={isVisible}
-              setVisible={toggleModal}
-              takePhoto={takePhoto}
-              pickImage={pickImage}
-            />
-          </TouchableOpacity>
+          <PencilImageInput
+            values={values}
+            setValues={setValues}
+          />
         </View>
         <Spacer height={10} />
         <CommonInput
-          value={form.name}
-          setValue={(value) => setForm({ ...form, name: value })}
+          value={values.name}
+          setValue={(value) => setValues({ ...values, name: value })}
           name="Nombre"
           marginBottom={20}
           autoCapitalize="words"
         />
         <Spacer height={5} />
         <CommonInput
-          value={form.address}
-          setValue={(value) => setForm({ ...form, address: value })}
+          value={values.address}
+          setValue={(value) => setValues({ ...values, address: value })}
           name="Direccion"
           placeholder="Escriba su direccion"
           marginBottom={20}
@@ -164,8 +94,8 @@ const UserData = ({ navigation, route }: Props) => {
         />
         <Spacer height={5} />
         <CommonInput
-          value={form.cellPhone}
-          setValue={(value) => setForm({ ...form, cellPhone: value })}
+          value={values.cellPhone}
+          setValue={(value) => setValues({ ...values, cellPhone: value })}
           name="Numero de Celular"
           marginBottom={20}
           keyboardType="phone-pad"
