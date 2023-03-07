@@ -67,3 +67,6 @@ Temporary Items
 
 node_modules
 ios/Maui.xcworkspace/xcuserdata/billybautista.xcuserdatad/UserInterfaceState.xcuserstate
+
+.yarn*
+yarn.lock

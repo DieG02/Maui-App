@@ -50,3 +50,25 @@ export const requestContactPermission = async () => {
     console.warn(err);
   }
 };
+
+export const requestCameraPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA
+    );
+    return granted;
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
+export const checkCameraPermission = async () => {
+  try {
+    const checked = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.CAMERA
+    );
+    return checked;
+  } catch (err) {
+    console.warn(err);
+  }
+};
