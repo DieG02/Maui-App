@@ -4,7 +4,7 @@ import customStyles from "../../styles/customStyles";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import { useNavigation } from "@react-navigation/native";
 import useRefresh from "../../hooks/useRefresh";
-import useGetExpenseDebts from "../../services/Incomes/useGetExpenseDebt";
+import useGetExpenseDebts from "../../services/Expenses/useGetExpenseDebt";
 import { useCallback } from 'react'
 
 const { background, mainColor } = customStyles;

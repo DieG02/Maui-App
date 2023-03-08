@@ -20,8 +20,8 @@ const PaymentTypes = ({ paidData }: Props) => {
                 data={paidData}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>
-                    <DebtTypeCard value={item.amount}
-                        createdAt={item.paidAt}
+                    <DebtTypeCard value={item.amount as number}
+                        createdAt={item.paidAt as Date}
                         paymentMethod={item.paymentMethod} />
                 } />
         </View>
