@@ -6,7 +6,7 @@ import IncomeDebt from "./Income";
 import ExpenseDebt from "./Expense";
 import Header from "../../components/Library/Header";
 
-const { mainColor } = customStyles;
+const { mainColor, white, secondaryColor } = customStyles;
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,16 +16,16 @@ const Debts = () => {
       <Header label="Deudas" />
       <Tab.Navigator
         overScrollMode="never"
-        style={{ backgroundColor: "#fff" }}
+        style={{ backgroundColor: white }}
         screenOptions={{
           tabBarStyle: {
             elevation: 0,
             marginHorizontal: 20,
-            backgroundColor: "#f8f8f8",
+            backgroundColor: secondaryColor,
             borderRadius: 15,
           },
-          tabBarPressColor: "white",
-          tabBarActiveTintColor: "white",
+          tabBarPressColor: white,
+          tabBarActiveTintColor: white,
           tabBarInactiveTintColor: mainColor,
           tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
           tabBarIndicatorStyle: {

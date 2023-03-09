@@ -5,10 +5,10 @@ import customStyles from "../../styles/customStyles";
 const { background } = customStyles;
 
 interface Props {
-    data?: IncomeOrExpense[]
+    paidData?: Payments[]
 }
 
-const DebtTypes = ({ data }: Props) => {
+const PaymentTypes = ({ paidData }: Props) => {
 
     return (
         <View style={{
@@ -16,16 +16,16 @@ const DebtTypes = ({ data }: Props) => {
             backgroundColor: background,
             paddingTop: 20,
         }}>
-            <FlatList data={data}
+            <FlatList
+                data={paidData}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>
-                    <DebtTypeCard name={item.name}
-                        icon={item?.url}
-                        value={item.value}
-                        createdAt={item.createdAt} />
+                    <DebtTypeCard value={item.amount as number}
+                        createdAt={item.paidAt as Date}
+                        paymentMethod={item.paymentMethod} />
                 } />
         </View>
     )
 }
 
-export default DebtTypes;
+export default PaymentTypes;
