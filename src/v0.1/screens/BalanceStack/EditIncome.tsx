@@ -5,7 +5,6 @@ import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import OptionModal from "../../components/common/OptionModal";
 import InputDate from "../../components/common/InputDate";
-import moment from "moment";
 import "moment-timezone";
 import Button from "../../components/common/Button";
 // import ScrollContainer from "../../components/containers/ScrollContainer";
@@ -14,13 +13,12 @@ import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import customStyles from "../../styles/customStyles";
 import SelectionModal from "../../components/common/Modals/SelectionModal";
 import LoadingComponent from "../../components/Library/LoadingComponent";
-import { paymentMethods, STATE } from "../../utils/payment";
-import useCreateIncome from "../../services/Incomes/useCreateIncome";
 import useForm from "../../hooks/useForm";
 import usePayment from "../../hooks/usePayment";
 import Form from "../../components/Library/Form";
 import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import useEditIncome from "../../services/Incomes/useEditIncome";
+import { queryClient } from "../../utils/queryClient";
 
 // TODO:Refactor this component
 
@@ -30,8 +28,6 @@ interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
-
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
 
 interface ValidateOptions {
   isPaid: string[];
@@ -91,20 +87,26 @@ const EditIncome = ({ navigation, route }: Props) => {
 
   const showToast = () => {
     ToastAndroid.showWithGravity(
-      "La transacción fue creada satisfactoriamente",
+      "La transacción fue editada satisfactoriamente",
       ToastAndroid.LONG,
       ToastAndroid.TOP
     );
   };
-  const { mutateAsync, isLoading } = useEditIncome(params?.income.id, {
-    paymentMethod: handlePayment(values.paymentMethod),
-    clientId: route.params?.contact ? route.params?.contact?.id : params?.income.clientId,
-    date: values.date,
-    isPaid: values.isPaid,
-  },
+
+  const { mutateAsync, isLoading } = useEditIncome(
+    params?.income.id,
+    {
+      paymentMethod: handlePayment(values.paymentMethod),
+      clientId: route.params?.contact ? route.params?.contact?.id : params?.income.clientId,
+      date: values.date,
+      isPaid: values.isPaid,
+      name: values.name,
+      value: parseFloat(values.value.replace(/\./g,'').replace(",", "."))
+    },
     {
       onSuccess: () => {
-        navigation.goBack();
+        navigation.navigate('balance');
+        queryClient.invalidateQueries('Transactions')
         showToast();
       },
     }
@@ -115,6 +117,7 @@ const EditIncome = ({ navigation, route }: Props) => {
       mutateAsync();
     }
   };
+
 
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
@@ -148,7 +151,11 @@ const EditIncome = ({ navigation, route }: Props) => {
           name="Descripción"
           marginBottom={20}
           value={values.name}
-          setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+          setValue={
+            (text) => setValues((prev) => (
+              { ...prev, name: text }
+            ))
+          }
         />
         {values.isPaid === true ? (
           <View
