@@ -1,5 +1,5 @@
 import { Image, Text, ToastAndroid, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -11,6 +11,7 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
+import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
 
 // TODO: Refactor this component
 interface Props {
@@ -21,6 +22,11 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
+
+  const [isVisible, setVisible] = useState(false);
+  const toggleModal = () => {
+      setVisible(!isVisible);
+  };
 
   const flag = params?.item.category.name !== "Venta";
 
@@ -55,6 +61,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
   const handleDelete = () => {
     flag ? deleteExpense() : deleteIncome();
+    toggleModal();
   };
 
   const handleOnPress = () => {
@@ -67,7 +74,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={handleDelete}
+        onPressDelete={toggleModal}
+      />
+      <ConfirmationModal
+        title="¿Estás seguro de eliminarlo?"
+        isVisible={isVisible}
+        cancel={toggleModal}
+        confirm={handleDelete}
       />
       <ScrollContainer>
         <View
