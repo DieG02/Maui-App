@@ -1,5 +1,5 @@
 import { Image, Text, ToastAndroid, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -11,6 +11,8 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
+import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
+import useToggle from "../../hooks/useToggle";
 
 // TODO: Refactor this component
 interface Props {
@@ -21,6 +23,8 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
+
+  const { value, toggle } = useToggle();
 
   const flag = params?.item.category.name !== "Venta";
 
@@ -55,6 +59,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
   const handleDelete = () => {
     flag ? deleteExpense() : deleteIncome();
+    toggle();
   };
 
   const handleOnPress = () => {
@@ -67,7 +72,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={handleDelete}
+        onPressDelete={toggle}
+      />
+      <ConfirmationModal
+        title="¿Estás seguro de eliminarlo?"
+        isVisible={value}
+        cancel={toggle}
+        confirm={handleDelete}
       />
       <ScrollContainer>
         <View
@@ -120,7 +131,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
                 style: "currency",
                 currency: "ARS",
               })}`
-              
+
               : `-${params?.item.value.toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
