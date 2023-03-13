@@ -36,13 +36,12 @@ const DebtorProfile = ({ navigation, route }: Props) => {
     const payValue = useMemo(() => {
         const paid = (incomeData || data)?.amountPaid
         const total = (incomeData || data)?.totalAmount
-        if (paid && total) (total - paid).toLocaleString("es")
-        else return total?.toLocaleString("es")
+        return paid && total ? (total - paid).toLocaleString("es") : total?.toLocaleString("es")
     }, [incomeData, data])
 
     const DebtComponent = () => <DebtTypes data={incomeData?.incomes || data?.expenses} />
 
-    const PayComponent = () => <PaymentTypes paidData={data?.payments} />
+    const PayComponent = () => <PaymentTypes paidData={incomeData?.payments || data?.payments} />
 
     return (
         <ScreenContainer>
@@ -81,7 +80,9 @@ const DebtorProfile = ({ navigation, route }: Props) => {
                     <Tab.Screen name="Abonado" component={PayComponent} />
                 </Tab.Navigator>
                 <CustomModal title="Abonar">
-                    <RepayModal amount={payValue || ""} id={incomeId || expenseId} />
+                    <RepayModal amount={payValue || ""}
+                        id={incomeId || expenseId}
+                        type={incomeData ? 'income' : 'expense'} />
                 </CustomModal>
             </View>
         </ScreenContainer>

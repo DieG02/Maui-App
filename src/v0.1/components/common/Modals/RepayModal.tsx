@@ -9,36 +9,48 @@ import useForm from "../../../hooks/useForm";
 import moment from "moment";
 import usePayment from "../../../hooks/usePayment";
 import useToggle from "../../../hooks/useToggle";
+import usePayIncomeDebt from "../../../services/Incomes/usePayIncomeDebt";
+import usePayExpenseDebt from "../../../services/Expenses/usePayExpenseDebt";
+import { paymentMethods } from "../../../utils/payment";
 
-enum PaymentMethods {
-  CASH = "Efectivo",
-  CARD = "Tarjeta",
-  BANK_TRANSFER = "Transferencia",
-  OTHER = "Otro"
-}
 interface Props {
   amount: string
   id: string
+  type: 'income' | 'expense'
 }
 
 const { mainColor, income, white } = customStyles
 const today = moment.parseZone().format("DD-MM-YYYY")
 
-const RepayModal = ({ amount, id }: Props) => {
+const RepayModal = ({ amount, id, type }: Props) => {
   const navigation: any = useNavigation()
   const { value, toggle } = useToggle(false);
   const { values, setValues, validateValues } = useForm<Payments>({
     amount,
     paidAt: today,
     id,
-    paymentMethod: PaymentMethods.CASH
+    paymentMethod: paymentMethods["CASH"].es
   })
-  const { handlePayment, paymentsOptions } = usePayment();
+  const { handlePayment, paymentsOptions } = usePayment()
+  const { mutate } = usePayIncomeDebt(id)
+  const { mutate: expMutate } = usePayExpenseDebt(id)
 
   const handleSubmit = () => {
     const toValidate = Object.keys(values)
     if (validateValues(toValidate)) {
-      // mutateAsync()
+      type === 'income' ?
+        mutate({
+          ...values,
+          paymentMethod: handlePayment(values.paymentMethod),
+          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
+          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
+        }) :
+        expMutate({
+          ...values,
+          paymentMethod: handlePayment(values.paymentMethod),
+          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
+          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
+        })
     }
   }
 
@@ -68,8 +80,7 @@ const RepayModal = ({ amount, id }: Props) => {
         setSelectedOption={(text) =>
           setValues(prev => ({
             ...prev,
-            //@ts-ignore
-            paymentMethod: PaymentMethods[handlePayment(text)]
+            paymentMethod: text
           }))
         } />
       <InputDate name="Fecha"

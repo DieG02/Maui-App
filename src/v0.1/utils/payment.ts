@@ -1,5 +1,3 @@
-import { PaymentMethod } from "../../../../Maui-Backend/node_modules/@prisma/client";
-
 type PaymentMethods = {
   [key in PaymentMethod]: { es: string; en: PaymentMethod };
 };
