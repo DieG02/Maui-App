@@ -6,6 +6,7 @@ import DebtContactCard from "../../components/common/DebtContactCard";
 import customStyles from "../../styles/customStyles";
 import useRefresh from "../../hooks/useRefresh";
 import useGetIncomeDebts from "../../services/Incomes/useGetIcomeDebts";
+import EmptyState from "../../components/common/EmptyState";
 
 const { background, mainColor } = customStyles;
 
@@ -44,8 +45,8 @@ const IncomeDebt = () => {
               name={item.clientName}
               date={item.startingDate}
               sales={item.sales}
-              totalPrice={item.totalPrice} />
-          } />
+              totalPrice={item.totalPrice} />}
+          ListEmptyComponent={<EmptyState title='No tienes deudas' />} />
       </View>
       <SummaryDebt
         type="income"

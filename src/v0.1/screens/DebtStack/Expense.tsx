@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import useRefresh from "../../hooks/useRefresh";
 import useGetExpenseDebts from "../../services/Expenses/useGetExpenseDebt";
 import { useCallback } from 'react'
+import EmptyState from "../../components/common/EmptyState";
 
 const { background, mainColor } = customStyles;
 
@@ -44,8 +45,8 @@ const ExpenseDebt = () => {
               name={item.providerName}
               date={item.startingDate}
               sales={item.sales}
-              totalPrice={item.totalPrice} />
-          } />
+              totalPrice={item.totalPrice} />}
+          ListEmptyComponent={<EmptyState title='No tienes deudas' />} />
       </View>
       <SummaryDebt
         type="expense"
