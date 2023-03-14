@@ -35,7 +35,7 @@ interface ValidateOptions {
 }
 
 const validateOptions: ValidateOptions = {
-  isPaid: ["value"],
+  isPaid: ["value", "clientId"],
   isPending: ["value", "clientId"],
 };
 
@@ -218,7 +218,7 @@ const EditIncome = ({ navigation, route }: Props) => {
         <SelectionModal
           placeholder="Seleccione un cliente"
           name="Cliente"
-          required={values.isPaid === false}
+          required
           value={values.clientId}
           marginBottom={20}
           onPress={() => {
