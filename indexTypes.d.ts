@@ -187,23 +187,23 @@ type Income = {
  * Model IncomeDebt
  * 
  */
-type IncomeDebt = {
-  id: string
-  initialDate: Date
-  ownerId: string
-  incomeIDs: string[]
-}
+// type IncomeDebt = {
+//   id: string
+//   initialDate: Date
+//   ownerId: string
+//   incomeIDs: string[]
+// }
 
 /**
  * Model ExpenseDebt
  * 
  */
-type ExpenseDebt = {
-  id: string
-  initialDate: Date
-  ownerId: string
-  expenseIDs: string[]
-}
+// type ExpenseDebt = {
+//   id: string
+//   initialDate: Date
+//   ownerId: string
+//   expenseIDs: string[]
+// }
 
 /**
  * Model IncomeProducts
