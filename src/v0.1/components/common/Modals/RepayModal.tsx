@@ -38,19 +38,13 @@ const RepayModal = ({ amount, id, type }: Props) => {
   const handleSubmit = () => {
     const toValidate = Object.keys(values)
     if (validateValues(toValidate)) {
-      type === 'income' ?
-        mutate({
-          ...values,
-          paymentMethod: handlePayment(values.paymentMethod),
-          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
-          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
-        }) :
-        expMutate({
-          ...values,
-          paymentMethod: handlePayment(values.paymentMethod),
-          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
-          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
-        })
+      const valueToMutate = {
+        ...values,
+        paymentMethod: handlePayment(values.paymentMethod),
+        paidAt: (values.paidAt as string).split('-').reverse().join('-'),
+        amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
+      }
+      type === 'income' ? mutate(valueToMutate) : expMutate(valueToMutate)
     }
   }
 

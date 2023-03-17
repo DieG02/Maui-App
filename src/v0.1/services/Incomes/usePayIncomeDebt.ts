@@ -14,6 +14,7 @@ const usePayIncomeDebt = (id: string) => {
         {
             onSuccess() {
                 queryClient.invalidateQueries(["incomeData", id])
+                queryClient.invalidateQueries("CloseModel")
             }
         }
     )

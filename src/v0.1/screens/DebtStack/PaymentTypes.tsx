@@ -17,6 +17,7 @@ const PaymentTypes = ({ paidData }: Props) => {
             paddingTop: 20,
         }}>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={paidData}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>

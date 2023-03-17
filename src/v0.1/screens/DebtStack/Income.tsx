@@ -31,6 +31,7 @@ const IncomeDebt = () => {
         flex: 1
       }}>
         <FlatList data={income}
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

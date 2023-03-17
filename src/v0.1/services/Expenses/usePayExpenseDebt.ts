@@ -14,6 +14,7 @@ const usePayExpenseDebt = (id: string) => {
         {
             onSuccess() {
                 queryClient.invalidateQueries(["expense", id])
+                queryClient.invalidateQueries("CloseModel")
             }
         }
     )

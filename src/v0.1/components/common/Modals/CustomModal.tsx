@@ -1,4 +1,5 @@
 import Modal from "react-native-modal"
+import { useQuery } from "react-query";
 import useToggle from "../../../hooks/useToggle"
 import customStyles from "../../../styles/customStyles";
 import Button from "../Button"
@@ -11,7 +12,8 @@ interface Props {
 const { mainColor } = customStyles
 
 export default function CustomModal({ children, title }: Props) {
-    const { value, toggle } = useToggle()
+    const { value, toggle, setToggle } = useToggle()
+    useQuery('CloseModel', () => setToggle(false))
 
     return <>
         <Button text={title}
