@@ -16,8 +16,7 @@ interface Props {
 const TransactionCard = ({ onPress, data }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles().wrapper}>
-      <View style={styles().container}>
-        <View style={styles().container}>
+        <View style={styles().leftContainer}>
           <View style={styles().iconContainer}>
             <Image
               source={{
@@ -27,31 +26,37 @@ const TransactionCard = ({ onPress, data }: Props) => {
             />
           </View>
           <View style={styles("left").textContainer}>
-            <Text style={styles("", textBlack).textTitle} numberOfLines={1}>{data.name}</Text>
+            <Text
+              style={styles("", textBlack).titleCard}
+              numberOfLines={1}
+            >
+              {data.name}
+            </Text>
             <Text style={styles().textSubtitle}>{data.date}</Text>
           </View>
         </View>
-        <View style={styles().textContainer}>
-          {data.category?.name === "Venta" ? (
-            <Text style={styles("", positive).textTitle} 
-            numberOfLines={1}
-            >{data?.value.toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-            })}</Text>
-          ) : (
-            <Text style={styles("", textBlack).textTitle}
-            numberOfLines={1}
-            >-{data?.value.toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-            })}</Text>
-          )}
-          <Text style={styles().textSubtitle}>
-            {data.paymentMethod && paymentsMethod[data.paymentMethod].es}
-          </Text>
+        <View style={styles().rightContainer}>
+          <View style={styles().textContainer}>
+            {data.category?.name === "Venta" ? (
+              <Text style={styles("", positive).textTitle}
+              numberOfLines={1}
+              >{data?.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}</Text>
+            ) : (
+              <Text style={styles("", textBlack).textTitle}
+              numberOfLines={1}
+              >-{data?.value.toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+              })}</Text>
+            )}
+            <Text style={styles().textSubtitle}>
+              {data.paymentMethod && paymentsMethod[data.paymentMethod].es}
+            </Text>
+          </View>
         </View>
-      </View>
     </TouchableOpacity>
   );
 };

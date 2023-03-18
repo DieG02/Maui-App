@@ -109,7 +109,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     {
       ...values,
       name: values.name !== "" ? values.name : values.categoryId,
-      value: parseFloat(values.value.replace(".", "").replace(",", ".")),
+      value: parseFloat(values.value.replace(/\./g,'').replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
       providerId: route.params?.contact?.id,
       categoryId: data && handleIdCategory(values.categoryId, data),
