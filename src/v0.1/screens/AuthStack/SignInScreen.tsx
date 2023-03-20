@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
 import logo from "../../assets/logo.png";
@@ -13,6 +13,7 @@ import Form from "../../components/Library/Form";
 import Button from "../../components/common/Button";
 import useForm from "../../hooks/useForm";
 import SecureInput from "../../components/common/SecureInput";
+import PhoneInput from "../../components/common/PhoneInput";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -34,6 +35,9 @@ const toValidate = ["email", "password"];
 
 export default function LoginScreen({ navigation }: Props) {
   const { setIsLoggedIn } = useContext(AuthContext);
+  const [phone, setPhone] = useState('');
+  const [country, setCountry] = useState('');
+  const [modal, setModal] = useState(false);
 
   const { setValues, validateValues, values } =
     useForm<LoginUser>(initialValues);
@@ -85,6 +89,16 @@ export default function LoginScreen({ navigation }: Props) {
             placeholder="Ingrese su contraseña"
             marginBottom={25}
           />
+
+            <PhoneInput
+            value={phone}
+            setValue={(value)=>setPhone(value)}
+            isModalVisible={modal}
+            setIsModalVisible={setModal}
+            selectedOption={country}
+            setSelectedOption={(value)=>setCountry(value)}
+            placeholder={'Ingrese su telefono'}
+            />
 
           <Button
             disabled={!validateValues(toValidate)}
