@@ -6,7 +6,7 @@ const useToggle = (initialState = false) => {
 
   const toggle = useCallback(() => setToggle(prev => !prev), [])
 
-  return { value, toggle }
+  return { value, toggle, setToggle }
 }
 
 export default useToggle;

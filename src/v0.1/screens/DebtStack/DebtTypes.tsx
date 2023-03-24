@@ -17,6 +17,7 @@ const DebtTypes = ({ data }: Props) => {
             paddingTop: 20,
         }}>
             <FlatList data={data}
+                showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>
                     <DebtTypeCard name={item.name}

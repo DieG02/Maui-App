@@ -2,6 +2,7 @@ import MauiApi from "../../clientProvider"
 import { setHeaders } from "../../clientProvider/axiosConfig"
 import { useMutation } from "react-query"
 import { queryClient } from "../../utils/queryClient"
+import { showToast } from "../../utils/toast"
 
 const payExpenseDebt = async (data: Payments) => {
     await setHeaders()
@@ -14,6 +15,11 @@ const usePayExpenseDebt = (id: string) => {
         {
             onSuccess() {
                 queryClient.invalidateQueries(["expense", id])
+                queryClient.invalidateQueries("CloseModel")
+                showToast('Pagado con exito')
+            },
+            onError(err: Error) {
+                showToast(err.message)
             }
         }
     )

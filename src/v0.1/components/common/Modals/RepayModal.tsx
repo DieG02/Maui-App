@@ -12,6 +12,7 @@ import useToggle from "../../../hooks/useToggle";
 import usePayIncomeDebt from "../../../services/Incomes/usePayIncomeDebt";
 import usePayExpenseDebt from "../../../services/Expenses/usePayExpenseDebt";
 import { paymentMethods } from "../../../utils/payment";
+import { showToast } from "../../../utils/toast";
 
 interface Props {
   amount: string
@@ -36,21 +37,18 @@ const RepayModal = ({ amount, id, type }: Props) => {
   const { mutate: expMutate } = usePayExpenseDebt(id)
 
   const handleSubmit = () => {
+    if (Number((values.amount as string).replace(".", "").replace(",", ".")) > Number((amount).replace(".", "").replace(",", "."))) {
+      return showToast(`El pago no deberia ser mayor a ${amount}`)
+    }
     const toValidate = Object.keys(values)
     if (validateValues(toValidate)) {
-      type === 'income' ?
-        mutate({
-          ...values,
-          paymentMethod: handlePayment(values.paymentMethod),
-          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
-          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
-        }) :
-        expMutate({
-          ...values,
-          paymentMethod: handlePayment(values.paymentMethod),
-          paidAt: (values.paidAt as string).split('-').reverse().join('-'),
-          amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
-        })
+      const valueToMutate = {
+        ...values,
+        paymentMethod: handlePayment(values.paymentMethod),
+        paidAt: (values.paidAt as string).split('-').reverse().join('-'),
+        amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
+      }
+      type === 'income' ? mutate(valueToMutate) : expMutate(valueToMutate)
     }
   }
 
