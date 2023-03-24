@@ -1,10 +1,10 @@
-import { View, TextInput } from 'react-native'
-import React from 'react'
-import customStyles from '../../styles/customStyles';
+import { View, TextInput, Text } from "react-native";
+import React from "react";
+import customStyles from "../../styles/customStyles";
 import PhoneAreaModal from "../../components/common/Modals/PhoneAreaModal";
-import { countries } from '../../helpers/countries';
+import { countries } from "../../helpers/countries";
 
-const {secondaryColorBorder, textBlack} = customStyles;
+const { secondaryColorBorder, textBlack, expense } = customStyles;
 
 interface Props {
   value: string;
@@ -27,26 +27,41 @@ const PhoneInput = ({
   isModalVisible,
   setIsModalVisible,
   selectedOption,
-  setSelectedOption
-}:Props) => {
-  
-  const options:Array<CountryItem> = countries
+  setSelectedOption,
+}: Props) => {
+  const options: Array<CountryItem> = countries;
 
   return (
     <View
       style={{
-        display:'flex',
-        flexDirection:'row',
-        flexWrap:'nowrap',
-        justifyContent:'space-between', 
-        height:55,
         marginBottom: marginBottom,
         marginTop: marginTop,
-      }}>
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 18,
+          color: textBlack,
+          fontFamily: "Gilroy-Bold",
+          marginBottom: 10,
+        }}
+      >
+        Celular <Text style={{ color: expense }}>*</Text>
+      </Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          justifyContent: "space-between",
+          height: 55,
+        }}
+      >
         <View
           style={{
-            width:'30%',
-          }}>
+            width: "30%",
+          }}
+        >
           <PhoneAreaModal
             options={options}
             selectedOption={selectedOption}
@@ -60,21 +75,23 @@ const PhoneInput = ({
             borderRadius: 12,
             borderColor: secondaryColorBorder,
             borderWidth: 1,
-            width:'70%',
-          }}>
+            width: "65%",
+          }}
+        >
           <TextInput
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
-            keyboardType='phone-pad'
+            keyboardType="phone-pad"
             style={{
               paddingHorizontal: 20,
               color: textBlack,
             }}
-            />
+          />
         </View>
+      </View>
     </View>
-  )
-}
+  );
+};
 
-export default PhoneInput
+export default PhoneInput;

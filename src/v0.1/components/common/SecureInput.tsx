@@ -2,7 +2,7 @@ import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import customStyles from "../../styles/customStyles";
 import HiderComponent from "./HiderComponent";
-import useToogle from "../../hooks/useToogle";
+import useToggle from "../../hooks/useToggle";
 
 const { textBlack, expense, secondaryColorBorder } = customStyles;
 
@@ -12,12 +12,12 @@ interface Props {
   setValue: (value: string) => void;
   placeholder?: string;
   keyboardType?:
-    | "default"
-    | "email-address"
-    | "numeric"
-    | "phone-pad"
-    | "decimal-pad"
-    | "number-pad";
+  | "default"
+  | "email-address"
+  | "numeric"
+  | "phone-pad"
+  | "decimal-pad"
+  | "number-pad";
 
   marginBottom?: number;
   marginTop?: number;
@@ -38,7 +38,7 @@ const SecureInput = ({
   marginTop,
   required,
 }: Props) => {
-  const { value: isToogle, toogle } = useToogle();
+  const { value: isToggle, toggle } = useToggle();
 
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -70,7 +70,7 @@ const SecureInput = ({
           placeholder={placeholder}
           placeholderTextColor="#ACACAC"
           keyboardType={keyboardType}
-          secureTextEntry={!isToogle ? secureTextEntry : !secureTextEntry}
+          secureTextEntry={!isToggle ? secureTextEntry : !secureTextEntry}
           style={{
             paddingHorizontal: 20,
             color: textBlack,
@@ -79,7 +79,7 @@ const SecureInput = ({
           autoCapitalize="none"
         />
         <TouchableOpacity
-          onPress={toogle}
+          onPress={toggle}
           style={{
             width: "20%",
             justifyContent: "center",
@@ -88,7 +88,7 @@ const SecureInput = ({
             borderLeftColor: secondaryColorBorder,
           }}
         >
-          <HiderComponent size={20} color={textBlack} value={isToogle} />
+          <HiderComponent size={20} color={textBlack} value={isToggle} />
         </TouchableOpacity>
       </View>
     </View>

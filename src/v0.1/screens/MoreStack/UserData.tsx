@@ -1,6 +1,6 @@
 import { View, StatusBar, ToastAndroid, Text } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import React, { useState } from "react";
+import React from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import customStyles from "../../styles/customStyles";
@@ -13,6 +13,8 @@ import { useMutation } from "react-query";
 import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
+import useForm from "../../hooks/useForm";
+import PencilImageInput from "../../components/common/PencilImageInput";
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack } = customStyles;
@@ -22,23 +24,23 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
+const showToast = () => {
+  ToastAndroid.show(
+    "Tu cuenta fue editada satisfactoriamente",
+    ToastAndroid.SHORT
+  );
+};
+
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route;
-  const [form, setForm] = useState(params?.data);
+  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
   const email = params?.email;
-  const isChanged = JSON.stringify(form) !== JSON.stringify(params?.data);
+  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
   const data: editUserAccountBodyInputDto = {
-    cellPhone: form.cellPhone,
-    name: form.name,
-    address: form.address,
-  };
-
-  const showToast = () => {
-    ToastAndroid.show(
-      "Tu cuenta fue editada satisfactoriamente",
-      ToastAndroid.SHORT
-    );
+    cellPhone: values.cellPhone,
+    name: values.name,
+    address: values.address,
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -63,19 +65,28 @@ const UserData = ({ navigation, route }: Props) => {
       />
       <Form>
         <Spacer height={10} />
-        <ImageProfile url={form.image} name={form.name} />
+        <View>
+          <ImageProfile
+            url={values.image}
+            name={values.name}
+          />
+          <PencilImageInput
+            values={values}
+            setValues={setValues}
+          />
+        </View>
         <Spacer height={10} />
         <CommonInput
-          value={form.name}
-          setValue={(value) => setForm({ ...form, name: value })}
+          value={values.name}
+          setValue={(value) => setValues({ ...values, name: value })}
           name="Nombre"
           marginBottom={20}
           autoCapitalize="words"
         />
         <Spacer height={5} />
         <CommonInput
-          value={form.address}
-          setValue={(value) => setForm({ ...form, address: value })}
+          value={values.address}
+          setValue={(value) => setValues({ ...values, address: value })}
           name="Direccion"
           placeholder="Escriba su direccion"
           marginBottom={20}
@@ -83,8 +94,8 @@ const UserData = ({ navigation, route }: Props) => {
         />
         <Spacer height={5} />
         <CommonInput
-          value={form.cellPhone}
-          setValue={(value) => setForm({ ...form, cellPhone: value })}
+          value={values.cellPhone}
+          setValue={(value) => setValues({ ...values, cellPhone: value })}
           name="Numero de Celular"
           marginBottom={20}
           keyboardType="phone-pad"
@@ -117,7 +128,11 @@ const UserData = ({ navigation, route }: Props) => {
             text="Guardar"
             onPress={() => editAccount()}
             disabled={!isChanged}
-            style={{ backgroundColor: isChanged ? mainColor : "#B3B3B3" }}
+            style={{
+              backgroundColor: isChanged ? mainColor : "#B3B3B3",
+              marginBottom: 30,
+              marginTop: 10
+            }}
           />
         </View>
       </Form>

@@ -1,68 +1,57 @@
-import { useState } from "react";
-import { View } from "react-native";
-import { useQuery } from "react-query";
+import { useCallback } from "react";
+import { View, FlatList, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SummaryDebt from "../../components/common/SummaryDebt";
 import DebtContactCard from "../../components/common/DebtContactCard";
 import customStyles from "../../styles/customStyles";
-import { getAllIncomeDebts } from "../../services/debts";
-import ScrollRefreshContainer from "../../components/containers/ScrollRefreshContainer";
+import useRefresh from "../../hooks/useRefresh";
+import useGetIncomeDebts from "../../services/Incomes/useGetIcomeDebts";
+import EmptyState from "../../components/common/EmptyState";
 
-const { background } = customStyles;
+const { background, mainColor } = customStyles;
 
 const IncomeDebt = () => {
   const { navigate } = useNavigation<any>();
-  const [income, setIncomes] = useState<IDebtContact[]>([]);
-  const [summary, setSummary] = useState<any>({
-    amount: null,
-    stakeholders: null,
-  });
-
-  const { refetch } = useQuery("clients", getAllIncomeDebts, {
-    onSuccess(data: IncomeDebt[]) {
-      let total = 0;
-      const parser = data.map((debt): IDebtContact => {
-        total += debt.totalPrice;
-        return {
-          id: debt.id,
-          name: debt.clientName,
-          sales: debt.sales,
-          date: debt.startingDate,
-          totalPrice: debt.totalPrice
-        }
-      });
-      setSummary({
-        amount: total,
-        stakeholders: data.length
-      });
-      setIncomes(parser);
-    },
-  });
+  const { data: income, refetch } = useGetIncomeDebts()
+  const total = useCallback(() => {
+    let total = 0
+    income?.map(debt => total += debt.totalPrice)
+    return total
+  }, [income])
+  const { refreshing, handleRefresh } = useRefresh(refetch)
 
   return (
     <View style={{
       flex: 1,
       backgroundColor: background,
     }}>
-      <ScrollRefreshContainer refetch={refetch}
-        style={{
-          marginTop: 20,
-          backgroundColor: background,
-        }}
-      >
-        {income.map((debt: any) => (
-          <DebtContactCard
-            data={debt}
-            type="client"
-            onPress={() => navigate("DebtorScreen")}
-            key={debt.id}
-          />
-        ))}
-      </ScrollRefreshContainer>
+      <View style={{
+        marginTop: 20,
+        backgroundColor: background,
+        flex: 1
+      }}>
+        <FlatList data={income}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={[mainColor]}
+            />}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) =>
+            <DebtContactCard
+              type="client"
+              onPress={() => navigate("DebtorScreen", { incomeId: item.id, name: item.clientName })}
+              name={item.clientName}
+              date={item.startingDate}
+              sales={item.sales}
+              totalPrice={item.totalPrice} />}
+          ListEmptyComponent={<EmptyState title='No tienes deudas' />} />
+      </View>
       <SummaryDebt
         type="income"
-        amount={summary.amount?.toLocaleString("es")}
-        stakeholders={summary.stakeholders}
+        amount={total()}
+        stakeholders={income?.length || 0}
       />
     </View>
   );

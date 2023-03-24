@@ -5,7 +5,6 @@ import customStyles from "../../../styles/customStyles";
 import OptionCountrySelect from "../OptionCountrySelect";
 import PrefixInput from "../PrefixInput";
 
-
 const { mainColor } = customStyles;
 
 interface Props {
@@ -46,30 +45,32 @@ const OptionModal = ({
             backgroundColor: "white",
             marginHorizontal: 10,
             borderRadius: 15,
-            height:'50%',
+            height: "50%",
           }}
         >
           <ScrollView>
-          <View style={{ marginVertical: 10 }}>
-            {options?.map((option, index) => (
-              <OptionCountrySelect
-                key={index}
-                name={option.name}
-                flag={option.flag}
-                prefix={option.prefix}
-                backgroundColor={
-                  selectedOption === option.id ? "#E6EFF8" : "white"
-                }
-                textColor={selectedOption === option.id ? mainColor : "#737373"}
-                onPress={() => handleModal(option.id)}
-              />
-            ))}
-          </View>
+            <View style={{ marginVertical: 10 }}>
+              {options?.map((option, index) => (
+                <OptionCountrySelect
+                  key={index}
+                  name={option.name}
+                  flag={option.flag}
+                  prefix={option.prefix}
+                  backgroundColor={
+                    selectedOption === option.id ? "#E6EFF8" : "white"
+                  }
+                  textColor={
+                    selectedOption === option.id ? mainColor : "#737373"
+                  }
+                  onPress={() => handleModal(option.id)}
+                />
+              ))}
+            </View>
           </ScrollView>
         </View>
       </Modal>
       <PrefixInput
-        value={selectedOption?selectedOption:'1'}
+        value={selectedOption ? selectedOption : "1"}
         setValue={setSelectedOption}
         marginBottom={25}
         onPress={() => setIsModalVisible(true)}
