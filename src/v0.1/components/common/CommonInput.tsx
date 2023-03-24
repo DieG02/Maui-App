@@ -43,7 +43,12 @@ const CommonInput = ({
   required,
 }: Props) => {
   return (
-    <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
+    <View
+      style={{
+        marginBottom: marginBottom,
+        marginTop: marginTop,
+      }}
+    >
       <Text
         style={{
           fontSize: 18,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -12,6 +12,7 @@ import Form from "../../components/Library/Form";
 import useForm from "../../hooks/useForm";
 import Button from "../../components/common/Button";
 import SecureInput from "../../components/common/SecureInput";
+import PhoneInput from "../../components/common/PhoneInput";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -36,6 +37,9 @@ const { mainColor, textBlack } = customStyles;
 const toValidate = ["email", "password", "name", "cellphone"];
 
 export default function SignUpScreen({ navigation }: Props) {
+  const [country, setCountry] = useState("");
+  const [modal, setModal] = useState(false);
+
   const { setValues, validateValues, values } =
     useForm<SignUpUser>(initialValues);
 
@@ -78,16 +82,17 @@ export default function SignUpScreen({ navigation }: Props) {
             placeholder="Ingrese su nombre"
             keyboardType="default"
           />
-          <CommonInput
-            required
-            name="Celular"
+          <PhoneInput
+            value={values.cellphone}
             setValue={(text) =>
               setValues((prev) => ({ ...prev, cellphone: text }))
             }
-            value={values.cellphone}
-            marginBottom={25}
+            isModalVisible={modal}
+            setIsModalVisible={setModal}
+            selectedOption={country}
+            setSelectedOption={(value) => setCountry(value)}
             placeholder="Ingrese su Celular"
-            keyboardType="phone-pad"
+            marginBottom={25}
           />
           <CommonInput
             required

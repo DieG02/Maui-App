@@ -41,19 +41,25 @@ type IncomeDebt = {
   id: string;
   clientName: string;
   sales: number;
-  totalPrice: number,
-  startingDate: string
-}
+  totalPrice: number;
+  startingDate: string;
+};
 
 type ExpenseDebt = {
   id: string;
   providerName: string;
   sales: number;
-  totalPrice: number,
-  startingDate: string
-}
+  totalPrice: number;
+  startingDate: string;
+};
 
+type CountryItem = {
+  id: string;
+  flag: string;
+  name: string;
+  prefix: string;
+};
 type Summary = {
-  amount: number
-  stakeholders: number
-}
+  amount: number;
+  stakeholders: number;
+};
