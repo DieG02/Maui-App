@@ -46,7 +46,7 @@ interface ValidateOptions {
 }
 
 const validateOptions: ValidateOptions = {
-  isPaid: ["value", "clientId"],
+  isPaid: ["value"],
   isPending: ["value", "clientId"],
 };
 
@@ -89,7 +89,7 @@ const NewIncome = ({ navigation, route }: Props) => {
       ...values,
       name:
         values.name !== "" ? values.name : `Venta ${moment.parseZone().unix()}`,
-      value: parseFloat(values.value.replace(".", "").replace(",", ".")),
+      value: parseFloat(values.value.replace(/\./g,'').replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
       clientId: route.params?.contact?.id,
     },
@@ -202,7 +202,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         <SelectionModal
           placeholder="Seleccione un cliente"
           name="Cliente"
-          required
+          required={values.isPaid === false}
           value={values.clientId}
           marginBottom={20}
           onPress={() => {
