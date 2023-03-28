@@ -1,5 +1,5 @@
 import { Image, Text, ToastAndroid, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -13,6 +13,7 @@ import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
 import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
 import useToggle from "../../hooks/useToggle";
+import { transformToDate } from "../../utils/helper";
 
 // TODO: Refactor this component
 interface Props {
@@ -63,8 +64,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag?navigation.navigate('EditExpense', {expense:params?.item}) : navigation.navigate('EditIncome', {income: params?.item})
-  }
+    flag
+      ? navigation.navigate("EditExpense", { expense: params?.item })
+      : navigation.navigate("EditIncome", { income: params?.item });
+  };
 
   return (
     <ScreenContainer>
@@ -118,7 +121,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           </Text>
         </View>
 
-        <RowTransaction label="Fecha de operación" value={params?.item.date} />
+        <RowTransaction
+          label="Fecha de operación"
+          value={transformToDate(params?.item.date)}
+        />
         <RowTransaction
           label="Método de pago"
           value={params?.item.paymentMethod}
@@ -128,14 +134,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           value={
             params?.item.category.name === "Venta"
               ? `${params?.item.value.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-              })}`
-
+                  style: "currency",
+                  currency: "ARS",
+                })}`
               : `-${params?.item.value.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-              })}`
+                  style: "currency",
+                  currency: "ARS",
+                })}`
           }
         />
 

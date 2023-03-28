@@ -19,6 +19,7 @@ import useCreateIncome from "../../services/Incomes/useCreateIncome";
 import useForm from "../../hooks/useForm";
 import usePayment from "../../hooks/usePayment";
 import Form from "../../components/Library/Form";
+import { convertDateToIso } from "../../utils/helper";
 
 // TODO:Refactor this component
 
@@ -87,9 +88,10 @@ const NewIncome = ({ navigation, route }: Props) => {
   const { mutateAsync, isLoading } = useCreateIncome(
     {
       ...values,
+      date: convertDateToIso(values.date),
       name:
         values.name !== "" ? values.name : `Venta ${moment.parseZone().unix()}`,
-      value: parseFloat(values.value.replace(/\./g,'').replace(",", ".")),
+      value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
       clientId: route.params?.contact?.id,
     },

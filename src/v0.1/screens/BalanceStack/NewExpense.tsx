@@ -27,6 +27,7 @@ import useCreateExpense from "../../services/Expenses/useCreateExpense";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCategories";
 import Form from "../../components/Library/Form";
+import { convertDateToIso } from "../../utils/helper";
 
 const { width } = Dimensions.get("window");
 
@@ -108,8 +109,9 @@ const NewExpense = ({ navigation, route }: Props) => {
   const { mutateAsync, isLoading } = useCreateExpense(
     {
       ...values,
+      date: convertDateToIso(values.date),
       name: values.name !== "" ? values.name : values.categoryId,
-      value: parseFloat(values.value.replace(/\./g,'').replace(",", ".")),
+      value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
       providerId: route.params?.contact?.id,
       categoryId: data && handleIdCategory(values.categoryId, data),
