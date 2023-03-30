@@ -64,10 +64,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag
-      ? navigation.navigate("EditExpense", { expense: params?.item })
-      : navigation.navigate("EditIncome", { income: params?.item });
-  };
+    flag ?
+      navigation.navigate('EditExpense', { expense:params?.item })
+      : navigation.navigate('EditIncome', { id: params?.item.id })
+  }
 
   return (
     <ScreenContainer>
