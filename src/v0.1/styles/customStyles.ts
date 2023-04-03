@@ -33,7 +33,7 @@ const customStyles = {
 
   positive: "#48BB8B",
 
-  ligthBlue: "#E6EFF8",
+  ligthBlue: "#E6EFF8"
 };
 
 export default customStyles;

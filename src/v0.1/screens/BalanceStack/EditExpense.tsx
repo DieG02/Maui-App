@@ -27,6 +27,7 @@ import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCatego
 import Form from "../../components/Library/Form";
 import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import useEditExpense from "../../services/Expense/useEditExpense";
+import OptionWithIcon from "../../components/common/OptionWithIcon";
 
 const { width } = Dimensions.get("window");
 
@@ -53,7 +54,6 @@ const EditExpense = ({ navigation, route }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-  
   const { data } = useGetExpenseCategories();
   const {data:providers} = useGetAllContacts();
   const {
@@ -162,11 +162,11 @@ const EditExpense = ({ navigation, route }: Props) => {
       >
         <Form>
           <Spacer height={10} />
-          <OptionModal
+          <OptionWithIcon
             required
             title="Categoría"
             placeholder="Seleccione una categoría"
-            options={data?.map((category) => category?.name) ?? []}
+            options={data ? data : []}
             isModalVisible={modalExpenseCategory}
             setIsModalVisible={setModalExpenseCategory}
             selectedOption={values.categoryId}

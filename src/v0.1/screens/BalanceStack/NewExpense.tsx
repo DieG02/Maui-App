@@ -28,6 +28,7 @@ import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCategories";
 import Form from "../../components/Library/Form";
 import { convertDateToIso } from "../../utils/helper";
+import OptionWithIcon from "../../components/common/OptionWithIcon";
 
 const { width } = Dimensions.get("window");
 
@@ -150,11 +151,11 @@ const NewExpense = ({ navigation, route }: Props) => {
       >
         <Form>
           <Spacer height={10} />
-          <OptionModal
+          <OptionWithIcon
             required
             title="Categoría"
             placeholder="Seleccione una categoría"
-            options={data?.map((category) => category?.name) ?? []}
+            options={data ? data : []}
             isModalVisible={modalExpenseCategory}
             setIsModalVisible={setModalExpenseCategory}
             selectedOption={values.categoryId}
