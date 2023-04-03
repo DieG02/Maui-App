@@ -30,8 +30,8 @@ const OptionItemWithIcon = ({ name, image, backgroundColor, textColor, onPress }
             <Image
                 source={{ uri: image}}
                 style={{
-                    width: 35,
-                    height: 35
+                    width: 25,
+                    height: 25
                 }}
             />
             <Text
