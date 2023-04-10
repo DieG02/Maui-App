@@ -20,6 +20,7 @@ import useEditExpense from "../../services/Expense/useEditExpense"
 import { showToast } from "../../utils/toast"
 import OptionWithIcon from "../../components/common/OptionWithIcon"
 import moment from "moment-timezone"
+import { queryClient } from "../../utils/queryClient"
 
 const { width } = Dimensions.get("window")
 const { mainColor, marginHorizontal } = customStyles
@@ -89,6 +90,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     },
         {
             onSuccess: () => {
+                queryClient.invalidateQueries("expenseDetail")
                 navigation.goBack()
                 showToast("La transacción fue creada satisfactoriamente")
             },
