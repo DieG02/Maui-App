@@ -27,8 +27,8 @@ import useCreateExpense from "../../services/Expenses/useCreateExpense";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCategories";
 import Form from "../../components/Library/Form";
-import { convertDateToIso } from "../../utils/helper";
 import OptionWithIcon from "../../components/common/OptionWithIcon";
+import { queryClient } from "../../utils/queryClient";
 
 const { width } = Dimensions.get("window");
 
@@ -38,7 +38,7 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
+const TODAY = moment.parseZone().toISOString();
 
 const initialValues: InitialExpense = {
   value: "",
@@ -110,7 +110,7 @@ const NewExpense = ({ navigation, route }: Props) => {
   const { mutateAsync, isLoading } = useCreateExpense(
     {
       ...values,
-      date: convertDateToIso(values.date),
+      date: values.date,
       name: values.name !== "" ? values.name : values.categoryId,
       value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
@@ -119,6 +119,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries('expenseDebts');
         navigation.goBack();
         showToast();
       },

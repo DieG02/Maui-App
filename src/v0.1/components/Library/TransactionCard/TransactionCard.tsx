@@ -4,7 +4,7 @@ import customStyles from "../../../styles/customStyles";
 import { paymentsMethod } from "../../../utils/translate";
 import { getTransactionsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
 import styles from "./style";
-import { transformToDate } from "../../../utils/helper";
+import { parseDDMMYY } from "../../../utils/helper";
 
 const { textBlack, positive } = customStyles;
 
@@ -31,7 +31,7 @@ const TransactionCard = ({ onPress, data }: Props) => {
             {data.name}
           </Text>
           <Text style={styles().textSubtitle}>
-            {transformToDate(data.date)}
+            {parseDDMMYY(data.date)}
           </Text>
         </View>
       </View>

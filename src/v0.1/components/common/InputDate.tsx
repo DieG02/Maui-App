@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 import "moment-timezone";
+import { parseDDMM, parseYYMMDD } from "../../utils/helper";
 
 const { textBlack } = customStyles;
 
@@ -19,8 +20,8 @@ interface IDate {
   label: string;
   value: string;
 }
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
-const YESTERDAY = moment.parseZone().subtract(1, "days").format("DD-MM-YYYY");
+const TODAY = moment.parseZone().toISOString();
+const YESTERDAY = moment.parseZone().subtract(1, "days").toISOString();
 
 const DATES = [
   { label: "Hoy", value: TODAY },
@@ -30,15 +31,15 @@ const DATES = [
 const InputDate = ({ name, setDate, date, color }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const indicatorDate = moment(date, "DD-MM-YYYY").toDate();
+  const indicatorDate = moment(date).toDate();
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const clasifyDate = (date: string) => {
-    if (date === TODAY) {
+    if (parseYYMMDD(date) === parseYYMMDD(TODAY)) {
       setDate(TODAY);
       setIsOpen(true);
-    } else if (date === YESTERDAY) {
+    } else if (parseYYMMDD(date) === parseYYMMDD(YESTERDAY)) {
       setDate(YESTERDAY);
       setIsOpen(true);
     } else {
@@ -46,7 +47,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
       setIsOpen(false);
     }
   }
-  
+
   useEffect(()=>{
     clasifyDate(date);
   },[date])
@@ -60,8 +61,8 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
   };
 
   const handleConfirm = (date: Date) => {
-    const OTHER_DAY = moment(date).parseZone().format("DD-MM-YYYY");
-    clasifyDate(OTHER_DAY);
+    const OTHER_DAY = moment(date).parseZone();
+    clasifyDate(OTHER_DAY.toISOString());
     hideDatePicker();
   };
 
@@ -161,7 +162,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
                 fontFamily: "Gilroy-Bold",
               }}
             >
-              {date.slice(0, 5)}
+              {parseDDMM(date)}
             </Text>
           </TouchableOpacity>
         )}

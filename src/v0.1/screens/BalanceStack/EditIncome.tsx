@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, Text } from "react-native";
+import { StatusBar } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import "moment-timezone";
 import ScreenContainer from "../../components/containers/ScreenContainer";
