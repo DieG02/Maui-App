@@ -5,7 +5,7 @@ import customStyles from "../../styles/customStyles";
 import CommonInput from "./CommonInput";
 import OptionItemWithIcon from "./OptionItemWithIcon";
 
-const { background, mainColor, itemLight } = customStyles;
+const { background, mainColor, itemLight, blueSelected } = customStyles;
 
 interface Props {
   options: Array<any>;
@@ -65,7 +65,9 @@ const OptionWithIcon = ({
               backgroundColor={
                 selectedOption === item.name ? itemLight : background
               }
-              textColor={selectedOption === item.name ? mainColor : "#737373"}
+              textColor={
+                selectedOption === item.name ? mainColor : blueSelected
+              }
               onPress={() => handleModal(item.name)}
             />
           )}

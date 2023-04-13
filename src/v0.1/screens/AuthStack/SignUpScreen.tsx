@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -13,6 +13,7 @@ import useForm from "../../hooks/useForm";
 import Button from "../../components/common/Button";
 import SecureInput from "../../components/common/SecureInput";
 import PhoneInput from "../../components/common/PhoneInput";
+import { countries } from "../../helpers/countries";
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -23,6 +24,8 @@ interface SignUpUser {
   password: string;
   name: string;
   cellphone: string;
+  country: string;
+  countryCode: string;
 }
 
 const initialValues = {
@@ -30,6 +33,8 @@ const initialValues = {
   password: "",
   name: "",
   cellphone: "",
+  country: "",
+  countryCode: "",
 };
 
 const { mainColor, textBlack } = customStyles;
@@ -37,7 +42,7 @@ const { mainColor, textBlack } = customStyles;
 const toValidate = ["email", "password", "name", "cellphone"];
 
 export default function SignUpScreen({ navigation }: Props) {
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState("1");
   const [modal, setModal] = useState(false);
 
   const { setValues, validateValues, values } =
@@ -57,8 +62,16 @@ export default function SignUpScreen({ navigation }: Props) {
     }
   );
 
+  const countrySelected = useMemo(() => {
+    return countries.filter((item) => item.id === country)[0];
+  }, [country]);
+
   const onPressSignUp = async () => {
-    await mutateAsync(values);
+    await mutateAsync({
+      ...values,
+      country: countrySelected.name,
+      countryCode: countrySelected.prefix,
+    });
   };
 
   return (

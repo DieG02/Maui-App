@@ -5,7 +5,7 @@ import customStyles from "../../../styles/customStyles";
 import OptionCountrySelect from "../OptionCountrySelect";
 import PrefixInput from "../PrefixInput";
 
-const { mainColor } = customStyles;
+const { mainColor, ligthBlue, blueSelected } = customStyles;
 
 interface Props {
   options: Array<CountryItem>;
@@ -57,10 +57,10 @@ const OptionModal = ({
                   flag={option.flag}
                   prefix={option.prefix}
                   backgroundColor={
-                    selectedOption === option.id ? "#E6EFF8" : "white"
+                    selectedOption === option.id ? ligthBlue : "white"
                   }
                   textColor={
-                    selectedOption === option.id ? mainColor : "#737373"
+                    selectedOption === option.id ? mainColor : blueSelected
                   }
                   onPress={() => handleModal(option.id)}
                 />

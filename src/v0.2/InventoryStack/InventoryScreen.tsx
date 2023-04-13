@@ -30,7 +30,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, width } = customStyles;
+const { mainColor, width, ligthBlue } = customStyles;
 
 const InventoryScreen = ({ navigation }: Props) => {
   const [modalState, setModalState] = useState(false);
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   out: {
-    backgroundColor: "#E6EFF8",
+    backgroundColor: ligthBlue,
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,

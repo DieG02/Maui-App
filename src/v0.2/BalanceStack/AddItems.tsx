@@ -32,7 +32,7 @@ interface Product {
   quantity: number;
 }
 
-const { mainColor, width, income } = customStyles;
+const { mainColor, width, income, ligthBlue } = customStyles;
 
 const AddItems = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
@@ -134,7 +134,6 @@ const AddItems = ({ navigation }: Props) => {
       >
         <Button
           text={`${products.length} items `}
-          // text="Añadir items"
           style={{
             backgroundColor: income,
             width: width - 60,
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   out: {
-    backgroundColor: "#E6EFF8",
+    backgroundColor: ligthBlue,
     borderRadius: 20,
     justifyContent: "center",
     marginRight: 10,
