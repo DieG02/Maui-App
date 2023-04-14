@@ -8,7 +8,6 @@ import InputDate from "../../components/common/InputDate";
 import moment from "moment";
 import "moment-timezone";
 import Button from "../../components/common/Button";
-// import ScrollContainer from "../../components/containers/ScrollContainer";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import customStyles from "../../styles/customStyles";
@@ -19,7 +18,7 @@ import useCreateIncome from "../../services/Incomes/useCreateIncome";
 import useForm from "../../hooks/useForm";
 import usePayment from "../../hooks/usePayment";
 import Form from "../../components/Library/Form";
-import { convertDateToIso } from "../../utils/helper";
+import { queryClient } from "../../utils/queryClient";
 
 // TODO:Refactor this component
 
@@ -30,7 +29,7 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
+const TODAY = moment.parseZone().toISOString();
 
 const initialValues: InitialIncome = {
   value: "",
@@ -88,7 +87,7 @@ const NewIncome = ({ navigation, route }: Props) => {
   const { mutateAsync, isLoading } = useCreateIncome(
     {
       ...values,
-      date: convertDateToIso(values.date),
+      date: values.date,
       name:
         values.name !== "" ? values.name : `Venta ${moment.parseZone().unix()}`,
       value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
@@ -97,6 +96,7 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries('incomes');
         navigation.goBack();
         showToast();
       },

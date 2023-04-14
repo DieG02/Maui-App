@@ -34,7 +34,7 @@ const paymentMethods: { name: string; value: PaymentMethod }[] = [
 ];
 
 const STATE = ["Pagado", "Deuda"];
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
+const TODAY = moment.parseZone().toISOString();
 
 const NewIncome = ({ navigation, route }: Props) => {
   const [amount, setAmount] = useState("");

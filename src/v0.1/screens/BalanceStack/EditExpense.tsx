@@ -37,8 +37,6 @@ interface Props {
   route: RouteProp<any, any>;
 }
 
-const TODAY = moment.parseZone().format("DD-MM-YYYY");
-
 interface ValidateOptions {
   isPaid: string[];
   isPending: string[];

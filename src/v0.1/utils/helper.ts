@@ -1,5 +1,3 @@
-import moment from "moment";
-
 export const getInitialLetters = (name: string) => {
   const separator = (fullName: string) => {
     const letters = fullName.split(" ").map((e) => e.slice(0, 1).toUpperCase());
@@ -12,24 +10,16 @@ export const getInitialLetters = (name: string) => {
   return letters;
 };
 
-export const transformToDate = (date: string) => {
-  const fechaAnalizada = moment.utc(date);
+export const parseYYMMDD = (ISODate: string) => ISODate.split('T')[0]
 
-  const fechaFormateada = fechaAnalizada.format("DD-MM-YYYY");
+export const parseDDMMYY = (ISODate: string) => {
+  const date = parseYYMMDD(ISODate).split('-');
 
-  return fechaFormateada;
-};
+  return `${date[2]}-${date[1]}-${date[0]}`
+}
 
-export const convertDateToIso = (date: string) => {
-  const fechaAnalizada = moment(date, "DD-MM-YYYY");
+export const parseDDMM = (ISODate: string) => {
+  const date = parseYYMMDD(ISODate).split('-');
 
-  const fechaYHora = moment.utc();
-
-  fechaYHora.year(fechaAnalizada.year());
-  fechaYHora.month(fechaAnalizada.month());
-  fechaYHora.date(fechaAnalizada.date());
-
-  const fechaISO8601 = fechaYHora.toISOString();
-
-  return fechaISO8601;
-};
+  return `${date[2]}-${date[1]}`
+}
