@@ -60,7 +60,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory),
         isPaid: data.isPaid,
         paymentMethod: handlePaymentName(data.paymentMethod),
-        date: `${data?.date?.slice(5, 7)}-${data?.date?.slice(8, 10)}-${data.date.slice(0, 4)}`,
+        date: data.date,
     }
 
     const { values, setValues, validateValues } = useForm<InitialExpense>(initialValues)
@@ -85,13 +85,12 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         paymentMethod: handlePayment(values.paymentMethod),
         providerId: params?.contact ? params?.contact?.id : params?.expense.providerId,
         categoryId: expenseCategory && handleObjValue(values.categoryId, 'name', 'id', expenseCategory),
-        date: new Date(values.date.slice(6) + '-' + values.date.slice(0, 5)).toISOString(),
-        isPaid: values.isPaid,
     },
         {
             onSuccess: () => {
+                queryClient.invalidateQueries('Transactions')
                 queryClient.invalidateQueries("expenseDetail")
-                navigation.goBack()
+                navigation.navigate('balance')
                 showToast("La transacción fue creada satisfactoriamente")
             },
         }
@@ -201,7 +200,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
                 />
                 <InputDate name="Fecha"
                     date={values.date}
-                    setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
+                    setDate={(date) => setValues((prev) => ({ ...prev, date }))}
                     color={mainColor}
                 />
                 <Spacer height={10} />
