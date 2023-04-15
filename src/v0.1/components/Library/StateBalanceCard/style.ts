@@ -26,14 +26,15 @@ const styles = ({ left, right, background }: Props) =>
       marginHorizontal: 20,
     },
     subWrapper: {
-      marginVertical: 5,
-      height: 45,
+      marginTop: 20,
+      height: 30,
       justifyContent: "center",
     },
     textLabel: {
       color: textBlack,
       fontSize: 18,
       fontFamily: "Gilroy-Regular",
+      marginBottom: 5,
     },
     textValue: {
       color: textBlack,

@@ -8,7 +8,7 @@ import StateBalanceCard from "../StateBalanceCard";
 const { width, marginHorizontal } = customStyles;
 
 interface Props {
-  data: getMonthlyMainStatsResponseDto | undefined;
+  data: getMonthlyMainStatsResponseDto;
 }
 
 const StateBalance = ({ data }: Props) => {
@@ -38,7 +38,7 @@ const StateBalance = ({ data }: Props) => {
                 style: "currency",
                 currency: "ARS",
               })}
-              left={20}
+              left={15}
               type="egreso"
             />
             <StateBalanceCard
@@ -47,7 +47,7 @@ const StateBalance = ({ data }: Props) => {
                 style: "currency",
                 currency: "ARS",
               })}
-              left={20}
+              left={15}
               type="cobrar"
             />
             <StateBalanceCard
@@ -56,7 +56,7 @@ const StateBalance = ({ data }: Props) => {
                 style: "currency",
                 currency: "ARS",
               })}
-              left={20}
+              left={15}
               right={marginHorizontal}
               type="pagar"
             />

@@ -7,7 +7,7 @@ import customStyles from "../../v0.1/styles/customStyles";
 import ScreenContainer from "../../v0.1/components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../v0.1/components/common/HeaderTitle";
 
-const { mainColor } = customStyles;
+const { mainColor, ligthBlue } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -44,7 +44,7 @@ const Budget = ({ navigation }: Props) => {
               style={{
                 width: 80,
                 height: 80,
-                backgroundColor: "#E6EFF8",
+                backgroundColor: ligthBlue,
                 borderRadius: 10,
                 alignItems: "center",
                 justifyContent: "center",
@@ -85,7 +85,7 @@ const Budget = ({ navigation }: Props) => {
               style={{
                 width: 80,
                 height: 80,
-                backgroundColor: "#E6EFF8",
+                backgroundColor: ligthBlue,
                 borderRadius: 10,
                 alignItems: "center",
                 justifyContent: "center",

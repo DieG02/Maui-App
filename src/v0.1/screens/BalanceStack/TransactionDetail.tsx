@@ -13,7 +13,7 @@ import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
 import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
 import useToggle from "../../hooks/useToggle";
-import { transformToDate } from "../../utils/helper";
+import { parseDDMMYY } from "../../utils/helper";
 
 // TODO: Refactor this component
 interface Props {
@@ -123,7 +123,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
         <RowTransaction
           label="Fecha de operación"
-          value={transformToDate(params?.item.date)}
+          value={parseDDMMYY(params?.item.date)}
         />
         <RowTransaction
           label="Método de pago"
