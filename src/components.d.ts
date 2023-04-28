@@ -5,6 +5,7 @@ interface InitialIncome {
   paymentMethod: string;
   date: string;
   clientId: string;
+  clientName: string;
 }
 
 interface InitialExpense {

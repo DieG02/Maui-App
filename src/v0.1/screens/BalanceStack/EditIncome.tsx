@@ -8,6 +8,7 @@ import customStyles from "../../styles/customStyles";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetIncomeById from "../../services/Incomes/useGetIncomeById";
 import EditIncomeForm from "../../components/common/EditIncomeForm";
+import { queryClient } from "../../utils/queryClient";
 
 const { mainColor } = customStyles;
 
@@ -30,7 +31,10 @@ const EditIncome = ({ navigation, route }: Props) => {
       <StatusBar backgroundColor={mainColor} />
       <BackHeaderTitle
         label="Editar Ingreso"
-        onPressBack={() => navigation.goBack()}
+        onPressBack={() => {
+          queryClient.removeQueries('IncomeDetail')
+          navigation.goBack()
+        }}
         hasType
         color={mainColor}
       />
