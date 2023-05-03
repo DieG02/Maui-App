@@ -1,4 +1,4 @@
-import { View, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, TextInput, Text } from "react-native";
 import React from "react";
 import customStyles from "../../styles/customStyles";
 import HiderComponent from "./HiderComponent";
@@ -78,8 +78,7 @@ const SecureInput = ({
           }}
           autoCapitalize="none"
         />
-        <TouchableOpacity
-          onPress={toggle}
+        <HiderComponent
           style={{
             width: "20%",
             justifyContent: "center",
@@ -87,9 +86,11 @@ const SecureInput = ({
             borderLeftWidth: 1,
             borderLeftColor: secondaryColorBorder,
           }}
-        >
-          <HiderComponent size={20} color={textBlack} value={isToggle} />
-        </TouchableOpacity>
+          size={20}
+          color={textBlack}
+          value={isToggle}
+          toggle={toggle}
+        />
       </View>
     </View>
   );

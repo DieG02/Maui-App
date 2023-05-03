@@ -22,7 +22,7 @@ const GeneralBalance = ({ data }: Props) => {
           size={30}
           color={textBlack}
           value={value}
-          toogle={toggle}
+          toggle={toggle}
         />
       </View>
       <View style={styles.container}>
