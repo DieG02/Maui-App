@@ -42,7 +42,7 @@ const { mainColor, textBlack } = customStyles;
 const toValidate = ["email", "password", "name", "cellphone"];
 
 export default function SignUpScreen({ navigation }: Props) {
-  const [country, setCountry] = useState("1");
+  const [country, setCountry] = useState("+ 54");
   const [modal, setModal] = useState(false);
 
   const { setValues, validateValues, values } =
