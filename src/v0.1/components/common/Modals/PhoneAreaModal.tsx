@@ -70,7 +70,7 @@ const OptionModal = ({
         </View>
       </Modal>
       <PrefixInput
-        value={selectedOption ? selectedOption : "1"}
+        value={selectedOption ? selectedOption : "+ 54"}
         setValue={setSelectedOption}
         marginBottom={25}
         onPress={() => setIsModalVisible(true)}

@@ -16,6 +16,7 @@ interface Props {
   setIsModalVisible: (value: boolean) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
+  notRequired?: boolean
 }
 
 const PhoneInput = ({
@@ -28,6 +29,7 @@ const PhoneInput = ({
   setIsModalVisible,
   selectedOption,
   setSelectedOption,
+  notRequired
 }: Props) => {
   const options: Array<CountryItem> = countries;
 
@@ -46,7 +48,7 @@ const PhoneInput = ({
           marginBottom: 10,
         }}
       >
-        Celular <Text style={{ color: expense }}>*</Text>
+        Celular <Text style={{ color: expense }}>{!notRequired && '*'}</Text>
       </Text>
       <View
         style={{

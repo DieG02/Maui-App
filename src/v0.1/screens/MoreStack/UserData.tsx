@@ -1,6 +1,6 @@
-import { View, StatusBar, ToastAndroid, Text } from "react-native";
+import { StatusBar, ToastAndroid, Text } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
-import React from "react";
+import React, { useState } from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import customStyles from "../../styles/customStyles";
@@ -15,6 +15,7 @@ import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
 import useForm from "../../hooks/useForm";
 import PencilImageInput from "../../components/common/PencilImageInput";
+import PhoneInput from "../../components/common/PhoneInput";
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack } = customStyles;
@@ -32,15 +33,18 @@ const showToast = () => {
 };
 
 const UserData = ({ navigation, route }: Props) => {
-  const { params } = route;
-  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
-  const email = params?.email;
-  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
+  const { params } = route
+  const [country, setCountry] = useState(params?.data?.countryCode)
+  const [modal, setModal] = useState(false)
+  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data)
+  const email = params?.email
+  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data)
 
   const data: editUserAccountBodyInputDto = {
     cellPhone: values.cellPhone,
     name: values.name,
     address: values.address,
+    countryCode: country
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -65,20 +69,18 @@ const UserData = ({ navigation, route }: Props) => {
       />
       <Form>
         <Spacer height={10} />
-        <View>
-          <ImageProfile
-            url={values.image}
-            name={values.name}
-          />
-          <PencilImageInput
-            values={values}
-            setValues={setValues}
-          />
-        </View>
+        <ImageProfile
+          url={values.image}
+          name={values.name}
+        />
+        <PencilImageInput
+          values={values}
+          setValues={setValues}
+        />
         <Spacer height={10} />
         <CommonInput
           value={values.name}
-          setValue={(value) => setValues({ ...values, name: value })}
+          setValue={name => setValues({ ...values, name })}
           name="Nombre"
           marginBottom={20}
           autoCapitalize="words"
@@ -86,19 +88,23 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={5} />
         <CommonInput
           value={values.address}
-          setValue={(value) => setValues({ ...values, address: value })}
+          setValue={address => setValues({ ...values, address })}
           name="Direccion"
           placeholder="Escriba su direccion"
           marginBottom={20}
           autoCapitalize="words"
         />
         <Spacer height={5} />
-        <CommonInput
+        <PhoneInput
           value={values.cellPhone}
-          setValue={(value) => setValues({ ...values, cellPhone: value })}
-          name="Numero de Celular"
+          setValue={cellPhone => setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, cellPhone }))}
+          isModalVisible={modal}
+          setIsModalVisible={setModal}
+          selectedOption={country}
+          setSelectedOption={(value) => setCountry(value)}
+          placeholder="Numero de Celular"
           marginBottom={20}
-          keyboardType="phone-pad"
+          notRequired
         />
         <Spacer height={5} />
         <Text
@@ -123,21 +129,19 @@ const UserData = ({ navigation, route }: Props) => {
           {email}
         </Text>
         <Spacer height={15} />
-        <View>
-          <Button
-            text="Guardar"
-            onPress={() => editAccount()}
-            disabled={!isChanged}
-            style={{
-              backgroundColor: isChanged ? mainColor : "#B3B3B3",
-              marginBottom: 30,
-              marginTop: 10
-            }}
-          />
-        </View>
+        <Button
+          text="Guardar"
+          onPress={() => editAccount()}
+          disabled={!isChanged}
+          style={{
+            backgroundColor: isChanged ? mainColor : "#B3B3B3",
+            marginBottom: 30,
+            marginTop: 10
+          }}
+        />
       </Form>
     </ScreenContainer>
-  );
-};
+  )
+}
 
 export default UserData;
