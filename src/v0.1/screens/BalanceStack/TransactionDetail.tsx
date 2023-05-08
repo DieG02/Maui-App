@@ -7,13 +7,14 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
-
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
 import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
 import useToggle from "../../hooks/useToggle";
 import { parseDDMMYY } from "../../utils/helper";
+import ContactCard from "../../components/common/ContactCard";
+import useGetContactById from "../../services/Contact/useGetContactById";
 
 // TODO: Refactor this component
 interface Props {
@@ -24,11 +25,11 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
-
+  
   const { value, toggle } = useToggle();
-
+  const { data } = useGetContactById(params?.item?.clientId)
   const flag = params?.item.category.name !== "Venta";
-
+  
   const showToast = () => {
     if (flag) {
       ToastAndroid.show(
@@ -155,6 +156,11 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             value={params?.item.category.name}
           />
         )}
+        <ContactCard
+            data={data}
+            type="client"
+            onPress={() => navigation.navigate("ContactDetail", { contact: data })}
+          />
       </ScrollContainer>
       <View
         style={{
