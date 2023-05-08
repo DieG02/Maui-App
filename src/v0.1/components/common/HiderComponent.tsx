@@ -6,15 +6,17 @@ interface Props {
   size: number;
   color: string;
   value: boolean;
-  toogle: () => void;
+  toggle: () => void;
+  style?: object;
 }
-const HiderComponent = ({ size, color, value, toogle }: Props) => {
+
+const HiderComponent = ({ size, color, value, style, toggle }: Props) => {
   return value ? (
-    <TouchableOpacity onPress={toogle}>
+    <TouchableOpacity onPress={toggle} style={style}>
       <Icon name="eye-off" size={size} color={color} />
     </TouchableOpacity>
   ) : (
-    <TouchableOpacity onPress={toogle}>
+    <TouchableOpacity onPress={toggle} style={style}>
       <Icon name="eye" size={size} color={color} />
     </TouchableOpacity>
   );
