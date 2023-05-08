@@ -53,11 +53,11 @@ const ImageModal = (
                         marginBottom: 10
                     }}
                 >
-                    Update Your Photo
+                    Actualiza tu Foto
                 </Text>
                 <Button
                     onPress={takePhoto}
-                    text='Take Photo'
+                    text='Tomar una foto'
                     style={{
                         backgroundColor: mainColor,
                         width: '80%',
@@ -66,7 +66,7 @@ const ImageModal = (
                 />
                 <Button
                     onPress={pickImage}
-                    text='Choose From Gallery'
+                    text='Escoger una imagen'
                     style={{
                         backgroundColor: mainColor,
                         width: '80%',
@@ -75,7 +75,7 @@ const ImageModal = (
                 />
                 <Button
                     onPress={setVisible}
-                    text='Cancel'
+                    text='Cancelar'
                     style={{
                         backgroundColor: ligthBlue,
                         width: '80%',
