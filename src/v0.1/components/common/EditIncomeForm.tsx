@@ -9,7 +9,6 @@ import SelectionModal from "../../components/common/Modals/SelectionModal";
 import Form from "../../components/Library/Form";
 import customStyles from "../../styles/customStyles";
 import { NavigationProp } from "@react-navigation/native";
-import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import usePayment from "../../hooks/usePayment";
 import useForm from "../../hooks/useForm";
 import useEditIncome from "../../services/Incomes/useEditIncome";
@@ -35,8 +34,6 @@ const validateOptions: ValidateOptions = {
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
-    const { data: clients } = useGetAllContacts();
-
     const [modalPayment, setModalPayment] = useState(false);
     const [modalState, setModalState] = useState(false);
 
@@ -53,7 +50,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         value: String(data?.value),
         name: data?.name,
         clientId: data?.client?.id,
-        clientName: data?.client?.name,
+        clientName: data?.client ? data?.client.name : "",
         isPaid: data?.isPaid,
         paymentMethod:  handlePaymentName(data?.paymentMethod),
         date: data?.date,
