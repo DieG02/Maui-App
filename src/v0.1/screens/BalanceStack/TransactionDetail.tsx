@@ -27,7 +27,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
   
   const { value, toggle } = useToggle();
-  const { data } = useGetContactById(params?.item?.clientId)
+  const { data } = useGetContactById(params?.item?.clientId || params?.item?.providerId)
   const flag = params?.item.category.name !== "Venta";
   
   const showToast = () => {
@@ -156,11 +156,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             value={params?.item.category.name}
           />
         )}
+        {!data ? null :
         <ContactCard
             data={data}
-            type="client"
-            onPress={() => navigation.navigate("ContactDetail", { contact: data })}
-          />
+            type={params?.item?.clientId ? "client" : "provider"}
+            onPress={() => {}}
+            showNoRightIcon={true}
+          />}
       </ScrollContainer>
       <View
         style={{
