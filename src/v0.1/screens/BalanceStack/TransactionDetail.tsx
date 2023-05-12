@@ -25,11 +25,13 @@ const { secondaryColor, textBlack, width, textBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
-  
+
   const { value, toggle } = useToggle();
-  const { data } = useGetContactById(params?.item?.clientId || params?.item?.providerId)
+  const { data } = useGetContactById(
+    params?.item?.clientId || params?.item?.providerId
+  );
   const flag = params?.item.category.name !== "Venta";
-  
+
   const showToast = () => {
     if (flag) {
       ToastAndroid.show(
@@ -65,10 +67,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag ?
-      navigation.navigate('EditExpense', { expense:params?.item })
-      : navigation.navigate('EditIncome', { id: params?.item.id })
-  }
+    flag
+      ? navigation.navigate("EditExpense", { expense: params?.item })
+      : navigation.navigate("EditIncome", { id: params?.item.id });
+  };
 
   return (
     <ScreenContainer>
@@ -156,13 +158,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             value={params?.item.category.name}
           />
         )}
-        {!data ? null :
-        <ContactCard
+        {!data ? null : (
+          <ContactCard
+            disabled
             data={data}
             type={params?.item?.clientId ? "client" : "provider"}
             onPress={() => {}}
             showNoRightIcon={true}
-          />}
+          />
+        )}
       </ScrollContainer>
       <View
         style={{
