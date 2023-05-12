@@ -35,6 +35,7 @@ const initialValues: InitialIncome = {
   value: "",
   name: "",
   clientId: "",
+  clientName: "",
   isPaid: STATE["PAGADO"].value,
   paymentMethod: paymentMethods["CASH"].es,
   date: TODAY,
@@ -72,7 +73,11 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   useEffect(() => {
     if (route.params?.contact) {
-      setValues((prev) => ({ ...prev, clientId: route.params?.contact.name }));
+      setValues((prev) => ({
+        ...prev,
+        clientName: route.params?.contact.name,
+        clientId: route.params?.contact.id
+      }));
     }
   }, [route.params?.contact]);
 
@@ -205,7 +210,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           placeholder="Seleccione un cliente"
           name="Cliente"
           required={values.isPaid === false}
-          value={values.clientId}
+          value={values.clientName}
           marginBottom={20}
           onPress={() => {
             navigation.navigate("Clients", { screen: "NewIncome" });

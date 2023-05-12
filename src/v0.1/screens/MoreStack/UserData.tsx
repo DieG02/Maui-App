@@ -73,10 +73,10 @@ const UserData = ({ navigation, route }: Props) => {
           url={values.image}
           name={values.name}
         />
-        <PencilImageInput
+        {/* <PencilImageInput
           values={values}
           setValues={setValues}
-        />
+        /> */}
         <Spacer height={10} />
         <CommonInput
           value={values.name}

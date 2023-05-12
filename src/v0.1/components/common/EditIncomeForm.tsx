@@ -9,7 +9,6 @@ import SelectionModal from "../../components/common/Modals/SelectionModal";
 import Form from "../../components/Library/Form";
 import customStyles from "../../styles/customStyles";
 import { NavigationProp } from "@react-navigation/native";
-import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import usePayment from "../../hooks/usePayment";
 import useForm from "../../hooks/useForm";
 import useEditIncome from "../../services/Incomes/useEditIncome";
@@ -35,8 +34,6 @@ const validateOptions: ValidateOptions = {
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
-    const { data: clients } = useGetAllContacts();
-
     const [modalPayment, setModalPayment] = useState(false);
     const [modalState, setModalState] = useState(false);
 
@@ -49,17 +46,11 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         paymentsOptions,
     } = usePayment();
 
-    const handleClient = ( clientId: string, data: any[]) =>{
-        const client = data.find(
-        (contact: { id: string }) => contact.id === clientId
-        );
-        return client ? client.name : null;
-    }
-
     const initialValues: InitialIncome = {
         value: String(data?.value),
         name: data?.name,
-        clientId: handleClient(data?.clientId, clients),
+        clientId: data?.client?.id,
+        clientName: data?.client ? data?.client.name : "",
         isPaid: data?.isPaid,
         paymentMethod:  handlePaymentName(data?.paymentMethod),
         date: data?.date,
@@ -79,7 +70,8 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         if (params?.contact) {
             setValues((prev) => ({
                 ...prev,
-                clientId: params?.contact.name
+                clientName: params?.contact.name,
+                clientId: params?.contact.id
             }));
         }
     }, [params?.contact]);
@@ -96,7 +88,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         data.id,
         {
             paymentMethod: handlePayment(values.paymentMethod),
-            clientId: params?.contact ? params?.contact?.id : data?.clientId,
+            clientId: params?.contact ? params?.contact?.id : data?.client?.id,
             date: values.date,
             isPaid: values.isPaid,
             name: values.name,
@@ -105,7 +97,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('Transactions')
-                queryClient.invalidateQueries('IncomeDetail')
+                queryClient.removeQueries('IncomeDetail')
                 navigation.navigate('balance');
                 showToast();
             },
@@ -215,14 +207,18 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
                     placeholder="Seleccione un cliente"
                     name="Cliente"
                     required={values.isPaid === false}
-                    value={values.clientId}
+                    value={values.clientName}
                     marginBottom={20}
                     onPress={() => {
                     navigation.navigate("Clients", { screen: "EditIncome" });
                     }}
                     onPressClose={() => {
-                    setValues((prev) => ({ ...prev, clientId: "" }));
-                    navigation.setParams({ contact: "" });
+                        setValues((prev) => ({
+                            ...prev,
+                            clientId: "",
+                            clientName: ""
+                        }));
+                        navigation.setParams({ contact: "" });
                     }}
                 />
                 <InputDate
