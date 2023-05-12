@@ -10,8 +10,6 @@ interface Props {
 
 const PaymentTypes = ({ paidData }: Props) => {
 
-    console.log('paidDta:', paidData);
-
     return (
         <View style={{
             flex: 1,
