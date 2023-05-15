@@ -9,7 +9,6 @@ import SelectionModal from "../../components/common/Modals/SelectionModal";
 import Form from "../../components/Library/Form";
 import customStyles from "../../styles/customStyles";
 import { NavigationProp } from "@react-navigation/native";
-import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
 import usePayment from "../../hooks/usePayment";
 import useForm from "../../hooks/useForm";
 import useEditIncome from "../../services/Incomes/useEditIncome";
@@ -18,239 +17,229 @@ import Button from "./Button";
 import LoadingComponent from "../Library/LoadingComponent";
 
 interface Props {
-    navigation: NavigationProp<any, any>;
-    params: any;
-    data: any;
+  navigation: NavigationProp<any, any>;
+  params: any;
+  data: any;
 }
 interface ValidateOptions {
-    isPaid: string[];
-    isPending: string[];
+  isPaid: string[];
+  isPending: string[];
 }
 
 const { mainColor, width, marginHorizontal } = customStyles;
 const validateOptions: ValidateOptions = {
-    isPaid: ["value"],
-    isPending: ["value", "clientId"],
+  isPaid: ["value"],
+  isPending: ["value", "clientId"],
 };
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
+  const [modalPayment, setModalPayment] = useState(false);
+  const [modalState, setModalState] = useState(false);
 
-    const { data: clients } = useGetAllContacts();
+  const {
+    handlePayment,
+    handlePaymentName,
+    handleSelected,
+    handleState,
+    stateOptions,
+    paymentsOptions,
+  } = usePayment();
 
-    const [modalPayment, setModalPayment] = useState(false);
-    const [modalState, setModalState] = useState(false);
+  const initialValues: InitialIncome = {
+    value: String(data?.value),
+    name: data?.name,
+    clientId: data?.client?.id,
+    clientName: data?.client ? data?.client.name : "",
+    isPaid: data?.isPaid,
+    paymentMethod: handlePaymentName(data?.paymentMethod),
+    date: data?.date,
+  };
 
-    const {
-        handlePayment,
-        handlePaymentName,
-        handleSelected,
-        handleState,
-        stateOptions,
-        paymentsOptions,
-    } = usePayment();
-
-    const handleClient = ( clientId: string, data: any[]) =>{
-        const client = data.find(
-        (contact: { id: string }) => contact.id === clientId
-        );
-        return client ? client.name : null;
-    }
-
-    const initialValues: InitialIncome = {
-        value: String(data?.value),
-        name: data?.name,
-        clientId: handleClient(data?.clientId, clients),
-        isPaid: data?.isPaid,
-        paymentMethod:  handlePaymentName(data?.paymentMethod),
-        date: data?.date,
-    };
-
-    const { values, setValues, validateValues } =
+  const { values, setValues, validateValues } =
     useForm<InitialIncome>(initialValues);
 
-    const toValidate = useMemo(() =>
-        (values.isPaid ?
-            validateOptions.isPaid
-            : validateOptions.isPending),
-        [values.isPaid]
-    );
+  const toValidate = useMemo(
+    () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
+    [values.isPaid]
+  );
 
-    useEffect(() => {
-        if (params?.contact) {
-            setValues((prev) => ({
-                ...prev,
-                clientId: params?.contact.name
-            }));
-        }
-    }, [params?.contact]);
-
-    const showToast = () => {
-        ToastAndroid.showWithGravity(
-            "La transacción fue editada satisfactoriamente",
-            ToastAndroid.LONG,
-            ToastAndroid.TOP
-        );
-    };
-
-    const { mutateAsync, isLoading } = useEditIncome(
-        data.id,
-        {
-            paymentMethod: handlePayment(values.paymentMethod),
-            clientId: params?.contact ? params?.contact?.id : data?.clientId,
-            date: values.date,
-            isPaid: values.isPaid,
-            name: values.name,
-            value: parseFloat(values.value.replace(/\./g,'').replace(",", "."))
-        },
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries('Transactions')
-                queryClient.invalidateQueries('IncomeDetail')
-                navigation.navigate('balance');
-                showToast();
-            },
-        }
-    );
-
-    const handleSubmit = () => {
-        if (validateValues(toValidate)) {
-            mutateAsync();
-        }
-    };
-
-    if (isLoading) {
-        return <LoadingComponent color={mainColor} />;
+  useEffect(() => {
+    if (params?.contact) {
+      setValues((prev) => ({
+        ...prev,
+        clientName: params?.contact.name,
+        clientId: params?.contact.id,
+      }));
     }
+  }, [params?.contact]);
 
-    return (
-        <View
+  const showToast = () => {
+    ToastAndroid.showWithGravity(
+      "La transacción fue editada satisfactoriamente",
+      ToastAndroid.LONG,
+      ToastAndroid.TOP
+    );
+  };
+
+  const { mutateAsync, isLoading } = useEditIncome(
+    data.id,
+    {
+      paymentMethod: handlePayment(values.paymentMethod),
+      clientId: params?.contact ? params?.contact?.id : values.clientId,
+      date: values.date,
+      isPaid: values.isPaid,
+      name: values.name,
+      value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("Transactions");
+        queryClient.removeQueries("IncomeDetail");
+        navigation.navigate("balance");
+        showToast();
+      },
+    }
+  );
+
+  const handleSubmit = () => {
+    if (validateValues(toValidate)) {
+      mutateAsync();
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingComponent color={mainColor} />;
+  }
+
+  return (
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
+      <Form>
+        <InputForm
+          keyboardType="numeric"
+          placeholder="0,00"
+          value={values.value}
+          name="Valor"
+          setValue={(val) => {
+            const newValue = !!val && val !== "NaN" ? val : "";
+            setValues((prev) => ({ ...prev, value: newValue }));
+          }}
+          marginBottom={20}
+          marginTop={15}
+          required
+        />
+        <CommonInput
+          placeholder="¿Como quieres llamar a este ingreso?"
+          name="Descripción"
+          marginBottom={20}
+          value={values.name}
+          setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+        />
+        {values.isPaid === true ? (
+          <View
             style={{
-                flex: 1
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
-        >
-            <Form>
-                <InputForm
-                    keyboardType="numeric"
-                    placeholder="0,00"
-                    value={values.value}
-                    name="Valor"
-                    setValue={(val) => {
-                    const newValue = !!val && val !== "NaN" ? val : "";
-                    setValues((prev) => ({ ...prev, value: newValue }));
-                    }}
-                    marginBottom={20}
-                    marginTop={15}
-                    required
-                />
-                <CommonInput
-                    placeholder="¿Como quieres llamar a este ingreso?"
-                    name="Descripción"
-                    marginBottom={20}
-                    value={values.name}
-                    setValue={
-                    (text) => setValues((prev) => (
-                        { ...prev, name: text }
-                    ))
-                    }
-                />
-            {values.isPaid === true ? (
-                <View
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                }}
-                >
-                    <View
-                        style={{
-                        display: "flex",
-                        width: (width - 100) / 2,
-                        }}
-                    >
-                        <OptionModal
-                        title="Estado"
-                        options={stateOptions}
-                        isModalVisible={modalState}
-                        setIsModalVisible={setModalState}
-                        selectedOption={handleSelected(values.isPaid)}
-                        setSelectedOption={(text) =>
-                            setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
-                        }
-                        />
-                    </View>
-                    <View
-                        style={{
-                        display: "flex",
-                        width: (width - 100) / 2,
-                        }}
-                    >
-                        <OptionModal
-                        title="Método de Pago"
-                        options={paymentsOptions}
-                        isModalVisible={modalPayment}
-                        setIsModalVisible={setModalPayment}
-                        selectedOption={values.paymentMethod}
-                        setSelectedOption={(text) =>
-                            setValues((prev) => ({
-                            ...prev,
-                            paymentMethod: text,
-                            }))
-                        }
-                        />
-                    </View>
-                </View>
-            ) : (
-                <OptionModal
-                    title="Estado"
-                    options={stateOptions}
-                    isModalVisible={modalState}
-                    setIsModalVisible={setModalState}
-                    selectedOption={handleSelected(values.isPaid)}
-                    setSelectedOption={(text) =>
-                        setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
-                    }
-                />
-            )}
-                <SelectionModal
-                    placeholder="Seleccione un cliente"
-                    name="Cliente"
-                    required={values.isPaid === false}
-                    value={values.clientId}
-                    marginBottom={20}
-                    onPress={() => {
-                    navigation.navigate("Clients", { screen: "EditIncome" });
-                    }}
-                    onPressClose={() => {
-                    setValues((prev) => ({ ...prev, clientId: "" }));
-                    navigation.setParams({ contact: "" });
-                    }}
-                />
-                <InputDate
-                    name="Fecha"
-                    date={values.date}
-                    setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
-                    color={mainColor}
-                />
-            </Form>
+          >
             <View
-                style={{
-                height: 80,
-                justifyContent: "center",
-                marginHorizontal: marginHorizontal,
-                }}
+              style={{
+                display: "flex",
+                width: (width - 100) / 2,
+              }}
             >
-            <Button
-                disabled={!validateValues(toValidate)}
-                onPress={handleSubmit}
-                text="Guardar cambios"
-                style={{
-                    backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
-                    borderRadius: 25,
-                }}
-            />
+              <OptionModal
+                title="Estado"
+                options={stateOptions}
+                isModalVisible={modalState}
+                setIsModalVisible={setModalState}
+                selectedOption={handleSelected(values.isPaid)}
+                setSelectedOption={(text) =>
+                  setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
+                }
+              />
             </View>
-        </View>
-    )
-}
+            <View
+              style={{
+                display: "flex",
+                width: (width - 100) / 2,
+              }}
+            >
+              <OptionModal
+                title="Método de Pago"
+                options={paymentsOptions}
+                isModalVisible={modalPayment}
+                setIsModalVisible={setModalPayment}
+                selectedOption={values.paymentMethod}
+                setSelectedOption={(text) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    paymentMethod: text,
+                  }))
+                }
+              />
+            </View>
+          </View>
+        ) : (
+          <OptionModal
+            title="Estado"
+            options={stateOptions}
+            isModalVisible={modalState}
+            setIsModalVisible={setModalState}
+            selectedOption={handleSelected(values.isPaid)}
+            setSelectedOption={(text) =>
+              setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
+            }
+          />
+        )}
+        <SelectionModal
+          placeholder="Seleccione un cliente"
+          name="Cliente"
+          required={values.isPaid === false}
+          value={values.clientName}
+          marginBottom={20}
+          onPress={() => {
+            navigation.navigate("Clients", { screen: "EditIncome" });
+          }}
+          onPressClose={() => {
+            setValues((prev) => ({
+              ...prev,
+              clientId: "",
+              clientName: "",
+            }));
+            navigation.setParams({ contact: "" });
+          }}
+        />
+        <InputDate
+          name="Fecha"
+          date={values.date}
+          setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
+          color={mainColor}
+        />
+      </Form>
+      <View
+        style={{
+          height: 80,
+          justifyContent: "center",
+          marginHorizontal: marginHorizontal,
+        }}
+      >
+        <Button
+          disabled={!validateValues(toValidate)}
+          onPress={handleSubmit}
+          text="Guardar cambios"
+          style={{
+            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
+            borderRadius: 25,
+          }}
+        />
+      </View>
+    </View>
+  );
+};
 
-export default EditIncomeForm
+export default EditIncomeForm;

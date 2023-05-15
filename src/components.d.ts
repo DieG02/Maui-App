@@ -8,6 +8,7 @@ interface IncomeAndExpense {
 
 interface InitialIncome extends IncomeAndExpense {
   clientId: string
+  clientName: string
 }
 
 interface InitialExpense extends IncomeAndExpense {

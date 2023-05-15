@@ -9,9 +9,17 @@ interface Props {
   data: IContact;
   type: string;
   onPress: () => void;
+  showNoRightIcon?: boolean;
+  disabled?: boolean;
 }
 
-const ContactCard = ({ data, type, onPress }: Props) => {
+const ContactCard = ({
+  data,
+  type,
+  onPress,
+  showNoRightIcon,
+  disabled,
+}: Props) => {
   const renderTypeContact = () => {
     switch (type) {
       case "client": {
@@ -54,6 +62,7 @@ const ContactCard = ({ data, type, onPress }: Props) => {
 
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -78,7 +87,7 @@ const ContactCard = ({ data, type, onPress }: Props) => {
               fontFamily: "Gilroy-SemiBold",
             }}
           >
-            {data.name}
+            {data?.name}
           </Text>
           <Text
             style={{
@@ -87,11 +96,13 @@ const ContactCard = ({ data, type, onPress }: Props) => {
               fontFamily: "Gilroy-Regular",
             }}
           >
-            {data.phone}
+            {data?.phone}
           </Text>
         </View>
       </View>
-      <Right name="chevron-small-right" color={textBlack} size={35} />
+      {!showNoRightIcon && (
+        <Right name="chevron-small-right" color={textBlack} size={35} />
+      )}
     </TouchableOpacity>
   );
 };

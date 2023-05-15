@@ -7,13 +7,14 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import Button from "../../components/common/Button";
 import ScrollContainer from "../../components/containers/ScrollContainer";
-
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
 import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
 import useToggle from "../../hooks/useToggle";
 import { parseDDMMYY } from "../../utils/helper";
+import ContactCard from "../../components/common/ContactCard";
+import useGetContactById from "../../services/Contact/useGetContactById";
 
 // TODO: Refactor this component
 interface Props {
@@ -26,7 +27,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
 
   const { value, toggle } = useToggle();
-
+  const { data } = useGetContactById(
+    params?.item?.clientId || params?.item?.providerId
+  );
   const flag = params?.item.category.name !== "Venta";
 
   const showToast = () => {
@@ -64,10 +67,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   };
 
   const handleOnPress = () => {
-    flag ?
-      navigation.navigate('EditExpense', { expense:params?.item })
-      : navigation.navigate('EditIncome', { id: params?.item.id })
-  }
+    flag
+      ? navigation.navigate("EditExpense", { expense: params?.item })
+      : navigation.navigate("EditIncome", { id: params?.item.id });
+  };
 
   return (
     <ScreenContainer>
@@ -153,6 +156,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           <RowTransaction
             label="Categoría del gasto"
             value={params?.item.category.name}
+          />
+        )}
+        {!data ? null : (
+          <ContactCard
+            disabled
+            data={data}
+            type={params?.item?.clientId ? "client" : "provider"}
+            onPress={() => {}}
+            showNoRightIcon={true}
           />
         )}
       </ScrollContainer>
