@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
 import { useMutation } from "react-query";
-import { signUp } from "../../services/auth";
+import { signIn, signUp } from "../../services/auth";
 import { signUpInputBodyDto } from "../../../../../Maui-Backend/src/controllers/types";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -14,6 +14,8 @@ import Button from "../../components/common/Button";
 import SecureInput from "../../components/common/SecureInput";
 import PhoneInput from "../../components/common/PhoneInput";
 import { countries } from "../../helpers/countries";
+import { AuthContext } from "../../context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -42,37 +44,34 @@ const { mainColor, textBlack } = customStyles;
 const toValidate = ["email", "password", "name", "cellphone"];
 
 export default function SignUpScreen({ navigation }: Props) {
-  const [country, setCountry] = useState("+ 54");
-  const [modal, setModal] = useState(false);
+  const [country, setCountry] = useState("+ 54")
+  const [modal, setModal] = useState(false)
+  const { setIsLoggedIn } = useContext(AuthContext)
 
   const { setValues, validateValues, values } =
-    useForm<SignUpUser>(initialValues);
+    useForm<SignUpUser>(initialValues)
 
-  const { mutateAsync } = useMutation(
-    (data: signUpInputBodyDto) => {
-      return signUp(data);
+  const { mutateAsync } = useMutation(signUp, {
+    onSuccess() {
+      signIn({email: values.email, password: values.password}).then((data)=>{
+        AsyncStorage.setItem("userInfo", JSON.stringify(data))
+        setIsLoggedIn(true)
+        navigation.navigate("HomeTabs")
+      })
     },
-    {
-      onError: (err) => {
-        console.log(err);
-      },
-      onSuccess: () => {
-        navigation.navigate("Login");
-      },
-    }
-  );
+  })
 
   const countrySelected = useMemo(() => {
-    return countries.filter((item) => item.id === country)[0];
-  }, [country]);
+    return countries.filter((item) => item.id === country)[0]
+  }, [country])
 
   const onPressSignUp = async () => {
     await mutateAsync({
       ...values,
       country: countrySelected.name,
       countryCode: countrySelected.prefix,
-    });
-  };
+    })
+  }
 
   return (
     <ScreenContainer>
