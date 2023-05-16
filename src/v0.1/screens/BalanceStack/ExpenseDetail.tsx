@@ -19,7 +19,6 @@ import useGetAllContacts from "../../services/Contacts/useGetAllContacts"
 import useEditExpense from "../../services/Expense/useEditExpense"
 import { showToast } from "../../utils/toast"
 import OptionWithIcon from "../../components/common/OptionWithIcon"
-import moment from "moment-timezone"
 import { queryClient } from "../../utils/queryClient"
 
 const { width } = Dimensions.get("window")
@@ -56,7 +55,9 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     const initialValues: InitialExpense = {
         value: String(data.value).toLocaleString(),
         name: data.name,
-        providerId: handleObjValue(data.providerId, 'id', 'name', providers),
+        providerId: handleObjValue(data.providerId, 'id', 'name', providers) ?
+            handleObjValue(data.providerId, 'id', 'name', providers)
+            : "",
         categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory),
         isPaid: data.isPaid,
         paymentMethod: handlePaymentName(data.paymentMethod),
@@ -81,7 +82,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
 
     const { mutateAsync, isLoading } = useEditExpense(data.id, {
         ...values,
-        value: parseFloat((values.value).replace(".", "").replace(",", ".")),
+        value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
         paymentMethod: handlePayment(values.paymentMethod),
         providerId: params?.contact ? params?.contact?.id : params?.expense.providerId,
         categoryId: expenseCategory && handleObjValue(values.categoryId, 'name', 'id', expenseCategory),
@@ -89,7 +90,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('Transactions')
-                queryClient.invalidateQueries("expenseDetail")
+                queryClient.removeQueries("expenseDetail")
                 navigation.navigate('balance')
                 showToast("La transacción fue creada satisfactoriamente")
             },
@@ -114,7 +115,11 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
                     setIsModalVisible={setModalExpenseCategory}
                     selectedOption={values.categoryId}
                     setSelectedOption={(text) => {
-                        setValues((prev) => ({ ...prev, categoryId: text }))
+                        setValues((prev) => ({
+                            ...prev,
+                            categoryId: text,
+                            name: text
+                        }))
                     }}
                 />
                 <InputForm name="Valor"
@@ -194,7 +199,10 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
                         navigation.navigate("Providers", { screen: "EditExpense" })
                     }}
                     onPressClose={() => {
-                        setValues((prev) => ({ ...prev, providerId: "" }))
+                        setValues((prev) => ({
+                            ...prev,
+                            providerId: ""
+                        }))
                         navigation.setParams({ contact: "" })
                     }}
                 />

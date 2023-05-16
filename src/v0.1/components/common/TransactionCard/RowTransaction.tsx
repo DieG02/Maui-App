@@ -27,7 +27,7 @@ const RowTransaction = ({ label, value }: Props) => {
           style={{
             fontSize: 16,
             color: textBlack,
-            fontFamily: "Gilroy-Regular",
+            fontFamily: "Gilroy-Regular"
           }}
         >
           {label}
@@ -37,7 +37,9 @@ const RowTransaction = ({ label, value }: Props) => {
             fontSize: 16,
             color: textBlack,
             fontFamily: "Gilroy-Regular",
+            maxWidth: "50%"
           }}
+          numberOfLines={1}
         >
           {value}
         </Text>
