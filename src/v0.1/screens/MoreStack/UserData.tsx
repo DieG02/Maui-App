@@ -34,7 +34,6 @@ const showToast = () => {
 
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route
-  const [country, setCountry] = useState(params?.data?.countryCode)
   const [modal, setModal] = useState(false)
   const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data)
   const email = params?.email
@@ -44,7 +43,7 @@ const UserData = ({ navigation, route }: Props) => {
     cellPhone: values.cellPhone,
     name: values.name,
     address: values.address,
-    countryCode: country
+    countryCode: values.countryCode
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -100,8 +99,8 @@ const UserData = ({ navigation, route }: Props) => {
           setValue={cellPhone => setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, cellPhone }))}
           isModalVisible={modal}
           setIsModalVisible={setModal}
-          selectedOption={country}
-          setSelectedOption={(value) => setCountry(value)}
+          selectedOption={values.countryCode}
+          setSelectedOption={(countryCode) => setValues((prev: editUserAccountBodyInputDto) => ({...prev, countryCode}))}
           placeholder="Numero de Celular"
           marginBottom={20}
           notRequired
