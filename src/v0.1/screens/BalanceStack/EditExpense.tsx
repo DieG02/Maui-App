@@ -6,6 +6,7 @@ import customStyles from "../../styles/customStyles";
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import useGetExpense from "../../services/Expense/useGetExpById";
 import ExpenseDetail from "./ExpenseDetail";
+import { queryClient } from "../../utils/queryClient";
 
 const { mainColor, background2 } = customStyles;
 interface Props {
@@ -23,8 +24,11 @@ const EditExpense = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle
         label="Editar Gasto"
-        onPressBack={() => navigation.goBack()}
         headerStyle={{ backgroundColor: background2 }}
+        onPressBack={() => {
+          queryClient.removeQueries('expenseDetail')
+          navigation.goBack()
+        }}
       />
       <ExpenseDetail navigation={navigation} data={data!} params={params} />
     </ScreenContainer>

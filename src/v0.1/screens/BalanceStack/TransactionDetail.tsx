@@ -181,6 +181,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           color={mainColor}
           style={{
             backgroundColor: babyBlue,
+            marginTop: 10,
           }}
           onPress={handleOnPress}
         />

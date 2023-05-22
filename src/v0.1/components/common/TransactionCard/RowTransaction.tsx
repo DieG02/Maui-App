@@ -13,7 +13,7 @@ const RowTransaction = ({ label, value }: Props) => {
   return (
     <View
       style={{
-        marginBottom: 20,
+        marginVertical: 10,
       }}
     >
       <View
@@ -37,6 +37,7 @@ const RowTransaction = ({ label, value }: Props) => {
             fontSize: 16,
             color: textBlack,
             fontFamily: "Gilroy-SemiBold",
+            maxWidth: "50%"
           }}
           numberOfLines={1}
         >
