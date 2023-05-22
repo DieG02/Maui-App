@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, StatusBar, Text } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import Spacer from "../../components/common/Spacer";
 import OptionCard from "../../components/common/OptionCard";
 import Right from "react-native-vector-icons/Entypo";
@@ -16,8 +16,7 @@ import customStyles from "../../styles/customStyles";
 import useGetAccount from "../../services/Account/useGetAccount";
 import { queryClient } from "../../utils/queryClient";
 
-const { textBlack } = customStyles;
-const statusBarStyle = "dark-content";
+const { textBlack, marginHorizontal, babyBlue } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -55,18 +54,17 @@ const More = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor="#f3f6f8" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackHeaderTitle
           label=""
           onPressBack={() => navigation.goBack()}
           headerStyle={{
-            backgroundColor: "#f3f6f8",
+            backgroundColor: babyBlue,
           }}
         />
         <View
           style={{
-            backgroundColor: "#f3f6f8",
+            backgroundColor: babyBlue,
             alignItems: "center",
           }}
         >
@@ -93,39 +91,39 @@ const More = ({ navigation }: Props) => {
           </Text>
           <Spacer height={20} />
         </View>
-        <View style={{ marginHorizontal: 10 }}>
-          <Spacer height={10} />
+        <View style={{ marginHorizontal: marginHorizontal }}>
+          <Spacer height={30} />
           <OptionCard
             title="Mis datos"
             onPress={() => navigation.navigate("UserData", { data, email })}
             arrow={
-              <Right name="chevron-small-right" color="#8B98B1" size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={30} />
             }
-            icon={<Business name="user" color="#8B98B1" size={25} />}
+            icon={<Business name="user" color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
             title="Clientes"
             onPress={() => navigation.navigate("Clients")}
             arrow={
-              <Right name="chevron-small-right" color="#8B98B1" size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={30} />
             }
-            icon={<Contact name="contact-page" color="#8B98B1" size={28} />}
+            icon={<Contact name="contact-page" color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
             title="Provedores"
             onPress={() => navigation.navigate("Providers")}
             arrow={
-              <Right name="chevron-small-right" color="#8B98B1" size={35} />
+              <Right name="chevron-small-right" color={textBlack} size={30} />
             }
-            icon={<Costumer name="truck" color="#8B98B1" size={25} />}
+            icon={<Costumer name="truck" color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
-            title="Salir"
+            title="Cerrar sesión"
             onPress={() => handleLogout()}
-            icon={<Costumer name="sign-out" color="#8B98B1" size={25} />}
+            icon={<Costumer name="sign-out" color={textBlack} size={22} />}
           />
         </View>
       </ScrollView>

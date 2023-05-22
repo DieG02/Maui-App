@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, StackActions } from "@react-navigation/native";
 import React, { useContext } from "react";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
@@ -17,7 +17,7 @@ import SecureInput from "../../components/common/SecureInput";
 interface Props {
   navigation: NavigationProp<any, any>;
 }
-const { mainColor, textBlack, white } = customStyles;
+const { mainColor, textBlack, white, background2 } = customStyles;
 const statusBarStyle = "dark-content";
 
 interface LoginUser {
@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }: Props) {
     if (data.token) {
       await AsyncStorage.setItem("userInfo", JSON.stringify(data));
       setIsLoggedIn(true);
-      navigation.navigate("HomeTabs");
+      navigation.dispatch(StackActions.replace("HomeTabs"));
     }
   };
 
@@ -60,7 +60,7 @@ export default function LoginScreen({ navigation }: Props) {
           }}
         >
           <View style={{ alignItems: "center", marginBottom: 35 }}>
-            <Image source={logo} style={{ width: 150, height: 50 }} />
+            <Image source={logo} style={{ width: 200, height: 40 }} />
           </View>
 
           <CommonInput
@@ -90,15 +90,14 @@ export default function LoginScreen({ navigation }: Props) {
             disabled={!validateValues(toValidate)}
             onPress={onPressLogin}
             text="Iniciar Sesión"
+            color={validateValues(toValidate) ? white : mainColor}
             style={{
               backgroundColor: validateValues(toValidate)
                 ? mainColor
-                : "#B3B3B3",
-              height: 55,
-              borderRadius: 12,
+                : background2,
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 30,
+              marginTop: 20,
             }}
           />
           <TouchableOpacity
@@ -106,7 +105,7 @@ export default function LoginScreen({ navigation }: Props) {
             style={{
               display: "flex",
               flexDirection: "row",
-              marginVertical: 20,
+              marginVertical: 30,
             }}
           >
             <Text

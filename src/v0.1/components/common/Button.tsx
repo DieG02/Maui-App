@@ -12,7 +12,7 @@ const Button: props = ({ color, style, text, disabled, ...otherProps }) => {
   const styles = StyleSheet.create({
     root: {
       borderRadius: 30,
-      height: 50,
+      height: 60,
       alignItems: "center",
       justifyContent: "center",
     },

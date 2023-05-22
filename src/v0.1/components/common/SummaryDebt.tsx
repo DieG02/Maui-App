@@ -1,27 +1,25 @@
-import { View, Text } from "react-native"
-import customStyles from "../../styles/customStyles"
+import { View, Text } from "react-native";
+import customStyles from "../../styles/customStyles";
 
-const { textBlue, white } = customStyles
+const { white, mainColor } = customStyles;
 
 interface Props {
-  type: "income" | "expense"
-  amount: number
-  stakeholders: number
+  type: "income" | "expense";
+  amount: number;
+  stakeholders: number;
 }
 
-const SummaryDebt = ({
-  type,
-  amount,
-  stakeholders
-}: Props) => {
+const SummaryDebt = ({ type, amount, stakeholders }: Props) => {
   return (
     <View
       style={{
         height: 60,
-        backgroundColor: textBlue,
+        backgroundColor: mainColor,
         flexDirection: "column",
         display: "flex",
         paddingHorizontal: 20,
+        margin: 20,
+        borderRadius: 10,
         justifyContent: "center",
       }}
     >
@@ -32,10 +30,11 @@ const SummaryDebt = ({
         {amount?.toLocaleString("es-AR", {
           style: "currency",
           currency: "ARS",
-        })} de {stakeholders} {`${type === "income" ? "Clientes" : "Provedores"}`}
+        })}
+        de {stakeholders} {`${type === "income" ? "Clientes" : "Proveedores"}`}
       </Text>
     </View>
-  )
-}
+  );
+};
 
 export default SummaryDebt;

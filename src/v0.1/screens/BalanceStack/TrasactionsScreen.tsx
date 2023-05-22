@@ -1,4 +1,4 @@
-import { StatusBar, View, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import React, { useCallback, useState } from "react";
 import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import EmptyState from "../../components/common/EmptyState";
@@ -16,9 +16,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, textBlack, width, marginHorizontal, white } = customStyles;
-
-const statusBarStyle = "dark-content";
+const { mainColor, width, marginHorizontal, background2 } = customStyles;
 
 const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
@@ -41,7 +39,6 @@ const TransactionsScreen = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
       {!isSearch ? (
         <>
           <Header
@@ -91,40 +88,33 @@ const TransactionsScreen = ({ navigation }: Props) => {
           )
         }
       />
+
       <View
         style={{
-          height: 70,
-          width: "100%",
-          justifyContent: "center",
+          flexDirection: "row",
+          marginHorizontal: 20,
+          marginBottom: 20,
+          marginTop: 10,
+          justifyContent: "space-between",
         }}
       >
-        <View
+        <Button
+          onPress={() => navigation.navigate("NewIncome")}
+          text="Nuevo Ingreso"
           style={{
-            flexDirection: "row",
-            marginHorizontal: 20,
-            justifyContent: "space-between",
-            height: 70,
-            alignItems: "flex-start",
+            backgroundColor: mainColor,
+            width: (width - 60) / 2,
           }}
-        >
-          <Button
-            onPress={() => navigation.navigate("NewIncome")}
-            text="Nuevo Ingreso"
-            style={{
-              backgroundColor: mainColor,
-              width: (width - 60) / 2,
-            }}
-          />
-          <Button
-            onPress={() => navigation.navigate("NewExpense")}
-            text="Nuevo Gasto"
-            color={textBlack}
-            style={{
-              backgroundColor: "#f3f6f8",
-              width: (width - 60) / 2,
-            }}
-          />
-        </View>
+        />
+        <Button
+          onPress={() => navigation.navigate("NewExpense")}
+          text="Nuevo Gasto"
+          color={mainColor}
+          style={{
+            backgroundColor: background2,
+            width: (width - 60) / 2,
+          }}
+        />
       </View>
     </ScreenContainer>
   );

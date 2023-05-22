@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   View,
   Dimensions,
-  StatusBar,
   ToastAndroid,
   Platform,
   KeyboardAvoidingView,
@@ -32,7 +31,7 @@ import { queryClient } from "../../utils/queryClient";
 
 const { width } = Dimensions.get("window");
 
-const { mainColor, marginHorizontal } = customStyles;
+const { mainColor, marginHorizontal, background2 } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -119,7 +118,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('expenseDebts');
+        queryClient.invalidateQueries("expenseDebts");
         navigation.goBack();
         showToast();
       },
@@ -138,11 +137,10 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar backgroundColor="#E8F1FD" />
       <BackHeaderTitle
-        label="Nuevo Egreso"
+        label="Nuevo Gasto"
         onPressBack={() => navigation.goBack()}
-        headerStyle={{ backgroundColor: "#E8F1FD" }}
+        headerStyle={{ backgroundColor: background2 }}
       />
       <KeyboardAvoidingView
         style={{
@@ -177,7 +175,7 @@ const NewExpense = ({ navigation, route }: Props) => {
             required
           />
           <CommonInput
-            placeholder="¿Como quieres llamar a este egreso?"
+            placeholder="¿Como quieres llamar a este gasto?"
             name="Descripción"
             marginBottom={20}
             value={values.name}
@@ -270,17 +268,20 @@ const NewExpense = ({ navigation, route }: Props) => {
       </KeyboardAvoidingView>
       <View
         style={{
-          height: 80,
           justifyContent: "center",
           marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Registrar egreso"
+          text="Registrar gasto"
+          color={validateValues(toValidate) ? "white" : mainColor}
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
+            backgroundColor: validateValues(toValidate)
+              ? mainColor
+              : background2,
             borderRadius: 25,
           }}
         />

@@ -18,7 +18,7 @@ import useGetAccount from "../services/Account/useGetAccount";
 import useGetAllContacts from "../services/Contacts/useGetAllContacts";
 import useGetExpenseCategories from "../services/Expenses/useGetExpenseCategories";
 
-const { mainColor, disabled } = customStyles;
+const { mainColor, textBlack, mistyBlue } = customStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 
@@ -28,7 +28,7 @@ const HomeTabs = () => {
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingAccount = useGetAccount().isLoading;
   const isFetchingContacts = useGetAllContacts().isLoading;
-  const isFetchingGetExpenseCategories = useGetExpenseCategories().isLoading
+  const isFetchingGetExpenseCategories = useGetExpenseCategories().isLoading;
 
   const isLoading =
     isFetchingTransactions ||
@@ -40,14 +40,15 @@ const HomeTabs = () => {
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }
+
   return (
     <SafeAreaProvider>
       <Tab.Navigator
         initialRouteName="home"
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: mainColor,
-          tabBarInactiveTintColor: disabled,
+          tabBarActiveTintColor: textBlack,
+          tabBarInactiveTintColor: mistyBlue,
           tabBarStyle: {
             height: Platform.OS === "ios" ? 90 : 60,
             borderTopWidth: 0,

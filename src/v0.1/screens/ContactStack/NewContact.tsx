@@ -19,7 +19,7 @@ interface Props {
 }
 const statusBarStyle = "dark-content";
 
-const { mainColor, width } = customStyles;
+const { mainColor, marginHorizontal } = customStyles;
 
 interface Contact {
   name: string;
@@ -121,11 +121,9 @@ const NewContact = ({ route, navigation }: Props) => {
 
       <View
         style={{
-          width: "100%",
-          height: 80,
-          alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          marginHorizontal: marginHorizontal,
+          marginVertical: 20,
         }}
       >
         <Button
@@ -133,8 +131,6 @@ const NewContact = ({ route, navigation }: Props) => {
           onPress={() => setIsModalVisible(true)}
           style={{
             backgroundColor: mainColor,
-            width: width - 40,
-            elevation: 4,
           }}
         />
       </View>

@@ -21,7 +21,8 @@ interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
 }
-const { secondaryColor, textBlack, width, textBlue } = customStyles;
+const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } =
+  customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
@@ -30,12 +31,12 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const { data } = useGetContactById(
     params?.item?.clientId || params?.item?.providerId
   );
-  const flag = params?.item.category.name !== "Venta";
+  const isExpense = params?.item.category.name !== "Venta";
 
   const showToast = () => {
-    if (flag) {
+    if (isExpense) {
       ToastAndroid.show(
-        "El egreso fue eliminado satisfactoriamente",
+        "El gasto fue eliminado satisfactoriamente",
         ToastAndroid.SHORT
       );
     } else {
@@ -62,12 +63,12 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   });
 
   const handleDelete = () => {
-    flag ? deleteExpense() : deleteIncome();
+    isExpense ? deleteExpense() : deleteIncome();
     toggle();
   };
 
   const handleOnPress = () => {
-    flag
+    isExpense
       ? navigation.navigate("EditExpense", { expense: params?.item })
       : navigation.navigate("EditIncome", { id: params?.item.id });
   };
@@ -96,9 +97,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         >
           <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 40,
+              width: 100,
+              height: 100,
+              borderRadius: 50,
               backgroundColor: secondaryColor,
               alignItems: "center",
               justifyContent: "center",
@@ -108,14 +109,14 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             <Image
               source={{ uri: params?.item.category.imageUrl }}
               style={{
-                width: 30,
-                height: 30,
+                width: 40,
+                height: 40,
               }}
             />
           </View>
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 24,
               color: textBlack,
               fontFamily: "Gilroy-SemiBold",
             }}
@@ -170,18 +171,16 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       </ScrollContainer>
       <View
         style={{
-          width: "100%",
-          height: 80,
-          alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "white",
+          marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           text="Editar"
+          color={mainColor}
           style={{
-            backgroundColor: textBlue,
-            width: width - 60,
+            backgroundColor: babyBlue,
           }}
           onPress={handleOnPress}
         />

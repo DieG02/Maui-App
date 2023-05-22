@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import customStyles from "../../styles/customStyles";
 import Right from "react-native-vector-icons/Entypo";
 
-const { mainColor, textBlack, background, secondaryColor } = customStyles;
+const { textBlack, background, background2, blueGrotto } = customStyles;
 interface Props {
   data: IContact;
   type: string;
@@ -28,14 +28,14 @@ const ContactCard = ({
             style={{
               width: 50,
               height: 50,
-              backgroundColor: secondaryColor,
-              borderRadius: 15,
-              marginRight: 30,
+              backgroundColor: background2,
+              borderRadius: 25,
+              marginRight: 15,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="user" size={25} color={mainColor} />
+            <Icon name="user" size={20} color={blueGrotto} />
           </View>
         );
       }
@@ -46,14 +46,14 @@ const ContactCard = ({
             style={{
               width: 50,
               height: 50,
-              backgroundColor: secondaryColor,
-              borderRadius: 15,
-              marginRight: 30,
+              backgroundColor: background2,
+              borderRadius: 25,
+              marginRight: 15,
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Icon name="truck" size={25} color={mainColor} />
+            <Icon name="truck" size={20} color={blueGrotto} />
           </View>
         );
       }
@@ -101,7 +101,16 @@ const ContactCard = ({
         </View>
       </View>
       {!showNoRightIcon && (
-        <Right name="chevron-small-right" color={textBlack} size={35} />
+        <View
+          style={{
+            width: 50,
+            height: 50,
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          <Right name="chevron-small-right" color={textBlack} size={30} />
+        </View>
       )}
     </TouchableOpacity>
   );

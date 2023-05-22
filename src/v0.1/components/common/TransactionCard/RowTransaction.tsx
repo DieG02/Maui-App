@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import customStyles from "../../../styles/customStyles";
 
-const { textBlack } = customStyles;
+const { textBlack, babyBlue } = customStyles;
 
 interface Props {
   label: string;
@@ -20,14 +20,14 @@ const RowTransaction = ({ label, value }: Props) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginBottom: 10,
+          marginBottom: 15,
         }}
       >
         <Text
           style={{
             fontSize: 16,
             color: textBlack,
-            fontFamily: "Gilroy-Regular"
+            fontFamily: "Gilroy-Medium",
           }}
         >
           {label}
@@ -36,8 +36,7 @@ const RowTransaction = ({ label, value }: Props) => {
           style={{
             fontSize: 16,
             color: textBlack,
-            fontFamily: "Gilroy-Regular",
-            maxWidth: "50%"
+            fontFamily: "Gilroy-SemiBold",
           }}
           numberOfLines={1}
         >
@@ -47,7 +46,7 @@ const RowTransaction = ({ label, value }: Props) => {
       <View
         style={{
           height: 1.5,
-          backgroundColor: "#D9D9D9",
+          backgroundColor: babyBlue,
         }}
       />
     </View>
