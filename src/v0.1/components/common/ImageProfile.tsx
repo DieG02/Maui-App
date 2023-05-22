@@ -8,7 +8,7 @@ interface Props {
   name: string;
 }
 
-const { mainColor } = customStyles;
+const { mainColor, background2 } = customStyles;
 
 const ImageProfile = ({ url, name }: Props) => {
   return (
@@ -22,7 +22,7 @@ const ImageProfile = ({ url, name }: Props) => {
         style={{
           width: 120,
           height: 120,
-          backgroundColor: mainColor,
+          backgroundColor: background2,
           borderRadius: 100,
           alignItems: "center",
           justifyContent: "center",
@@ -41,9 +41,9 @@ const ImageProfile = ({ url, name }: Props) => {
         ) : (
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 40,
               fontWeight: "bold",
-              color: "white",
+              color: mainColor,
             }}
           >
             {getInitialLetters(name)}

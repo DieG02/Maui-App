@@ -9,7 +9,7 @@ interface Props {
   arrow?: React.ReactNode;
 }
 
-const { textBlack } = customStyles;
+const { textBlack, background2 } = customStyles;
 
 const OptionCard = ({ title, icon, arrow, onPress }: Props) => {
   return (
@@ -35,9 +35,11 @@ const OptionCard = ({ title, icon, arrow, onPress }: Props) => {
             style={{
               width: 50,
               height: 50,
-              marginRight: 10,
+              marginRight: 15,
               alignItems: "center",
               justifyContent: "center",
+              borderRadius: 25,
+              backgroundColor: background2,
             }}
           >
             {icon}
@@ -48,7 +50,7 @@ const OptionCard = ({ title, icon, arrow, onPress }: Props) => {
           style={{
             width: 50,
             height: 50,
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "center",
           }}
         >

@@ -33,15 +33,11 @@ import NewContact from "./src/v0.1/screens/ContactStack/NewContact";
 import DebtsScreen from "./src/v0.1/screens/DebtStack/Debts";
 import DebtorScreen from "./src/v0.1/screens/DebtStack/DebtorProfile";
 import { queryClient } from "./src/v0.1/utils/queryClient";
+import { StatusBar } from "react-native";
+import customStyles from "./src/v0.1/styles/customStyles";
 
-// v0.2
-
-// import AddItems from "./src/v0.2/BalanceStack/AddItems";
-// import ProductDetail from "./src/v0.2/InventoryStack/ProductDetail";
-// import Budget from "./src/v0.2/HomeStack/Budget";
-// import NotificationsScreen from "./src/v0.2/HomeStack/NotificationsScreen";
-// import UserBussinessScreen from "./src/v0.2/MoreStack/UserBussiness";
-// import NewProduct from "./src/v0.2/InventoryStack/NewProduct";
+const { white } = customStyles;
+const statusBarStyle = "dark-content";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,16 +46,22 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <GeneralProvider>
+          <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
           <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: "none",
+              }}
+            >
               <Stack.Screen name="Splash" component={SplashScreen} />
               <Stack.Screen name="SignUp" component={SignUpScreen} />
               <Stack.Screen name="Login" component={SignInScreen} />
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="NewIncome" component={NewIncome} />
-              <Stack.Screen name="EditIncome" component={EditIncome}/>
+              <Stack.Screen name="EditIncome" component={EditIncome} />
               <Stack.Screen name="NewExpense" component={NewExpense} />
-              <Stack.Screen name="EditExpense" component={EditExpense}/>
+              <Stack.Screen name="EditExpense" component={EditExpense} />
               <Stack.Screen name="DebtsModal" component={DebtsModal} />
               <Stack.Screen
                 name="TransactionDetail"

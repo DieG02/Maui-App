@@ -33,7 +33,7 @@ const SplashScreen = ({ navigation }: Props) => {
       }}
     >
       <View style={{ alignItems: "center", marginBottom: 30 }}>
-        <Image source={logo} style={{ width: 200, height: 50 }} />
+        <Image source={logo} style={{ width: 260, height: 50 }} />
       </View>
     </View>
   );

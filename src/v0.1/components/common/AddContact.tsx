@@ -15,7 +15,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor } = customStyles;
+const { textBlack, blueGrotto } = customStyles;
 
 const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
@@ -53,6 +53,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
   return (
     <TouchableOpacity
       onPress={() => !isAdded && mutateAsync(form)}
+      disabled={isAdded}
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -63,7 +64,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
       <View style={{ flexDirection: "column" }}>
         <Text
           style={{
-            color: "#131313",
+            color: textBlack,
             fontSize: 16,
             fontFamily: "Gilroy-SemiBold",
           }}
@@ -72,7 +73,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
         </Text>
         <Text
           style={{
-            color: "#131313",
+            color: textBlack,
             fontSize: 14,
             fontFamily: "Gilroy-Regular",
           }}
@@ -83,16 +84,22 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
       <View>
         {isLoading ? (
           <View style={{ width: 70 }}>
-            <ActivityIndicator size="small" color="#131313" />
+            <ActivityIndicator size="small" color={textBlack} />
           </View>
         ) : (
-          <View>
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: 80,
+            }}
+          >
             {isAdded ? (
               <Text
                 style={{
-                  color: mainColor,
+                  color: textBlack,
                   fontSize: 16,
-                  fontFamily: "Gilroy-SemiBold",
+                  fontFamily: "Gilroy-Bold",
                 }}
               >
                 Importado
@@ -100,7 +107,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
             ) : (
               <Text
                 style={{
-                  color: "#131313",
+                  color: blueGrotto,
                   fontSize: 16,
                   fontFamily: "Gilroy-SemiBold",
                 }}

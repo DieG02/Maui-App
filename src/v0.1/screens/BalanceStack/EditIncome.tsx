@@ -1,7 +1,5 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import "moment-timezone";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import customStyles from "../../styles/customStyles";
@@ -18,7 +16,6 @@ interface Props {
 }
 
 const EditIncome = ({ navigation, route }: Props) => {
-
   const { params } = route;
   const { data, isLoading } = useGetIncomeById(params?.id);
 
@@ -28,21 +25,16 @@ const EditIncome = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar backgroundColor={mainColor} />
       <BackHeaderTitle
         label="Editar Ingreso"
         onPressBack={() => {
-          queryClient.removeQueries('IncomeDetail')
-          navigation.goBack()
+          queryClient.removeQueries("IncomeDetail");
+          navigation.goBack();
         }}
         hasType
         color={mainColor}
       />
-      <EditIncomeForm
-        navigation={navigation}
-        data={data}
-        params={params}
-      />
+      <EditIncomeForm navigation={navigation} data={data} params={params} />
     </ScreenContainer>
   );
 };
