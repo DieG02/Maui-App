@@ -1,6 +1,6 @@
 import { View, FlatList } from "react-native";
-import DebtTypeCard from "../../components/common/DebtTypeCard";
 import customStyles from "../../styles/customStyles";
+import DebtsCard from "../../components/Library/DebtsCard/DebtsCard";
 
 const { background } = customStyles;
 
@@ -14,16 +14,17 @@ const DebtTypes = ({ data }: Props) => {
         <View style={{
             flex: 1,
             backgroundColor: background,
-            paddingTop: 20,
+            paddingVertical: 20,
+            alignItems: "flex-end"
         }}>
             <FlatList data={data}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>
-                    <DebtTypeCard name={item.name}
-                        icon={item?.url}
-                        value={item.value}
-                        createdAt={item.createdAt} />
+                    <DebtsCard
+                        data={item}
+                        type="debt"
+                    />
                 } />
         </View>
     )
