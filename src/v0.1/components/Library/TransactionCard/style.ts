@@ -20,28 +20,28 @@ const styles = (align?: string, color?: string) =>
       flexDirection: "row",
       justifyContent: "flex-start",
       alignItems: "center",
-      width: '65%'
+      width: "65%",
     },
     rightContainer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-end",
       alignItems: "center",
-      width: '35%'
+      width: "35%",
     },
     textContainer: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      width: '100%',
-      alignItems: align === "left" ? "flex-start" : "flex-end"
+      width: "100%",
+      alignItems: align === "left" ? "flex-start" : "flex-end",
     },
     iconContainer: {
       width: 50,
       height: 50,
       borderRadius: 25,
       backgroundColor: background2,
-      marginRight: 10,
+      marginRight: 15,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -54,7 +54,7 @@ const styles = (align?: string, color?: string) =>
       fontSize: 18,
       fontFamily: "Gilroy-Medium",
       color: color,
-      width: '70%'
+      width: "70%",
     },
     textSubtitle: {
       fontSize: 15,

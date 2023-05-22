@@ -33,7 +33,7 @@ const StateBalance = ({ data }: Props) => {
               type="ingreso"
             />
             <StateBalanceCard
-              state="Egresos"
+              state="Gastos"
               value={data?.expenses.toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",

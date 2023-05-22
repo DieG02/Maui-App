@@ -6,8 +6,15 @@ import Right from "react-native-vector-icons/Entypo";
 import moment from "moment";
 import "moment/locale/es";
 
-const { textBlack, background, secondaryColor, expense, income, royalBlue } =
-  customStyles;
+const {
+  textBlack,
+  background,
+  secondaryColor,
+  expense,
+  income,
+  royalBlue,
+  marginHorizontal,
+} = customStyles;
 
 interface Props {
   type: string;
@@ -86,7 +93,7 @@ const DebtContactCard = ({
 
   const styles = StyleSheet.create({
     container: {
-      marginHorizontal: 20,
+      marginHorizontal: marginHorizontal,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",

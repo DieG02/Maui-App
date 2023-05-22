@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, StatusBar, ToastAndroid } from "react-native";
+import { View, ToastAndroid } from "react-native";
 import InputForm from "../../components/common/InputForm";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CommonInput from "../../components/common/CommonInput";
@@ -22,7 +22,7 @@ import { queryClient } from "../../utils/queryClient";
 
 // TODO:Refactor this component
 
-const { marginHorizontal, mainColor, width } = customStyles;
+const { marginHorizontal, mainColor, width, background2 } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -76,7 +76,7 @@ const NewIncome = ({ navigation, route }: Props) => {
       setValues((prev) => ({
         ...prev,
         clientName: route.params?.contact.name,
-        clientId: route.params?.contact.id
+        clientId: route.params?.contact.id,
       }));
     }
   }, [route.params?.contact]);
@@ -101,7 +101,7 @@ const NewIncome = ({ navigation, route }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('incomes');
+        queryClient.invalidateQueries("incomes");
         navigation.goBack();
         showToast();
       },
@@ -120,7 +120,6 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar backgroundColor={mainColor} />
       <BackHeaderTitle
         label="Nuevo Ingreso"
         onPressBack={() => navigation.goBack()}
@@ -169,7 +168,10 @@ const NewIncome = ({ navigation, route }: Props) => {
                 setIsModalVisible={setModalState}
                 selectedOption={handleSelected(values.isPaid)}
                 setSelectedOption={(text) =>
-                  setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
+                  setValues((prev) => ({
+                    ...prev,
+                    isPaid: handleState(text),
+                  }))
                 }
               />
             </View>
@@ -229,17 +231,20 @@ const NewIncome = ({ navigation, route }: Props) => {
       </Form>
       <View
         style={{
-          height: 80,
           justifyContent: "center",
           marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
           text="Registrar ingreso"
+          color={validateValues(toValidate) ? "white" : mainColor}
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
+            backgroundColor: validateValues(toValidate)
+              ? mainColor
+              : background2,
             borderRadius: 25,
           }}
         />

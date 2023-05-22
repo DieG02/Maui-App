@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StatusBar, ScrollView, RefreshControl } from "react-native";
+import { ScrollView, RefreshControl } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import Spacer from "../../components/common/Spacer";
 import customStyles from "../../styles/customStyles";
@@ -14,8 +14,7 @@ import useGetBalance from "../../services/Balance/useGetBalance";
 import useGetMonthlyStats from "../../services/Balance/useGetStats";
 import useGetAccount from "../../services/Account/useGetAccount";
 
-const { mainColor, white } = customStyles;
-const statusBarStyle = "dark-content";
+const { mainColor } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -41,7 +40,6 @@ const HomeScreen = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
       <ScrollView
         overScrollMode="never"
         showsVerticalScrollIndicator={false}
@@ -62,7 +60,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={20} />
         <Title title="Resumen Mensual" />
         <Spacer height={20} />
-        <StateBalance data={stateBalance} />
+        <StateBalance data={stateBalance!} />
         <Spacer height={20} />
         <Title
           title="Últimos registros"

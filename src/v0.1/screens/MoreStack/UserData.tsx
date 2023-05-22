@@ -1,4 +1,4 @@
-import { StatusBar, ToastAndroid, Text } from "react-native";
+import { StatusBar, ToastAndroid, Text, View } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import React, { useState } from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -14,11 +14,10 @@ import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/con
 import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
 import useForm from "../../hooks/useForm";
-import PencilImageInput from "../../components/common/PencilImageInput";
 import PhoneInput from "../../components/common/PhoneInput";
 
 const statusBarStyle = "dark-content";
-const { mainColor, textBlack } = customStyles;
+const { mainColor, textBlack, background2 } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -33,18 +32,20 @@ const showToast = () => {
 };
 
 const UserData = ({ navigation, route }: Props) => {
-  const { params } = route
-  const [country, setCountry] = useState(params?.data?.countryCode)
-  const [modal, setModal] = useState(false)
-  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data)
-  const email = params?.email
-  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data)
+  const { params } = route;
+  const [country, setCountry] = useState(params?.data?.countryCode);
+  const [modal, setModal] = useState(false);
+  const { values, setValues } = useForm<editUserAccountBodyInputDto>(
+    params?.data
+  );
+  const email = params?.email;
+  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
   const data: editUserAccountBodyInputDto = {
     cellPhone: values.cellPhone,
     name: values.name,
     address: values.address,
-    countryCode: country
+    countryCode: country,
   };
 
   const { mutateAsync: editAccount, isLoading } = useMutation(
@@ -69,10 +70,7 @@ const UserData = ({ navigation, route }: Props) => {
       />
       <Form>
         <Spacer height={10} />
-        <ImageProfile
-          url={values.image}
-          name={values.name}
-        />
+        <ImageProfile url={values.image} name={values.name} />
         {/* <PencilImageInput
           values={values}
           setValues={setValues}
@@ -80,7 +78,7 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={10} />
         <CommonInput
           value={values.name}
-          setValue={name => setValues({ ...values, name })}
+          setValue={(name) => setValues({ ...values, name })}
           name="Nombre"
           marginBottom={20}
           autoCapitalize="words"
@@ -88,7 +86,7 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={5} />
         <CommonInput
           value={values.address}
-          setValue={address => setValues({ ...values, address })}
+          setValue={(address) => setValues({ ...values, address })}
           name="Direccion"
           placeholder="Escriba su direccion"
           marginBottom={20}
@@ -97,7 +95,12 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={5} />
         <PhoneInput
           value={values.cellPhone}
-          setValue={cellPhone => setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, cellPhone }))}
+          setValue={(cellPhone) =>
+            setValues((prev: editUserAccountBodyInputDto) => ({
+              ...prev,
+              cellPhone,
+            }))
+          }
           isModalVisible={modal}
           setIsModalVisible={setModal}
           selectedOption={country}
@@ -117,31 +120,41 @@ const UserData = ({ navigation, route }: Props) => {
         >
           Correo
         </Text>
-        <Text
+        <View
           style={{
-            color: textBlack,
-            fontFamily: "Gilroy-Regular",
-            marginTop: 5,
-            marginLeft: 20,
-            fontSize: 18,
+            backgroundColor: background2,
+            height: 55,
+            borderRadius: 12,
+            justifyContent: "center",
+            marginBottom: 20,
           }}
         >
-          {email}
-        </Text>
+          <Text
+            style={{
+              color: textBlack,
+              fontFamily: "Gilroy-Regular",
+              marginLeft: 20,
+              fontSize: 18,
+            }}
+          >
+            {email}
+          </Text>
+        </View>
         <Spacer height={15} />
         <Button
           text="Guardar"
           onPress={() => editAccount()}
           disabled={!isChanged}
+          color={isChanged ? "white" : mainColor}
           style={{
-            backgroundColor: isChanged ? mainColor : "#B3B3B3",
+            backgroundColor: isChanged ? mainColor : background2,
             marginBottom: 30,
-            marginTop: 10
+            marginTop: 10,
           }}
         />
       </Form>
     </ScreenContainer>
-  )
-}
+  );
+};
 
 export default UserData;
