@@ -16,8 +16,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, textBlack, width, marginHorizontal, background2 } =
-  customStyles;
+const { mainColor, width, marginHorizontal, background2 } = customStyles;
 
 const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState("");
@@ -110,7 +109,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
         <Button
           onPress={() => navigation.navigate("NewExpense")}
           text="Nuevo Gasto"
-          color={textBlack}
+          color={mainColor}
           style={{
             backgroundColor: background2,
             width: (width - 60) / 2,

@@ -1,11 +1,12 @@
 import React, { useContext, useMemo, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMutation } from "react-query";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
-import { useMutation } from "react-query";
+
 import { signIn, signUp } from "../../services/auth";
-import { signUpInputBodyDto } from "../../../../../Maui-Backend/src/controllers/types";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
 import Form from "../../components/Library/Form";
@@ -15,7 +16,6 @@ import SecureInput from "../../components/common/SecureInput";
 import PhoneInput from "../../components/common/PhoneInput";
 import { countries } from "../../helpers/countries";
 import { AuthContext } from "../../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -39,39 +39,41 @@ const initialValues = {
   countryCode: "",
 };
 
-const { mainColor, textBlack } = customStyles;
+const { mainColor, textBlack, background2, white } = customStyles;
 
 const toValidate = ["email", "password", "name", "cellphone"];
 
 export default function SignUpScreen({ navigation }: Props) {
-  const [country, setCountry] = useState("+ 54")
-  const [modal, setModal] = useState(false)
-  const { setIsLoggedIn } = useContext(AuthContext)
+  const [country, setCountry] = useState("+ 54");
+  const [modal, setModal] = useState(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
 
   const { setValues, validateValues, values } =
-    useForm<SignUpUser>(initialValues)
+    useForm<SignUpUser>(initialValues);
 
   const { mutateAsync } = useMutation(signUp, {
     onSuccess() {
-      signIn({email: values.email, password: values.password}).then((data)=>{
-        AsyncStorage.setItem("userInfo", JSON.stringify(data))
-        setIsLoggedIn(true)
-        navigation.navigate("HomeTabs")
-      })
+      signIn({ email: values.email, password: values.password }).then(
+        (data) => {
+          AsyncStorage.setItem("userInfo", JSON.stringify(data));
+          setIsLoggedIn(true);
+          navigation.navigate("HomeTabs");
+        }
+      );
     },
-  })
+  });
 
   const countrySelected = useMemo(() => {
-    return countries.filter((item) => item.id === country)[0]
-  }, [country])
+    return countries.filter((item) => item.id === country)[0];
+  }, [country]);
 
   const onPressSignUp = async () => {
     await mutateAsync({
       ...values,
       country: countrySelected.name,
       countryCode: countrySelected.prefix,
-    })
-  }
+    });
+  };
 
   return (
     <ScreenContainer>
@@ -130,16 +132,16 @@ export default function SignUpScreen({ navigation }: Props) {
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressSignUp}
+            color={validateValues(toValidate) ? white : mainColor}
             text="Crear cuenta"
             style={{
               backgroundColor: validateValues(toValidate)
                 ? mainColor
-                : "#B3B3B3",
-              height: 55,
-              borderRadius: 12,
+                : background2,
+
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 30,
+              marginTop: 20,
             }}
           />
           <TouchableOpacity
@@ -147,7 +149,7 @@ export default function SignUpScreen({ navigation }: Props) {
             style={{
               display: "flex",
               flexDirection: "row",
-              marginVertical: 20,
+              marginVertical: 30,
             }}
           >
             <Text

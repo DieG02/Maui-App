@@ -95,11 +95,9 @@ export default function LoginScreen({ navigation }: Props) {
               backgroundColor: validateValues(toValidate)
                 ? mainColor
                 : background2,
-              height: 55,
-              borderRadius: 12,
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 30,
+              marginTop: 20,
             }}
           />
           <TouchableOpacity
@@ -107,7 +105,7 @@ export default function LoginScreen({ navigation }: Props) {
             style={{
               display: "flex",
               flexDirection: "row",
-              marginVertical: 20,
+              marginVertical: 30,
             }}
           >
             <Text
