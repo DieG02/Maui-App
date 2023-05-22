@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, StackActions } from "@react-navigation/native";
 import React, { useContext } from "react";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }: Props) {
     if (data.token) {
       await AsyncStorage.setItem("userInfo", JSON.stringify(data));
       setIsLoggedIn(true);
-      navigation.navigate("HomeTabs");
+      navigation.dispatch(StackActions.replace("HomeTabs"));
     }
   };
 

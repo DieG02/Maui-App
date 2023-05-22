@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, StackActions } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "react-query";
 import CommonInput from "../../components/common/CommonInput";
@@ -57,7 +57,7 @@ export default function SignUpScreen({ navigation }: Props) {
         (data) => {
           AsyncStorage.setItem("userInfo", JSON.stringify(data));
           setIsLoggedIn(true);
-          navigation.navigate("HomeTabs");
+          navigation.dispatch(StackActions.replace("HomeTabs"));
         }
       );
     },
