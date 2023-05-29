@@ -263,7 +263,7 @@ const NewExpense = ({ navigation, route }: Props) => {
             setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
             color={mainColor}
           />
-          <Spacer height={10} />
+          <Spacer height={20} />
         </Form>
       </KeyboardAvoidingView>
       <View

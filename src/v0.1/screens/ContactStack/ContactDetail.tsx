@@ -11,6 +11,8 @@ import { useMutation } from "react-query";
 import { updateContactById, deleteContactById } from "../../services/contacts";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import { queryClient } from "../../utils/queryClient";
+import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
+import useToggle from "../../hooks/useToggle";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -21,6 +23,7 @@ const { mainColor, background, width } = customStyles;
 
 const ContactDetail = ({ route, navigation }: Props) => {
   const { params } = route;
+  const { value, toggle } = useToggle();
 
   const initial = {
     name: params?.contact.name,
@@ -33,9 +36,9 @@ const ContactDetail = ({ route, navigation }: Props) => {
 
   const isChanged = JSON.stringify(initial) !== JSON.stringify(data);
 
-  const showToast = () => {
+  const showToast = (toastText : string) => {
     ToastAndroid.show(
-      "El contacto fue editado satisfactoriamente",
+      toastText,
       ToastAndroid.SHORT
     );
   };
@@ -47,7 +50,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
         queryClient.invalidateQueries("clients");
         queryClient.invalidateQueries("providers");
         navigation.goBack();
-        showToast();
+        showToast("El contacto fue editado satisfactoriamente");
       },
     }
   );
@@ -59,10 +62,14 @@ const ContactDetail = ({ route, navigation }: Props) => {
         queryClient.invalidateQueries("clients");
         queryClient.invalidateQueries("providers");
         navigation.goBack();
-        showToast();
+        showToast("El contacto fue eliminado satisfactoriamente");
       },
     }
   );
+  const handleDelete = () => {
+    deleteContact();
+    toggle();
+  };
 
   const handleTitle = () => {
     if (params && params.contact.typeOfContact === "CLIENT") {
@@ -72,20 +79,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
     }
   };
 
-  const handleDelete = () => {
-    Alert.alert(
-      "Eliminar",
-      "¿Estás seguro que deseas eliminar esta transacción?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => deleteContact() },
-      ]
-    );
-  };
 
   return (
     <ScreenContainer>
@@ -93,7 +86,13 @@ const ContactDetail = ({ route, navigation }: Props) => {
         label={handleTitle()}
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={handleDelete}
+        onPressDelete={toggle}
+      />
+      <ConfirmationModal
+        title="¿Estás seguro de eliminarlo?"
+        isVisible={value}
+        cancel={toggle}
+        confirm={handleDelete}
       />
       <ScrollContainer
         style={{

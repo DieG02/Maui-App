@@ -1,9 +1,9 @@
 import { TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import customStyles from '../../styles/customStyles'
-import { checkCameraPermission, requestCameraPermission } from '../../requests'
+import customStyles from '../../../v0.1/styles/customStyles'
+import { checkCameraPermission, requestCameraPermission } from '../../../v0.1/requests'
 import Pencil from "react-native-vector-icons/Entypo";
-import ImageModal from "../../components/common/Modals/ImageModal";
+import ImageModal from "../../../v0.1/components/common/Modals/ImageModal";
 import ImagePicker from 'react-native-image-crop-picker';
 import { editUserAccountBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
 

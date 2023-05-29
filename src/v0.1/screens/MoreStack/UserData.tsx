@@ -1,4 +1,4 @@
-import { StatusBar, ToastAndroid, Text, View } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import React, { useState } from "react";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
@@ -15,6 +15,7 @@ import LoadingComponent from "../../components/Library/LoadingComponent";
 import Form from "../../components/Library/Form";
 import useForm from "../../hooks/useForm";
 import PhoneInput from "../../components/common/PhoneInput";
+import { showToast } from "../../utils/toast";
 
 const statusBarStyle = "dark-content";
 const { mainColor, textBlack, background2 } = customStyles;
@@ -23,13 +24,6 @@ interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
 }
-
-const showToast = () => {
-  ToastAndroid.show(
-    "Tu cuenta fue editada satisfactoriamente",
-    ToastAndroid.SHORT
-  );
-};
 
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route;
@@ -53,7 +47,7 @@ const UserData = ({ navigation, route }: Props) => {
     {
       onSuccess: () => {
         navigation.goBack();
-        showToast();
+        showToast("Tu cuenta fue editada satisfactoriamente");
       },
     }
   );
@@ -71,6 +65,7 @@ const UserData = ({ navigation, route }: Props) => {
       <Form>
         <Spacer height={10} />
         <ImageProfile url={values.image} name={values.name} />
+        {/* v0.2 */}
         {/* <PencilImageInput
           values={values}
           setValues={setValues}

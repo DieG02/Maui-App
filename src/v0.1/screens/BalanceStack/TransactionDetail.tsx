@@ -36,7 +36,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const showToast = () => {
     if (isExpense) {
       ToastAndroid.show(
-        "El gasto fue eliminado satisfactoriamente",
+        "El egreso fue eliminado satisfactoriamente",
         ToastAndroid.SHORT
       );
     } else {

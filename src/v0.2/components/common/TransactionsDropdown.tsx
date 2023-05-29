@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import TransactionCard from "./TransactionCard/TransactionCard";
-import Title from "./Title";
-import Spacer from "./Spacer";
-import customStyles from "../../styles/customStyles";
-import { getPeriodTransactionsResponseDto } from "../../services/transactions";
+import TransactionCard from "../../../v0.1/components/common/TransactionCard/TransactionCard";
+import Title from "../../../v0.1/components/common/Title";
+import Spacer from "../../../v0.1/components/common/Spacer";
+import customStyles from "../../../v0.1/styles/customStyles";
+import { getPeriodTransactionsResponseDto } from "../../../v0.1/services/transactions";
 
 const { secondaryColor } = customStyles;
 

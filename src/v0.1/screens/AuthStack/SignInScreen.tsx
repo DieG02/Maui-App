@@ -115,7 +115,7 @@ export default function LoginScreen({ navigation }: Props) {
                 fontSize: 16,
               }}
             >
-              ¿No tenes cuenta?
+              ¿No tenés cuenta?
             </Text>
             <Text
               style={{

@@ -96,7 +96,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       paymentMethod: handlePayment(values.paymentMethod),
       providerId: params?.contact
         ? params?.contact?.id
-        : params?.expense.providerId,
+        : values.providerId,
       categoryId:
         expenseCategory &&
         handleObjValue(values.categoryId, "name", "id", expenseCategory),
@@ -106,7 +106,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         queryClient.invalidateQueries("Transactions");
         queryClient.removeQueries("expenseDetail");
         navigation.navigate("balance");
-        showToast("La transacción fue creada satisfactoriamente");
+        showToast("La transacción fue editada satisfactoriamente");
       },
     }
   );

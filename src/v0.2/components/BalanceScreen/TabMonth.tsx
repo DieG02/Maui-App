@@ -3,7 +3,7 @@ import { View, ScrollView } from "react-native";
 import Spacer from "../../../v0.1/components/common/Spacer";
 import { useQuery } from "react-query";
 import { getMonthlyTransactions } from "../../../v0.1/services/transactions";
-import TransactionsDropdown from "../../../v0.1/components/common/TransactionsDropdown";
+import TransactionsDropdown from "../common/TransactionsDropdown";
 import { useFocusEffect } from "@react-navigation/native";
 
 const TabMonth = () => {
