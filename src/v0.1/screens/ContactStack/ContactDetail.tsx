@@ -11,8 +11,8 @@ import { useMutation } from "react-query";
 import { updateContactById, deleteContactById } from "../../services/contacts";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import { queryClient } from "../../utils/queryClient";
-import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
-import useToggle from "../../hooks/useToggle";
+import { showToast } from "../../utils/toast";
+import { alertDelete } from "../../utils/alerts";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -23,7 +23,6 @@ const { mainColor, background, width } = customStyles;
 
 const ContactDetail = ({ route, navigation }: Props) => {
   const { params } = route;
-  const { value, toggle } = useToggle();
 
   const initial = {
     name: params?.contact.name,
@@ -35,13 +34,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
   const [data, setData] = useState(initial);
 
   const isChanged = JSON.stringify(initial) !== JSON.stringify(data);
-
-  const showToast = (toastText : string) => {
-    ToastAndroid.show(
-      toastText,
-      ToastAndroid.SHORT
-    );
-  };
 
   const { mutateAsync: updateContact } = useMutation(
     () => updateContactById(params?.contact.id, data),
@@ -67,8 +59,10 @@ const ContactDetail = ({ route, navigation }: Props) => {
     }
   );
   const handleDelete = () => {
-    deleteContact();
-    toggle();
+    alertDelete(
+      "¿Estás seguro de eliminar el contacto?",
+      deleteContact
+    )
   };
 
   const handleTitle = () => {
@@ -86,14 +80,14 @@ const ContactDetail = ({ route, navigation }: Props) => {
         label={handleTitle()}
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={toggle}
+        onPressDelete={handleDelete}
       />
-      <ConfirmationModal
+      {/* <ConfirmationModal
         title="¿Estás seguro de eliminarlo?"
         isVisible={value}
         cancel={toggle}
         confirm={handleDelete}
-      />
+      /> */}
       <ScrollContainer
         style={{
           paddingHorizontal: 30,

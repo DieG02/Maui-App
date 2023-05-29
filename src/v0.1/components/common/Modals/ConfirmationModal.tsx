@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from "react-native-modal";
 import customStyles from '../../../styles/customStyles';
 import Button from '../Button';
