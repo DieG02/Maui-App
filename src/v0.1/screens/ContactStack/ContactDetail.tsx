@@ -1,4 +1,4 @@
-import { Alert, ToastAndroid, View } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -82,12 +82,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
         withDelete
         onPressDelete={handleDelete}
       />
-      {/* <ConfirmationModal
-        title="¿Estás seguro de eliminarlo?"
-        isVisible={value}
-        cancel={toggle}
-        confirm={handleDelete}
-      /> */}
       <ScrollContainer
         style={{
           paddingHorizontal: 30,
