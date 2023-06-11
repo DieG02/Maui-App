@@ -27,6 +27,7 @@ const HomeScreen = ({ navigation }: Props) => {
   const { data: balance, refetch: getBalance } = useGetBalance();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
   const { data: user } = useGetAccount();
+  const { refetch: getAlltransactions } = useGetTransactions()
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }: Props) => {
     getTransactionsFromHome();
     getBalance();
     getMonthlyStats();
+    getAlltransactions()
     setRefreshing(false);
   };
 
