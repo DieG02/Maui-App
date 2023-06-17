@@ -60,11 +60,9 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   };
 
   const initialValues: InitialExpense = {
-    value: String(data.value).toLocaleString(),
+    value: String(data.value).replace(".", ","),
     name: data.name,
-    providerId: handleObjValue(data.providerId, 'id', 'name', providers) ?
-        handleObjValue(data.providerId, 'id', 'name', providers)
-        : "",
+    providerId: handleObjValue(data.providerId, 'id', 'name', providers),
     categoryId: handleObjValue(data.categoryId, "id", "name", expenseCategory),
     isPaid: data.isPaid,
     paymentMethod: handlePaymentName(data.paymentMethod),
@@ -94,9 +92,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       ...values,
       value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
-      providerId: params?.contact
-        ? params?.contact?.id
-        : values.providerId,
+      providerId: handleObjValue(values.providerId, 'name', 'id', providers),
       categoryId:
         expenseCategory &&
         handleObjValue(values.categoryId, "name", "id", expenseCategory),
