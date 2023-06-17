@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, StackActions } from "@react-navigation/native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import CommonInput from "../../components/common/CommonInput";
 import customStyles from "../../styles/customStyles";
 import logo from "../../assets/logo.png";
@@ -33,10 +33,8 @@ const initialValues: LoginUser = {
 const toValidate = ["email", "password"];
 
 export default function LoginScreen({ navigation }: Props) {
-  const { setIsLoggedIn } = useContext(AuthContext);
-
-  const { setValues, validateValues, values } =
-    useForm<LoginUser>(initialValues);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { setValues, validateValues, values } = useForm<LoginUser>(initialValues);
 
   const { mutateAsync } = useMutation(signIn);
 
@@ -49,6 +47,17 @@ export default function LoginScreen({ navigation }: Props) {
       navigation.dispatch(StackActions.replace("HomeTabs"));
     }
   };
+
+  useEffect(() => {
+    const handleIsLoggedIn = async () => {
+      if(isLoggedIn) navigation.dispatch(StackActions.replace("HomeTabs"))
+    };
+    const unsubscribe = navigation.addListener("focus", () => {
+      handleIsLoggedIn()
+    });
+
+    return unsubscribe;
+  }, [navigation, isLoggedIn]);
 
   return (
     <ScreenContainer>

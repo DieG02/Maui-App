@@ -43,13 +43,13 @@ const More = ({ navigation }: Props) => {
   }, [navigation]);
 
   const handleLogout = async () => {
+    setIsLoggedIn(false);
     await AsyncStorage.clear();
     navigation.reset({
       index: 0,
       routes: [{ name: "Login" }],
     });
     queryClient.clear();
-    setIsLoggedIn(false);
   };
 
   return (
