@@ -111,7 +111,7 @@ const Providers = ({ navigation, route }: Props) => {
         refreshing={false}
         ListEmptyComponent={() => (
           <EmptyState
-            title=" No tenes proveedores registrados"
+            title=" No tenés proveedores registrados"
             percentage={0.25}
           />
         )}

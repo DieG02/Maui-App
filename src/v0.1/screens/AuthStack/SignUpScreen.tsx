@@ -159,7 +159,7 @@ export default function SignUpScreen({ navigation }: Props) {
                 fontSize: 16,
               }}
             >
-              ¿Ya tenes cuenta?
+              ¿Ya tenés cuenta?
             </Text>
             <Text
               style={{

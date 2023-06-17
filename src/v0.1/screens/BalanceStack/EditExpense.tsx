@@ -16,7 +16,7 @@ interface Props {
 
 const EditExpense = ({ navigation, route }: Props) => {
   const { params } = route;
-  const { data, isLoading } = useGetExpense(params?.expense.id);
+  const { data, isLoading } = useGetExpense(params?.expense?.id);
 
   if (isLoading) return <LoadingComponent color={mainColor} />;
 

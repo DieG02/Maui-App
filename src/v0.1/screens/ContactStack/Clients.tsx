@@ -19,6 +19,7 @@ interface Props {
 const { mainColor, background, marginHorizontal } = customStyles;
 
 const Consumers = ({ navigation, route }: Props) => {
+  const screen = route.params?.screen
   const { setContacts } = useContext(GeneralContext);
   const [text, onChangeText] = useState("");
   const [isSearch, setIsSearch] = useState(false);
@@ -44,13 +45,13 @@ const Consumers = ({ navigation, route }: Props) => {
   }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
-    if (route.params?.screen === "EditIncome") {
+    if (screen === "EditIncome") {
       navigation.navigate({
         name: "EditIncome",
         params: { contact: item },
         merge: true,
       });
-    } else if (route.params?.screen === "NewIncome") {
+    } else if (screen === "NewIncome") {
       navigation.navigate({
         name: "NewIncome",
         params: { contact: item },
@@ -108,7 +109,7 @@ const Consumers = ({ navigation, route }: Props) => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
           <EmptyState
-            title=" No tenes clientes registrados"
+            title=" No tenés clientes registrados"
             percentage={0.25}
           />
         )}

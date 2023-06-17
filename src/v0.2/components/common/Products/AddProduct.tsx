@@ -1,27 +1,34 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image } from "react-native";
 import { getAllItemsResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
-import customStyles from "../../../styles/customStyles";
+import customStyles from "../../../../v0.1/styles/customStyles";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import ButtonSale from "../ButtonSale";
 
 const { textBlack, mainColor, secondaryColor, secondaryColorBorder, textBlue } =
   customStyles;
 
 interface Props {
-  onPress?: () => void;
   data: getAllItemsResponseDto[0];
+  setProducts: (products: Product[]) => void;
+  products: Product[];
 }
 
-const ProductCard = ({ onPress, data }: Props) => {
+interface Product {
+  id: string;
+  price: number;
+  quantity: number;
+}
+
+const AddProduct = ({ data, setProducts, products }: Props) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
+    <View
       style={{
         backgroundColor: secondaryColor,
         borderRadius: 15,
-        marginTop: 15,
+        marginTop: 20,
         borderColor: secondaryColorBorder,
-        borderWidth: 1.5,
+        borderWidth: 1,
       }}
     >
       <View
@@ -102,11 +109,17 @@ const ProductCard = ({ onPress, data }: Props) => {
                 $ {data.retailPrice}
               </Text>
             </View>
+            <ButtonSale
+              stock={"stock" in data ? data.stock : 0}
+              setProducts={setProducts}
+              data={data}
+              products={products}
+            />
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
-export default ProductCard;
+export default AddProduct;

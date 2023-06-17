@@ -15,6 +15,7 @@ import useToggle from "../../hooks/useToggle";
 import { parseDDMMYY } from "../../utils/helper";
 import ContactCard from "../../components/common/ContactCard";
 import useGetContactById from "../../services/Contact/useGetContactById";
+import { alertDelete } from "../../utils/alerts";
 
 // TODO: Refactor this component
 interface Props {
@@ -27,7 +28,6 @@ const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } =
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { params } = route;
 
-  const { value, toggle } = useToggle();
   const { data } = useGetContactById(
     params?.item?.clientId || params?.item?.providerId
   );
@@ -36,7 +36,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const showToast = () => {
     if (isExpense) {
       ToastAndroid.show(
-        "El gasto fue eliminado satisfactoriamente",
+        "El egreso fue eliminado satisfactoriamente",
         ToastAndroid.SHORT
       );
     } else {
@@ -63,8 +63,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   });
 
   const handleDelete = () => {
-    isExpense ? deleteExpense() : deleteIncome();
-    toggle();
+    alertDelete(
+      "¿Estás seguro de eliminar la transacción?",
+      (isExpense ? deleteExpense : deleteIncome)
+    )
   };
 
   const handleOnPress = () => {
@@ -79,13 +81,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
         withDelete
-        onPressDelete={toggle}
-      />
-      <ConfirmationModal
-        title="¿Estás seguro de eliminarlo?"
-        isVisible={value}
-        cancel={toggle}
-        confirm={handleDelete}
+        onPressDelete={handleDelete}
       />
       <ScrollContainer>
         <View

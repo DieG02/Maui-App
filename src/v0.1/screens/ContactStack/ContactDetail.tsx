@@ -1,4 +1,4 @@
-import { Alert, ToastAndroid, View } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import ScreenContainer from "../../components/containers/ScreenContainer";
@@ -11,6 +11,8 @@ import { useMutation } from "react-query";
 import { updateContactById, deleteContactById } from "../../services/contacts";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import { queryClient } from "../../utils/queryClient";
+import { showToast } from "../../utils/toast";
+import { alertDelete } from "../../utils/alerts";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -33,13 +35,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
 
   const isChanged = JSON.stringify(initial) !== JSON.stringify(data);
 
-  const showToast = () => {
-    ToastAndroid.show(
-      "El contacto fue editado satisfactoriamente",
-      ToastAndroid.SHORT
-    );
-  };
-
   const { mutateAsync: updateContact } = useMutation(
     () => updateContactById(params?.contact.id, data),
     {
@@ -47,7 +42,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
         queryClient.invalidateQueries("clients");
         queryClient.invalidateQueries("providers");
         navigation.goBack();
-        showToast();
+        showToast("El contacto fue editado satisfactoriamente");
       },
     }
   );
@@ -59,10 +54,16 @@ const ContactDetail = ({ route, navigation }: Props) => {
         queryClient.invalidateQueries("clients");
         queryClient.invalidateQueries("providers");
         navigation.goBack();
-        showToast();
+        showToast("El contacto fue eliminado satisfactoriamente");
       },
     }
   );
+  const handleDelete = () => {
+    alertDelete(
+      "¿Estás seguro de eliminar el contacto?",
+      deleteContact
+    )
+  };
 
   const handleTitle = () => {
     if (params && params.contact.typeOfContact === "CLIENT") {
@@ -72,20 +73,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
     }
   };
 
-  const handleDelete = () => {
-    Alert.alert(
-      "Eliminar",
-      "¿Estás seguro que deseas eliminar esta transacción?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => deleteContact() },
-      ]
-    );
-  };
 
   return (
     <ScreenContainer>

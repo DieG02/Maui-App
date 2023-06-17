@@ -19,7 +19,7 @@ import Button from "../../v0.1/components/common/Button";
 
 import SearchBar from "../../v0.1/components/common/SearchBar";
 import { BackHeaderTitle } from "../../v0.1/components/common/HeaderTitle";
-import AddProduct from "../../v0.1/components/common/Products/AddProduct";
+import AddProduct from "../components/common/Products/AddProduct";
 
 const statusBarStyle = "dark-content";
 

@@ -136,7 +136,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
               style={{
                 fontSize: 16,
                 color: color,
-                marginLeft: 10,
+                marginLeft: 5,
                 fontFamily: "Gilroy-Bold",
               }}
             >

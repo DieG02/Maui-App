@@ -30,8 +30,7 @@ const SummaryDebt = ({ type, amount, stakeholders }: Props) => {
         {amount?.toLocaleString("es-AR", {
           style: "currency",
           currency: "ARS",
-        })}
-        de {stakeholders} {`${type === "income" ? "Clientes" : "Proveedores"}`}
+        })} de {stakeholders} {`${type === "income" ? "Clientes" : "Proveedores"}`}
       </Text>
     </View>
   );

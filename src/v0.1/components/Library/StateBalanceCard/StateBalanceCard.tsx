@@ -61,7 +61,12 @@ const StateBalanceCard = ({ state, value, type, left, right }: Props) => {
       <View style={styles({}).container}>
         {handleIcon(type)}
         <View style={styles({}).subWrapper}>
-          <Text style={styles({}).textValue}>{value}</Text>
+          <Text
+            style={styles({}).textValue}
+            numberOfLines={1}
+          >
+            {value}
+          </Text>
         </View>
         <Text style={styles({}).textLabel}>{state}</Text>
       </View>

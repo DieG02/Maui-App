@@ -19,6 +19,7 @@ import useForm from "../../hooks/useForm";
 import usePayment from "../../hooks/usePayment";
 import Form from "../../components/Library/Form";
 import { queryClient } from "../../utils/queryClient";
+import Spacer from "../../components/common/Spacer";
 
 // TODO:Refactor this component
 
@@ -218,7 +219,11 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.navigate("Clients", { screen: "NewIncome" });
           }}
           onPressClose={() => {
-            setValues((prev) => ({ ...prev, clientId: "" }));
+            setValues((prev) => ({
+              ...prev,
+              clientId: "",
+              clientName: "",
+            }));
             navigation.setParams({ contact: "" });
           }}
         />
@@ -228,6 +233,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
           color={mainColor}
         />
+        <Spacer height={20} />
       </Form>
       <View
         style={{

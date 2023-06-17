@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Image } from "react-native";
 import Modal from "react-native-modal";
-import customStyles from "../../styles/customStyles";
+import customStyles from "../../../v0.1/styles/customStyles";
 
 const {
   textBlack,

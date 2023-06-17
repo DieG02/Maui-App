@@ -8,6 +8,7 @@ import { createContactBodyInputDto } from "../../../../Maui-Backend/src/controll
 import { useMutation } from "react-query";
 import { createNewContact } from "../../services/contacts";
 import { NavigationProp } from "@react-navigation/native";
+import { queryClient } from "../../utils/queryClient";
 
 const { mainColor } = customStyles;
 
@@ -42,16 +43,25 @@ const ContactForm = ({
   screen,
   navigation,
 }: Props) => {
+
+  const action = (queryName: string, screenName: string, data) => {
+    queryClient.invalidateQueries(queryName);
+    navigation.navigate(screenName, { contact: data });
+  };
+
   const handleOnPress = (data: IContact) => {
     if (screen === "NewIncome") {
-      navigation.navigate("NewIncome", { contact: data });
-    }
-    if (screen === "NewExpense") {
-      navigation.navigate("NewExpense", { contact: data });
+      action("clients", "NewIncome", data)
+    } else if (screen === "EditIncome") {
+      action("clients", "EditIncome", data)
+    } else if (screen === "NewExpense") {
+      action("providers", "NewExpense", data)
+    } else if (screen === "EditExpense") {
+      action("providers", "EditExpense", data)
     } else {
       type.toUpperCase() === "CLIENT"
-        ? navigation.navigate("Clients", { contact: data })
-        : navigation.navigate("Providers", { contact: data });
+        ? action("clients", "Clients", data)
+        : action("providers", "Providers", data);
     }
   };
 

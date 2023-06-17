@@ -84,7 +84,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           text.length !== 0 ? (
             <EmptyState title="No se encontraron coincidencias" />
           ) : (
-            <EmptyState title="No tenes transacciones registradas" />
+            <EmptyState title="No tenés transacciones registradas" />
           )
         }
       />
