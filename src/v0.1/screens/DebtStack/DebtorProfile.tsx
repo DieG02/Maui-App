@@ -12,10 +12,12 @@ import DebtPaidDetail from "./DebtPaidDetail";
 import PaymentTypes from "./PaymentTypes";
 import CustomModal from "../../components/common/Modals/CustomModal";
 import { useMemo } from "react";
+import LoadingComponent from "../../components/Library/LoadingComponent/LoadingComponent";
+import Button from "../../components/common/Button";
 
 const Tab = createMaterialTopTabNavigator();
 
-const { mainColor, secondaryColor, white } = customStyles;
+const { mainColor, secondaryColor, white, background2 } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: {
@@ -30,26 +32,26 @@ interface Props {
 const DebtorProfile = ({ navigation, route }: Props) => {
   const expenseId = route.params?.expenseId;
   const incomeId = route.params?.incomeId;
-  const { data: incomeData } = useQuery(["incomeData", incomeId], () =>
+  const { data: incomeData, isLoading: loadingIncome } = useQuery(["incomeData", incomeId], () =>
     getIncomeDebtById(incomeId)
   );
-  const { data } = useQuery(["expense", expenseId], () =>
+  const { data: expenseData, isLoading: loadingExpense } = useQuery(["expense", expenseId], () =>
     getExpenseById(expenseId)
   );
   const payValue = useMemo(() => {
-    const paid = (incomeData || data)?.amountPaid;
-    const total = (incomeData || data)?.totalAmount;
+    const paid = (incomeData || expenseData)?.amountPaid;
+    const total = (incomeData || expenseData)?.totalAmount;
     return paid && total
       ? (total - paid).toLocaleString("es")
       : total?.toLocaleString("es");
-  }, [incomeData, data]);
+  }, [incomeData, expenseData]);
 
   const DebtComponent = () => (
-    <DebtTypes data={incomeData?.incomes || data?.expenses} />
+    <DebtTypes data={incomeData?.incomes || expenseData?.expenses} />
   );
 
   const PayComponent = () => (
-    <PaymentTypes paidData={incomeData?.payments || data?.payments} />
+    <PaymentTypes paidData={incomeData?.payments || expenseData?.payments} />
   );
 
   return (
@@ -58,52 +60,65 @@ const DebtorProfile = ({ navigation, route }: Props) => {
         label={route.params.name}
         onPressBack={navigation.goBack}
       />
-      <View
-        style={{
-          flex: 1,
-          marginHorizontal: 20,
-          paddingBottom: 40,
-        }}
-      >
-        <DebtPaidDetail
-          amountPaid={(incomeData || data)?.amountPaid}
-          totalAmount={(incomeData || data)?.totalAmount}
-        />
-        <Tab.Navigator
-          style={{ backgroundColor: white }}
-          screenOptions={{
-            tabBarStyle: {
-              elevation: 0,
-              marginHorizontal: 0,
-              backgroundColor: secondaryColor,
-              borderRadius: 15,
-            },
-            tabBarPressColor: white,
-            tabBarActiveTintColor: white,
-            tabBarInactiveTintColor: mainColor,
-            tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
-            tabBarIndicatorStyle: {
-              backgroundColor: mainColor,
-              height: 50,
-              borderRadius: 15,
-            },
-            tabBarItemStyle: {
-              borderRadius: 15,
-              height: 50,
-            },
+      { loadingExpense || loadingIncome ? (
+        <LoadingComponent color={mainColor} />
+      ):(
+        <View
+          style={{
+            flex: 1,
+            marginHorizontal: 20,
+            paddingBottom: 40,
           }}
         >
-          <Tab.Screen name="Deuda" component={DebtComponent} />
-          <Tab.Screen name="Abonado" component={PayComponent} />
-        </Tab.Navigator>
-        <CustomModal title="Abonar">
-          <RepayModal
-            amount={payValue || ""}
-            id={incomeId || expenseId}
-            type={incomeData ? "income" : "expense"}
+          <DebtPaidDetail
+            amountPaid={(incomeData || expenseData)?.amountPaid}
+            totalAmount={(incomeData || expenseData)?.totalAmount}
           />
-        </CustomModal>
-      </View>
+          <Tab.Navigator
+            style={{ backgroundColor: white }}
+            screenOptions={{
+              tabBarStyle: {
+                elevation: 0,
+                marginHorizontal: 0,
+                backgroundColor: secondaryColor,
+                borderRadius: 15,
+              },
+              tabBarPressColor: white,
+              tabBarActiveTintColor: white,
+              tabBarInactiveTintColor: mainColor,
+              tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
+              tabBarIndicatorStyle: {
+                backgroundColor: mainColor,
+                height: 50,
+                borderRadius: 15,
+              },
+              tabBarItemStyle: {
+                borderRadius: 15,
+                height: 50,
+              },
+            }}
+          >
+            <Tab.Screen name="Deuda" component={DebtComponent} />
+            <Tab.Screen name="Abonado" component={PayComponent} />
+          </Tab.Navigator>
+          { payValue === undefined || +payValue === 0 ? (
+            <Button
+              text={"Abonado"}
+              disabled
+              style={{ backgroundColor: background2 }}
+              color={mainColor}
+            />
+          ):(
+            <CustomModal title="Abonar">
+              <RepayModal
+                amount={payValue || ""}
+                id={incomeId || expenseId}
+                type={incomeData ? "income" : "expense"}
+              />
+            </CustomModal>
+          )}
+        </View>
+      )}
     </ScreenContainer>
   );
 };

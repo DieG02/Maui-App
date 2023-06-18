@@ -1,5 +1,5 @@
-import { StatusBar, ScrollView, View, ActivityIndicator } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StatusBar, ScrollView, View, ActivityIndicator, FlatList } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
 import { RouteProp, NavigationProp } from "@react-navigation/native";
 import customStyles from "../../styles/customStyles";
 import {
@@ -12,6 +12,8 @@ import ContactForm from "../../components/common/ContactForm";
 import Button from "../../components/common/Button";
 import ScreenContainer from "../../components/containers/ScreenContainer";
 import { BackHeaderTitle } from "../../components/common/HeaderTitle";
+import SearchBar from "../../components/common/SearchBar";
+import EmptyState from "../../components/common/EmptyState";
 
 interface Props {
   route: RouteProp<any, any>;
@@ -19,7 +21,7 @@ interface Props {
 }
 const statusBarStyle = "dark-content";
 
-const { mainColor, marginHorizontal } = customStyles;
+const { background, mainColor, marginHorizontal } = customStyles;
 
 interface Contact {
   name: string;
@@ -39,6 +41,8 @@ const NewContact = ({ route, navigation }: Props) => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [comments, setComments] = useState("");
+  const [search, onChangeSearch] = useState("");
+  const [isSearch, setIsSearch] = useState(false);
 
   const getContacts = async () => {
     setIsLoading(true);
@@ -61,6 +65,13 @@ const NewContact = ({ route, navigation }: Props) => {
     getAllContactsFromPhone();
   }, []);
 
+  const contactsFiltered = useMemo(() => {
+    const filtered = contacts?.filter((item) =>
+      item.name?.toLowerCase().includes(search.toLowerCase())
+    );
+    return filtered;
+  }, [contacts, search]);
+
   if (isLoading) {
     return (
       <View
@@ -79,20 +90,48 @@ const NewContact = ({ route, navigation }: Props) => {
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
-      <BackHeaderTitle
-        label="Agregar Contactos"
-        onPressBack={() => navigation.goBack()}
-        withSearch
-      />
-
-      <ScrollView
-        overScrollMode="never"
-        style={{ flex: 1, backgroundColor: "white" }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-          {contacts &&
-            contacts.map((item) => (
+      {!isSearch ? (
+        <BackHeaderTitle
+          label="Agregar Contactos"
+          onPressBack={() => navigation.goBack()}
+          withSearch
+          onPressSearch={() => setIsSearch(true)}
+        />
+        ): (
+          <SearchBar
+          onChangeText={onChangeSearch}
+          text={search}
+          placeholder="Buscar ..."
+          onPress={() => {
+            onChangeSearch("");
+            setIsSearch(false);
+          }}
+          onBlur={() => search.length === 0 && setIsSearch(false)}
+        />
+        )}
+          <FlatList
+            overScrollMode="never"
+            data={contactsFiltered}
+            style={{
+              flex: 1,
+              backgroundColor: background,
+              marginHorizontal: marginHorizontal,
+              marginTop: 10
+            }}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyState
+                title=" No tenés clientes registrados"
+                percentage={0.25}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+            refreshing={false}
+            onRefresh={() => {
+              getAllContactsFromPhone();
+            }}
+            onEndReachedThreshold={0.5}
+            renderItem={({ item }) => (
               <AddContact
                 data={item}
                 key={item.id}
@@ -100,8 +139,8 @@ const NewContact = ({ route, navigation }: Props) => {
                 screen={params?.screen}
                 navigation={navigation}
               />
-            ))}
-        </View>
+            )}
+          />
         <ContactForm
           comments={comments}
           setComments={setComments}
@@ -117,8 +156,6 @@ const NewContact = ({ route, navigation }: Props) => {
           screen={params?.screen}
           navigation={navigation}
         />
-      </ScrollView>
-
       <View
         style={{
           justifyContent: "center",
