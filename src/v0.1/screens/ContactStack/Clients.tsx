@@ -39,7 +39,7 @@ const Consumers = ({ navigation, route }: Props) => {
   const clients = useMemo(() => {
     const res = data?.filter((item) => item.typeOfContact === "CLIENT");
     const filtered = res?.filter((item) =>
-      item.name?.toLowerCase().startsWith(text.toLowerCase())
+      item.name?.toLowerCase().includes(text.toLowerCase())
     );
     return filtered;
   }, [data, text]);
@@ -105,6 +105,7 @@ const Consumers = ({ navigation, route }: Props) => {
           flex: 1,
           backgroundColor: background,
           marginHorizontal: marginHorizontal,
+          marginTop: 10
         }}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (

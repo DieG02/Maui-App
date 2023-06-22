@@ -7,12 +7,13 @@ import useRefresh from "../../hooks/useRefresh";
 import useGetExpenseDebts from "../../services/Expenses/useGetExpenseDebt";
 import { useCallback } from "react";
 import EmptyState from "../../components/common/EmptyState";
+import LoadingComponent from "../../components/Library/LoadingComponent/LoadingComponent";
 
 const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
   const { push } = useNavigation<any>();
-  const { data: expenses, refetch } = useGetExpenseDebts();
+  const { data: expenses, isLoading, refetch } = useGetExpenseDebts();
   const total = useCallback(() => {
     let total = 0;
     expenses?.map((debt) => (total += debt.totalPrice));
@@ -27,6 +28,9 @@ const ExpenseDebt = () => {
         backgroundColor: background,
       }}
     >
+    { isLoading ? (
+      <LoadingComponent color={mainColor} />
+    ):(
       <View
         style={{
           marginTop: 20,
@@ -62,12 +66,13 @@ const ExpenseDebt = () => {
           )}
           ListEmptyComponent={<EmptyState title="No tienes deudas" />}
         />
+        <SummaryDebt
+          type="expense"
+          amount={total()}
+          stakeholders={expenses?.length || 0}
+        />
       </View>
-      <SummaryDebt
-        type="expense"
-        amount={total()}
-        stakeholders={expenses?.length || 0}
-      />
+    )}
     </View>
   );
 };

@@ -35,7 +35,7 @@ const RepayModal = ({ amount, id, type }: Props) => {
   const { mutate: expMutate } = usePayExpenseDebt(id)
 
   const handleSubmit = () => {
-    if (Number((values.amount as string).replace(".", "").replace(",", ".")) > Number((amount).replace(".", "").replace(",", "."))) {
+    if (Number((values.amount as string).replace(/\./g, "").replace(",", ".")) > Number((amount).replace(/\./g, "").replace(",", "."))) {
       return showToast(`El pago no deberia ser mayor a ${amount}`)
     }
     const toValidate = Object.keys(values)
@@ -44,7 +44,7 @@ const RepayModal = ({ amount, id, type }: Props) => {
         ...values,
         paymentMethod: handlePayment(values.paymentMethod),
         paidAt: values.paidAt,
-        amount: parseFloat((values.amount as string).replace(".", "").replace(",", ".")),
+        amount: parseFloat((values.amount as string).replace(/\./g, "").replace(",", ".")),
       }
       type === 'income' ? mutate(valueToMutate) : expMutate(valueToMutate)
     }

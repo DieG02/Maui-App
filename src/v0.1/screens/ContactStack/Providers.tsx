@@ -39,7 +39,7 @@ const Providers = ({ navigation, route }: Props) => {
   const providers = useMemo(() => {
     const res = data?.filter((item) => item.typeOfContact === "PROVIDER");
     const filtered = res?.filter((item) =>
-      item.name?.toLowerCase().startsWith(text.toLowerCase())
+      item.name?.toLowerCase().includes(text.toLowerCase())
     );
     return filtered;
   }, [data, text]);
@@ -105,6 +105,7 @@ const Providers = ({ navigation, route }: Props) => {
           flex: 1,
           backgroundColor: white,
           marginHorizontal: marginHorizontal,
+          marginTop: 10
         }}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}

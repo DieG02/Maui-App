@@ -60,8 +60,21 @@ export default function DebtPaidDetail({ amountPaid, totalAmount }: Props) {
         <View style={styles.cardContainer}>
             <View style={styles.cardLabel}>
                 <Text>Abonado</Text>
-                <Text style={{ fontWeight: "bold", color: textBlack }}>
-                    <Text style={{ color: expense }}>
+                <Text
+                    style={{
+                        fontWeight: "bold",
+                        color: textBlack,
+                        maxWidth: "80%"
+                    }}
+                    numberOfLines={1}
+                >
+                    <Text
+                        style={{
+                            color: expense,
+                            maxWidth: "60%"
+                        }}
+                        numberOfLines={1}
+                    >
                         ${amountPaid}
                     </Text> / ${totalAmount}
                 </Text>
