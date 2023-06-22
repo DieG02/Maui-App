@@ -46,7 +46,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   } = usePayment();
 
   const initialValues: InitialIncome = {
-    value: String(data?.value),
+    value: String(data?.value).replace(".", ","),
     name: data?.name,
     clientId: data?.client?.id,
     clientName: data?.client ? data?.client.name : "",
