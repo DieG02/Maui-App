@@ -1,14 +1,16 @@
 import { View, FlatList } from "react-native";
 import customStyles from "../../styles/customStyles";
 import DebtsCard from "../../components/Library/DebtsCard/DebtsCard";
+import { useNavigation } from "@react-navigation/native";
 
 const { background } = customStyles;
 
 interface Props {
-    paidData?: Payments[]
+    paidData?: Payments[];
 }
 
 const PaymentTypes = ({ paidData }: Props) => {
+    const navigation = useNavigation<any>();
 
     return (
         <View style={{
@@ -25,6 +27,7 @@ const PaymentTypes = ({ paidData }: Props) => {
                     <DebtsCard
                         data={item}
                         type="payment"
+                        onPress={() => navigation.navigate("DebtDetail", { item, type: 'payment' })}
                     />
                 } />
         </View>

@@ -34,8 +34,9 @@ import DebtsScreen from "./src/v0.1/screens/DebtStack/Debts";
 import DebtorScreen from "./src/v0.1/screens/DebtStack/DebtorProfile";
 import { queryClient } from "./src/v0.1/utils/queryClient";
 import { StatusBar } from "react-native";
-import customStyles from "./src/v0.1/styles/customStyles";
+import DebtDetail from "./src/v0.1/screens/DebtStack/DebtDetail";
 
+import customStyles from "./src/v0.1/styles/customStyles";
 const { white } = customStyles;
 const statusBarStyle = "dark-content";
 
@@ -74,6 +75,7 @@ const App = () => {
               <Stack.Screen name="ContactDetail" component={ContactDetail} />
               <Stack.Screen name="NewContact" component={NewContact} />
               <Stack.Screen name="Debts" component={DebtsScreen} />
+              <Stack.Screen name="DebtDetail" component={DebtDetail}/>
               <Stack.Screen name="DebtorScreen" component={DebtorScreen} />
             </Stack.Navigator>
           </NavigationContainer>

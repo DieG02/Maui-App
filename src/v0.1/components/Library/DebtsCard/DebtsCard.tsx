@@ -9,12 +9,13 @@ const { textBlack, positive } = customStyles;
 interface Props {
     type: "debt" | "payment";
     data: any;
+    onPress: () => void;
 }
 
-const DebtsCard = ({ data, type }: Props) => {
+const DebtsCard = ({ onPress, data, type }: Props) => {
 
     return (
-        <View style={styles().wrapper}>
+        <TouchableOpacity onPress={onPress} style={styles().wrapper}>
             <View style={styles().leftContainer}>
                 <View style={styles().iconContainer}>
                     {type === "debt" ?
@@ -35,7 +36,11 @@ const DebtsCard = ({ data, type }: Props) => {
                 </View>
                 <View style={styles("left").textContainer}>
                     <Text style={styles("", textBlack).titleCard} numberOfLines={1}>
-                        { type === "debt" ? data.name : data.id}
+                        {
+                            type === "debt" ?
+                                data.name :
+                                `Abono del ${parseDDMMYY(data.paidAt)}`
+                        }
                     </Text>
                     <Text style={styles().textSubtitle}>
                         {parseDDMMYY(data.paidAt)}
@@ -62,7 +67,7 @@ const DebtsCard = ({ data, type }: Props) => {
                     )}
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
