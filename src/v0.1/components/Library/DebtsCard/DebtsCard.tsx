@@ -18,7 +18,7 @@ const DebtsCard = ({ onPress, data, type }: Props) => {
         <TouchableOpacity onPress={onPress} style={styles().wrapper}>
             <View style={styles().leftContainer}>
                 <View style={styles().iconContainer}>
-                    {type === "debt" ?
+                    { !data.imageUrl ?
                         <Image
                             source={{
                             uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c",
@@ -27,8 +27,7 @@ const DebtsCard = ({ onPress, data, type }: Props) => {
                         /> :
                         <Image
                             source={{
-                            // uri: data.category?.imageUrl,
-                                uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c"
+                                uri: data.imageUrl,
                             }}
                             style={{ width: 25, height: 25 }}
                         />

@@ -19,6 +19,7 @@ const { secondaryColor, textBlack } =
 
 const DebtDetail = ({ route, navigation }: Props) => {
   const { params } = route;
+  console.log(params);
 
   return (
     <ScreenContainer>
@@ -50,7 +51,11 @@ const DebtDetail = ({ route, navigation }: Props) => {
             }}
           >
             <Image
-              source={{ uri: "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c" }}
+              source={{
+                uri: params?.item?.imageUrl ?
+                  params?.item?.imageUrl :
+                  "https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c"
+              }}
               style={{
                 width: 40,
                 height: 40,
