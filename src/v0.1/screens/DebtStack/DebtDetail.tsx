@@ -25,6 +25,8 @@ const DebtDetail = ({ route, navigation }: Props) => {
       <BackHeaderTitle
         label="Detalle de operación"
         onPressBack={() => navigation.goBack()}
+        withDelete
+        onPressDelete={() => console.log('Borrar deuda')}
       />
 
       <ScrollContainer>
