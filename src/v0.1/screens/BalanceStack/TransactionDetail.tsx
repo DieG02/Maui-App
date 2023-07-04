@@ -10,8 +10,6 @@ import ScrollContainer from "../../components/containers/ScrollContainer";
 import useDeleteExpense from "../../services/Expense/useDeleteExpense";
 import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
 import { queryClient } from "../../utils/queryClient";
-import ConfirmationModal from "../../components/common/Modals/ConfirmationModal";
-import useToggle from "../../hooks/useToggle";
 import { parseDDMMYY } from "../../utils/helper";
 import ContactCard from "../../components/common/ContactCard";
 import useGetContactById from "../../services/Contact/useGetContactById";
