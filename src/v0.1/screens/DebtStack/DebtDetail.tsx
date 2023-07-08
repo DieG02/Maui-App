@@ -7,19 +7,22 @@ import customStyles from "../../styles/customStyles";
 import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
 import ScrollContainer from "../../components/containers/ScrollContainer";
 import { parseDDMMYY } from "../../utils/helper";
+import Button from "../../components/common/Button";
 
-// TODO: Refactor this component
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
   type: string;
 }
-const { secondaryColor, textBlack } =
+const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } =
   customStyles;
 
 const DebtDetail = ({ route, navigation }: Props) => {
   const { params } = route;
-  console.log(params);
+
+  const handleOnPress = () => {
+    navigation.navigate('EditDebt', { params })
+  };
 
   return (
     <ScreenContainer>
@@ -107,6 +110,23 @@ const DebtDetail = ({ route, navigation }: Props) => {
           )}
         />
       </ScrollContainer>
+      <View
+        style={{
+          justifyContent: "center",
+          marginHorizontal: marginHorizontal,
+          marginBottom: 40,
+        }}
+      >
+        <Button
+          text="Editar"
+          color={mainColor}
+          style={{
+            backgroundColor: babyBlue,
+            marginTop: 10,
+          }}
+          onPress={handleOnPress}
+        />
+      </View>
 
     </ScreenContainer>
   );
