@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import InputForm from "./InputForm";
 import CommonInput from "./CommonInput";
@@ -13,17 +13,29 @@ import Button from "./Button";
 import LoadingComponent from "../Library/LoadingComponent";
 import { parseDDMMYY } from "../../utils/helper";
 import { showToast } from "../../utils/toast";
+import OptionModal from "./OptionModal";
+import usePayment from "../../hooks/usePayment";
 
 interface Props {
     navigation: NavigationProp<any, any>;
     data: any;
-}
+};
 
-const { mainColor, marginHorizontal } = customStyles;
+const validateOptions = {
+    value: ["value"]
+};
+
+const { mainColor, width, marginHorizontal } = customStyles;
 
 const EditDebtForm = ({ navigation, data }: Props) => {
 
     const { params } = data;
+
+    const {
+        paymentsOptions,
+    } = usePayment();
+
+    const [modalPayment, setModalPayment] = useState(false);
 
     const initialValues: any =
     params?.type === 'debt' ? {
@@ -38,7 +50,7 @@ const EditDebtForm = ({ navigation, data }: Props) => {
         paymentMethod: params?.item?.paymentMethod
     }
 
-    const { values, setValues } = useForm<InitialIncome>(initialValues);
+    const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
     // Aquì va el mutateAsync
     // const { mutateAsync, isLoading } = useEditIncome(
@@ -59,10 +71,12 @@ const EditDebtForm = ({ navigation, data }: Props) => {
     // );
 
     const handleSubmit = () => {
-        // mutateAsync();
-        console.log(values, 'Cambios guardados');
-        navigation.navigate("Debts");
-        showToast('Deuda editada satisfactoriamente');
+        if (validateValues(validateOptions.value)) {
+        //   mutateAsync();
+            console.log(values, 'Cambios guardados');
+            navigation.navigate("Debts");
+            showToast('Deuda editada satisfactoriamente');
+        }
     };
 
     // if (isLoading) {
@@ -90,12 +104,35 @@ const EditDebtForm = ({ navigation, data }: Props) => {
                 required
                 />
                 <CommonInput
-                placeholder="¿Como quieres llamar a esta deuda?"
+                placeholder="¿Como quieres llamar a esta transacción?"
                 name="Descripción"
                 marginBottom={20}
                 value={values.name}
                 setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
                 />
+                {
+                    params?.type !== 'debt' &&
+                    <View
+                        style={{
+                            display: "flex",
+                            width: (width) / 2,
+                        }}
+                    >
+                        <OptionModal
+                            title="Método de Pago"
+                            options={paymentsOptions}
+                            isModalVisible={modalPayment}
+                            setIsModalVisible={setModalPayment}
+                            selectedOption={values.paymentMethod}
+                            setSelectedOption={(text) =>
+                                setValues((prev) => ({
+                                    ...prev,
+                                    paymentMethod: text,
+                                })
+                            )}
+                        />
+                    </View>
+                }
                 <InputDate
                 name="Fecha"
                 date={values.date}
@@ -111,11 +148,11 @@ const EditDebtForm = ({ navigation, data }: Props) => {
                 }}
             >
                 <Button
-                disabled={false}
+                disabled={!validateValues(validateOptions.value)}
                 onPress={handleSubmit}
                 text="Guardar cambios"
                 style={{
-                    backgroundColor: false ? mainColor : "#B3B3B3",
+                    backgroundColor: validateValues(validateOptions.value) ? mainColor : "#B3B3B3",
                     borderRadius: 25,
                 }}
                 />

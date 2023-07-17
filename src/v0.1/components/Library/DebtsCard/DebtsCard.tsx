@@ -3,6 +3,7 @@ import React from "react";
 import customStyles from "../../../styles/customStyles";
 import styles from "./style";
 import { parseDDMMYY } from "../../../utils/helper";
+import { paymentsMethod } from "../../../utils/translate";
 
 const { textBlack, positive } = customStyles;
 
@@ -64,6 +65,13 @@ const DebtsCard = ({ onPress, data, type }: Props) => {
                         })}
                         </Text>
                     )}
+                    <Text style={styles().textSubtitle}>
+                        {
+                            data.paymentMethod ?
+                            paymentsMethod[data.paymentMethod].es :
+                            'Deuda'
+                        }
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
