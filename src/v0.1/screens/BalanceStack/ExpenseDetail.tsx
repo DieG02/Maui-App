@@ -1,37 +1,36 @@
-import { useState, useEffect, useMemo } from "react";
-import { View, Dimensions } from "react-native";
-import InputForm from "../../components/common/InputForm";
-import { NavigationProp } from "@react-navigation/native";
-import CommonInput from "../../components/common/CommonInput";
-import OptionModal from "../../components/common/OptionModal";
-import InputDate from "../../components/common/InputDate";
-import "moment-timezone";
-import Spacer from "../../components/common/Spacer";
-import Button from "../../components/common/Button";
-import customStyles from "../../styles/customStyles";
-import SelectionModal from "../../components/common/Modals/SelectionModal";
-import useForm from "../../hooks/useForm";
-import usePayment from "../../hooks/usePayment";
-import LoadingComponent from "../../components/Library/LoadingComponent";
-import useGetExpenseCategories from "../../services/Expenses/useGetExpenseCategories";
-import Form from "../../components/Library/Form";
-import useGetAllContacts from "../../services/Contacts/useGetAllContacts";
-import useEditExpense from "../../services/Expense/useEditExpense";
-import { showToast } from "../../utils/toast";
-import OptionWithIcon from "../../components/common/OptionWithIcon";
-import { queryClient } from "../../utils/queryClient";
+import { useState, useEffect, useMemo } from 'react';
+import { View, Dimensions } from 'react-native';
+import InputForm from '../../components/common/InputForm';
+import { NavigationProp } from '@react-navigation/native';
+import CommonInput from '../../components/common/CommonInput';
+import OptionModal from '../../components/common/OptionModal';
+import InputDate from '../../components/common/InputDate';
+import 'moment-timezone';
+import Spacer from '../../components/common/Spacer';
+import Button from '../../components/common/Button';
+import customStyles from '../../styles/customStyles';
+import SelectionModal from '../../components/common/Modals/SelectionModal';
+import useForm from '../../hooks/useForm';
+import usePayment from '../../hooks/usePayment';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import useGetExpenseCategories from '../../services/Expenses/useGetExpenseCategories';
+import Form from '../../components/Library/Form';
+import useEditExpense from '../../services/Expense/useEditExpense';
+import { showToast } from '../../utils/toast';
+import OptionWithIcon from '../../components/common/OptionWithIcon';
+import { queryClient } from '../../utils/queryClient';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 const { mainColor, marginHorizontal } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   params: any;
-  data: ExpenseResponse;
+  data: any;
 }
 
 const validateOptions: ValidateOptions = {
-  isPaid: ["value", "categoryId"],
-  isPending: ["value", "providerId", "categoryId"],
+  isPaid: ['value', 'categoryId'],
+  isPending: ['value', 'providerId', 'categoryId'],
 };
 
 const ExpenseDetail = ({ navigation, data, params }: Props) => {
@@ -39,38 +38,25 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
   const { data: expenseCategory } = useGetExpenseCategories();
-  const { data: providers } = useGetAllContacts();
-  const {
-    handlePayment,
-    handlePaymentName,
-    handleSelected,
-    handleState,
-    stateOptions,
-    paymentsOptions,
-  } = usePayment();
+  const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
-  const handleObjValue = (
-    findValue: string,
-    byKey: string,
-    returnKey: string,
-    data: any[]
-  ) => {
-    const object = data.find((element) => element[byKey] === findValue);
+  const handleObjValue = (findValue: string, byKey: string, returnKey: string, data: any[]) => {
+    const object = data.find(element => element[byKey] === findValue);
     return object ? object[returnKey] : null;
   };
 
   const initialValues: InitialExpense = {
-    value: String(data.value).replace(".", ","),
+    value: String(data.value).replace('.', ','),
     name: data.name,
-    providerId: handleObjValue(data.providerId, 'id', 'name', providers),
-    categoryId: handleObjValue(data.categoryId, "id", "name", expenseCategory),
+    providerId: data?.provider?.id,
+    providerName: data?.provider ? data?.provider.name : '',
+    categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory),
     isPaid: data.isPaid,
     paymentMethod: handlePaymentName(data.paymentMethod),
     date: data.date,
   };
 
-  const { values, setValues, validateValues } =
-    useForm<InitialExpense>(initialValues);
+  const { values, setValues, validateValues } = useForm<InitialExpense>(initialValues);
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -79,9 +65,10 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
 
   useEffect(() => {
     if (params?.contact) {
-      setValues((prev) => ({
+      setValues(prev => ({
         ...prev,
-        providerId: params?.contact.name,
+        providerId: params?.contact.id,
+        providerName: params?.contact.name,
       }));
     }
   }, [params?.contact]);
@@ -89,20 +76,20 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const { mutateAsync, isLoading } = useEditExpense(
     data.id,
     {
-      ...values,
-      value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
       paymentMethod: handlePayment(values.paymentMethod),
-      providerId: handleObjValue(values.providerId, 'name', 'id', providers),
-      categoryId:
-        expenseCategory &&
-        handleObjValue(values.categoryId, "name", "id", expenseCategory),
+      providerId: params?.contact ? params?.contact?.id : values.providerId,
+      date: values.date,
+      isPaid: values.isPaid,
+      name: values.name,
+      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+      categoryId: expenseCategory && handleObjValue(values.categoryId, 'name', 'id', expenseCategory),
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("Transactions");
-        queryClient.removeQueries("expenseDetail");
-        navigation.navigate("balance");
-        showToast("La transacción fue editada satisfactoriamente");
+        queryClient.invalidateQueries('Transactions');
+        queryClient.removeQueries('expenseDetail');
+        navigation.navigate('balance');
+        showToast('La transacción fue editada satisfactoriamente');
       },
     }
   );
@@ -118,62 +105,62 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       <Form>
         <Spacer height={10} />
         <OptionWithIcon
-          title="Categoría"
+          title='Categoría'
           required
-          placeholder="Seleccione una categoría"
+          placeholder='Seleccione una categoría'
           options={expenseCategory ? expenseCategory : []}
           isModalVisible={modalExpenseCategory}
           setIsModalVisible={setModalExpenseCategory}
           selectedOption={values.categoryId}
-          setSelectedOption={(text) => {
-            setValues((prev) => ({
+          setSelectedOption={text => {
+            setValues(prev => ({
               ...prev,
               categoryId: text,
-              name: text
+              name: text,
             }));
           }}
         />
         <InputForm
-          name="Valor"
-          keyboardType="numeric"
-          placeholder="0,00"
+          name='Valor'
+          keyboardType='numeric'
+          placeholder='0,00'
           value={values.value}
-          setValue={(val) => {
-            const newValue = !!val && val !== "NaN" ? val : "";
-            setValues((prev) => ({ ...prev, value: newValue }));
+          setValue={val => {
+            const newValue = !!val && val !== 'NaN' ? val : '';
+            setValues(prev => ({ ...prev, value: newValue }));
           }}
           marginBottom={20}
           required
         />
         <CommonInput
-          name="Descripción"
-          placeholder="¿Como quieres llamar a este gasto?"
+          name='Descripción'
+          placeholder='¿Como quieres llamar a este gasto?'
           marginBottom={20}
           value={values.name}
-          setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+          setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
         {values.isPaid === true ? (
           <View
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <View
               style={{
-                display: "flex",
+                display: 'flex',
                 width: (width - 100) / 2,
               }}
             >
               <OptionModal
-                title="Estado"
+                title='Estado'
                 options={stateOptions}
                 isModalVisible={modalState}
                 setIsModalVisible={setModalState}
                 selectedOption={handleSelected(values.isPaid)}
-                setSelectedOption={(text) =>
-                  setValues((prev) => ({
+                setSelectedOption={text =>
+                  setValues(prev => ({
                     ...prev,
                     isPaid: handleState(text),
                   }))
@@ -182,18 +169,18 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
             </View>
             <View
               style={{
-                display: "flex",
+                display: 'flex',
                 width: (width - 100) / 2,
               }}
             >
               <OptionModal
-                title="Método de Pago"
+                title='Método de Pago'
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
                 selectedOption={values.paymentMethod}
-                setSelectedOption={(text) =>
-                  setValues((prev) => ({
+                setSelectedOption={text =>
+                  setValues(prev => ({
                     ...prev,
                     paymentMethod: text,
                   }))
@@ -203,37 +190,37 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           </View>
         ) : (
           <OptionModal
-            title="Estado"
+            title='Estado'
             options={stateOptions}
             isModalVisible={modalState}
             setIsModalVisible={setModalState}
             selectedOption={handleSelected(values.isPaid)}
-            setSelectedOption={(text) =>
-              setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
-            }
+            setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
           />
         )}
         <SelectionModal
-          name="Proveedor"
-          placeholder="Seleccione un proveedor"
+          name='Proveedor'
+          placeholder='Seleccione un proveedor'
           required={values.isPaid === false}
-          value={values.providerId}
+          value={values.providerName}
           marginBottom={20}
           onPress={() => {
-            navigation.navigate("Providers", { screen: "EditExpense" });
+            navigation.navigate('Providers', { screen: 'EditExpense' });
           }}
           onPressClose={() => {
-            setValues((prev) => ({
+            setValues(prev => ({
               ...prev,
-              providerId: ""
+              providerId: '',
+              providerName: '',
             }));
-            navigation.setParams({ contact: "" });
+            navigation.setParams({ contact: '' });
           }}
         />
+
         <InputDate
-          name="Fecha"
+          name='Fecha'
           date={values.date}
-          setDate={(date) => setValues((prev) => ({ ...prev, date }))}
+          setDate={date => setValues(prev => ({ ...prev, date }))}
           color={mainColor}
         />
         <Spacer height={10} />
@@ -241,18 +228,18 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       <View
         style={{
           height: 80,
-          justifyContent: "center",
+          justifyContent: 'center',
           marginHorizontal: marginHorizontal,
         }}
       >
         <Button
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
+            backgroundColor: validateValues(toValidate) ? mainColor : '#B3B3B3',
             borderRadius: 25,
           }}
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Guardar cambios"
+          text='Guardar cambios'
         />
       </View>
     </>

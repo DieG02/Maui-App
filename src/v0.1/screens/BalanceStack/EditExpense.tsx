@@ -1,12 +1,12 @@
-import { NavigationProp, RouteProp } from "@react-navigation/native";
-import "moment-timezone";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import customStyles from "../../styles/customStyles";
-import LoadingComponent from "../../components/Library/LoadingComponent";
-import useGetExpense from "../../services/Expense/useGetExpById";
-import ExpenseDetail from "./ExpenseDetail";
-import { queryClient } from "../../utils/queryClient";
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import 'moment-timezone';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import customStyles from '../../styles/customStyles';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import useGetExpense from '../../services/Expense/useGetExpById';
+import ExpenseDetail from './ExpenseDetail';
+import { queryClient } from '../../utils/queryClient';
 
 const { mainColor, background2 } = customStyles;
 interface Props {
@@ -23,14 +23,14 @@ const EditExpense = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <BackHeaderTitle
-        label="Editar Gasto"
+        label='Editar Gasto'
         headerStyle={{ backgroundColor: background2 }}
         onPressBack={() => {
-          queryClient.removeQueries('expenseDetail')
-          navigation.goBack()
+          queryClient.removeQueries('expenseDetail');
+          navigation.goBack();
         }}
       />
-      <ExpenseDetail navigation={navigation} data={data!} params={params} />
+      <ExpenseDetail navigation={navigation} data={data} params={params} />
     </ScreenContainer>
   );
 };
