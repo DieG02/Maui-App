@@ -1,6 +1,6 @@
-import { View, Text, TextInput } from "react-native";
-import React from "react";
-import customStyles from "../../styles/customStyles";
+import { View, Text, TextInput } from 'react-native';
+import React from 'react';
+import customStyles from '../../styles/customStyles';
 
 const { expense, textBlack } = customStyles;
 
@@ -23,6 +23,7 @@ const SimpleInput = ({
   marginTop,
   multiline,
   required,
+  ...otherProps
 }: Props) => {
   return (
     <View style={{ marginBottom: marginBottom, marginTop: marginTop }}>
@@ -30,7 +31,7 @@ const SimpleInput = ({
         style={{
           fontSize: 18,
           color: textBlack,
-          fontFamily: "Gilroy-Bold",
+          fontFamily: 'Gilroy-Bold',
           marginBottom: 10,
         }}
       >
@@ -38,23 +39,25 @@ const SimpleInput = ({
       </Text>
       <View
         style={{
-          height: multiline ? "auto" : 55,
+          height: multiline ? 'auto' : 55,
           borderRadius: 12,
-          borderColor: "#EAEAEA",
+          borderColor: '#EAEAEA',
           borderWidth: 1,
-          justifyContent: "center",
+          justifyContent: 'center',
         }}
       >
         <TextInput
           value={value}
           onChangeText={setValue}
           placeholder={placeholder}
-          placeholderTextColor="#ACACAC"
+          placeholderTextColor='#ACACAC'
           style={{
             marginHorizontal: 20,
+            color: textBlack,
           }}
           multiline={multiline}
           numberOfLines={multiline ? 4 : 1}
+          {...otherProps}
         />
       </View>
     </View>
