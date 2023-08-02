@@ -5,36 +5,38 @@ import { useMemo } from 'react';
 interface Props {
   amountPaid?: number;
   totalAmount?: number;
+  amountToPay?: number;
 }
 
-const { expense, secondaryColor, orange, textBlack } = customStyles;
+const { expense, secondaryColor, orange, textBlack, income } = customStyles;
 
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: secondaryColor,
-    height: 100,
+    // height: 100,
     borderRadius: 10,
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginHorizontal: 10,
-    padding: 15,
+    padding: 20,
     marginBottom: 20,
   },
   cardLabel: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     width: '100%',
+    marginBottom: 20,
   },
   progressBarBase: {
     width: '100%',
     backgroundColor: '#EAEAEA',
     borderRadius: 12,
-    height: 18,
+    height: 20,
+    marginBottom: 6,
   },
   processBarLabel: {
-    paddingRight: 10,
+    paddingRight: 11,
     textAlign: 'right',
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 'bold',
     color: 'white',
   },
@@ -44,7 +46,7 @@ const paidStyles = (paidValue: number) =>
   StyleSheet.create({
     progressBar: {
       backgroundColor: orange,
-      width: paidValue <= 10 ? '10%' : paidValue + '%',
+      width: paidValue <= 13 ? '18%' : paidValue + '%',
       position: 'absolute',
       borderRadius: 10,
       height: '100%',
@@ -52,7 +54,7 @@ const paidStyles = (paidValue: number) =>
     },
   });
 
-export default function DebtPaidDetail({ amountPaid, totalAmount }: Props) {
+export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }: Props) {
   const paidValue = useMemo(
     () => (amountPaid && totalAmount ? Number(((amountPaid / totalAmount) * 100).toFixed(2)) : 0),
     [amountPaid, totalAmount]
@@ -65,28 +67,30 @@ export default function DebtPaidDetail({ amountPaid, totalAmount }: Props) {
           style={{
             color: textBlack,
             fontFamily: 'Gilroy-Bold',
+            fontSize: 16,
           }}
         >
-          Abonado
+          Por abonar
         </Text>
         <Text
           style={{
             fontWeight: 'bold',
             color: textBlack,
             maxWidth: '80%',
+            fontSize: 16,
           }}
           numberOfLines={1}
         >
           <Text
             style={{
-              color: expense,
+              color: amountToPay !== 0 ? expense : income,
               maxWidth: '60%',
             }}
             numberOfLines={1}
           >
-            ${amountPaid}
+            ${amountToPay}
           </Text>{' '}
-          / ${totalAmount}
+          de ${totalAmount}
         </Text>
       </View>
       <View style={styles.progressBarBase}>

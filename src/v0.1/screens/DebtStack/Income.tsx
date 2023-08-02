@@ -1,13 +1,13 @@
-import { useCallback } from "react";
-import { View, FlatList, RefreshControl } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import SummaryDebt from "../../components/common/SummaryDebt";
-import DebtContactCard from "../../components/common/DebtContactCard";
-import customStyles from "../../styles/customStyles";
-import useRefresh from "../../hooks/useRefresh";
-import useGetIncomeDebts from "../../services/Incomes/useGetIcomeDebts";
-import EmptyState from "../../components/common/EmptyState";
-import LoadingComponent from "../../components/Library/LoadingComponent/LoadingComponent";
+import { useCallback } from 'react';
+import { View, FlatList, RefreshControl } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import SummaryDebt from '../../components/common/SummaryDebt';
+import DebtContactCard from '../../components/common/DebtContactCard';
+import customStyles from '../../styles/customStyles';
+import useRefresh from '../../hooks/useRefresh';
+import useGetIncomeDebts from '../../services/Incomes/useGetIcomeDebts';
+import EmptyState from '../../components/common/EmptyState';
+import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 
 const { background, mainColor } = customStyles;
 
@@ -16,7 +16,7 @@ const IncomeDebt = () => {
   const { data: income, isLoading, refetch } = useGetIncomeDebts();
   const total = useCallback(() => {
     let total = 0;
-    income?.map((debt) => (total += debt.totalPrice));
+    income?.map(debt => (total += debt.totalToPay));
     return total;
   }, [income]);
   const { refreshing, handleRefresh } = useRefresh(refetch);
@@ -28,9 +28,9 @@ const IncomeDebt = () => {
         backgroundColor: background,
       }}
     >
-      { isLoading ? (
+      {isLoading ? (
         <LoadingComponent color={mainColor} />
-      ):(
+      ) : (
         <View
           style={{
             marginTop: 20,
@@ -41,19 +41,13 @@ const IncomeDebt = () => {
           <FlatList
             data={income}
             showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-                colors={[mainColor]}
-              />
-            }
-            keyExtractor={(item) => item.id}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={[mainColor]} />}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <DebtContactCard
-                type="client"
+                type='client'
                 onPress={() =>
-                  navigate("DebtorScreen", {
+                  navigate('DebtorScreen', {
                     incomeId: item.id,
                     name: item.clientName,
                   })
@@ -61,16 +55,12 @@ const IncomeDebt = () => {
                 name={item.clientName}
                 date={item.startingDate}
                 sales={item.sales}
-                totalPrice={item.totalPrice}
+                totalPrice={item.totalToPay}
               />
             )}
-            ListEmptyComponent={<EmptyState title="No tienes deudas" />}
+            ListEmptyComponent={<EmptyState title='No tienes deudas' />}
           />
-          <SummaryDebt
-            type="income"
-            amount={total()}
-            stakeholders={income?.length || 0}
-          />
+          <SummaryDebt type='income' amount={total()} stakeholders={income?.length || 0} />
         </View>
       )}
     </View>

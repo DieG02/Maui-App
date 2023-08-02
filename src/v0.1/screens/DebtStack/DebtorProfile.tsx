@@ -58,6 +58,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
         >
           <DebtPaidDetail
             amountPaid={(incomeData || expenseData)?.amountPaid}
+            amountToPay={(incomeData || expenseData)?.amountToPay}
             totalAmount={(incomeData || expenseData)?.totalAmount}
           />
           <Tab.Navigator
