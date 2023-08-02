@@ -43,6 +43,7 @@ type IncomeDebt = {
   sales: number;
   totalPrice: number;
   startingDate: string;
+  totalToPay: number;
 };
 
 type ExpenseDebt = {
@@ -51,6 +52,7 @@ type ExpenseDebt = {
   sales: number;
   totalPrice: number;
   startingDate: string;
+  totalToPay: number;
 };
 
 type CountryItem = {
