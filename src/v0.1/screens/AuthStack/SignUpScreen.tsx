@@ -1,22 +1,23 @@
-import React, { useContext, useMemo, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { NavigationProp, StackActions } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMutation } from "react-query";
-import CommonInput from "../../components/common/CommonInput";
-import customStyles from "../../styles/customStyles";
+import React, { useContext, useMemo, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { NavigationProp, StackActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useMutation } from 'react-query';
+import CommonInput from '../../components/common/CommonInput';
+import customStyles from '../../styles/customStyles';
 
-import { signIn, signUp } from "../../services/auth";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import Form from "../../components/Library/Form";
-import useForm from "../../hooks/useForm";
-import Button from "../../components/common/Button";
-import SecureInput from "../../components/common/SecureInput";
-import PhoneInput from "../../components/common/PhoneInput";
-import { countries } from "../../helpers/countries";
-import { AuthContext } from "../../context/AuthContext";
-
+import { signIn, signUp } from '../../services/auth';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import Form from '../../components/Library/Form';
+import useForm from '../../hooks/useForm';
+import Button from '../../components/common/Button';
+import SecureInput from '../../components/common/SecureInput';
+import PhoneInput from '../../components/common/PhoneInput';
+import { countries } from '../../helpers/countries';
+import { AuthContext } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
+import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLanguage';
+import { languageList } from '../../helpers/languageList';
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -31,40 +32,42 @@ interface SignUpUser {
 }
 
 const initialValues = {
-  email: "",
-  password: "",
-  name: "",
-  cellphone: "",
-  country: "",
-  countryCode: "",
+  email: '',
+  password: '',
+  name: '',
+  cellphone: '',
+  country: '',
+  countryCode: '',
 };
 
 const { mainColor, textBlack, background2, white } = customStyles;
 
-const toValidate = ["email", "password", "name", "cellphone"];
+const toValidate = ['email', 'password', 'name', 'cellphone'];
 
 export default function SignUpScreen({ navigation }: Props) {
-  const [country, setCountry] = useState("+ 54");
+  const { t, i18n } = useTranslation();
+  const [country, setCountry] = useState('+ 54');
   const [modal, setModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
 
-  const { setValues, validateValues, values } =
-    useForm<SignUpUser>(initialValues);
+  const { setValues, validateValues, values } = useForm<SignUpUser>(initialValues);
 
   const { mutateAsync } = useMutation(signUp, {
     onSuccess() {
-      signIn({ email: values.email, password: values.password }).then(
-        (data) => {
-          AsyncStorage.setItem("userInfo", JSON.stringify(data));
-          setIsLoggedIn(true);
-          navigation.dispatch(StackActions.replace("HomeTabs"));
-        }
-      );
+      signIn({ email: values.email, password: values.password }).then(data => {
+        const value = {
+          ...data,
+          locale: i18n.language,
+        };
+        AsyncStorage.setItem('userInfo', JSON.stringify(value));
+        setIsLoggedIn(true);
+        navigation.dispatch(StackActions.replace('HomeTabs'));
+      });
     },
   });
-
   const countrySelected = useMemo(() => {
-    return countries.filter((item) => item.id === country)[0];
+    return countries.filter(item => item.id === country)[0];
   }, [country]);
 
   const onPressSignUp = async () => {
@@ -77,9 +80,12 @@ export default function SignUpScreen({ navigation }: Props) {
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label="Crear cuenta"
+      <BackHeaderTitleLanguage
+        label={t('auth_stack.sign_in.create_account')}
         onPressBack={() => navigation.goBack()}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        options={languageList}
       />
       <Form>
         <View
@@ -89,87 +95,82 @@ export default function SignUpScreen({ navigation }: Props) {
         >
           <CommonInput
             required
-            name="Nombre"
-            setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+            name={t('more_screen.user_data.name')}
+            setValue={text => setValues(prev => ({ ...prev, name: text }))}
             value={values.name}
             marginBottom={25}
-            placeholder="Ingrese su nombre"
-            keyboardType="default"
+            placeholder={t('auth_stack.sign_up.placeholder_name')}
+            keyboardType='default'
           />
           <PhoneInput
             value={values.cellphone}
-            setValue={(text) =>
-              setValues((prev) => ({ ...prev, cellphone: text }))
-            }
+            setValue={text => setValues(prev => ({ ...prev, cellphone: text }))}
             isModalVisible={modal}
             setIsModalVisible={setModal}
             selectedOption={country}
-            setSelectedOption={(value) => setCountry(value)}
-            placeholder="Ingrese su Celular"
+            setSelectedOption={value => setCountry(value)}
+            name={t('more_screen.user_data.phone')}
+            placeholder={t('auth_stack.sign_up.placeholder_phone')}
             marginBottom={25}
           />
           <CommonInput
             required
-            name="Email"
-            setValue={(text) => setValues((prev) => ({ ...prev, email: text }))}
+            name={t('more_screen.user_data.mail')}
+            setValue={text => setValues(prev => ({ ...prev, email: text }))}
             value={values.email}
             marginBottom={25}
-            placeholder="Ingrese su email"
-            keyboardType="email-address"
-            autoCapitalize="none"
+            placeholder={t('auth_stack.sign_in.placeholder_email')}
+            keyboardType='email-address'
+            autoCapitalize='none'
           />
           <SecureInput
             required
             secureTextEntry={true}
-            name="Contraseña"
-            setValue={(text) =>
-              setValues((prev) => ({ ...prev, password: text }))
-            }
+            name={t('auth_stack.sign_in.password')}
+            setValue={text => setValues(prev => ({ ...prev, password: text }))}
             value={values.password}
-            placeholder="Ingrese su contraseña"
+            placeholder={t('auth_stack.sign_in.placeholder_password')}
             marginBottom={25}
           />
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressSignUp}
             color={validateValues(toValidate) ? white : mainColor}
-            text="Crear cuenta"
+            text={t('auth_stack.sign_in.create_account')}
             style={{
-              backgroundColor: validateValues(toValidate)
-                ? mainColor
-                : background2,
+              backgroundColor: validateValues(toValidate) ? mainColor : background2,
 
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginTop: 20,
             }}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate('Login')}
             style={{
-              display: "flex",
-              flexDirection: "row",
+              display: 'flex',
+              flexDirection: 'row',
               marginVertical: 30,
             }}
           >
             <Text
               style={{
                 color: textBlack,
-                fontFamily: "Gilroy-Regular",
+                fontFamily: 'Gilroy-Regular',
                 fontSize: 16,
               }}
             >
-              ¿Ya tenés cuenta?
+              {t('auth_stack.sign_up.have_account')}
             </Text>
             <Text
               style={{
                 color: mainColor,
-                fontFamily: "Gilroy-Bold",
+                fontFamily: 'Gilroy-Bold',
                 fontSize: 16,
                 marginLeft: 5,
               }}
             >
-              Iniciar sesión
+              {t('auth_stack.sign_in.sign_in_button')}
             </Text>
           </TouchableOpacity>
         </View>

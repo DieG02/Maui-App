@@ -8,10 +8,12 @@ import useRefresh from '../../hooks/useRefresh';
 import useGetIncomeDebts from '../../services/Incomes/useGetIcomeDebts';
 import EmptyState from '../../components/common/EmptyState';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
+import { useTranslation } from 'react-i18next';
 
 const { background, mainColor } = customStyles;
 
 const IncomeDebt = () => {
+  const { t } = useTranslation();
   const { navigate } = useNavigation<any>();
   const { data: income, isLoading, refetch } = useGetIncomeDebts();
   const total = useCallback(() => {
@@ -58,7 +60,7 @@ const IncomeDebt = () => {
                 totalPrice={item.totalToPay}
               />
             )}
-            ListEmptyComponent={<EmptyState title='No tienes deudas' />}
+            ListEmptyComponent={<EmptyState title={t('debt_stack.income_debt.empty_debts')} />}
           />
           <SummaryDebt type='income' amount={total()} stakeholders={income?.length || 0} />
         </View>

@@ -1,14 +1,15 @@
-import { View, TextInput, Text } from "react-native";
-import React from "react";
-import customStyles from "../../styles/customStyles";
-import PhoneAreaModal from "../../components/common/Modals/PhoneAreaModal";
-import { countries } from "../../helpers/countries";
+import { View, TextInput, Text } from 'react-native';
+import React from 'react';
+import customStyles from '../../styles/customStyles';
+import PhoneAreaModal from '../../components/common/Modals/PhoneAreaModal';
+import { countries } from '../../helpers/countries';
 
 const { secondaryColorBorder, textBlack, expense } = customStyles;
 
 interface Props {
   value: string;
   setValue: (value: string) => void;
+  name: string;
   placeholder: string;
   marginBottom?: number;
   marginTop?: number;
@@ -16,12 +17,13 @@ interface Props {
   setIsModalVisible: (value: boolean) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
-  notRequired?: boolean
+  notRequired?: boolean;
 }
 
 const PhoneInput = ({
   value,
   setValue,
+  name,
   placeholder,
   marginBottom,
   marginTop,
@@ -29,7 +31,7 @@ const PhoneInput = ({
   setIsModalVisible,
   selectedOption,
   setSelectedOption,
-  notRequired
+  notRequired,
 }: Props) => {
   const options: Array<CountryItem> = countries;
 
@@ -44,24 +46,24 @@ const PhoneInput = ({
         style={{
           fontSize: 18,
           color: textBlack,
-          fontFamily: "Gilroy-Bold",
+          fontFamily: 'Gilroy-Bold',
           marginBottom: 10,
         }}
       >
-        Celular <Text style={{ color: expense }}>{!notRequired && '*'}</Text>
+        {name} <Text style={{ color: expense }}>{!notRequired && '*'}</Text>
       </Text>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "nowrap",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          justifyContent: 'space-between',
           height: 55,
         }}
       >
         <View
           style={{
-            width: "30%",
+            width: '30%',
           }}
         >
           <PhoneAreaModal
@@ -77,14 +79,14 @@ const PhoneInput = ({
             borderRadius: 12,
             borderColor: secondaryColorBorder,
             borderWidth: 1,
-            width: "65%",
+            width: '65%',
           }}
         >
           <TextInput
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
-            keyboardType="phone-pad"
+            keyboardType='phone-pad'
             style={{
               paddingHorizontal: 20,
               color: textBlack,

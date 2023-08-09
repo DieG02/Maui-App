@@ -3,8 +3,8 @@ type PaymentMethods = {
 };
 
 enum State {
-  PAGADO = "PAGADO",
-  DEUDA = "DEUDA",
+  PAGADO = 'PAGADO',
+  DEUDA = 'DEUDA',
 }
 
 type StatePayment = {
@@ -13,30 +13,30 @@ type StatePayment = {
 
 export const paymentMethods: PaymentMethods = {
   CASH: {
-    es: "EFECTIVO",
-    en: "CASH",
+    es: 'balance_stack.payment_method_options.cash',
+    en: 'CASH',
   },
   CARD: {
-    es: "TARJETA",
-    en: "CARD",
+    es: 'balance_stack.payment_method_options.card',
+    en: 'CARD',
   },
   BANK_TRANSFER: {
-    es: "TRANSFERENCIA",
-    en: "BANK_TRANSFER",
+    es: 'balance_stack.payment_method_options.bank_transfer',
+    en: 'BANK_TRANSFER',
   },
   OTHER: {
-    es: "OTRO",
-    en: "OTHER",
+    es: 'balance_stack.payment_method_options.other',
+    en: 'OTHER',
   },
 };
 
 export const STATE: StatePayment = {
   PAGADO: {
     value: true,
-    label: "Pagado",
+    label: 'balance_stack.state_options.paid',
   },
   DEUDA: {
     value: false,
-    label: "Deuda",
+    label: 'balance_stack.state_options.debt',
   },
 };

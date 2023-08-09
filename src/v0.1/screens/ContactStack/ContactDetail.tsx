@@ -13,6 +13,7 @@ import ScrollContainer from '../../components/containers/ScrollContainer';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
 import { alertDelete } from '../../utils/alerts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -22,6 +23,7 @@ interface Props {
 const { mainColor, background, width } = customStyles;
 
 const ContactDetail = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
 
   const initial = {
@@ -40,7 +42,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
       queryClient.invalidateQueries('clients');
       queryClient.invalidateQueries('providers');
       navigation.goBack();
-      showToast('El contacto fue editado satisfactoriamente');
+      showToast(t('contact_stack.contact_detail.edit_contact'));
     },
   });
 
@@ -49,18 +51,18 @@ const ContactDetail = ({ route, navigation }: Props) => {
       queryClient.invalidateQueries('clients');
       queryClient.invalidateQueries('providers');
       navigation.goBack();
-      showToast('El contacto fue eliminado satisfactoriamente');
+      showToast(t('contact_stack.contact_detail.delte_contact'));
     },
   });
   const handleDelete = () => {
-    alertDelete('¿Estás seguro de eliminar el contacto?', deleteContact);
+    alertDelete(t('contact_stack.contact_detail.delete_alert'), deleteContact);
   };
 
   const handleTitle = () => {
     if (params && params.contact.typeOfContact === 'CLIENT') {
-      return 'Cliente';
+      return t('contact_stack.contact_detail.client');
     } else {
-      return 'Proveedor';
+      return t('contact_stack.contact_detail.provider');
     }
   };
 
@@ -84,33 +86,33 @@ const ContactDetail = ({ route, navigation }: Props) => {
         <SimpleInput
           setValue={value => setData({ ...data, name: value })}
           value={data.name}
-          name='Nombre'
+          name={t('contact_stack.contact_detail.name')}
           marginBottom={20}
-          placeholder='Nombre'
+          placeholder={t('contact_stack.contact_detail.name')}
         />
         <SimpleInput
           setValue={value => setData({ ...data, phone: value })}
           value={data.phone}
-          name='Celular'
+          name={t('contact_stack.contact_detail.phone')}
           marginBottom={20}
-          placeholder='Celular'
+          placeholder={t('contact_stack.contact_detail.phone')}
           keyboardType='phone-pad'
         />
         <SimpleInput
           setValue={value => setData({ ...data, email: value })}
           value={data.email}
-          name='Correo electrónico'
+          name={t('contact_stack.contact_detail.e_mail')}
           marginBottom={20}
-          placeholder='Correo electrónico'
+          placeholder={t('contact_stack.contact_detail.e_mail')}
           autoCapitalize='none'
           keyboardType='email-address'
         />
         <SimpleInput
           setValue={value => setData({ ...data, comments: value })}
           value={data.comments}
-          name='Comentarios'
+          name={t('contact_stack.contact_detail.comments')}
           marginBottom={20}
-          placeholder='Agrega un comentario'
+          placeholder={t('contact_stack.contact_detail.add_comments')}
         />
       </ScrollContainer>
       <View
@@ -124,7 +126,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
         <Button
           disabled={!isChanged}
           onPress={() => updateContact()}
-          text='Actualizar contacto'
+          text={t('contact_stack.contact_detail.update_contact')}
           style={{
             backgroundColor: isChanged ? mainColor : '#B3B3B3',
             borderRadius: 25,

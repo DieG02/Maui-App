@@ -8,10 +8,12 @@ import useGetExpenseDebts from '../../services/Expenses/useGetExpenseDebt';
 import { useCallback } from 'react';
 import EmptyState from '../../components/common/EmptyState';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
+import { useTranslation } from 'react-i18next';
 
 const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
+  const { t } = useTranslation();
   const { push } = useNavigation<any>();
   const { data: expenses, isLoading, refetch } = useGetExpenseDebts();
   const total = useCallback(() => {
@@ -58,7 +60,7 @@ const ExpenseDebt = () => {
                 totalPrice={item.totalToPay}
               />
             )}
-            ListEmptyComponent={<EmptyState title='No tienes deudas' />}
+            ListEmptyComponent={<EmptyState title={t('debt_stack.expense_debt.empty_debts')} />}
           />
           <SummaryDebt type='expense' amount={total()} stakeholders={expenses?.length || 0} />
         </View>

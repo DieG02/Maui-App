@@ -1,9 +1,10 @@
-import React from "react";
-import { View } from "react-native";
-import Modal from "react-native-modal";
-import customStyles from "../../styles/customStyles";
-import OptionSelect from "./OptionSelect";
-import CommonInput from "./CommonInput";
+import React from 'react';
+import { View } from 'react-native';
+import Modal from 'react-native-modal';
+import customStyles from '../../styles/customStyles';
+import OptionSelect from './OptionSelect';
+import CommonInput from './CommonInput';
+import { useTranslation } from 'react-i18next';
 
 const { mainColor, ligthBlue, white, textBlack } = customStyles;
 
@@ -28,6 +29,8 @@ const OptionModal = ({
   required,
   placeholder,
 }: Props) => {
+  const { t } = useTranslation();
+
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -48,7 +51,7 @@ const OptionModal = ({
       >
         <View
           style={{
-            backgroundColor: "white",
+            backgroundColor: 'white',
             marginHorizontal: 10,
             borderRadius: 15,
           }}
@@ -57,7 +60,7 @@ const OptionModal = ({
             {options?.map((option, index) => (
               <OptionSelect
                 key={index}
-                name={option}
+                name={t(option)}
                 backgroundColor={selectedOption === option ? ligthBlue : white}
                 textColor={selectedOption === option ? mainColor : textBlack}
                 onPress={() => handleModal(option)}

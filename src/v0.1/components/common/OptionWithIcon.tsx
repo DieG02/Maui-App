@@ -1,9 +1,9 @@
-import React from "react";
-import { View, FlatList } from "react-native";
-import Modal from "react-native-modal";
-import customStyles from "../../styles/customStyles";
-import CommonInput from "./CommonInput";
-import OptionItemWithIcon from "./OptionItemWithIcon";
+import React from 'react';
+import { View, FlatList } from 'react-native';
+import Modal from 'react-native-modal';
+import customStyles from '../../styles/customStyles';
+import CommonInput from './CommonInput';
+import OptionItemWithIcon from './OptionItemWithIcon';
 
 const { background, mainColor, itemLight, blueSelected } = customStyles;
 
@@ -47,27 +47,23 @@ const OptionWithIcon = ({
         onBackButtonPress={() => setIsModalVisible(false)}
       >
         <FlatList
-          overScrollMode="never"
+          overScrollMode='never'
           data={options}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           style={{
             backgroundColor: background,
             marginHorizontal: 10,
             borderRadius: 15,
-            maxHeight: "80%",
+            maxHeight: '80%',
           }}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item: item }) => (
+          renderItem={({ item }) => (
             <OptionItemWithIcon
               key={item.id}
               name={item.name}
               image={item.imageUrl}
-              backgroundColor={
-                selectedOption === item.name ? itemLight : background
-              }
-              textColor={
-                selectedOption === item.name ? mainColor : blueSelected
-              }
+              backgroundColor={selectedOption === item.name ? itemLight : background}
+              textColor={selectedOption === item.name ? mainColor : blueSelected}
               onPress={() => handleModal(item.name)}
             />
           )}

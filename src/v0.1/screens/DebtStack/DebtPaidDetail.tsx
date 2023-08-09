@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   amountPaid?: number;
@@ -55,6 +56,7 @@ const paidStyles = (paidValue: number) =>
   });
 
 export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }: Props) {
+  const { t } = useTranslation();
   const paidValue = useMemo(
     () => (amountPaid && totalAmount ? Number(((amountPaid / totalAmount) * 100).toFixed(2)) : 0),
     [amountPaid, totalAmount]
@@ -70,7 +72,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
             fontSize: 16,
           }}
         >
-          Por abonar
+          {t('debt_stack.debtor_profile.to_be_credit')}
         </Text>
         <Text
           style={{
@@ -90,7 +92,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
           >
             ${amountToPay}
           </Text>{' '}
-          de ${totalAmount}
+          {t('debt_stack.debt_screen.summary_text.of')} ${totalAmount}
         </Text>
       </View>
       <View style={styles.progressBarBase}>

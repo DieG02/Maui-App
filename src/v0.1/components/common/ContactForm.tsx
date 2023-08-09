@@ -1,14 +1,15 @@
-import { View, ScrollView } from "react-native";
-import React from "react";
-import Modal from "react-native-modal";
-import CommonInput from "./CommonInput";
-import Button from "./Button";
-import customStyles from "../../styles/customStyles";
-import { createContactBodyInputDto } from "../../../../Maui-Backend/src/controllers/types";
-import { useMutation } from "react-query";
-import { createNewContact } from "../../services/contacts";
-import { NavigationProp } from "@react-navigation/native";
-import { queryClient } from "../../utils/queryClient";
+import { View, ScrollView } from 'react-native';
+import React from 'react';
+import Modal from 'react-native-modal';
+import CommonInput from './CommonInput';
+import Button from './Button';
+import customStyles from '../../styles/customStyles';
+import { createContactBodyInputDto } from '../../../../Maui-Backend/src/controllers/types';
+import { useMutation } from 'react-query';
+import { createNewContact } from '../../services/contacts';
+import { NavigationProp } from '@react-navigation/native';
+import { queryClient } from '../../utils/queryClient';
+import { useTranslation } from 'react-i18next';
 
 const { mainColor } = customStyles;
 
@@ -24,7 +25,7 @@ interface Props {
   comments: string;
   setComments: (value: string) => void;
   screen: string;
-  type: createContactBodyInputDto["typeOfContact"];
+  type: createContactBodyInputDto['typeOfContact'];
   navigation: NavigationProp<any, any>;
 }
 
@@ -43,25 +44,23 @@ const ContactForm = ({
   screen,
   navigation,
 }: Props) => {
-
+  const { t } = useTranslation();
   const action = (queryName: string, screenName: string, data) => {
     queryClient.invalidateQueries(queryName);
     navigation.navigate(screenName, { contact: data });
   };
 
   const handleOnPress = (data: IContact) => {
-    if (screen === "NewIncome") {
-      action("clients", "NewIncome", data)
-    } else if (screen === "EditIncome") {
-      action("clients", "EditIncome", data)
-    } else if (screen === "NewExpense") {
-      action("providers", "NewExpense", data)
-    } else if (screen === "EditExpense") {
-      action("providers", "EditExpense", data)
+    if (screen === 'NewIncome') {
+      action('clients', 'NewIncome', data);
+    } else if (screen === 'EditIncome') {
+      action('clients', 'EditIncome', data);
+    } else if (screen === 'NewExpense') {
+      action('providers', 'NewExpense', data);
+    } else if (screen === 'EditExpense') {
+      action('providers', 'EditExpense', data);
     } else {
-      type.toUpperCase() === "CLIENT"
-        ? action("clients", "Clients", data)
-        : action("providers", "Providers", data);
+      type.toUpperCase() === 'CLIENT' ? action('clients', 'Clients', data) : action('providers', 'Providers', data);
     }
   };
 
@@ -70,8 +69,7 @@ const ContactForm = ({
     phone: phone,
     comments: comments,
     email: email,
-    typeOfContact:
-      type.toUpperCase() as createContactBodyInputDto["typeOfContact"],
+    typeOfContact: type.toUpperCase() as createContactBodyInputDto['typeOfContact'],
   };
 
   const { mutateAsync } = useMutation(
@@ -79,7 +77,7 @@ const ContactForm = ({
       return createNewContact(form);
     },
     {
-      onSuccess: (data) => {
+      onSuccess: data => {
         handleOnPress(data);
       },
     }
@@ -95,13 +93,13 @@ const ContactForm = ({
     >
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: 'white',
           marginHorizontal: 10,
           borderRadius: 15,
         }}
       >
         <ScrollView
-          overScrollMode="never"
+          overScrollMode='never'
           showsVerticalScrollIndicator={false}
           style={{
             marginHorizontal: 30,
@@ -109,38 +107,38 @@ const ContactForm = ({
           }}
         >
           <CommonInput
-            name="Nombre"
-            placeholder="Nombre del contacto"
+            name={t('contact_stack.new_contact.contact_form.name')}
+            placeholder={t('contact_stack.new_contact.contact_form.name_placeholder')}
             marginBottom={20}
             value={name}
             setValue={setName}
           />
           <CommonInput
-            name="Celular"
-            placeholder="Número de celular"
+            name={t('contact_stack.new_contact.contact_form.phone')}
+            placeholder={t('contact_stack.new_contact.contact_form.phone_placeholder')}
             marginBottom={20}
             value={phone}
             setValue={setPhone}
-            keyboardType="phone-pad"
+            keyboardType='phone-pad'
           />
           <CommonInput
-            name="Email"
-            placeholder="Email del contacto"
+            name={t('contact_stack.new_contact.contact_form.e_mail')}
+            placeholder={t('contact_stack.new_contact.contact_form.e_mail_placeholder')}
             marginBottom={20}
             value={email}
             setValue={setEmail}
-            keyboardType="email-address"
+            keyboardType='email-address'
           />
           <CommonInput
-            name="Comentario"
-            placeholder="Comentarios"
+            name={t('contact_stack.new_contact.contact_form.comment')}
+            placeholder={t('contact_stack.new_contact.contact_form.comment_placeholder')}
             marginBottom={20}
             value={comments}
             setValue={setComments}
             multiline={true}
           />
           <Button
-            text="Crear contacto"
+            text={t('contact_stack.new_contact.contact_form.create_contact')}
             onPress={() => mutateAsync(form)}
             style={{ backgroundColor: mainColor, height: 50 }}
           />

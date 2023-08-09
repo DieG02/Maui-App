@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { ScrollView, RefreshControl } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
-import Spacer from "../../components/common/Spacer";
-import customStyles from "../../styles/customStyles";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import ProfileComponent from "../../components/Library/ProfileComponent";
-import Title from "../../components/Library/Title";
-import GeneralBalance from "../../components/Library/GeneralBalance";
-import StateBalance from "../../components/Library/StateBalance";
-import TransactionsContainer from "../../components/Library/TransactionsContainer";
-import useGetTransactions from "../../services/Transactions/useGetAllTransactions";
-import useGetBalance from "../../services/Balance/useGetBalance";
-import useGetMonthlyStats from "../../services/Balance/useGetStats";
-import useGetAccount from "../../services/Account/useGetAccount";
+import React, { useState } from 'react';
+import { ScrollView, RefreshControl } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
+import Spacer from '../../components/common/Spacer';
+import customStyles from '../../styles/customStyles';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import ProfileComponent from '../../components/Library/ProfileComponent';
+import Title from '../../components/Library/Title';
+import GeneralBalance from '../../components/Library/GeneralBalance';
+import StateBalance from '../../components/Library/StateBalance';
+import TransactionsContainer from '../../components/Library/TransactionsContainer';
+import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
+import useGetBalance from '../../services/Balance/useGetBalance';
+import useGetMonthlyStats from '../../services/Balance/useGetStats';
+import useGetAccount from '../../services/Account/useGetAccount';
+import { useTranslation } from 'react-i18next';
 
 const { mainColor } = customStyles;
 
@@ -21,13 +22,13 @@ interface Props {
 }
 
 const HomeScreen = ({ navigation }: Props) => {
-  const { data: transactions, refetch: getTransactionsFromHome } =
-    useGetTransactions({ take: 6 });
+  const { t } = useTranslation();
+  const { data: transactions, refetch: getTransactionsFromHome } = useGetTransactions({ take: 6 });
 
   const { data: balance, refetch: getBalance } = useGetBalance();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
   const { data: user } = useGetAccount();
-  const { refetch: getAlltransactions } = useGetTransactions()
+  const { refetch: getAlltransactions } = useGetTransactions();
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -36,39 +37,29 @@ const HomeScreen = ({ navigation }: Props) => {
     getTransactionsFromHome();
     getBalance();
     getMonthlyStats();
-    getAlltransactions()
+    getAlltransactions();
     setRefreshing(false);
   };
-
   return (
     <ScreenContainer>
       <ScrollView
-        overScrollMode="never"
+        overScrollMode='never'
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={[mainColor]}
-          />
-        }
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[mainColor]} />}
       >
-        <ProfileComponent
-          user={user}
-          onPressUser={() => navigation.navigate("More")}
-        />
+        <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={10} />
         <GeneralBalance data={balance} />
         <Spacer height={20} />
-        <Title title="Resumen Mensual" />
+        <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
         <StateBalance data={stateBalance!} />
         <Spacer height={20} />
         <Title
-          title="Últimos registros"
-          label="Ver más"
+          title={t('home_stack.last_records')}
+          label={t('home_stack.see_more')}
           enable={transactions?.length !== 0}
-          onPress={() => navigation.navigate("balance")}
+          onPress={() => navigation.navigate('balance')}
         />
         <Spacer height={10} />
         <TransactionsContainer data={transactions} navigation={navigation} />

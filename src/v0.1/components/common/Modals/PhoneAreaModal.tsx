@@ -1,9 +1,9 @@
-import React from "react";
-import { ScrollView, View } from "react-native";
-import Modal from "react-native-modal";
-import customStyles from "../../../styles/customStyles";
-import OptionCountrySelect from "../OptionCountrySelect";
-import PrefixInput from "../PrefixInput";
+import React from 'react';
+import { ScrollView, View } from 'react-native';
+import Modal from 'react-native-modal';
+import customStyles from '../../../styles/customStyles';
+import OptionCountrySelect from '../OptionCountrySelect';
+import PrefixInput from '../PrefixInput';
 
 const { mainColor, ligthBlue, blueSelected } = customStyles;
 
@@ -15,13 +15,7 @@ interface Props {
   setSelectedOption: (value: string) => void;
 }
 
-const OptionModal = ({
-  options,
-  isModalVisible,
-  setIsModalVisible,
-  selectedOption,
-  setSelectedOption,
-}: Props) => {
+const OptionModal = ({ options, isModalVisible, setIsModalVisible, selectedOption, setSelectedOption }: Props) => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -42,10 +36,10 @@ const OptionModal = ({
       >
         <View
           style={{
-            backgroundColor: "white",
+            backgroundColor: 'white',
             marginHorizontal: 10,
             borderRadius: 15,
-            height: "50%",
+            height: '50%',
           }}
         >
           <ScrollView>
@@ -56,12 +50,8 @@ const OptionModal = ({
                   name={option.name}
                   flag={option.flag}
                   prefix={option.prefix}
-                  backgroundColor={
-                    selectedOption === option.id ? ligthBlue : "white"
-                  }
-                  textColor={
-                    selectedOption === option.id ? mainColor : blueSelected
-                  }
+                  backgroundColor={selectedOption === option.id ? ligthBlue : 'white'}
+                  textColor={selectedOption === option.id ? mainColor : blueSelected}
                   onPress={() => handleModal(option.id)}
                 />
               ))}
@@ -70,7 +60,7 @@ const OptionModal = ({
         </View>
       </Modal>
       <PrefixInput
-        value={selectedOption ? selectedOption : "+ 54"}
+        value={selectedOption ? selectedOption : '+ 54'}
         setValue={setSelectedOption}
         marginBottom={25}
         onPress={() => setIsModalVisible(true)}
