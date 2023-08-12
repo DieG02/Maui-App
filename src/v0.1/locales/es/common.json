@@ -21,6 +21,7 @@
     "budget": {
       "title": "Saldo General"
     },
+    "welcome": "Hola,",
     "monthly_summary": {
       "title": "Resumen Mensual",
       "incomes": "Ingresos",
@@ -42,7 +43,7 @@
       "toast_edit_message": "Tu cuenta fue editada satisfactoriamente",
       "name": "Nombre",
       "address": "Dirección",
-      "address_placholder": "Escribe tu dirección",
+      "address_placeholder": "Escribe tu dirección",
       "phone": "Teléfono",
       "phone_number": "Número de teléfono",
       "mail": "E-mail",

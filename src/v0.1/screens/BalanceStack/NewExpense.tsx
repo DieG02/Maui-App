@@ -40,6 +40,7 @@ const initialValues: InitialExpense = {
   value: '',
   name: '',
   providerId: '',
+  providerName: '',
   categoryId: '',
   isPaid: STATE['PAGADO'].value,
   paymentMethod: paymentMethods['CASH'].es,
@@ -75,7 +76,8 @@ const NewExpense = ({ navigation, route }: Props) => {
     if (route.params?.contact) {
       setValues(prev => ({
         ...prev,
-        providerId: route.params?.contact.name,
+        providerId: route.params?.contact.id,
+        providerName: route.params?.contact.name,
       }));
     }
   }, [route.params?.contact]);
@@ -173,6 +175,7 @@ const NewExpense = ({ navigation, route }: Props) => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                alignItems: 'flex-end',
               }}
             >
               <View
@@ -230,13 +233,17 @@ const NewExpense = ({ navigation, route }: Props) => {
             placeholder={t('balance_stack.new_expense.placeholder_provider')}
             name={t('balance_stack.new_expense.provider')}
             required={values.isPaid === false}
-            value={values.providerId}
+            value={values.providerName}
             marginBottom={20}
             onPress={() => {
               navigation.navigate('Providers', { screen: 'NewExpense' });
             }}
             onPressClose={() => {
-              setValues(prev => ({ ...prev, providerId: '' }));
+              setValues(prev => ({
+                ...prev,
+                providerId: '',
+                providerName: '',
+              }));
               navigation.setParams({ contact: '' });
             }}
           />

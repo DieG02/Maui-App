@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import customStyles from '../../styles/customStyles';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -85,7 +85,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
       >
         {name}
       </Text>
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
+      <ScrollView style={{ display: 'flex', flexDirection: 'row' }} horizontal>
         {DATES.map((d, index) => (
           <TouchableOpacity
             key={index}
@@ -168,7 +168,7 @@ const InputDate = ({ name, setDate, date, color }: Props) => {
             </Text>
           </TouchableOpacity>
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 };

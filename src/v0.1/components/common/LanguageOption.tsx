@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native';
+import customStyles from '../../styles/customStyles';
 
 type Props = {
   flag: string;
@@ -8,6 +9,8 @@ type Props = {
 };
 
 const LanguageOption = ({ flag, label, onPress }: Props) => {
+  const { textBlack } = customStyles;
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -30,7 +33,7 @@ const LanguageOption = ({ flag, label, onPress }: Props) => {
         }}
       >
         <Image source={flag as ImageSourcePropType} style={{ width: 26, height: 26, marginRight: 20 }} />
-        <Text style={{ color: 'black', fontWeight: '500' }}>{label}</Text>
+        <Text style={{ color: textBlack, fontFamily: 'Gilroy-Bold' }}>{label}</Text>
       </View>
     </TouchableOpacity>
   );

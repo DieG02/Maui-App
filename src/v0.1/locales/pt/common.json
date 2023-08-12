@@ -21,6 +21,7 @@
     "budget": {
       "title": "Saldo Geral"
     },
+    "welcome": "Olá,",
     "monthly_summary": {
       "title": "Resumo Mensal",
       "incomes": "Receitas",
@@ -42,7 +43,7 @@
       "toast_edit_message": "Sua conta foi editada com sucesso",
       "name": "Nome",
       "address": "Endereço",
-      "address_placholder": "Digite seu endereço",
+      "address_placeholder": "Digite seu endereço",
       "phone": "Telefone",
       "phone_number": "Número de telefone",
       "mail": "E-mail",
@@ -61,7 +62,7 @@
       "description": "Descrição",
       "placeholder_description": "Como você quer chamar este gasto?",
       "state": "Estado",
-      "payment_method": "Método de Pagamento",
+      "payment_method": "Forma de Pagamento",
       "provider": "Fornecedor",
       "placeholder_provider": "Selecione um fornecedor",
       "date": "Data",
@@ -76,7 +77,7 @@
       "description": "Descrição",
       "placeholder_description": "Como você quer chamar esta receita?",
       "state": "Estado",
-      "payment_method": "Método de Pagamento",
+      "payment_method": "Forma de Pagamento",
       "client": "Cliente",
       "placeholder_client": "Selecione um cliente",
       "date": "Data",
@@ -119,7 +120,7 @@
       "alert_delete": "Tem certeza de que deseja excluir a transação?",
       "details": "Detalhes da operação",
       "transaction_date": "Data da operação",
-      "payment_method": "Método de Pagamento",
+      "payment_method": "Forma de Pagamento",
       "total": "Total",
       "transaction_type": "Tipo de operação",
       "expense_category": "Categoria do gasto",
@@ -167,7 +168,7 @@
       "title": "Detalhes da Operação",
       "deposite_date": "Abono do",
       "operation_date": "Data da operação",
-      "payment_method": "Método de Pagamento",
+      "payment_method": "Forma de Pagamento",
       "total": "Total",
       "edit": "Editar"
     },
@@ -182,7 +183,7 @@
     "replay_modal": {
       "toast_amount": "O pagamento não deve ser maior que",
       "value": "Valor",
-      "payment_method": "Método de Pagamento",
+      "payment_method": "Forma de Pagamento",
       "date": "Data",
       "create_credit": "Criar Abono"
     }

@@ -150,6 +150,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'flex-end',
             }}
           >
             <View

@@ -21,12 +21,13 @@
     "budget": {
       "title": "General Balance"
     },
+    "welcome": "Hi,",
     "monthly_summary": {
       "title": "Monthly Summary",
       "incomes": "Incomes",
       "expenses": "Expenses",
-      "income_debts": "Accounts Receivable",
-      "expense_debts": "Accounts Payabler"
+      "income_debts": "Debts to pay",
+      "expense_debts": "Debts to collect"
     },
     "last_records": "Last records",
     "see_more": "See More"
@@ -42,7 +43,7 @@
       "toast_edit_message": "Your account has been successfully edited",
       "name": "Name",
       "address": "Address",
-      "address_placholder": "Please write your address",
+      "address_placeholder": "Please write your address",
       "phone": "Phone",
       "phone_number": "Cell phone number",
       "mail": "E-mail",
@@ -135,8 +136,8 @@
   "debt_stack": {
     "debt_screen": {
       "title": "Debts",
-      "receivables": "Receivables",
-      "payables": "Payables",
+      "receivables": "to Collect",
+      "payables": "to pay",
       "summary_text": {
         "total": "Total",
         "receivables": "receivables",
