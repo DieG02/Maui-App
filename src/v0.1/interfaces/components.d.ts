@@ -65,3 +65,14 @@ type Summary = {
   amount: number;
   stakeholders: number;
 };
+
+type Dictionary = {
+  nombre: string;
+  key: string;
+};
+
+type Options = {
+  locale: string;
+  label: string;
+  flag: string;
+};

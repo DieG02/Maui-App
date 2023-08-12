@@ -1,25 +1,22 @@
-import { StatusBar, ScrollView, View, ActivityIndicator, FlatList } from "react-native";
-import React, { useEffect, useMemo, useState } from "react";
-import { RouteProp, NavigationProp } from "@react-navigation/native";
-import customStyles from "../../styles/customStyles";
-import {
-  checkPermission,
-  fetchContacts,
-  requestContactPermission,
-} from "../../requests";
-import AddContact from "../../components/common/AddContact";
-import ContactForm from "../../components/common/ContactForm";
-import Button from "../../components/common/Button";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import SearchBar from "../../components/common/SearchBar";
-import EmptyState from "../../components/common/EmptyState";
+import { StatusBar, View, ActivityIndicator, FlatList } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { RouteProp, NavigationProp } from '@react-navigation/native';
+import customStyles from '../../styles/customStyles';
+import { checkPermission, fetchContacts, requestContactPermission } from '../../requests';
+import AddContact from '../../components/common/AddContact';
+import ContactForm from '../../components/common/ContactForm';
+import Button from '../../components/common/Button';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import SearchBar from '../../components/common/SearchBar';
+import EmptyState from '../../components/common/EmptyState';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
 }
-const statusBarStyle = "dark-content";
+const statusBarStyle = 'dark-content';
 
 const { background, mainColor, marginHorizontal } = customStyles;
 
@@ -30,6 +27,7 @@ interface Contact {
 }
 
 const NewContact = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
 
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -37,11 +35,11 @@ const NewContact = ({ route, navigation }: Props) => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [comments, setComments] = useState("");
-  const [search, onChangeSearch] = useState("");
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [comments, setComments] = useState('');
+  const [search, onChangeSearch] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
   const getContacts = async () => {
@@ -66,9 +64,7 @@ const NewContact = ({ route, navigation }: Props) => {
   }, []);
 
   const contactsFiltered = useMemo(() => {
-    const filtered = contacts?.filter((item) =>
-      item.name?.toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = contacts?.filter(item => item.name?.toLowerCase().includes(search.toLowerCase()));
     return filtered;
   }, [contacts, search]);
 
@@ -77,94 +73,83 @@ const NewContact = ({ route, navigation }: Props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "white",
-          alignItems: "center",
-          justifyContent: "center",
+          backgroundColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <ActivityIndicator size="large" color="#141414" />
+        <ActivityIndicator size='large' color='#141414' />
       </View>
     );
   }
 
   return (
     <ScreenContainer>
-      <StatusBar barStyle={statusBarStyle} backgroundColor="white" />
+      <StatusBar barStyle={statusBarStyle} backgroundColor='white' />
       {!isSearch ? (
         <BackHeaderTitle
-          label="Agregar Contactos"
+          label={t('contact_stack.new_contact.add_contact')}
           onPressBack={() => navigation.goBack()}
           withSearch
           onPressSearch={() => setIsSearch(true)}
         />
-        ): (
-          <SearchBar
+      ) : (
+        <SearchBar
           onChangeText={onChangeSearch}
           text={search}
-          placeholder="Buscar ..."
+          placeholder={t('contact_stack.new_contact.search')}
           onPress={() => {
-            onChangeSearch("");
+            onChangeSearch('');
             setIsSearch(false);
           }}
           onBlur={() => search.length === 0 && setIsSearch(false)}
         />
+      )}
+      <FlatList
+        overScrollMode='never'
+        data={contactsFiltered}
+        style={{
+          flex: 1,
+          backgroundColor: background,
+          marginHorizontal: marginHorizontal,
+          marginTop: 10,
+        }}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => <EmptyState title={t('contact_stack.new_contact.empty_clients')} percentage={0.25} />}
+        keyExtractor={item => item.id}
+        refreshing={false}
+        onRefresh={() => {
+          getAllContactsFromPhone();
+        }}
+        onEndReachedThreshold={0.5}
+        renderItem={({ item }) => (
+          <AddContact data={item} key={item.id} type={params?.type} screen={params?.screen} navigation={navigation} />
         )}
-          <FlatList
-            overScrollMode="never"
-            data={contactsFiltered}
-            style={{
-              flex: 1,
-              backgroundColor: background,
-              marginHorizontal: marginHorizontal,
-              marginTop: 10
-            }}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={() => (
-              <EmptyState
-                title=" No tenés clientes registrados"
-                percentage={0.25}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-            refreshing={false}
-            onRefresh={() => {
-              getAllContactsFromPhone();
-            }}
-            onEndReachedThreshold={0.5}
-            renderItem={({ item }) => (
-              <AddContact
-                data={item}
-                key={item.id}
-                type={params?.type}
-                screen={params?.screen}
-                navigation={navigation}
-              />
-            )}
-          />
-        <ContactForm
-          comments={comments}
-          setComments={setComments}
-          email={email}
-          setEmail={setEmail}
-          name={name}
-          setName={setName}
-          phone={phone}
-          setPhone={setPhone}
-          isModalVisible={isModalVisible}
-          setIsModalVisible={setIsModalVisible}
-          type={params?.type}
-          screen={params?.screen}
-          navigation={navigation}
-        />
+      />
+      <ContactForm
+        comments={comments}
+        setComments={setComments}
+        email={email}
+        setEmail={setEmail}
+        name={name}
+        setName={setName}
+        phone={phone}
+        setPhone={setPhone}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        type={params?.type}
+        screen={params?.screen}
+        navigation={navigation}
+      />
       <View
         style={{
-          justifyContent: "center",
+          justifyContent: 'center',
           marginHorizontal: marginHorizontal,
           marginVertical: 20,
         }}
       >
         <Button
-          text="Crear nuevo contacto"
+          text={t('contact_stack.new_contact.create_contact')}
           onPress={() => setIsModalVisible(true)}
           style={{
             backgroundColor: mainColor,

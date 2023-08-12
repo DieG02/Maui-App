@@ -1,15 +1,16 @@
-import { View, FlatList } from "react-native";
-import React, { useCallback, useState } from "react";
-import { NavigationProp, useFocusEffect } from "@react-navigation/native";
-import EmptyState from "../../components/common/EmptyState";
-import Button from "../../components/common/Button";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import customStyles from "../../styles/customStyles";
+import { View, FlatList } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { NavigationProp, useFocusEffect } from '@react-navigation/native';
+import EmptyState from '../../components/common/EmptyState';
+import Button from '../../components/common/Button';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import customStyles from '../../styles/customStyles';
 
-import Header from "../../components/Library/Header";
-import SearchBar from "../../components/Library/SearchBar";
-import TransactionCard from "../../components/Library/TransactionCard";
-import useGetTransactions from "../../services/Transactions/useGetAllTransactions";
+import Header from '../../components/Library/Header';
+import SearchBar from '../../components/Library/SearchBar';
+import TransactionCard from '../../components/Library/TransactionCard';
+import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
+import { useTranslation } from 'react-i18next';
 
 // TODO: Refactor this component
 interface Props {
@@ -19,15 +20,14 @@ interface Props {
 const { mainColor, width, marginHorizontal, background2 } = customStyles;
 
 const TransactionsScreen = ({ navigation }: Props) => {
-  const [text, onChangeText] = useState("");
+  const { t } = useTranslation();
+  const [text, onChangeText] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
   const { data, refetch: getAlltransactions } = useGetTransactions();
 
   const filterData = () => {
-    const filtered = data?.filter((item) =>
-      item.name?.toLowerCase().startsWith(text.toLowerCase())
-    );
+    const filtered = data?.filter(item => item.name?.toLowerCase().startsWith(text.toLowerCase()));
     return filtered;
   };
 
@@ -42,7 +42,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
       {!isSearch ? (
         <>
           <Header
-            label="Balance"
+            label={t('balance_stack.transaction_screen.balance')}
             withSearch
             onPressSearch={() => setIsSearch(true)}
           />
@@ -51,19 +51,19 @@ const TransactionsScreen = ({ navigation }: Props) => {
         <SearchBar
           onChangeText={onChangeText}
           text={text}
-          placeholder="Buscar ..."
+          placeholder={t('balance_stack.transaction_screen.placeholder_search')}
           onPress={() => {
-            onChangeText("");
+            onChangeText('');
             setIsSearch(false);
           }}
           onBlur={() => text.length === 0 && setIsSearch(false)}
         />
       )}
       <FlatList
-        overScrollMode="never"
+        overScrollMode='never'
         data={filterData()}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         refreshing={false}
         onRefresh={() => {
           getAlltransactions();
@@ -77,38 +77,38 @@ const TransactionsScreen = ({ navigation }: Props) => {
           <TransactionCard
             data={item}
             key={item.id}
-            onPress={() => navigation.navigate("TransactionDetail", { item })}
+            onPress={() => navigation.navigate('TransactionDetail', { item })}
           />
         )}
         ListEmptyComponent={() =>
           text.length !== 0 ? (
-            <EmptyState title="No se encontraron coincidencias" />
+            <EmptyState title={t('balance_stack.transaction_screen.empty_result')} />
           ) : (
-            <EmptyState title="No tenés transacciones registradas" />
+            <EmptyState title={t('balance_stack.transaction_screen.empty_transactions')} />
           )
         }
       />
 
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           marginHorizontal: 20,
           marginBottom: 20,
           marginTop: 10,
-          justifyContent: "space-between",
+          justifyContent: 'space-between',
         }}
       >
         <Button
-          onPress={() => navigation.navigate("NewIncome")}
-          text="Nuevo Ingreso"
+          onPress={() => navigation.navigate('NewIncome')}
+          text={t('balance_stack.new_income.new_income')}
           style={{
             backgroundColor: mainColor,
             width: (width - 60) / 2,
           }}
         />
         <Button
-          onPress={() => navigation.navigate("NewExpense")}
-          text="Nuevo Gasto"
+          onPress={() => navigation.navigate('NewExpense')}
+          text={t('balance_stack.new_expense.new_expense')}
           color={mainColor}
           style={{
             backgroundColor: background2,

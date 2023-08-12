@@ -7,6 +7,7 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetExpense from '../../services/Expense/useGetExpById';
 import ExpenseDetail from './ExpenseDetail';
 import { queryClient } from '../../utils/queryClient';
+import { useTranslation } from 'react-i18next';
 
 const { mainColor, background2 } = customStyles;
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const EditExpense = ({ navigation, route }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
   const { data, isLoading } = useGetExpense(params?.expense?.id);
 
@@ -23,7 +25,7 @@ const EditExpense = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <BackHeaderTitle
-        label='Editar Gasto'
+        label={t('balance_stack.edit_expense')}
         headerStyle={{ backgroundColor: background2 }}
         onPressBack={() => {
           queryClient.removeQueries('expenseDetail');

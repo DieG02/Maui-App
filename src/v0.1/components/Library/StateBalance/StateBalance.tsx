@@ -1,9 +1,10 @@
-import React from "react";
-import { View, ScrollView } from "react-native";
-import customStyles from "../../../styles/customStyles";
-import styles from "./style";
-import { getMonthlyMainStatsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
-import StateBalanceCard from "../StateBalanceCard";
+import React from 'react';
+import { View, ScrollView } from 'react-native';
+import customStyles from '../../../styles/customStyles';
+import styles from './style';
+import { getMonthlyMainStatsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
+import StateBalanceCard from '../StateBalanceCard';
+import { useTranslation } from 'react-i18next';
 
 const { width, marginHorizontal } = customStyles;
 
@@ -12,10 +13,11 @@ interface Props {
 }
 
 const StateBalance = ({ data }: Props) => {
+  const { t } = useTranslation();
   return (
     <ScrollView
       horizontal
-      overScrollMode="never"
+      overScrollMode='never'
       showsHorizontalScrollIndicator={false}
       snapToInterval={width - 60}
       decelerationRate={0.5}
@@ -24,41 +26,41 @@ const StateBalance = ({ data }: Props) => {
         <View>
           <View style={styles.wrapper}>
             <StateBalanceCard
-              state="Ingresos"
-              value={data?.incomes.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
+              state={t('home_stack.monthly_summary.incomes')}
+              value={data?.incomes.toLocaleString('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
               })}
               left={marginHorizontal}
-              type="ingreso"
+              type='ingreso'
             />
             <StateBalanceCard
-              state="Gastos"
-              value={data?.expenses.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
+              state={t('home_stack.monthly_summary.expenses')}
+              value={data?.expenses.toLocaleString('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
               })}
               left={15}
-              type="egreso"
+              type='egreso'
             />
             <StateBalanceCard
-              state="Deudas por Cobrar"
-              value={data?.toCollect.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
+              state={t('home_stack.monthly_summary.income_debts')}
+              value={data?.toCollect.toLocaleString('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
               })}
               left={15}
-              type="cobrar"
+              type='cobrar'
             />
             <StateBalanceCard
-              state="Deudas por pagar"
-              value={data?.debt.toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
+              state={t('home_stack.monthly_summary.expense_debts')}
+              value={data?.debt.toLocaleString('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
               })}
               left={15}
               right={marginHorizontal}
-              type="pagar"
+              type='pagar'
             />
           </View>
         </View>

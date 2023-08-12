@@ -8,6 +8,7 @@ import RowTransaction from '../../components/common/TransactionCard/RowTransacti
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { parseDDMMYY } from '../../utils/helper';
 import Button from '../../components/common/Button';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -16,6 +17,7 @@ interface Props {
 const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } = customStyles;
 
 const DebtDetail = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
 
   const handleOnPress = () => {
@@ -25,7 +27,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
   return (
     <ScreenContainer>
       <BackHeaderTitle
-        label='Detalle de operación'
+        label={t('debt_stack.debt_detail.title')}
         onPressBack={() => navigation.goBack()}
         withDelete
         onPressDelete={() => console.log('Borrar deuda')}
@@ -70,14 +72,19 @@ const DebtDetail = ({ route, navigation }: Props) => {
             }}
             numberOfLines={1}
           >
-            {params?.type === 'debt' ? params?.item.name : `Abono del ${parseDDMMYY(params?.item.paidAt)}`}
+            {params?.type === 'debt'
+              ? params?.item.name
+              : `${t('debt_stack.debt_detail.deposite_date')} ${parseDDMMYY(params?.item.paidAt)}`}
           </Text>
         </View>
 
-        <RowTransaction label='Fecha de operación' value={parseDDMMYY(params?.item.paidAt)} />
-        <RowTransaction label='Método de pago' value={params?.type === 'debt' ? 'Deuda' : params?.item.paymentMethod} />
+        <RowTransaction label={t('debt_stack.debt_detail.operation_date')} value={parseDDMMYY(params?.item.paidAt)} />
         <RowTransaction
-          label='Total'
+          label={t('debt_stack.debt_detail.payment_method')}
+          value={params?.type === 'debt' ? t('balance_stack.state_options.debt') : params?.item.paymentMethod}
+        />
+        <RowTransaction
+          label={t('debt_stack.debt_detail.total')}
           value={
             params?.type === 'debt' ? (
               <Text numberOfLines={1}>
@@ -106,7 +113,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
         }}
       >
         <Button
-          text='Editar'
+          text={t('debt_stack.debt_detail.edit')}
           color={mainColor}
           style={{
             backgroundColor: babyBlue,

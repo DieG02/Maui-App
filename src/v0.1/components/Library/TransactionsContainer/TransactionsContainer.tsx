@@ -1,9 +1,10 @@
-import { NavigationProp } from "@react-navigation/native";
-import React from "react";
-import { View } from "react-native";
-import EmptyState from "../../common/EmptyState";
-import styles from "./style";
-import TransactionCard from "../TransactionCard";
+import { NavigationProp } from '@react-navigation/native';
+import React from 'react';
+import { View } from 'react-native';
+import EmptyState from '../../common/EmptyState';
+import styles from './style';
+import TransactionCard from '../TransactionCard';
+import { useTranslation } from 'react-i18next';
 
 // TODO: Refactor this interface to use the correct types
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 
 // TODO: Refactor this component to make it more efficient
 const TransactionsContainer = ({ data, navigation }: Props) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -21,14 +23,11 @@ const TransactionsContainer = ({ data, navigation }: Props) => {
             <TransactionCard
               data={item}
               key={item.id}
-              onPress={() => navigation.navigate("TransactionDetail", { item })}
+              onPress={() => navigation.navigate('TransactionDetail', { item })}
             />
           ))
         ) : (
-          <EmptyState
-            title=" No tenes transacciones registradas"
-            percentage={0.7}
-          />
+          <EmptyState title={t('balance_stack.transaction_screen.empty_transactions')} percentage={0.7} />
         )}
       </View>
     </View>

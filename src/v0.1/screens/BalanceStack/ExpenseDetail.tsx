@@ -19,6 +19,9 @@ import useEditExpense from '../../services/Expense/useEditExpense';
 import { showToast } from '../../utils/toast';
 import OptionWithIcon from '../../components/common/OptionWithIcon';
 import { queryClient } from '../../utils/queryClient';
+import { useTranslation } from 'react-i18next';
+import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { dictionary } from '../../helpers/dictionary';
 
 const { width } = Dimensions.get('window');
 const { mainColor, marginHorizontal } = customStyles;
@@ -34,6 +37,8 @@ const validateOptions: ValidateOptions = {
 };
 
 const ExpenseDetail = ({ navigation, data, params }: Props) => {
+  const { t } = useTranslation();
+  const NEW_EXPENSE = 'balance_stack.new_expense';
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
@@ -89,7 +94,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         queryClient.invalidateQueries('Transactions');
         queryClient.removeQueries('expenseDetail');
         navigation.navigate('balance');
-        showToast('La transacción fue editada satisfactoriamente');
+        showToast(t('debt_stack.edit_debt.toast_edited'));
       },
     }
   );
@@ -105,13 +110,13 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       <Form>
         <Spacer height={10} />
         <OptionWithIcon
-          title='Categoría'
+          title={t(`${NEW_EXPENSE}.category`)}
           required
-          placeholder='Seleccione una categoría'
+          placeholder={t(`${NEW_EXPENSE}.placeholder_category`)}
           options={expenseCategory ? expenseCategory : []}
           isModalVisible={modalExpenseCategory}
           setIsModalVisible={setModalExpenseCategory}
-          selectedOption={values.categoryId}
+          selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
           setSelectedOption={text => {
             setValues(prev => ({
               ...prev,
@@ -121,7 +126,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           }}
         />
         <InputForm
-          name='Valor'
+          name={t(`${NEW_EXPENSE}.value`)}
           keyboardType='numeric'
           placeholder='0,00'
           value={values.value}
@@ -133,8 +138,8 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           required
         />
         <CommonInput
-          name='Descripción'
-          placeholder='¿Como quieres llamar a este gasto?'
+          name={t(`${NEW_EXPENSE}.description`)}
+          placeholder={t(`${NEW_EXPENSE}.placeholder_description`)}
           marginBottom={20}
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
@@ -154,7 +159,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               }}
             >
               <OptionModal
-                title='Estado'
+                title={t(`${NEW_EXPENSE}.state`)}
                 options={stateOptions}
                 isModalVisible={modalState}
                 setIsModalVisible={setModalState}
@@ -174,11 +179,11 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               }}
             >
               <OptionModal
-                title='Método de Pago'
+                title={t(`${NEW_EXPENSE}.payment_method`)}
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={values.paymentMethod}
+                selectedOption={t(values.paymentMethod)}
                 setSelectedOption={text =>
                   setValues(prev => ({
                     ...prev,
@@ -190,7 +195,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           </View>
         ) : (
           <OptionModal
-            title='Estado'
+            title={t(`${NEW_EXPENSE}.state`)}
             options={stateOptions}
             isModalVisible={modalState}
             setIsModalVisible={setModalState}
@@ -199,8 +204,8 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           />
         )}
         <SelectionModal
-          name='Proveedor'
-          placeholder='Seleccione un proveedor'
+          name={t(`${NEW_EXPENSE}.provider`)}
+          placeholder={t(`${NEW_EXPENSE}.placeholder_provider`)}
           required={values.isPaid === false}
           value={values.providerName}
           marginBottom={20}
@@ -218,7 +223,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         />
 
         <InputDate
-          name='Fecha'
+          name={t(`${NEW_EXPENSE}.date`)}
           date={values.date}
           setDate={date => setValues(prev => ({ ...prev, date }))}
           color={mainColor}
@@ -239,7 +244,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           }}
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text='Guardar cambios'
+          text={t('debt_stack.edit_debt.save_changes')}
         />
       </View>
     </>

@@ -1,22 +1,24 @@
-import React from "react";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import customStyles from "../../styles/customStyles";
-import IncomeDebt from "./Income";
-import ExpenseDebt from "./Expense";
-import Header from "../../components/Library/Header";
+import React from 'react';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import customStyles from '../../styles/customStyles';
+import IncomeDebt from './Income';
+import ExpenseDebt from './Expense';
+import Header from '../../components/Library/Header';
+import { useTranslation } from 'react-i18next';
 
 const { mainColor, white, background2, marginHorizontal } = customStyles;
 
 const Tab = createMaterialTopTabNavigator();
 
 const Debts = () => {
+  const { t } = useTranslation();
   return (
     <ScreenContainer>
-      <Header label="Deudas" />
+      <Header label={t('debt_stack.debt_screen.title')} />
       <Tab.Navigator
-        overScrollMode="never"
-        initialRouteName="Por Cobrar"
+        overScrollMode='never'
+        initialRouteName={t('debt_stack.debt_screen.receivables')}
         style={{ backgroundColor: white }}
         screenOptions={{
           tabBarStyle: {
@@ -28,7 +30,7 @@ const Debts = () => {
           tabBarPressColor: white,
           tabBarActiveTintColor: white,
           tabBarInactiveTintColor: mainColor,
-          tabBarLabelStyle: { fontSize: 13, fontWeight: "bold" },
+          tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold' },
           tabBarIndicatorStyle: {
             backgroundColor: mainColor,
             height: 50,
@@ -40,8 +42,8 @@ const Debts = () => {
           },
         }}
       >
-        <Tab.Screen name="Por Cobrar" component={IncomeDebt} />
-        <Tab.Screen name="Por Pagar" component={ExpenseDebt} />
+        <Tab.Screen name={t('debt_stack.debt_screen.receivables')} component={IncomeDebt} />
+        <Tab.Screen name={t('debt_stack.debt_screen.payables')} component={ExpenseDebt} />
       </Tab.Navigator>
     </ScreenContainer>
   );

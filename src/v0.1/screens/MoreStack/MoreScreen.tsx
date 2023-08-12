@@ -1,20 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, Text } from "react-native";
-import Spacer from "../../components/common/Spacer";
-import OptionCard from "../../components/common/OptionCard";
-import Right from "react-native-vector-icons/Entypo";
-import Business from "react-native-vector-icons/FontAwesome";
-import Costumer from "react-native-vector-icons/FontAwesome";
-import Contact from "react-native-vector-icons/MaterialIcons";
-import { NavigationProp } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../../context/AuthContext";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import ProfileBadge from "../../components/Library/ProfileBadge";
-import customStyles from "../../styles/customStyles";
-import useGetAccount from "../../services/Account/useGetAccount";
-import { queryClient } from "../../utils/queryClient";
+import React, { useContext, useEffect, useState } from 'react';
+import { View, ScrollView, Text } from 'react-native';
+import Spacer from '../../components/common/Spacer';
+import OptionCard from '../../components/common/OptionCard';
+import Right from 'react-native-vector-icons/Entypo';
+import Business from 'react-native-vector-icons/FontAwesome';
+import Costumer from 'react-native-vector-icons/FontAwesome';
+import Contact from 'react-native-vector-icons/MaterialIcons';
+import Flag from 'react-native-vector-icons/MaterialIcons';
+import { NavigationProp } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../context/AuthContext';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import ProfileBadge from '../../components/Library/ProfileBadge';
+import customStyles from '../../styles/customStyles';
+import useGetAccount from '../../services/Account/useGetAccount';
+import { queryClient } from '../../utils/queryClient';
+import { useTranslation } from 'react-i18next';
+import OptionLanguage from '../../components/common/OptionLanguage';
+import { languageList } from '../../helpers/languageList';
 
 const { textBlack, marginHorizontal, babyBlue } = customStyles;
 
@@ -25,16 +29,18 @@ interface Props {
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { data, refetch } = useGetAccount();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation();
 
   const getEmail = async () => {
-    const storage = await AsyncStorage.getItem("userInfo");
-    const email = storage ? JSON.parse(storage).email : "";
+    const storage = await AsyncStorage.getItem('userInfo');
+    const email = storage ? JSON.parse(storage).email : '';
     return setEmail(email);
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       getEmail();
       refetch();
     });
@@ -47,7 +53,7 @@ const More = ({ navigation }: Props) => {
     await AsyncStorage.clear();
     navigation.reset({
       index: 0,
-      routes: [{ name: "Login" }],
+      routes: [{ name: 'Login' }],
     });
     queryClient.clear();
   };
@@ -56,7 +62,7 @@ const More = ({ navigation }: Props) => {
     <ScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackHeaderTitle
-          label=""
+          label=''
           onPressBack={() => navigation.goBack()}
           headerStyle={{
             backgroundColor: babyBlue,
@@ -65,15 +71,15 @@ const More = ({ navigation }: Props) => {
         <View
           style={{
             backgroundColor: babyBlue,
-            alignItems: "center",
+            alignItems: 'center',
           }}
         >
-          <ProfileBadge user={data} size="large" />
+          <ProfileBadge user={data} size='large' />
           <Text
             style={{
               fontSize: 25,
               color: textBlack,
-              fontFamily: "Gilroy-Medium",
+              fontFamily: 'Gilroy-Medium',
               marginTop: 20,
             }}
           >
@@ -82,7 +88,7 @@ const More = ({ navigation }: Props) => {
           <Text
             style={{
               color: textBlack,
-              fontFamily: "Gilroy-Regular",
+              fontFamily: 'Gilroy-Regular',
               marginTop: 5,
               fontSize: 18,
             }}
@@ -94,36 +100,38 @@ const More = ({ navigation }: Props) => {
         <View style={{ marginHorizontal: marginHorizontal }}>
           <Spacer height={30} />
           <OptionCard
-            title="Mis datos"
-            onPress={() => navigation.navigate("UserData", { data, email })}
-            arrow={
-              <Right name="chevron-small-right" color={textBlack} size={30} />
-            }
-            icon={<Business name="user" color={textBlack} size={22} />}
+            title={t('more_screen.profile')}
+            onPress={() => navigation.navigate('UserData', { data, email })}
+            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<Business name='user' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
-            title="Clientes"
-            onPress={() => navigation.navigate("Clients")}
-            arrow={
-              <Right name="chevron-small-right" color={textBlack} size={30} />
-            }
-            icon={<Contact name="contact-page" color={textBlack} size={22} />}
+            title={t('more_screen.clients')}
+            onPress={() => navigation.navigate('Clients')}
+            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<Contact name='contact-page' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
-            title="Provedores"
-            onPress={() => navigation.navigate("Providers")}
-            arrow={
-              <Right name="chevron-small-right" color={textBlack} size={30} />
-            }
-            icon={<Costumer name="truck" color={textBlack} size={22} />}
+            title={t('more_screen.providers')}
+            onPress={() => navigation.navigate('Providers')}
+            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<Costumer name='truck' color={textBlack} size={22} />}
+          />
+          <Spacer height={10} />
+          <OptionLanguage
+            title={t('more_screen.languages')}
+            icon={<Flag name='flag' color={textBlack} size={22} />}
+            options={languageList}
+            modalVisible={isVisible}
+            setModalVisible={setIsVisible}
           />
           <Spacer height={10} />
           <OptionCard
-            title="Cerrar sesión"
+            title={t('more_screen.log_out')}
             onPress={() => handleLogout()}
-            icon={<Costumer name="sign-out" color={textBlack} size={22} />}
+            icon={<Costumer name='sign-out' color={textBlack} size={22} />}
           />
         </View>
       </ScrollView>

@@ -1,47 +1,42 @@
-import { Image, Text, ToastAndroid, View } from "react-native";
-import React from "react";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import customStyles from "../../styles/customStyles";
-import RowTransaction from "../../components/common/TransactionCard/RowTransaction";
-import Button from "../../components/common/Button";
-import ScrollContainer from "../../components/containers/ScrollContainer";
-import useDeleteExpense from "../../services/Expense/useDeleteExpense";
-import useDeleteIncome from "../../services/Incomes/useDeleteIncome";
-import { queryClient } from "../../utils/queryClient";
-import { parseDDMMYY } from "../../utils/helper";
-import ContactCard from "../../components/common/ContactCard";
-import useGetContactById from "../../services/Contact/useGetContactById";
-import { alertDelete } from "../../utils/alerts";
+import { Image, Text, ToastAndroid, View } from 'react-native';
+import React from 'react';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import customStyles from '../../styles/customStyles';
+import RowTransaction from '../../components/common/TransactionCard/RowTransaction';
+import Button from '../../components/common/Button';
+import ScrollContainer from '../../components/containers/ScrollContainer';
+import useDeleteExpense from '../../services/Expense/useDeleteExpense';
+import useDeleteIncome from '../../services/Incomes/useDeleteIncome';
+import { queryClient } from '../../utils/queryClient';
+import { parseDDMMYY } from '../../utils/helper';
+import ContactCard from '../../components/common/ContactCard';
+import useGetContactById from '../../services/Contact/useGetContactById';
+import { alertDelete } from '../../utils/alerts';
+import { useTranslation } from 'react-i18next';
+import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { dictionary } from '../../helpers/dictionary';
 
 // TODO: Refactor this component
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
 }
-const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } =
-  customStyles;
+const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
 
-  const { data } = useGetContactById(
-    params?.item?.clientId || params?.item?.providerId
-  );
-  const isExpense = params?.item.category.name !== "Venta";
+  const { data } = useGetContactById(params?.item?.clientId || params?.item?.providerId);
+  const isExpense = params?.item.category.name !== 'Venta';
 
   const showToast = () => {
     if (isExpense) {
-      ToastAndroid.show(
-        "El egreso fue eliminado satisfactoriamente",
-        ToastAndroid.SHORT
-      );
+      ToastAndroid.show(t('balance_stack.transaction_detail.toast_expense_delete'), ToastAndroid.SHORT);
     } else {
-      ToastAndroid.show(
-        "El ingreso fue eliminado satisfactoriamente",
-        ToastAndroid.SHORT
-      );
+      ToastAndroid.show(t('balance_stack.transaction_detail.toast_income_delete'), ToastAndroid.SHORT);
     }
   };
 
@@ -49,34 +44,31 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     onSuccess() {
       navigation.goBack();
       showToast();
-      queryClient.invalidateQueries("Transactions");
+      queryClient.invalidateQueries('Transactions');
     },
   });
   const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
     onSuccess() {
       navigation.goBack();
       showToast();
-      queryClient.invalidateQueries("Transactions");
+      queryClient.invalidateQueries('Transactions');
     },
   });
 
   const handleDelete = () => {
-    alertDelete(
-      "¿Estás seguro de eliminar la transacción?",
-      (isExpense ? deleteExpense : deleteIncome)
-    )
+    alertDelete(t('balance_stack.transaction_detail.alert_delete'), isExpense ? deleteExpense : deleteIncome);
   };
 
   const handleOnPress = () => {
     isExpense
-      ? navigation.navigate("EditExpense", { expense: params?.item })
-      : navigation.navigate("EditIncome", { id: params?.item.id });
+      ? navigation.navigate('EditExpense', { expense: params?.item })
+      : navigation.navigate('EditIncome', { id: params?.item.id });
   };
 
   return (
     <ScreenContainer>
       <BackHeaderTitle
-        label="Detalle de operación"
+        label={t('balance_stack.transaction_detail.details')}
         onPressBack={() => navigation.goBack()}
         withDelete
         onPressDelete={handleDelete}
@@ -84,8 +76,8 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       <ScrollContainer>
         <View
           style={{
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
             marginBottom: 30,
           }}
         >
@@ -95,8 +87,8 @@ const TransactionDetail = ({ route, navigation }: Props) => {
               height: 100,
               borderRadius: 50,
               backgroundColor: secondaryColor,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               marginVertical: 20,
             }}
           >
@@ -112,7 +104,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             style={{
               fontSize: 24,
               color: textBlack,
-              fontFamily: "Gilroy-SemiBold",
+              fontFamily: 'Gilroy-SemiBold',
             }}
           >
             {params?.item.name}
@@ -120,44 +112,43 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         </View>
 
         <RowTransaction
-          label="Fecha de operación"
+          label={t('balance_stack.transaction_detail.transaction_date')}
           value={parseDDMMYY(params?.item.date)}
         />
         <RowTransaction
-          label="Método de pago"
+          label={t('balance_stack.transaction_detail.payment_method')}
           value={params?.item.paymentMethod}
         />
         <RowTransaction
-          label="Total"
+          label={t('balance_stack.transaction_detail.total')}
           value={
-            params?.item.category.name === "Venta"
-              ? `${params?.item.value.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
+            params?.item.category.name === 'Venta'
+              ? `${params?.item.value.toLocaleString('es-AR', {
+                  style: 'currency',
+                  currency: 'ARS',
                 })}`
-              : `-${params?.item.value.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
+              : `-${params?.item.value.toLocaleString('es-AR', {
+                  style: 'currency',
+                  currency: 'ARS',
                 })}`
           }
         />
-
         <RowTransaction
-          label="Tipo de operación"
-          value={params?.item.category.name === "Venta" ? "Venta" : "Gasto"}
+          label={t('balance_stack.transaction_detail.transaction_type')}
+          value={params?.item.category.name === 'Venta' ? t('balance_stack.sale') : t('balance_stack.expense')}
         />
 
-        {params?.item.category.name !== "Venta" && (
+        {params?.item.category.name !== 'Venta' && (
           <RowTransaction
-            label="Categoría del gasto"
-            value={params?.item.category.name}
+            label={t('balance_stack.transaction_detail.expense_category')}
+            value={handleTranslateCategory(params?.item.category.name, dictionary)}
           />
         )}
         {!data ? null : (
           <ContactCard
             disabled
             data={data}
-            type={params?.item?.clientId ? "client" : "provider"}
+            type={params?.item?.clientId ? 'client' : 'provider'}
             onPress={() => {}}
             showNoRightIcon={true}
           />
@@ -165,13 +156,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       </ScrollContainer>
       <View
         style={{
-          justifyContent: "center",
+          justifyContent: 'center',
           marginHorizontal: marginHorizontal,
           marginBottom: 40,
         }}
       >
         <Button
-          text="Editar"
+          text={t('balance_stack.transaction_detail.edit')}
           color={mainColor}
           style={{
             backgroundColor: babyBlue,

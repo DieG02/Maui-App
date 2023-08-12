@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClientProvider } from 'react-query';
 import { getLocales } from 'react-native-localize';
+import { getLocaleFromAsyncStorage } from './src/v0.1/utils/getUserInfo';
+import i18n from './src/v0.1/services/i18n-config';
 import AuthProvider from './src/v0.1/context/AuthContext';
 import GeneralProvider from './src/v0.1/context/GeneralContext';
 import HomeTabs from './src/v0.1/navigation/HomeTabs';
@@ -39,17 +41,27 @@ import DebtDetail from './src/v0.1/screens/DebtStack/DebtDetail';
 
 import customStyles from './src/v0.1/styles/customStyles';
 import EditDebt from './src/v0.1/screens/DebtStack/EditDebt';
+
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
 
 const Stack = createNativeStackNavigator();
 
 const defaultLenguage = getLocales()[0].languageCode;
-const locale = getLocales();
-console.log('LENGUAJE ==>', defaultLenguage);
-console.log('LOCALE ==>', locale);
 
 const App = () => {
+  useEffect(() => {
+    const loadLanguage = async () => {
+      const locale = await getLocaleFromAsyncStorage();
+      if (locale) {
+        i18n.changeLanguage(locale);
+      } else {
+        i18n.changeLanguage(defaultLenguage);
+      }
+    };
+    loadLanguage();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

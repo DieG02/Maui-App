@@ -1,16 +1,17 @@
-import { View, FlatList, ActivityIndicator } from "react-native";
-import React, { useContext, useMemo, useState } from "react";
-import ContactCard from "../../components/common/ContactCard";
-import customStyles from "../../styles/customStyles";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
-import { useQuery } from "react-query";
-import { getAllContacts } from "../../services/contacts";
-import { GeneralContext } from "../../context/GeneralContext";
-import EmptyState from "../../components/common/EmptyState";
-import Button from "../../components/common/Button";
-import ScreenContainer from "../../components/containers/ScreenContainer";
-import { BackHeaderTitle } from "../../components/common/HeaderTitle";
-import SearchBar from "../../components/common/SearchBar";
+import { View, FlatList, ActivityIndicator } from 'react-native';
+import React, { useContext, useMemo, useState } from 'react';
+import ContactCard from '../../components/common/ContactCard';
+import customStyles from '../../styles/customStyles';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { useQuery } from 'react-query';
+import { getAllContacts } from '../../services/contacts';
+import { GeneralContext } from '../../context/GeneralContext';
+import EmptyState from '../../components/common/EmptyState';
+import Button from '../../components/common/Button';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import SearchBar from '../../components/common/SearchBar';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -19,46 +20,43 @@ interface Props {
 const { mainColor, background, marginHorizontal } = customStyles;
 
 const Consumers = ({ navigation, route }: Props) => {
-  const screen = route.params?.screen
+  const { t } = useTranslation();
+  const screen = route.params?.screen;
   const { setContacts } = useContext(GeneralContext);
-  const [text, onChangeText] = useState("");
+  const [text, onChangeText] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
   const {
     data,
     isLoading,
     refetch: getClients,
-  } = useQuery("clients", getAllContacts, {
+  } = useQuery('clients', getAllContacts, {
     onSuccess(data) {
-      setContacts(
-        data?.filter((item) => item.typeOfContact === "CLIENT") as []
-      );
+      setContacts(data?.filter(item => item.typeOfContact === 'CLIENT') as []);
     },
   });
 
   const clients = useMemo(() => {
-    const res = data?.filter((item) => item.typeOfContact === "CLIENT");
-    const filtered = res?.filter((item) =>
-      item.name?.toLowerCase().includes(text.toLowerCase())
-    );
+    const res = data?.filter(item => item.typeOfContact === 'CLIENT');
+    const filtered = res?.filter(item => item.name?.toLowerCase().includes(text.toLowerCase()));
     return filtered;
   }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
-    if (screen === "EditIncome") {
+    if (screen === 'EditIncome') {
       navigation.navigate({
-        name: "EditIncome",
+        name: 'EditIncome',
         params: { contact: item },
         merge: true,
       });
-    } else if (screen === "NewIncome") {
+    } else if (screen === 'NewIncome') {
       navigation.navigate({
-        name: "NewIncome",
+        name: 'NewIncome',
         params: { contact: item },
         merge: true,
       });
     } else {
-      navigation.navigate("ContactDetail", { contact: item });
+      navigation.navigate('ContactDetail', { contact: item });
     }
   };
 
@@ -67,12 +65,12 @@ const Consumers = ({ navigation, route }: Props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: "white",
-          alignItems: "center",
-          justifyContent: "center",
+          backgroundColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <ActivityIndicator size="large" color="#141414" />
+        <ActivityIndicator size='large' color='#141414' />
       </View>
     );
   }
@@ -81,7 +79,7 @@ const Consumers = ({ navigation, route }: Props) => {
     <ScreenContainer>
       {!isSearch ? (
         <BackHeaderTitle
-          label="Clientes"
+          label={t('contact_stack.client.clients')}
           onPressBack={() => navigation.goBack()}
           withSearch
           onPressSearch={() => setIsSearch(true)}
@@ -90,31 +88,26 @@ const Consumers = ({ navigation, route }: Props) => {
         <SearchBar
           onChangeText={onChangeText}
           text={text}
-          placeholder="Buscar ..."
+          placeholder={t('contact_stack.client.search')}
           onPress={() => {
-            onChangeText("");
+            onChangeText('');
             setIsSearch(false);
           }}
           onBlur={() => text.length === 0 && setIsSearch(false)}
         />
       )}
       <FlatList
-        overScrollMode="never"
+        overScrollMode='never'
         data={clients}
         style={{
           flex: 1,
           backgroundColor: background,
           marginHorizontal: marginHorizontal,
-          marginTop: 10
+          marginTop: 10,
         }}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => (
-          <EmptyState
-            title=" No tenés clientes registrados"
-            percentage={0.25}
-          />
-        )}
-        keyExtractor={(item) => item.id}
+        ListEmptyComponent={() => <EmptyState title={t('contact_stack.client.empty_clients')} percentage={0.25} />}
+        keyExtractor={item => item.id}
         refreshing={false}
         onRefresh={() => {
           getClients();
@@ -123,29 +116,23 @@ const Consumers = ({ navigation, route }: Props) => {
           getClients();
         }}
         onEndReachedThreshold={0.5}
-        renderItem={({ item }) => (
-          <ContactCard
-            data={item}
-            type="client"
-            onPress={() => handleOnPress(item)}
-          />
-        )}
+        renderItem={({ item }) => <ContactCard data={item} type='client' onPress={() => handleOnPress(item)} />}
       />
       <View
         style={{
-          justifyContent: "center",
+          justifyContent: 'center',
           marginHorizontal: marginHorizontal,
           marginVertical: 20,
         }}
       >
         <Button
           onPress={() =>
-            navigation.navigate("NewContact", {
-              type: "client",
+            navigation.navigate('NewContact', {
+              type: 'client',
               screen: route.params?.screen,
             })
           }
-          text="Crear / Importar Contacto"
+          text={t('contact_stack.button_text')}
           style={{
             backgroundColor: mainColor,
           }}

@@ -1,20 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { ToastAndroid, View } from "react-native";
-import InputForm from "../../components/common/InputForm";
-import CommonInput from "../../components/common/CommonInput";
-import OptionModal from "../../components/common/OptionModal";
-import InputDate from "../../components/common/InputDate";
-import "moment-timezone";
-import SelectionModal from "../../components/common/Modals/SelectionModal";
-import Form from "../../components/Library/Form";
-import customStyles from "../../styles/customStyles";
-import { NavigationProp } from "@react-navigation/native";
-import usePayment from "../../hooks/usePayment";
-import useForm from "../../hooks/useForm";
-import useEditIncome from "../../services/Incomes/useEditIncome";
-import { queryClient } from "../../utils/queryClient";
-import Button from "./Button";
-import LoadingComponent from "../Library/LoadingComponent";
+import React, { useEffect, useMemo, useState } from 'react';
+import { ToastAndroid, View } from 'react-native';
+import InputForm from '../../components/common/InputForm';
+import CommonInput from '../../components/common/CommonInput';
+import OptionModal from '../../components/common/OptionModal';
+import InputDate from '../../components/common/InputDate';
+import 'moment-timezone';
+import SelectionModal from '../../components/common/Modals/SelectionModal';
+import Form from '../../components/Library/Form';
+import customStyles from '../../styles/customStyles';
+import { NavigationProp } from '@react-navigation/native';
+import usePayment from '../../hooks/usePayment';
+import useForm from '../../hooks/useForm';
+import useEditIncome from '../../services/Incomes/useEditIncome';
+import { queryClient } from '../../utils/queryClient';
+import Button from './Button';
+import LoadingComponent from '../Library/LoadingComponent';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -28,35 +29,29 @@ interface ValidateOptions {
 
 const { mainColor, width, marginHorizontal } = customStyles;
 const validateOptions: ValidateOptions = {
-  isPaid: ["value"],
-  isPending: ["value", "clientId"],
+  isPaid: ['value'],
+  isPending: ['value', 'clientId'],
 };
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
+  const { t } = useTranslation();
+  const NEW_INCOME = 'balance_stack.new_income';
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
-  const {
-    handlePayment,
-    handlePaymentName,
-    handleSelected,
-    handleState,
-    stateOptions,
-    paymentsOptions,
-  } = usePayment();
+  const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
   const initialValues: InitialIncome = {
-    value: String(data?.value).replace(".", ","),
+    value: String(data?.value).replace('.', ','),
     name: data?.name,
     clientId: data?.client?.id,
-    clientName: data?.client ? data?.client.name : "",
+    clientName: data?.client ? data?.client.name : '',
     isPaid: data?.isPaid,
     paymentMethod: handlePaymentName(data?.paymentMethod),
     date: data?.date,
   };
 
-  const { values, setValues, validateValues } =
-    useForm<InitialIncome>(initialValues);
+  const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -65,7 +60,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
   useEffect(() => {
     if (params?.contact) {
-      setValues((prev) => ({
+      setValues(prev => ({
         ...prev,
         clientName: params?.contact.name,
         clientId: params?.contact.id,
@@ -74,11 +69,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(
-      "La transacción fue editada satisfactoriamente",
-      ToastAndroid.LONG,
-      ToastAndroid.TOP
-    );
+    ToastAndroid.showWithGravity(t('debt_stack.edit_debt.toast_edited'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
   const { mutateAsync, isLoading } = useEditIncome(
@@ -89,13 +80,13 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
       date: values.date,
       isPaid: values.isPaid,
       name: values.name,
-      value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
+      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("Transactions");
-        queryClient.removeQueries("IncomeDetail");
-        navigation.navigate("balance");
+        queryClient.invalidateQueries('Transactions');
+        queryClient.removeQueries('IncomeDetail');
+        navigation.navigate('balance');
         showToast();
       },
     }
@@ -119,64 +110,62 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
     >
       <Form>
         <InputForm
-          keyboardType="numeric"
-          placeholder="0,00"
+          keyboardType='numeric'
+          placeholder='0,00'
           value={values.value}
-          name="Valor"
-          setValue={(val) => {
-            const newValue = !!val && val !== "NaN" ? val : "";
-            setValues((prev) => ({ ...prev, value: newValue }));
+          name={t(`${NEW_INCOME}.value`)}
+          setValue={val => {
+            const newValue = !!val && val !== 'NaN' ? val : '';
+            setValues(prev => ({ ...prev, value: newValue }));
           }}
           marginBottom={20}
           marginTop={15}
           required
         />
         <CommonInput
-          placeholder="¿Como quieres llamar a este ingreso?"
-          name="Descripción"
+          placeholder={t(`${NEW_INCOME}.placeholder_description`)}
+          name={t(`${NEW_INCOME}.description`)}
           marginBottom={20}
           value={values.name}
-          setValue={(text) => setValues((prev) => ({ ...prev, name: text }))}
+          setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
         {values.isPaid === true ? (
           <View
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <View
               style={{
-                display: "flex",
+                display: 'flex',
                 width: (width - 100) / 2,
               }}
             >
               <OptionModal
-                title="Estado"
+                title={t(`${NEW_INCOME}.state`)}
                 options={stateOptions}
                 isModalVisible={modalState}
                 setIsModalVisible={setModalState}
                 selectedOption={handleSelected(values.isPaid)}
-                setSelectedOption={(text) =>
-                  setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
-                }
+                setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
               />
             </View>
             <View
               style={{
-                display: "flex",
+                display: 'flex',
                 width: (width - 100) / 2,
               }}
             >
               <OptionModal
-                title="Método de Pago"
+                title={t(`${NEW_INCOME}.payment_method`)}
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={values.paymentMethod}
-                setSelectedOption={(text) =>
-                  setValues((prev) => ({
+                selectedOption={t(values.paymentMethod)}
+                setSelectedOption={text =>
+                  setValues(prev => ({
                     ...prev,
                     paymentMethod: text,
                   }))
@@ -186,54 +175,52 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
           </View>
         ) : (
           <OptionModal
-            title="Estado"
+            title={t(`${NEW_INCOME}.state`)}
             options={stateOptions}
             isModalVisible={modalState}
             setIsModalVisible={setModalState}
             selectedOption={handleSelected(values.isPaid)}
-            setSelectedOption={(text) =>
-              setValues((prev) => ({ ...prev, isPaid: handleState(text) }))
-            }
+            setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
           />
         )}
         <SelectionModal
-          placeholder="Seleccione un cliente"
-          name="Cliente"
+          placeholder={t(`${NEW_INCOME}.placeholder_client`)}
+          name={t(`${NEW_INCOME}.client`)}
           required={values.isPaid === false}
           value={values.clientName}
           marginBottom={20}
           onPress={() => {
-            navigation.navigate("Clients", { screen: "EditIncome" });
+            navigation.navigate('Clients', { screen: 'EditIncome' });
           }}
           onPressClose={() => {
-            setValues((prev) => ({
+            setValues(prev => ({
               ...prev,
-              clientId: "",
-              clientName: "",
+              clientId: '',
+              clientName: '',
             }));
-            navigation.setParams({ contact: "" });
+            navigation.setParams({ contact: '' });
           }}
         />
         <InputDate
-          name="Fecha"
+          name={t(`${NEW_INCOME}.date`)}
           date={values.date}
-          setDate={(date) => setValues((prev) => ({ ...prev, date: date }))}
+          setDate={date => setValues(prev => ({ ...prev, date: date }))}
           color={mainColor}
         />
       </Form>
       <View
         style={{
           height: 80,
-          justifyContent: "center",
+          justifyContent: 'center',
           marginHorizontal: marginHorizontal,
         }}
       >
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text="Guardar cambios"
+          text={t('debt_stack.edit_debt.save_changes')}
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : "#B3B3B3",
+            backgroundColor: validateValues(toValidate) ? mainColor : '#B3B3B3',
             borderRadius: 25,
           }}
         />

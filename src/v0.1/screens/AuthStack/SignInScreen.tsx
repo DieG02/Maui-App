@@ -13,12 +13,14 @@ import Form from "../../components/Library/Form";
 import Button from "../../components/common/Button";
 import useForm from "../../hooks/useForm";
 import SecureInput from "../../components/common/SecureInput";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 const { mainColor, textBlack, white, background2 } = customStyles;
 const statusBarStyle = "dark-content";
+const KEY_PATH = "auth_stack.sign_in";
 
 interface LoginUser {
   email: string;
@@ -33,8 +35,10 @@ const initialValues: LoginUser = {
 const toValidate = ["email", "password"];
 
 export default function LoginScreen({ navigation }: Props) {
+  const { t } = useTranslation();
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const { setValues, validateValues, values } = useForm<LoginUser>(initialValues);
+  const { setValues, validateValues, values } =
+    useForm<LoginUser>(initialValues);
 
   const { mutateAsync } = useMutation(signIn);
 
@@ -50,10 +54,10 @@ export default function LoginScreen({ navigation }: Props) {
 
   useEffect(() => {
     const handleIsLoggedIn = async () => {
-      if(isLoggedIn) navigation.dispatch(StackActions.replace("HomeTabs"))
+      if (isLoggedIn) navigation.dispatch(StackActions.replace("HomeTabs"));
     };
     const unsubscribe = navigation.addListener("focus", () => {
-      handleIsLoggedIn()
+      handleIsLoggedIn();
     });
 
     return unsubscribe;
@@ -74,10 +78,10 @@ export default function LoginScreen({ navigation }: Props) {
 
           <CommonInput
             required
-            name="Email"
+            name={t("more_screen.user_data.mail")}
             value={values.email}
             marginBottom={25}
-            placeholder="Ingrese su email"
+            placeholder={t(`${KEY_PATH}.placeholder_email`)}
             autoCapitalize="none"
             keyboardType="email-address"
             setValue={(text) => setValues((prev) => ({ ...prev, email: text }))}
@@ -86,19 +90,19 @@ export default function LoginScreen({ navigation }: Props) {
           <SecureInput
             required
             secureTextEntry={true}
-            name="Contraseña"
+            name={t(`${KEY_PATH}.password`)}
             setValue={(text) =>
               setValues((prev) => ({ ...prev, password: text }))
             }
             value={values.password}
-            placeholder="Ingrese su contraseña"
+            placeholder={t(`${KEY_PATH}.placeholder_password`)}
             marginBottom={25}
           />
 
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressLogin}
-            text="Iniciar Sesión"
+            text={t(`${KEY_PATH}.sign_in_button`)}
             color={validateValues(toValidate) ? white : mainColor}
             style={{
               backgroundColor: validateValues(toValidate)
@@ -124,7 +128,7 @@ export default function LoginScreen({ navigation }: Props) {
                 fontSize: 16,
               }}
             >
-              ¿No tenés cuenta?
+              {t(`${KEY_PATH}.no_account`)}
             </Text>
             <Text
               style={{
@@ -134,7 +138,7 @@ export default function LoginScreen({ navigation }: Props) {
                 marginLeft: 5,
               }}
             >
-              Crear cuenta
+              {t(`${KEY_PATH}.create_account`)}
             </Text>
           </TouchableOpacity>
         </View>

@@ -14,6 +14,7 @@ import CustomModal from '../../components/common/Modals/CustomModal';
 import { useMemo } from 'react';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 import Button from '../../components/common/Button';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -24,6 +25,7 @@ interface Props {
 }
 
 const DebtorProfile = ({ navigation, route }: Props) => {
+  const { t } = useTranslation();
   const { params } = route;
   const expenseId = params?.expenseId;
   const incomeId = route.params?.incomeId;
@@ -85,13 +87,18 @@ const DebtorProfile = ({ navigation, route }: Props) => {
               },
             }}
           >
-            <Tab.Screen name='Deuda' component={DebtComponent} />
-            <Tab.Screen name='Abonado' component={PayComponent} />
+            <Tab.Screen name={t('debt_stack.debtor_profile.credited')} component={DebtComponent} />
+            <Tab.Screen name={t('debt_stack.debtor_profile.debt')} component={PayComponent} />
           </Tab.Navigator>
           {payValue === undefined || +payValue === 0 ? (
-            <Button text={'Abonado'} disabled style={{ backgroundColor: background2 }} color={mainColor} />
+            <Button
+              text={t('debt_stack.debtor_profile.credited')}
+              disabled
+              style={{ backgroundColor: background2 }}
+              color={mainColor}
+            />
           ) : (
-            <CustomModal title='Abonar'>
+            <CustomModal title={t('debt_stack.debtor_profile.to_credit')}>
               <RepayModal amount={payValue || ''} id={incomeId || expenseId} type={incomeData ? 'income' : 'expense'} />
             </CustomModal>
           )}

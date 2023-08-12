@@ -1,20 +1,13 @@
-import React from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import customStyles from "../../styles/customStyles";
-import Right from "react-native-vector-icons/Entypo";
-import moment from "moment";
-import "moment/locale/es";
+import React from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import customStyles from '../../styles/customStyles';
+import Right from 'react-native-vector-icons/Entypo';
+import moment from 'moment';
+import 'moment/locale/es';
+import { useTranslation } from 'react-i18next';
 
-const {
-  textBlack,
-  background,
-  secondaryColor,
-  expense,
-  income,
-  royalBlue,
-  marginHorizontal,
-} = customStyles;
+const { textBlack, background, secondaryColor, expense, income, royalBlue, marginHorizontal } = customStyles;
 
 interface Props {
   type: string;
@@ -26,31 +19,24 @@ interface Props {
   name: string;
 }
 
-const DebtContactCard = ({
-  date,
-  type,
-  onPress,
-  sales,
-  purchases,
-  totalPrice,
-  name,
-}: Props) => {
-  moment.locale("es");
-  const formattedDate = moment(date).format("D [de] MMMM");
+const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, name }: Props) => {
+  const { t, i18n } = useTranslation();
+  moment.locale(i18n.language);
+  const formattedDate = moment(date).format(`D [${t('debt_stack.debt_screen.summary_text.of')}] MMMM`);
 
   const renderTypeContact = () => {
     switch (type) {
-      case "client": {
+      case 'client': {
         return (
           <View style={styles.iconType}>
-            <Icon name="user" size={25} color={royalBlue} />
+            <Icon name='user' size={25} color={royalBlue} />
           </View>
         );
       }
-      case "provider": {
+      case 'provider': {
         return (
           <View style={styles.iconType}>
-            <Icon name="truck" size={25} color={royalBlue} />
+            <Icon name='truck' size={25} color={royalBlue} />
           </View>
         );
       }
@@ -59,13 +45,19 @@ const DebtContactCard = ({
 
   const renderTypeDescription = () => {
     switch (type) {
-      case "client": {
-        return <Text style={styles.descriptionType}>Ventas: {sales}</Text>;
-      }
-      case "provider": {
+      case 'client': {
         return (
           <Text style={styles.descriptionType}>
-            Compras: {purchases && purchases}
+            {t('debt_stack.income_debt.sales')}
+            {sales}
+          </Text>
+        );
+      }
+      case 'provider': {
+        return (
+          <Text style={styles.descriptionType}>
+            {t('debt_stack.expense_debt.purchases')}
+            {purchases && purchases}
           </Text>
         );
       }
@@ -74,19 +66,11 @@ const DebtContactCard = ({
 
   const renderTypePrice = () => {
     switch (type) {
-      case "client": {
-        return (
-          <Text style={[styles.label, { color: income }]}>
-            ${totalPrice?.toLocaleString("es")}
-          </Text>
-        );
+      case 'client': {
+        return <Text style={[styles.label, { color: income }]}>${totalPrice?.toLocaleString('es')}</Text>;
       }
-      case "provider": {
-        return (
-          <Text style={[styles.label, { color: expense }]}>
-            ${totalPrice?.toLocaleString("es")}
-          </Text>
-        );
+      case 'provider': {
+        return <Text style={[styles.label, { color: expense }]}>${totalPrice?.toLocaleString('es')}</Text>;
       }
     }
   };
@@ -94,9 +78,9 @@ const DebtContactCard = ({
   const styles = StyleSheet.create({
     container: {
       marginHorizontal: marginHorizontal,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       paddingVertical: 5,
       backgroundColor: background,
     },
@@ -106,38 +90,38 @@ const DebtContactCard = ({
       backgroundColor: secondaryColor,
       borderRadius: 25,
       marginRight: 15,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     descriptionType: {
       color: textBlack,
       fontSize: 14,
-      fontFamily: "Gilroy-Regular",
+      fontFamily: 'Gilroy-Regular',
     },
     label: {
       fontSize: 16,
-      fontFamily: "Gilroy-SemiBold",
+      fontFamily: 'Gilroy-SemiBold',
     },
     row: {
-      flexDirection: "row",
-      alignItems: "center",
+      flexDirection: 'row',
+      alignItems: 'center',
     },
   });
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.row}>
         {renderTypeContact()}
-        <View style={{ alignSelf: "center" }}>
+        <View style={{ alignSelf: 'center' }}>
           <Text style={[styles.label, { color: textBlack }]}>{name}</Text>
           {renderTypeDescription()}
         </View>
       </View>
       <View style={styles.row}>
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ alignItems: 'flex-end' }}>
           {renderTypePrice()}
           <Text style={styles.descriptionType}>{formattedDate}</Text>
         </View>
-        <Right name="chevron-small-right" color={textBlack} size={30} />
+        <Right name='chevron-small-right' color={textBlack} size={30} />
       </View>
     </TouchableOpacity>
   );
