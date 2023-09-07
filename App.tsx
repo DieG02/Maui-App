@@ -1,38 +1,103 @@
-import React from "react";
-// import logo from "./assets/logo.png";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeTabs from "./navigation/HomeTabs";
-import NewIncome from "./screens/BalanceScreen/NewIncome";
-import NewExpense from "./screens/BalanceScreen/NewExpense";
-import InventoryScreen from "./screens/InventoryScreen/InventoryScreen";
-import Budget from "./screens/HomeScreen/Budget";
-import NotificationsScreen from "./screens/HomeScreen/NotificationsScreen";
-import MoreScreen from "./screens/MoreScreen/MoreScreen";
-import ContactsScreen from "./screens/MoreScreen/ContactsScreen";
-import NewProduct from "./screens/InventoryScreen/NewProduct";
-import SearchScreen from "./screens/SearchScreen";
-import { QueryClient, QueryClientProvider } from "react-query";
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { QueryClientProvider } from 'react-query';
+import { getLocales } from 'react-native-localize';
+import { getLocaleFromAsyncStorage } from './src/v0.1/utils/getUserInfo';
+import i18n from './src/v0.1/services/i18n-config';
+import AuthProvider from './src/v0.1/context/AuthContext';
+import GeneralProvider from './src/v0.1/context/GeneralContext';
+import HomeTabs from './src/v0.1/navigation/HomeTabs';
+
+// MORE STACK
+import DebtsModal from './src/v0.1/components/common/Modals/DebtsModal';
+import UserDataScreen from './src/v0.1/screens/MoreStack/UserData';
+import MoreScreen from './src/v0.1/screens/MoreStack/MoreScreen';
+
+// AUTH STACK
+import SignInScreen from './src/v0.1/screens/AuthStack/SignInScreen';
+import SplashScreen from './src/v0.1/screens/AuthStack/SplashScreen';
+import SignUpScreen from './src/v0.1/screens/AuthStack/SignUpScreen';
+
+// BALANCE STACK
+import NewIncome from './src/v0.1/screens/BalanceStack/NewIncome';
+import EditIncome from './src/v0.1/screens/BalanceStack/EditIncome';
+import NewExpense from './src/v0.1/screens/BalanceStack/NewExpense';
+import EditExpense from './src/v0.1/screens/BalanceStack/EditExpense';
+import TransactionDetail from './src/v0.1/screens/BalanceStack/TransactionDetail';
+
+// CONTACT STACK
+import ClientsScreen from './src/v0.1/screens/ContactStack/Clients';
+import ContactDetail from './src/v0.1/screens/ContactStack/ContactDetail';
+import ProvidersScreen from './src/v0.1/screens/ContactStack/Providers';
+import NewContact from './src/v0.1/screens/ContactStack/NewContact';
+
+// DEBT STACK
+import DebtsScreen from './src/v0.1/screens/DebtStack/Debts';
+import DebtorScreen from './src/v0.1/screens/DebtStack/DebtorProfile';
+import { queryClient } from './src/v0.1/utils/queryClient';
+import { StatusBar } from 'react-native';
+import DebtDetail from './src/v0.1/screens/DebtStack/DebtDetail';
+
+import customStyles from './src/v0.1/styles/customStyles';
+import EditDebt from './src/v0.1/screens/DebtStack/EditDebt';
+
+const { white } = customStyles;
+const statusBarStyle = 'dark-content';
 
 const Stack = createNativeStackNavigator();
-const queryClient = new QueryClient();
+
+const defaultLenguage = getLocales()[0].languageCode;
+
 const App = () => {
+  useEffect(() => {
+    const loadLanguage = async () => {
+      const locale = await getLocaleFromAsyncStorage();
+      if (locale) {
+        i18n.changeLanguage(locale);
+      } else {
+        i18n.changeLanguage(defaultLenguage);
+      }
+    };
+    loadLanguage();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="HomeTabs" component={HomeTabs} />
-          <Stack.Screen name="NewIncome" component={NewIncome} />
-          <Stack.Screen name="NewExpense" component={NewExpense} />
-          <Stack.Screen name="Inventory" component={InventoryScreen} />
-          <Stack.Screen name="Budget" component={Budget} />
-          <Stack.Screen name="Notifications" component={NotificationsScreen} />
-          <Stack.Screen name="More" component={MoreScreen} />
-          <Stack.Screen name="Contacts" component={ContactsScreen} />
-          <Stack.Screen name="NewProduct" component={NewProduct} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AuthProvider>
+        <GeneralProvider>
+          <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: 'none',
+              }}
+            >
+              <Stack.Screen name='Splash' component={SplashScreen} />
+              <Stack.Screen name='SignUp' component={SignUpScreen} />
+              <Stack.Screen name='Login' component={SignInScreen} />
+              <Stack.Screen name='HomeTabs' component={HomeTabs} />
+              <Stack.Screen name='NewIncome' component={NewIncome} />
+              <Stack.Screen name='EditIncome' component={EditIncome} />
+              <Stack.Screen name='NewExpense' component={NewExpense} />
+              <Stack.Screen name='EditExpense' component={EditExpense} />
+              <Stack.Screen name='DebtsModal' component={DebtsModal} />
+              <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
+              <Stack.Screen name='More' component={MoreScreen} />
+              <Stack.Screen name='UserData' component={UserDataScreen} />
+              <Stack.Screen name='Clients' component={ClientsScreen} />
+              <Stack.Screen name='Providers' component={ProvidersScreen} />
+              <Stack.Screen name='ContactDetail' component={ContactDetail} />
+              <Stack.Screen name='NewContact' component={NewContact} />
+              <Stack.Screen name='Debts' component={DebtsScreen} />
+              <Stack.Screen name='DebtDetail' component={DebtDetail} />
+              <Stack.Screen name='EditDebt' component={EditDebt} />
+              <Stack.Screen name='DebtorScreen' component={DebtorScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GeneralProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

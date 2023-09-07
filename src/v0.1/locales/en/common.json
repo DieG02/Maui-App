@@ -1,0 +1,234 @@
+{
+  "home": "Home",
+  "balance": "Balance",
+  "debts": "Debts",
+  "auth_stack": {
+    "sign_in": {
+      "placeholder_email": "Enter your e-mail",
+      "password": "Password",
+      "placeholder_password": "Enter your password",
+      "sign_in_button": "Sign In",
+      "no_account": "Don't you have an account?",
+      "create_account": "Create Account"
+    },
+    "sign_up": {
+      "placeholder_name": "Enter your name",
+      "placeholder_phone": "Enter your phone",
+      "have_account": "Do you already have an account?"
+    }
+  },
+  "home_stack": {
+    "budget": {
+      "title": "General Balance"
+    },
+    "welcome": "Hi,",
+    "monthly_summary": {
+      "title": "Monthly Summary",
+      "incomes": "Incomes",
+      "expenses": "Expenses",
+      "income_debts": "Debts to pay",
+      "expense_debts": "Debts to collect"
+    },
+    "last_records": "Last records",
+    "see_more": "See More"
+  },
+  "more_screen": {
+    "profile": "My Profile",
+    "clients": "Clients",
+    "providers": "Providers",
+    "languages": "Languages",
+    "log_out": "Sign Out",
+    "user_data": {
+      "title": "My Profile",
+      "toast_edit_message": "Your account has been successfully edited",
+      "name": "Name",
+      "address": "Address",
+      "address_placeholder": "Please write your address",
+      "phone": "Phone",
+      "phone_number": "Cell phone number",
+      "mail": "E-mail",
+      "save": "Save"
+    }
+  },
+  "balance_stack": {
+    "edit_expense": "Edit Expense",
+    "edit_income": "Edit Income",
+    "new_expense": {
+      "toast_new_expense": "The transaction was created successfully",
+      "new_expense": "New Expense",
+      "category": "Category",
+      "placeholder_category": "Select a Category",
+      "value": "Value",
+      "description": "Description",
+      "placeholder_description": "What would you like to call this expense?",
+      "state": "State",
+      "payment_method": "Payment Method",
+      "provider": "Provider",
+      "placeholder_provider": "Select a Provider",
+      "date": "Date",
+      "save_expense": "Record expenses"
+    },
+    "new_income": {
+      "toast_new_expense": "The transaction was created successfully",
+      "new_income": "New Income",
+      "category": "Category",
+      "placeholder_category": "Select a Category",
+      "value": "Value",
+      "description": "Description",
+      "placeholder_description": "What would you like to call this income?",
+      "state": "State",
+      "payment_method": "Payment Method",
+      "client": "Client",
+      "placeholder_client": "Select a Client",
+      "date": "Date",
+      "save_income": "Record incomes"
+    },
+    "categories": {
+      "logistics": "Logistics",
+      "administrative": "Administrative Expenses",
+      "services": "Public Services",
+      "supplies": "Supplies",
+      "rental": "Rental",
+      "payroll": "Payroll",
+      "marketing": "Marketing and Advertising",
+      "insurance": "Insurance",
+      "taxes": "Taxes",
+      "maintenance": "Maintenance and Repairs",
+      "subscriptions": "Platforms and Subscriptions",
+      "costs": "Financial Costs"
+    },
+    "state_options": {
+      "paid": "Paid",
+      "debt": "Debt"
+    },
+    "payment_method_options": {
+      "cash": "CASH",
+      "card": "CARD",
+      "bank_transfer": "BANK TRANSFER",
+      "other": "OTHER"
+    },
+    "date_options": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "choose_date": "Choose date"
+    },
+    "sale": "Sale",
+    "expense": "Expense",
+    "transaction_detail": {
+      "toast_expense_delete": "The expense was successfully deleted",
+      "toast_income_delete": "The income was successfully deleted",
+      "alert_delete": "Are you sure about deleting the transaction?",
+      "details": "Transaction detail",
+      "transaction_date": "Transaction date",
+      "payment_method": "Payment Method",
+      "total": "Total",
+      "transaction_type": "Transaction Type",
+      "expense_category": "Expense Category",
+      "edit": "Edit"
+    },
+    "transaction_screen": {
+      "balance": "Balance",
+      "placeholder_search": "Search...",
+      "empty_result": "No matches found",
+      "empty_transactions": "You have no registered transactions"
+    }
+  },
+  "debt_stack": {
+    "debt_screen": {
+      "title": "Debts",
+      "receivables": "to Collect",
+      "payables": "to pay",
+      "summary_text": {
+        "total": "Total",
+        "receivables": "receivables",
+        "payables": "payables",
+        "of": "of",
+        "clients": "Clients",
+        "providers": "Providers"
+      }
+    },
+    "edit_expense": {
+      "title": "Edit Expense"
+    },
+    "income_debt": {
+      "empty_debts": "You have no debts",
+      "sales": "Sales: "
+    },
+    "expense_debt": {
+      "empty_debts": "You have no debts",
+      "purchases": "Purchases: "
+    },
+    "debtor_profile": {
+      "credited": "Credited",
+      "debt": "Debt",
+      "to_credit": "To Credit",
+      "to_be_credit": "To be credited"
+    },
+    "debt_detail": {
+      "title": "Operation Detail",
+      "deposite_date": "Credit deposit of",
+      "operation_date": "Operation date",
+      "payment_method": "Payment Method",
+      "total": "Total",
+      "edit": "Edit"
+    },
+    "edit_debt": {
+      "title": "Edit Debt",
+      "credit_entry": "Credit deposit of",
+      "debt_edited": "Debt edited successfully",
+      "description_placeholder": "How do you want to name this transaction?",
+      "save_changes": "Save Changes",
+      "toast_edited": "The transaction was edited successfully"
+    },
+    "replay_modal": {
+      "toast_amount": "The payment should not be greater than",
+      "value": "Value",
+      "payment_method": "Payment Method",
+      "date": "Date",
+      "create_credit": "Create Credit"
+    }
+  },
+  "contact_stack": {
+    "button_text": "Create / Import Contact",
+    "client": {
+      "clients": "Clients",
+      "search": "Search...",
+      "empty_clients": "You don't have any registered clients"
+    },
+    "provider": {
+      "providers": "Providers",
+      "search": "Search...",
+      "empty_providers": "You don't have any registered providers"
+    },
+    "contact_detail": {
+      "edit_contact": "The contact was successfully edited.",
+      "delte_contact": "The contact was successfully deleted.",
+      "delete_alert": "Are you sure you want to delete the contact?",
+      "client": "Client",
+      "provider": "Provider",
+      "name": "Name",
+      "phone": "Phone",
+      "e_mail": "E-mail",
+      "comments": "Comments",
+      "add_comments": "Add comments",
+      "update_contact": "Update contact"
+    },
+    "new_contact": {
+      "add_contact": "Add Contact",
+      "search": "Search...",
+      "empty_clients": "You don't have any registered clients",
+      "create_contact": "Create new contact",
+      "contact_form": {
+        "name": "Name",
+        "name_placeholder": "Contact name",
+        "phone": "Phone",
+        "phone_placeholder": "Phone number",
+        "e_mail": "E-mail",
+        "e_mail_placeholder": "Contact e-mail",
+        "comment": "Comment",
+        "comment_placeholder": "Comments",
+        "create_contact": "Create Contact"
+      }
+    }
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "home": "Início",
+  "balance": "Saldo",
+  "debts": "Dívidas",
+  "auth_stack": {
+    "sign_in": {
+      "placeholder_email": "Digite seu e-mail",
+      "password": "Senha",
+      "placeholder_password": "Digite sua senha",
+      "sign_in_button": "Iniciar sessão",
+      "no_account": "Não tem uma conta?",
+      "create_account": "Criar conta"
+    },
+    "sign_up": {
+      "placeholder_name": "Digite seu nome",
+      "placeholder_phone": "Digite seu telefone",
+      "have_account": "Já tem uma conta?"
+    }
+  },
+  "home_stack": {
+    "budget": {
+      "title": "Saldo Geral"
+    },
+    "welcome": "Olá,",
+    "monthly_summary": {
+      "title": "Resumo Mensal",
+      "incomes": "Receitas",
+      "expenses": "Gastos",
+      "income_debts": "Dívidas a Receber",
+      "expense_debts": "Dívidas a Pagar"
+    },
+    "last_records": "Últimos registros",
+    "see_more": "Ver Mais"
+  },
+  "more_screen": {
+    "profile": "Meus Dados",
+    "clients": "Clientes",
+    "providers": "Fornecedores",
+    "languages": "Idiomas",
+    "log_out": "Sair",
+    "user_data": {
+      "title": "Meus Dados",
+      "toast_edit_message": "Sua conta foi editada com sucesso",
+      "name": "Nome",
+      "address": "Endereço",
+      "address_placeholder": "Digite seu endereço",
+      "phone": "Telefone",
+      "phone_number": "Número de telefone",
+      "mail": "E-mail",
+      "save": "Salvar"
+    }
+  },
+  "balance_stack": {
+    "edit_expense": "Editar Gasto",
+    "edit_income": "Editar Receita",
+    "new_expense": {
+      "toast_new_expense": "A transação foi criada com sucesso",
+      "new_expense": "Novo Gasto",
+      "category": "Categoria",
+      "placeholder_category": "Selecione uma categoria",
+      "value": "Valor",
+      "description": "Descrição",
+      "placeholder_description": "Como você quer chamar este gasto?",
+      "state": "Estado",
+      "payment_method": "Forma de Pagamento",
+      "provider": "Fornecedor",
+      "placeholder_provider": "Selecione um fornecedor",
+      "date": "Data",
+      "save_expense": "Registrar gasto"
+    },
+    "new_income": {
+      "toast_new_expense": "A transação foi criada com sucesso",
+      "new_income": "Nova Receita",
+      "category": "Categoria",
+      "placeholder_category": "Selecione uma categoria",
+      "value": "Valor",
+      "description": "Descrição",
+      "placeholder_description": "Como você quer chamar esta receita?",
+      "state": "Estado",
+      "payment_method": "Forma de Pagamento",
+      "client": "Cliente",
+      "placeholder_client": "Selecione um cliente",
+      "date": "Data",
+      "save_income": "Registrar receita"
+    },
+    "categories": {
+      "logistics": "Logística",
+      "administrative": "Despesas Administrativas",
+      "services": "Serviços Públicos",
+      "supplies": "Suprimentos",
+      "rental": "Aluguel",
+      "payroll": "Folha de Pagamento",
+      "marketing": "Marketing e Publicidade",
+      "insurance": "Seguro",
+      "taxes": "Impostos",
+      "maintenance": "Manutenção e Reparos",
+      "subscriptions": "Plataformas e Assinaturas",
+      "costs": "Despesas Financeiras"
+    },
+    "state_options": {
+      "paid": "Pago",
+      "debt": "Dívida"
+    },
+    "payment_method_options": {
+      "cash": "DINHEIRO",
+      "card": "CARTÃO",
+      "bank_transfer": "TRANSFERÊNCIA",
+      "other": "OUTRO"
+    },
+    "date_options": {
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "choose_date": "Escolher Data"
+    },
+    "sale": "Venda",
+    "expense": "Gasto",
+    "transaction_detail": {
+      "toast_expense_delete": "O gasto foi excluído com sucesso",
+      "toast_income_delete": "A receita foi excluída com sucesso",
+      "alert_delete": "Tem certeza de que deseja excluir a transação?",
+      "details": "Detalhes da operação",
+      "transaction_date": "Data da operação",
+      "payment_method": "Forma de Pagamento",
+      "total": "Total",
+      "transaction_type": "Tipo de operação",
+      "expense_category": "Categoria do gasto",
+      "edit": "Editar"
+    },
+    "transaction_screen": {
+      "balance": "Saldo",
+      "placeholder_search": "Buscar...",
+      "empty_result": "Nenhum resultado encontrado",
+      "empty_transactions": "Você não tem transações registradas"
+    }
+  },
+  "debt_stack": {
+    "debt_screen": {
+      "title": "Dívidas",
+      "receivables": "A Receber",
+      "payables": "A Pagar",
+      "summary_text": {
+        "total": "Total",
+        "receivables": "a receber",
+        "payables": "a pagar",
+        "of": "de",
+        "clients": "Clientes",
+        "providers": "Fornecedores"
+      }
+    },
+    "edit_expense": {
+      "title": "Editar Gasto"
+    },
+    "income_debt": {
+      "empty_debts": "Você não tem dívidas",
+      "sales": "Vendas: "
+    },
+    "expense_debt": {
+      "empty_debts": "Você não tem dívidas",
+      "purchases": "Compras: "
+    },
+    "debtor_profile": {
+      "credited": "Abonado",
+      "debt": "Dívida",
+      "to_credit": "Abonar",
+      "to_be_credit": "Por abonar"
+    },
+    "debt_detail": {
+      "title": "Detalhes da Operação",
+      "deposite_date": "Abono do",
+      "operation_date": "Data da operação",
+      "payment_method": "Forma de Pagamento",
+      "total": "Total",
+      "edit": "Editar"
+    },
+    "edit_debt": {
+      "title": "Editar Dívida",
+      "credit_entry": "Abono do",
+      "debt_edited": "Dívida editada com sucesso",
+      "description_placeholder": "Como você quer chamar esta transação?",
+      "save_changes": "Salvar Alterações",
+      "toast_edited": "A transação foi editada com sucesso"
+    },
+    "replay_modal": {
+      "toast_amount": "O pagamento não deve ser maior que",
+      "value": "Valor",
+      "payment_method": "Forma de Pagamento",
+      "date": "Data",
+      "create_credit": "Criar Abono"
+    }
+  },
+  "contact_stack": {
+    "button_text": "Criar / Importar Contato",
+    "client": {
+      "clients": "Clientes",
+      "search": "Buscar...",
+      "empty_clients": "Você não tem clientes registrados"
+    },
+    "provider": {
+      "providers": "Fornecedores",
+      "search": "Buscar...",
+      "empty_providers": "Você não tem fornecedores registrados"
+    },
+    "contact_detail": {
+      "edit_contact": "O contato foi editado com sucesso",
+      "delte_contact": "O contato foi excluído com sucesso",
+      "delete_alert": "Tem certeza de que deseja excluir este contato?",
+      "client": "Cliente",
+      "provider": "Fornecedor",
+      "name": "Nome",
+      "phone": "Telefone",
+      "e_mail": "E-mail",
+      "comments": "Comentários",
+      "add_comments": "Adicionar Comentários",
+      "update_contact": "Atualizar Contato"
+    },
+    "new_contact": {
+      "add_contact": "Adicionar Contato",
+      "search": "Buscar...",
+      "empty_clients": "Você não tem contatos registrados",
+      "create_contact": "Criar novo contato",
+      "contact_form": {
+        "name": "Nome",
+        "name_placeholder": "Nome do contato",
+        "phone": "Telefone",
+        "phone_placeholder": "Número de telefone",
+        "e_mail": "E-mail",
+        "e_mail_placeholder": "E-mail do contato",
+        "comment": "Comentário",
+        "comment_placeholder": "Comentários",
+        "create_contact": "Criar Contato"
+      }
+    }
+  }
+}

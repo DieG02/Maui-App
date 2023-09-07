@@ -3,6 +3,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos
 
+.env
 ### macOS ###
 # General
 .DS_Store
@@ -66,3 +67,7 @@ Temporary Items
 
 node_modules
 ios/Maui.xcworkspace/xcuserdata/billybautista.xcuserdatad/UserInterfaceState.xcuserstate
+
+.yarn*
+yarn.lock
+android/app/mauiUpload.keystore

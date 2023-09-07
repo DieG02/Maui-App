@@ -1,0 +1,234 @@
+{
+  "home": "Inicio",
+  "balance": "Balance",
+  "debts": "Deudas",
+  "auth_stack": {
+    "sign_in": {
+      "placeholder_email": "Ingresa tu e-mail",
+      "password": "Contraseña",
+      "placeholder_password": "Ingresa tu contraseña",
+      "sign_in_button": "Iniciar Sesión",
+      "no_account": "¿No tienes una cuenta?",
+      "create_account": "Crear Cuenta"
+    },
+    "sign_up": {
+      "placeholder_name": "Ingresa tu nombre",
+      "placeholder_phone": "Ingresa tu teléfono",
+      "have_account": "Ya tienes una cuenta?"
+    }
+  },
+  "home_stack": {
+    "budget": {
+      "title": "Saldo General"
+    },
+    "welcome": "Hola,",
+    "monthly_summary": {
+      "title": "Resumen Mensual",
+      "incomes": "Ingresos",
+      "expenses": "Gastos",
+      "income_debts": "Deudas por Cobrar",
+      "expense_debts": "Deudas por Pagar"
+    },
+    "last_records": "Últimos registros",
+    "see_more": "Ver Más"
+  },
+  "more_screen": {
+    "profile": "Mis Datos",
+    "clients": "Clientes",
+    "providers": "Proveedores",
+    "languages": "Idiomas",
+    "log_out": "Cerrar Sesión",
+    "user_data": {
+      "title": "Mis Datos",
+      "toast_edit_message": "Tu cuenta fue editada satisfactoriamente",
+      "name": "Nombre",
+      "address": "Dirección",
+      "address_placeholder": "Escribe tu dirección",
+      "phone": "Teléfono",
+      "phone_number": "Número de teléfono",
+      "mail": "E-mail",
+      "save": "Guardar"
+    }
+  },
+  "balance_stack": {
+    "edit_expense": "Editar Gasto",
+    "edit_income": "Editar Ingreso",
+    "new_expense": {
+      "toast_new_expense": "La transacción fue creada satisfactoriamente",
+      "new_expense": "Nuevo Gasto",
+      "category": "Categoría",
+      "placeholder_category": "Seleccione una categoría",
+      "value": "Valor",
+      "description": "Descripción",
+      "placeholder_description": "¿Cómo quieres llamar a este gasto?",
+      "state": "Estado",
+      "payment_method": "Método de Pago",
+      "provider": "Proveedor",
+      "placeholder_provider": "Seleccione un proveedor",
+      "date": "Fecha",
+      "save_expense": "Registrar gasto"
+    },
+    "new_income": {
+      "toast_new_expense": "La transacción fue creada satisfactoriamente",
+      "new_income": "Nuevo Ingreso",
+      "category": "Categoría",
+      "placeholder_category": "Seleccione una categoría",
+      "value": "Valor",
+      "description": "Descripción",
+      "placeholder_description": "¿Cómo quieres llamar a este ingreso?",
+      "state": "Estado",
+      "payment_method": "Método de Pago",
+      "client": "Cliente",
+      "placeholder_client": "Seleccione un cliente",
+      "date": "Fecha",
+      "save_income": "Registrar ingreso"
+    },
+    "categories": {
+      "logistics": "Logistica",
+      "administrative": "Gastos Administrativos",
+      "services": "Servicios públicos",
+      "supplies": "Suministros",
+      "rental": "Alquiler",
+      "payroll": "Nómina",
+      "marketing": "Marketing y Publicidad",
+      "insurance": "Seguro",
+      "taxes": "Impuestos",
+      "maintenance": "Mantenimiento y Reparaciones",
+      "subscriptions": "Plataformas y suscripciones",
+      "costs": "Gastos Financieros"
+    },
+    "state_options": {
+      "paid": "Pagado",
+      "debt": "Deuda"
+    },
+    "payment_method_options": {
+      "cash": "EFECTIVO",
+      "card": "TARJETA",
+      "bank_transfer": "TRANSFERENCIA",
+      "other": "OTRO"
+    },
+    "date_options": {
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "choose_date": "Elegir Fecha"
+    },
+    "sale": "Venta",
+    "expense": "Gasto",
+    "transaction_detail": {
+      "toast_expense_delete": "El gasto fue eliminado satisfactoriamente",
+      "toast_income_delete": "El ingreso fue eliminado satisfactoriamente",
+      "alert_delete": "¿Estás seguro de eliminar la transacción?",
+      "details": "Detalle de operación",
+      "transaction_date": "Fecha de operación",
+      "payment_method": "Método de Pago",
+      "total": "Total",
+      "transaction_type": "Tipo de operación",
+      "expense_category": "Categoría del gasto",
+      "edit": "Editar"
+    },
+    "transaction_screen": {
+      "balance": "Saldo",
+      "placeholder_search": "Buscar...",
+      "empty_result": "No se encontraron coincidencias",
+      "empty_transactions": "No tienes transacciones registradas"
+    }
+  },
+  "debt_stack": {
+    "debt_screen": {
+      "title": "Deudas",
+      "receivables": "Por Cobrar",
+      "payables": "Por Pagar",
+      "summary_text": {
+        "total": "Total",
+        "receivables": "por cobrar",
+        "payables": "por pagar",
+        "of": "de",
+        "clients": "Clientes",
+        "providers": "Proveedores"
+      }
+    },
+    "edit_expense": {
+      "title": "Editar Gasto"
+    },
+    "income_debt": {
+      "empty_debts": "No tienes deudas",
+      "sales": "Ventas: "
+    },
+    "expense_debt": {
+      "empty_debts": "No tienes deudas",
+      "purchases": "Compras: "
+    },
+    "debtor_profile": {
+      "credited": "Abonado",
+      "debt": "Deuda",
+      "to_credit": "Abonar",
+      "to_be_credit": "Por abonar"
+    },
+    "debt_detail": {
+      "title": "Detalles de Operación",
+      "deposite_date": "Abono del",
+      "operation_date": "Fecha de operación",
+      "payment_method": "Método de Pago",
+      "total": "Total",
+      "edit": "Editar"
+    },
+    "edit_debt": {
+      "title": "Editar Deuda",
+      "credit_entry": "Abono del",
+      "debt_edited": "Deuda editada satisfactoriamente",
+      "description_placeholder": "¿Como quieres llamar a esta transacción?",
+      "save_changes": "Guardar Cambios",
+      "toast_edited": "La transacción fue editada satisfactoriamente"
+    },
+    "replay_modal": {
+      "toast_amount": "El pago no deberia ser mayor a",
+      "value": "Valor",
+      "payment_method": "Método de Pago",
+      "date": "Fecha",
+      "create_credit": "Crear Abono"
+    }
+  },
+  "contact_stack": {
+    "button_text": "Crear / Importar Contacto",
+    "client": {
+      "clients": "Clientes",
+      "search": "Buscar...",
+      "empty_clients": "No tienes clientes registrados"
+    },
+    "provider": {
+      "providers": "Proveedores",
+      "search": "Buscar...",
+      "empty_providers": "No tienes proveedores registrados"
+    },
+    "contact_detail": {
+      "edit_contact": "El contacto fue editado satisfactoriamente",
+      "delte_contact": "El contacto fue eliminado satisfactoriamente",
+      "delete_alert": "¿Estás seguro de elimar este contacto?",
+      "client": "Cliente",
+      "provider": "Proveedor",
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "e_mail": "E-mail",
+      "comments": "Comentarios",
+      "add_comments": "Agrega Comentarios",
+      "update_contact": "Actualizar Contacto"
+    },
+    "new_contact": {
+      "add_contact": "Agregar Contacto",
+      "search": "Buscar...",
+      "empty_clients": "No tienes contactos registrados",
+      "create_contact": "Crear nuevo contacto",
+      "contact_form": {
+        "name": "Nombre",
+        "name_placeholder": "Nombre del contacto",
+        "phone": "Teléfono",
+        "phone_placeholder": "Número de teléfono",
+        "e_mail": "E-mail",
+        "e_mail_placeholder": "E-mail del contacto",
+        "comment": "Comentario",
+        "comment_placeholder": "Comentarios",
+        "create_contact": "Crear Contacto"
+      }
+    }
+  }
+}
