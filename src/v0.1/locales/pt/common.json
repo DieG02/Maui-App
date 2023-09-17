@@ -127,7 +127,7 @@
       "edit": "Editar"
     },
     "transaction_screen": {
-      "balance": "Saldo",
+      "balance": "Balance",
       "placeholder_search": "Buscar...",
       "empty_result": "Nenhum resultado encontrado",
       "empty_transactions": "Você não tem transações registradas"
