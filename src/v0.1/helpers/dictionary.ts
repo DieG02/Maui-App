@@ -11,4 +11,7 @@ export const dictionary: Dictionary[] = [
   { nombre: 'Mantenimiento y Reparaciones', key: 'maintenance' },
   { nombre: 'Plataformas y suscripciones', key: 'subscriptions' },
   { nombre: 'Gastos Financieros', key: 'costs' },
+  { nombre: 'Venta', key: 'sale' },
+  { nombre: 'INCOME', key: 'income' },
+  { nombre: 'EXPENSE', key: 'expense' },
 ];

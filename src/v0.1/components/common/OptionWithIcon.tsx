@@ -61,7 +61,7 @@ const OptionWithIcon = ({
             <OptionItemWithIcon
               key={item.id}
               name={item.name}
-              image={item.imageUrl}
+              image={item.image}
               backgroundColor={selectedOption === item.name ? itemLight : background}
               textColor={selectedOption === item.name ? mainColor : blueSelected}
               onPress={() => handleModal(item.name)}

@@ -14,13 +14,14 @@ import customStyles from '../../styles/customStyles';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import { paymentMethods, STATE } from '../../utils/payment';
-import useCreateIncome from '../../services/Incomes/useCreateIncome';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
 import Form from '../../components/Library/Form';
 import { queryClient } from '../../utils/queryClient';
 import Spacer from '../../components/common/Spacer';
 import { useTranslation } from 'react-i18next';
+import useGetExpenseCategories from '../../services/Expenses/useGetExpenseCategories';
+import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 
 // TODO:Refactor this component
 
@@ -62,6 +63,8 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
+  const { data: transactionsCategories } = useGetExpenseCategories();
+
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
     [values.isPaid]
@@ -81,14 +84,20 @@ const NewIncome = ({ navigation, route }: Props) => {
     ToastAndroid.showWithGravity(t('balance_stack.new_income.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
-  const { mutateAsync, isLoading } = useCreateIncome(
+  const getCategoryId = (type: string, group: string) => {
+    return transactionsCategories?.find(item => item.type === type && item.group === group)?.id;
+  };
+
+  const { mutateAsync, isLoading } = useCreateTransaction(
     {
-      ...values,
+      status: values.isPaid ? 'APPROVED' : 'DEBT',
+      type: 'CREDIT',
+      total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+      description: values.name !== '' ? values.name : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
       date: values.date,
-      name: values.name !== '' ? values.name : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
-      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      paymentMethod: handlePayment(values.paymentMethod),
-      clientId: route.params?.contact?.id,
+      payment_method: handlePayment(values.paymentMethod),
+      categoryId: getCategoryId('CREDIT', 'TRANSACTION'),
+      contactId: route.params?.contact?.id,
     },
     {
       onSuccess: () => {

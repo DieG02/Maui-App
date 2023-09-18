@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 const HomeTabs = () => {
   const { t } = useTranslation();
 
-  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingTransactions = useGetTransactions().isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingAccount = useGetAccount().isLoading;

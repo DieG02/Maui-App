@@ -22,6 +22,7 @@ import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
+import useGetContactById from '../../services/Contact/useGetContactById';
 
 const { width } = Dimensions.get('window');
 const { mainColor, marginHorizontal } = customStyles;
@@ -50,14 +51,16 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     return object ? object[returnKey] : null;
   };
 
+  const { data: contact } = useGetContactById(data.contactId);
+
   const initialValues: InitialExpense = {
-    value: String(data.value).replace('.', ','),
-    name: data.name,
-    providerId: data?.provider?.id,
-    providerName: data?.provider ? data?.provider.name : '',
-    categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory),
-    isPaid: data.isPaid,
-    paymentMethod: handlePaymentName(data.paymentMethod),
+    value: String(data.total_amount).replace('.', ','),
+    name: data.description,
+    providerId: data?.contactId,
+    providerName: contact ? contact.name : '',
+    categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory ? expenseCategory : []),
+    isPaid: data.status === 'APPROVED',
+    paymentMethod: handlePaymentName(data.payment_method),
     date: data.date,
   };
 
@@ -79,7 +82,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const { mutateAsync, isLoading } = useEditExpense(
-    data.id,
+    data?.id,
     {
       paymentMethod: handlePayment(values.paymentMethod),
       providerId: params?.contact ? params?.contact?.id : values.providerId,
@@ -100,7 +103,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   );
 
   const handleSubmit = () => {
-    if (validateValues(toValidate)) mutateAsync();
+    if (validateValues(toValidate)) return mutateAsync();
   };
 
   if (isLoading) return <LoadingComponent color={mainColor} />;
