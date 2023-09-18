@@ -10,9 +10,11 @@ const { textBlack } = customStyles;
 
 // TODO: Refactor this interface to use the correct types
 interface Props {
-  data: number | undefined;
+  data: {
+    total_balance_formatted: string;
+    total_balance: number;
+  };
 }
-
 const GeneralBalance = ({ data }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
@@ -26,12 +28,7 @@ const GeneralBalance = ({ data }: Props) => {
         {value ? (
           <Text style={styles.textPrice}>$****</Text>
         ) : (
-          <Text style={styles.textPrice}>
-            {data?.toLocaleString('es-AR', {
-              style: 'currency',
-              currency: 'ARS',
-            })}
-          </Text>
+          <Text style={styles.textPrice}>{data?.total_balance_formatted}</Text>
         )}
       </View>
     </View>

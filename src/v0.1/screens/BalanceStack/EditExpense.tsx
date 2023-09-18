@@ -3,13 +3,11 @@ import 'moment-timezone';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import customStyles from '../../styles/customStyles';
-import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetExpense from '../../services/Expense/useGetExpById';
 import ExpenseDetail from './ExpenseDetail';
 import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 
-const { mainColor, background2 } = customStyles;
+const { background2 } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
