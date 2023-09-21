@@ -30,7 +30,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
     name: params?.contact.name,
     email: params?.contact.email,
     phone: params?.contact.phone,
-    comments: params?.contact.comments,
+    note: params?.contact.note,
   };
 
   const [data, setData] = useState(initial);
@@ -108,8 +108,8 @@ const ContactDetail = ({ route, navigation }: Props) => {
           keyboardType='email-address'
         />
         <SimpleInput
-          setValue={value => setData({ ...data, comments: value })}
-          value={data.comments}
+          setValue={value => setData({ ...data, note: value })}
+          value={data.note}
           name={t('contact_stack.contact_detail.comments')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.add_comments')}
