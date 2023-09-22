@@ -13,7 +13,6 @@ import SelectionModal from '../../components/common/Modals/SelectionModal';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetExpenseCategories from '../../services/Expenses/useGetExpenseCategories';
 import Form from '../../components/Library/Form';
 import useEditExpense from '../../services/Expense/useEditExpense';
 import { showToast } from '../../utils/toast';
@@ -23,6 +22,8 @@ import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
 import useGetContactById from '../../services/Contact/useGetContactById';
+import { getCategoryId, getCategoryName } from '../../utils/getCategoryId';
+import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 
 const { width } = Dimensions.get('window');
 const { mainColor, marginHorizontal } = customStyles;
@@ -43,14 +44,8 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-  const { data: expenseCategory } = useGetExpenseCategories();
+  const { data: expenseCategories } = useGetTransactionCategories('debit', 'transaction');
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
-
-  const handleObjValue = (findValue: string, byKey: string, returnKey: string, data: any[]) => {
-    const object = data.find(element => element[byKey] === findValue);
-    return object ? object[returnKey] : null;
-  };
-
   const { data: contact } = useGetContactById(data.contactId);
 
   const initialValues: InitialExpense = {
@@ -58,7 +53,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     name: data.description,
     providerId: data?.contactId,
     providerName: contact ? contact.name : '',
-    categoryId: handleObjValue(data.categoryId, 'id', 'name', expenseCategory ? expenseCategory : []),
+    categoryId: getCategoryName(data.categoryId, expenseCategories),
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),
     date: data.date,
@@ -90,7 +85,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       isPaid: values.isPaid,
       name: values.name,
       value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      categoryId: expenseCategory && handleObjValue(values.categoryId, 'name', 'id', expenseCategory),
+      categoryId: getCategoryId(values.categoryId, expenseCategories),
     },
     {
       onSuccess: () => {
@@ -116,7 +111,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           title={t(`${NEW_EXPENSE}.category`)}
           required
           placeholder={t(`${NEW_EXPENSE}.placeholder_category`)}
-          options={expenseCategory ? expenseCategory : []}
+          options={expenseCategories ? expenseCategories : []}
           isModalVisible={modalExpenseCategory}
           setIsModalVisible={setModalExpenseCategory}
           selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
