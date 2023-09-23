@@ -3,11 +3,14 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 const customStyles = {
-  mainColor: "#003A64",
+  // mainColor: "#003A64",
+  mainColor: "#3784F9",
+  // mainColor: "#2E6DCE",
 
   background: "#ffff",
   background2: "#f3f6f8",
-  textBlack: "#171710",
+  // textBlack: "#171710",
+  textBlack: "#313643",
   textLight: "#BDC0C3",
   marginHorizontal: 30,
 

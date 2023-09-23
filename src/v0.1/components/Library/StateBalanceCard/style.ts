@@ -13,8 +13,8 @@ const styles = ({ left, right, background }: Props) =>
   StyleSheet.create({
     wrapper: {
       backgroundColor: background2,
-      width: (width - 100) / 2,
-      borderRadius: 10,
+      width: (width - 80) / 2,
+      borderRadius: 15,
       marginLeft: left,
       marginRight: right,
     },

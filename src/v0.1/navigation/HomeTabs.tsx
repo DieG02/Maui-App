@@ -25,10 +25,10 @@ const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 const HomeTabs = () => {
   const { t } = useTranslation();
 
-  const isFetchingTransactions = useGetTransactions().isLoading;
+  const isFetchingAccount = useGetAccount().isLoading;
+  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
-  const isFetchingAccount = useGetAccount().isLoading;
   const isFetchingContacts = useGetAllContacts().isLoading;
 
   const isLoading =
@@ -43,7 +43,7 @@ const HomeTabs = () => {
         initialRouteName='home'
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: textBlack,
+          tabBarActiveTintColor: mainColor,
           tabBarInactiveTintColor: mistyBlue,
           tabBarStyle: {
             height: Platform.OS === 'ios' ? 90 : 60,

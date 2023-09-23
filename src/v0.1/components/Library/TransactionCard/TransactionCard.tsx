@@ -14,7 +14,6 @@ interface Props {
   data: getTransactionsResponseDto[0];
 }
 
-// TODO: Refactor this component to make it more efficient
 const TransactionCard = ({ onPress, data }: Props) => {
   const { t } = useTranslation();
 
@@ -38,7 +37,7 @@ const TransactionCard = ({ onPress, data }: Props) => {
       </View>
       <View style={styles().rightContainer}>
         <View style={styles().textContainer}>
-          {data.category?.name === 'Venta' ? (
+          {data.category?.type === 'CREDIT' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
               {data?.total_amount.toLocaleString('es-AR', {
                 style: 'currency',

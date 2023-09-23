@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   wrapper: {
     marginHorizontal: marginHorizontal,
     backgroundColor: background2,
-    borderRadius: 10,
+    borderRadius: 15,
     height: 100,
     justifyContent: "center",
     paddingHorizontal: 20,
