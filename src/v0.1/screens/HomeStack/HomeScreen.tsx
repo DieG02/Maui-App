@@ -23,11 +23,11 @@ interface Props {
 
 const HomeScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
+  const { data: user } = useGetAccount();
   const { data: transactions, refetch: getTransactionsFromHome } = useGetTransactions({ take: 6 });
 
   const { data: balance, refetch: getBalance } = useGetBalance();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
-  const { data: user } = useGetAccount();
   const { refetch: getAlltransactions } = useGetTransactions();
 
   const [refreshing, setRefreshing] = useState(false);
@@ -48,7 +48,7 @@ const HomeScreen = ({ navigation }: Props) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[mainColor]} />}
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
-        <Spacer height={10} />
+        <Spacer height={20} />
         <GeneralBalance data={balance} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
