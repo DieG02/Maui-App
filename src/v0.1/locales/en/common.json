@@ -95,7 +95,10 @@
       "taxes": "Taxes",
       "maintenance": "Maintenance and Repairs",
       "subscriptions": "Platforms and Subscriptions",
-      "costs": "Financial Costs"
+      "costs": "Financial Costs",
+      "sale": "Sale",
+      "income": "Credit",
+      "expense": "Debit"
     },
     "state_options": {
       "paid": "Paid",

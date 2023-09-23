@@ -95,7 +95,10 @@
       "taxes": "Impuestos",
       "maintenance": "Mantenimiento y Reparaciones",
       "subscriptions": "Plataformas y suscripciones",
-      "costs": "Gastos Financieros"
+      "costs": "Gastos Financieros",
+      "sale": "Venta",
+      "income": "Abono",
+      "expense": "Débito"
     },
     "state_options": {
       "paid": "Pagado",

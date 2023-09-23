@@ -16,7 +16,6 @@ import useGetMonthlyStats from '../services/Balance/useGetStats';
 import useGetBalance from '../services/Balance/useGetBalance';
 import useGetAccount from '../services/Account/useGetAccount';
 import useGetAllContacts from '../services/Contacts/useGetAllContacts';
-import useGetExpenseCategories from '../services/Expenses/useGetExpenseCategories';
 import { useTranslation } from 'react-i18next';
 
 const { mainColor, textBlack, mistyBlue } = customStyles;
@@ -26,20 +25,14 @@ const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 const HomeTabs = () => {
   const { t } = useTranslation();
 
-  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingTransactions = useGetTransactions().isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingAccount = useGetAccount().isLoading;
   const isFetchingContacts = useGetAllContacts().isLoading;
-  const isFetchingGetExpenseCategories = useGetExpenseCategories().isLoading;
 
   const isLoading =
-    isFetchingTransactions ||
-    isFetchingGetMonthlyState ||
-    isFetchingBalance ||
-    isFetchingAccount ||
-    isFetchingContacts ||
-    isFetchingGetExpenseCategories;
+    isFetchingTransactions || isFetchingGetMonthlyState || isFetchingBalance || isFetchingAccount || isFetchingContacts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }

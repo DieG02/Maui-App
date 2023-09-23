@@ -8,13 +8,13 @@ import { useMutation, UseMutationOptions } from 'react-query';
 
 const QUERY_NAME = 'Create_Income';
 
-export const createNewIncome = async (data: createTransactionBodyInputDto) => {
+export const createTransaction = async (data: createTransactionBodyInputDto) => {
   await setHeaders();
   const response = await MauiApi.post<createTransactionBodyInputGuard>('/createTransaction', data);
   return response.data;
 };
 
-const useCreateIncome = (data: any, options?: UseMutationOptions) =>
-  useMutation([QUERY_NAME], () => createNewIncome(data), options);
+const useCreateTransaction = (data: any, options?: UseMutationOptions) =>
+  useMutation([QUERY_NAME], () => createTransaction(data), options);
 
-export default useCreateIncome;
+export default useCreateTransaction;

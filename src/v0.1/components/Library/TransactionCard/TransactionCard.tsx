@@ -24,14 +24,14 @@ const TransactionCard = ({ onPress, data }: Props) => {
         <View style={styles().iconContainer}>
           <Image
             source={{
-              uri: data.category?.imageUrl,
+              uri: data.category?.image,
             }}
             style={{ width: 25, height: 25 }}
           />
         </View>
         <View style={styles('left').textContainer}>
           <Text style={styles('', textBlack).titleCard} numberOfLines={1}>
-            {data.name}
+            {data.description}
           </Text>
           <Text style={styles().textSubtitle}>{parseDDMMYY(data.date)}</Text>
         </View>
@@ -40,7 +40,7 @@ const TransactionCard = ({ onPress, data }: Props) => {
         <View style={styles().textContainer}>
           {data.category?.name === 'Venta' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
-              {data?.value.toLocaleString('es-AR', {
+              {data?.total_amount.toLocaleString('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
               })}
@@ -48,14 +48,14 @@ const TransactionCard = ({ onPress, data }: Props) => {
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
               -
-              {data?.value.toLocaleString('es-AR', {
+              {data?.total_amount.toLocaleString('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
               })}
             </Text>
           )}
           <Text style={styles().textSubtitle}>
-            {data.paymentMethod && capitalLetter(t(`${KEY_PATH}.${data.paymentMethod.toLowerCase()}`))}
+            {data.payment_method && capitalLetter(t(`${KEY_PATH}.${data.payment_method.toLowerCase()}`))}
           </Text>
         </View>
       </View>

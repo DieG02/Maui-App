@@ -32,12 +32,12 @@ const Providers = ({ navigation, route }: Props) => {
     refetch: getProviders,
   } = useQuery('providers', getAllContacts, {
     onSuccess(data) {
-      setContacts(data?.filter(item => item.typeOfContact === 'PROVIDER') as []);
+      setContacts(data?.filter(item => item.type === 'PROVIDER') as []);
     },
   });
 
   const providers = useMemo(() => {
-    const res = data?.filter(item => item.typeOfContact === 'PROVIDER');
+    const res = data?.filter(item => item.type === 'PROVIDER');
     const filtered = res?.filter(item => item.name?.toLowerCase().includes(text.toLowerCase()));
     return filtered;
   }, [data, text]);

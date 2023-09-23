@@ -17,6 +17,7 @@ import { alertDelete } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
+import usePayment from '../../hooks/usePayment';
 
 // TODO: Refactor this component
 interface Props {
@@ -29,7 +30,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
 
-  const { data } = useGetContactById(params?.item?.clientId || params?.item?.providerId);
+  const { handlePaymentName } = usePayment();
+
+  const { data } = useGetContactById(params?.item?.contactId);
   const isExpense = params?.item.category.name !== 'Venta';
 
   const showToast = () => {
@@ -62,7 +65,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const handleOnPress = () => {
     isExpense
       ? navigation.navigate('EditExpense', { expense: params?.item })
-      : navigation.navigate('EditIncome', { id: params?.item.id });
+      : navigation.navigate('EditIncome', { income: params?.item });
   };
 
   return (
@@ -93,7 +96,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             }}
           >
             <Image
-              source={{ uri: params?.item.category.imageUrl }}
+              source={{ uri: params?.item.category.image }}
               style={{
                 width: 40,
                 height: 40,
@@ -107,7 +110,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
               fontFamily: 'Gilroy-SemiBold',
             }}
           >
-            {params?.item.name}
+            {params?.item.description}
           </Text>
         </View>
 
@@ -117,17 +120,17 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.payment_method')}
-          value={params?.item.paymentMethod}
+          value={t(handlePaymentName(params?.item.payment_method))}
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.total')}
           value={
             params?.item.category.name === 'Venta'
-              ? `${params?.item.value.toLocaleString('es-AR', {
+              ? `${params?.item.total_amount.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}`
-              : `-${params?.item.value.toLocaleString('es-AR', {
+              : `-${params?.item.total_amount.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}`
@@ -148,7 +151,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           <ContactCard
             disabled
             data={data}
-            type={params?.item?.clientId ? 'client' : 'provider'}
+            type={params?.item.type === 'CREDIT' ? 'client' : 'provider'}
             onPress={() => {}}
             showNoRightIcon={true}
           />

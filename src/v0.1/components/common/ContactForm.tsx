@@ -25,7 +25,7 @@ interface Props {
   comments: string;
   setComments: (value: string) => void;
   screen: string;
-  type: createContactBodyInputDto['typeOfContact'];
+  type: createContactBodyInputDto['type'];
   navigation: NavigationProp<any, any>;
 }
 
@@ -67,9 +67,9 @@ const ContactForm = ({
   const form: createContactBodyInputDto = {
     name: name,
     phone: phone,
-    comments: comments,
+    note: comments,
     email: email,
-    typeOfContact: type.toUpperCase() as createContactBodyInputDto['typeOfContact'],
+    type: type.toUpperCase() as createContactBodyInputDto['type'],
   };
 
   const { mutateAsync } = useMutation(
