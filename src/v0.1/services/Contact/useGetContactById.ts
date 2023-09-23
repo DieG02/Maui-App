@@ -1,20 +1,17 @@
-import { options } from './../bussiness';
+import MauiApi from '../../clientProvider';
+import { getContactByIdResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
+import { setHeaders } from '../../clientProvider/axiosConfig';
+import { QueryKey, useQuery } from 'react-query';
 
-import MauiApi from "../../clientProvider";
-import { getContactByIdResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
-import { setHeaders } from "../../clientProvider/axiosConfig";
-import { QueryKey, useQuery, UseQueryOptions } from "react-query";
+const QUERY_NAME = 'Contact';
 
-  const QUERY_NAME = "Contact";
+export const getContactById = async (contactId: string) => {
+  if (!contactId) return;
+  await setHeaders();
+  const response = await MauiApi.get<getContactByIdResponseDto>(`/getContactById/${contactId}`);
+  return response.data;
+};
 
-  export const getContactById = async (contactId: string) => {
-    if(!contactId) return
-    await setHeaders();
-    const response = await MauiApi.get<getContactByIdResponseDto>(
-      `/getContactById/${contactId}`
-    );
-    return response.data;
-  };
-  
-  const useGetContactById = (contactId:string) => useQuery([QUERY_NAME, contactId] as QueryKey, () => getContactById(contactId));
-  export default useGetContactById;
+const useGetContactById = (contactId: string) =>
+  useQuery([QUERY_NAME, contactId] as QueryKey, () => getContactById(contactId));
+export default useGetContactById;
