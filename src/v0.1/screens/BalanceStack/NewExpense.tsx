@@ -17,7 +17,6 @@ import useForm from '../../hooks/useForm';
 import { STATE, paymentMethods } from '../../utils/payment';
 import usePayment from '../../hooks/usePayment';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetExpenseCategories from '../../services/Expenses/useGetExpenseCategories';
 import Form from '../../components/Library/Form';
 import OptionWithIcon from '../../components/common/OptionWithIcon';
 import { queryClient } from '../../utils/queryClient';
@@ -25,6 +24,8 @@ import { useTranslation } from 'react-i18next';
 import { dictionary } from '../../helpers/dictionary';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
+import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
+import { getCategoryId } from '../../utils/getCategoryId';
 
 const { width } = Dimensions.get('window');
 
@@ -67,6 +68,8 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
+  const { data } = useGetTransactionCategories('debit', 'transaction');
+
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
     [values.isPaid]
@@ -82,13 +85,6 @@ const NewExpense = ({ navigation, route }: Props) => {
     }
   }, [route.params?.contact]);
 
-  const { data } = useGetExpenseCategories();
-
-  const handleIdCategory = (expense: string, data: any[]) => {
-    const category = data.find((category: { name: string }) => category.name === expense);
-    return category ? category.id : null;
-  };
-
   const showToast = () => {
     ToastAndroid.showWithGravity(t('balance_stack.new_expense.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
@@ -102,7 +98,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       payment_method: handlePayment(values.paymentMethod),
       contactId: route.params?.contact?.id,
-      categoryId: data && handleIdCategory(values.categoryId, data),
+      categoryId: getCategoryId(values.categoryId, data),
     },
     {
       onSuccess: () => {
