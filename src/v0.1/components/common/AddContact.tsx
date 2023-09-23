@@ -1,17 +1,17 @@
-import { NavigationProp } from "@react-navigation/native";
-import React from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import { useMutation } from "react-query";
-import { createContactBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
-import useMatchContact from "../../hooks/useMatchContact";
-import { createNewContact } from "../../services/contacts";
-import customStyles from "../../styles/customStyles";
-import { queryClient } from "../../utils/queryClient";
+import { NavigationProp } from '@react-navigation/native';
+import React from 'react';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { useMutation } from 'react-query';
+import { createContactBodyInputDto } from '../../../../../Maui-Backend/src/controllers/types';
+import useMatchContact from '../../hooks/useMatchContact';
+import { createNewContact } from '../../services/contacts';
+import customStyles from '../../styles/customStyles';
+import { queryClient } from '../../utils/queryClient';
 
 interface Props {
   data: IContact;
   screen: string;
-  type: createContactBodyInputDto["typeOfContact"];
+  type: createContactBodyInputDto['type'];
   navigation: NavigationProp<any, any>;
 }
 
@@ -21,30 +21,29 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
 
   const handleOnPress = (data: IContact) => {
-    if (screen === "NewIncome") {
-      navigation.navigate("NewIncome", { contact: data });
+    if (screen === 'NewIncome') {
+      navigation.navigate('NewIncome', { contact: data });
     }
-    if (screen === "NewExpense") {
-      navigation.navigate("NewExpense", { contact: data });
+    if (screen === 'NewExpense') {
+      navigation.navigate('NewExpense', { contact: data });
     }
   };
 
   const form: createContactBodyInputDto = {
     name: data.name,
     phone: data.phone,
-    comments: "",
-    email: "",
-    typeOfContact:
-      type.toUpperCase() as createContactBodyInputDto["typeOfContact"],
+    note: '',
+    email: '',
+    type: type.toUpperCase() as createContactBodyInputDto['type'],
   };
   const { mutateAsync, isLoading } = useMutation(
     (form: createContactBodyInputDto) => {
       return createNewContact(form);
     },
     {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries("clients");
-        queryClient.invalidateQueries("providers");
+      onSuccess: data => {
+        queryClient.invalidateQueries('clients');
+        queryClient.invalidateQueries('providers');
         handleOnPress(data);
       },
     }
@@ -55,18 +54,18 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
       onPress={() => !isAdded && mutateAsync(form)}
       disabled={isAdded}
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         marginBottom: 20,
       }}
     >
-      <View style={{ flexDirection: "column" }}>
+      <View style={{ flexDirection: 'column' }}>
         <Text
           style={{
             color: textBlack,
             fontSize: 16,
-            fontFamily: "Gilroy-SemiBold",
+            fontFamily: 'Gilroy-SemiBold',
           }}
         >
           {data.name}
@@ -75,7 +74,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
           style={{
             color: textBlack,
             fontSize: 14,
-            fontFamily: "Gilroy-Regular",
+            fontFamily: 'Gilroy-Regular',
           }}
         >
           {data.phone}
@@ -84,13 +83,13 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
       <View>
         {isLoading ? (
           <View style={{ width: 70 }}>
-            <ActivityIndicator size="small" color={textBlack} />
+            <ActivityIndicator size='small' color={textBlack} />
           </View>
         ) : (
           <View
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               width: 80,
             }}
           >
@@ -99,7 +98,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
                 style={{
                   color: textBlack,
                   fontSize: 16,
-                  fontFamily: "Gilroy-Bold",
+                  fontFamily: 'Gilroy-Bold',
                 }}
               >
                 Importado
@@ -109,7 +108,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
                 style={{
                   color: blueGrotto,
                   fontSize: 16,
-                  fontFamily: "Gilroy-SemiBold",
+                  fontFamily: 'Gilroy-SemiBold',
                 }}
               >
                 Importar

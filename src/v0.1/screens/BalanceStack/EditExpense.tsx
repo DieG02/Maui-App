@@ -18,9 +18,6 @@ interface Props {
 const EditExpense = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
-  const { data, isLoading } = useGetExpense(params?.expense?.id);
-
-  if (isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
@@ -32,7 +29,7 @@ const EditExpense = ({ navigation, route }: Props) => {
           navigation.goBack();
         }}
       />
-      <ExpenseDetail navigation={navigation} data={data} params={params} />
+      <ExpenseDetail navigation={navigation} data={params?.expense} params={params} />
     </ScreenContainer>
   );
 };

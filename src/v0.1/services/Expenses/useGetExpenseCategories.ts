@@ -5,7 +5,7 @@ import { QueryKey, useQuery } from 'react-query';
 const QUERY_NAME = 'Expense_Categories';
 
 export const getExpenseCategories = async () => {
-  const response = await MauiApi.get<getExpenseCategoriesResponseDto>('/getExpenseCategories');
+  const response = await MauiApi.get<getExpenseCategoriesResponseDto>('/getTransactionCategories');
   return response.data;
 };
 
