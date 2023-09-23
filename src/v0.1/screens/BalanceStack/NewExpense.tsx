@@ -16,7 +16,6 @@ import SelectionModal from '../../components/common/Modals/SelectionModal';
 import useForm from '../../hooks/useForm';
 import { STATE, paymentMethods } from '../../utils/payment';
 import usePayment from '../../hooks/usePayment';
-import useCreateExpense from '../../services/Expenses/useCreateExpense';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetExpenseCategories from '../../services/Expenses/useGetExpenseCategories';
 import Form from '../../components/Library/Form';
@@ -25,6 +24,7 @@ import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 import { dictionary } from '../../helpers/dictionary';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 
 const { width } = Dimensions.get('window');
 
@@ -93,14 +93,15 @@ const NewExpense = ({ navigation, route }: Props) => {
     ToastAndroid.showWithGravity(t('balance_stack.new_expense.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
-  const { mutateAsync, isLoading } = useCreateExpense(
+  const { mutateAsync, isLoading } = useCreateTransaction(
     {
-      ...values,
+      status: values.isPaid ? 'APPROVED' : 'DEBT',
+      type: 'DEBIT',
       date: values.date,
-      name: values.name !== '' ? values.name : handleTranslateCategory(values.categoryId, dictionary),
-      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      paymentMethod: handlePayment(values.paymentMethod),
-      providerId: route.params?.contact?.id,
+      description: values.name !== '' ? values.name : handleTranslateCategory(values.categoryId, dictionary),
+      total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+      payment_method: handlePayment(values.paymentMethod),
+      contactId: route.params?.contact?.id,
       categoryId: data && handleIdCategory(values.categoryId, data),
     },
     {

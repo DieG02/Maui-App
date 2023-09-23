@@ -26,7 +26,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
 
   const { data, refetch: getAlltransactions } = useGetTransactions();
   const filterData = () => {
-    const filtered = data?.filter(item => item.description?.toLowerCase().startsWith(text.toLowerCase()));
+    const filtered = data?.filter((item: any) => item.description?.toLowerCase().startsWith(text.toLowerCase()));
     return filtered;
   };
 
