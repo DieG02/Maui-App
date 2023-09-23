@@ -82,7 +82,7 @@ const App = () => {
                 name='NewIncome'
                 component={NewIncome}
                 options={{
-                  animation: 'slide_from_left',
+                  animation: 'fade_from_bottom',
                   animationTypeForReplace: 'push',
                 }}
               />
@@ -91,7 +91,7 @@ const App = () => {
                 name='NewExpense'
                 component={NewExpense}
                 options={{
-                  animation: 'slide_from_right',
+                  animation: 'fade_from_bottom',
                   animationTypeForReplace: 'push',
                 }}
               />
