@@ -205,7 +205,7 @@
     },
     "contact_detail": {
       "edit_contact": "O contato foi editado com sucesso",
-      "delte_contact": "O contato foi excluído com sucesso",
+      "delete_contact": "O contato foi excluído com sucesso",
       "delete_alert": "Tem certeza de que deseja excluir este contato?",
       "client": "Cliente",
       "provider": "Fornecedor",

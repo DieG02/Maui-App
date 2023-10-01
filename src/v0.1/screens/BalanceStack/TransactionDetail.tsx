@@ -1,5 +1,5 @@
 import { Image, Text, ToastAndroid, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
@@ -12,12 +12,13 @@ import useDeleteIncome from '../../services/Incomes/useDeleteIncome';
 import { queryClient } from '../../utils/queryClient';
 import { parseDDMMYY } from '../../utils/helper';
 import ContactCard from '../../components/common/ContactCard';
-import useGetContactById from '../../services/Contact/useGetContactById';
 import { alertDelete } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 
 // TODO: Refactor this component
 interface Props {
@@ -29,11 +30,16 @@ const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } = cus
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
-
   const { handlePaymentName } = usePayment();
+  const [contact, setContact] = useState(null);
 
-  const { data } = useGetContactById(params?.item?.contactId);
-  const isExpense = params?.item.category.name !== 'Venta';
+  const { data: transaction, isLoading: isFetchingTransaction } = useGetTransactionById(params?.transactionId, {
+    onSuccess(data) {
+      if (!data.contact?.deletedAt) setContact(data.contact);
+    },
+  });
+
+  const isExpense = transaction?.type === 'DEBIT';
 
   const showToast = () => {
     if (isExpense) {
@@ -43,14 +49,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     }
   };
 
-  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.item.id, {
+  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.transactionId, {
     onSuccess() {
       navigation.goBack();
       showToast();
       queryClient.invalidateQueries('Transactions');
     },
   });
-  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.item.id, {
+
+  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.transactionId, {
     onSuccess() {
       navigation.goBack();
       showToast();
@@ -64,9 +71,11 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
   const handleOnPress = () => {
     isExpense
-      ? navigation.navigate('EditExpense', { expense: params?.item })
-      : navigation.navigate('EditIncome', { income: params?.item });
+      ? navigation.navigate('EditExpense', { expense: transaction })
+      : navigation.navigate('EditIncome', { income: transaction });
   };
+
+  if (isFetchingTransaction) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
@@ -96,7 +105,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             }}
           >
             <Image
-              source={{ uri: params?.item.category.image }}
+              source={{ uri: transaction.category.image }}
               style={{
                 width: 40,
                 height: 40,
@@ -110,27 +119,27 @@ const TransactionDetail = ({ route, navigation }: Props) => {
               fontFamily: 'Gilroy-SemiBold',
             }}
           >
-            {params?.item.description}
+            {transaction.description}
           </Text>
         </View>
 
         <RowTransaction
           label={t('balance_stack.transaction_detail.transaction_date')}
-          value={parseDDMMYY(params?.item.date)}
+          value={parseDDMMYY(transaction.date)}
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.payment_method')}
-          value={t(handlePaymentName(params?.item.payment_method))}
+          value={t(handlePaymentName(transaction.payment_method))}
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.total')}
           value={
-            params?.item.category.name === 'Venta'
-              ? `${params?.item.total_amount.toLocaleString('es-AR', {
+            transaction.category.name === 'Venta'
+              ? `${transaction.total_amount.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}`
-              : `-${params?.item.total_amount.toLocaleString('es-AR', {
+              : `-${transaction.total_amount.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}`
@@ -138,20 +147,20 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.transaction_type')}
-          value={params?.item.category.name === 'Venta' ? t('balance_stack.sale') : t('balance_stack.expense')}
+          value={transaction.category.name === 'Venta' ? t('balance_stack.sale') : t('balance_stack.expense')}
         />
 
-        {params?.item.category.name !== 'Venta' && (
+        {transaction.category.name !== 'Venta' && (
           <RowTransaction
             label={t('balance_stack.transaction_detail.expense_category')}
-            value={handleTranslateCategory(params?.item.category.name, dictionary)}
+            value={handleTranslateCategory(transaction.category.name, dictionary)}
           />
         )}
-        {!data ? null : (
+        {!contact ? null : (
           <ContactCard
             disabled
-            data={data}
-            type={params?.item.type === 'CREDIT' ? 'client' : 'provider'}
+            data={contact}
+            type={transaction.category.type === 'CREDIT' ? 'client' : 'provider'}
             onPress={() => {}}
             showNoRightIcon={true}
           />

@@ -1,5 +1,5 @@
 import { View, FlatList } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { NavigationProp, useFocusEffect } from '@react-navigation/native';
 import EmptyState from '../../components/common/EmptyState';
 import Button from '../../components/common/Button';
@@ -24,15 +24,15 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data, refetch: getAlltransactions } = useGetTransactions();
-  const filterData = () => {
-    const filtered = data?.filter((item: any) => item.description?.toLowerCase().startsWith(text.toLowerCase()));
-    return filtered;
-  };
+  const { data, refetch: getAllTransactions } = useGetTransactions();
+
+  const filterData = useMemo(() => {
+    return data?.filter((item: any) => item.description?.toLowerCase().startsWith(text.toLowerCase()));
+  }, [data, text]);
 
   useFocusEffect(
     useCallback(() => {
-      getAlltransactions();
+      getAllTransactions();
     }, [])
   );
 
@@ -60,15 +60,15 @@ const TransactionsScreen = ({ navigation }: Props) => {
       )}
       <FlatList
         overScrollMode='never'
-        data={filterData()}
+        data={filterData}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
         refreshing={false}
         onRefresh={() => {
-          getAlltransactions();
+          getAllTransactions();
         }}
         onEndReached={() => {
-          getAlltransactions();
+          getAllTransactions();
         }}
         style={{ marginHorizontal: marginHorizontal }}
         onEndReachedThreshold={0.5}
@@ -76,7 +76,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
           <TransactionCard
             data={item}
             key={item.id}
-            onPress={() => navigation.navigate('TransactionDetail', { item })}
+            onPress={() => navigation.navigate('TransactionDetail', { transactionId: item.id })}
           />
         )}
         ListEmptyComponent={() =>

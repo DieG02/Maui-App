@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeStack/HomeScreen';
-import TransactionsScreen from '../screens/BalanceStack/TrasactionsScreen';
+import TransactionsScreen from '../screens/BalanceStack/TransactionsScreen';
 import HomeIcon from 'react-native-vector-icons/Entypo';
 import BalanceIcon from 'react-native-vector-icons/MaterialIcons';
 import InventoryIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,7 +18,7 @@ import useGetAccount from '../services/Account/useGetAccount';
 import useGetAllContacts from '../services/Contacts/useGetAllContacts';
 import { useTranslation } from 'react-i18next';
 
-const { mainColor, textBlack, mistyBlue } = customStyles;
+const { mainColor, mistyBlue } = customStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 

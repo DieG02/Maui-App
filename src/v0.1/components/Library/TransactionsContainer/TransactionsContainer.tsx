@@ -23,7 +23,7 @@ const TransactionsContainer = ({ data, navigation }: Props) => {
             <TransactionCard
               data={item}
               key={item.id}
-              onPress={() => navigation.navigate('TransactionDetail', { item })}
+              onPress={() => navigation.navigate('TransactionDetail', { transactionId: item.id })}
             />
           ))
         ) : (

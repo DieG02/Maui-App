@@ -8,12 +8,13 @@ import SimpleInput from '../../components/common/SimpleInput';
 import Button from '../../components/common/Button';
 import customStyles from '../../styles/customStyles';
 import { useMutation } from 'react-query';
-import { updateContactById, deleteContactById } from '../../services/contacts';
+import { updateContactById } from '../../services/contacts';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
 import { alertDelete } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
+import useDeleteContact from '../../services/Contact/useDeleteContact';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -39,27 +40,27 @@ const ContactDetail = ({ route, navigation }: Props) => {
 
   const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contact.id, data), {
     onSuccess: () => {
-      queryClient.invalidateQueries('clients');
-      queryClient.invalidateQueries('providers');
+      queryClient.invalidateQueries('Contacts');
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.edit_contact'));
     },
   });
 
-  const { mutateAsync: deleteContact } = useMutation(() => deleteContactById(params?.contact.id), {
+  const { mutateAsync: deleteContact } = useDeleteContact(params?.contact.id, {
     onSuccess: () => {
-      queryClient.invalidateQueries('clients');
-      queryClient.invalidateQueries('providers');
+      queryClient.invalidateQueries('Transactions');
+      queryClient.invalidateQueries('Contacts');
       navigation.goBack();
-      showToast(t('contact_stack.contact_detail.delte_contact'));
+      showToast(t('contact_stack.contact_detail.delete_contact'));
     },
   });
+
   const handleDelete = () => {
     alertDelete(t('contact_stack.contact_detail.delete_alert'), deleteContact);
   };
 
   const handleTitle = () => {
-    if (params && params.contact.typeOfContact === 'CLIENT') {
+    if (params && params.contact.type === 'CLIENT') {
       return t('contact_stack.contact_detail.client');
     } else {
       return t('contact_stack.contact_detail.provider');

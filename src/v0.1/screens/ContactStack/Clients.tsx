@@ -3,8 +3,6 @@ import React, { useContext, useMemo, useState } from 'react';
 import ContactCard from '../../components/common/ContactCard';
 import customStyles from '../../styles/customStyles';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import { useQuery } from 'react-query';
-import { getAllContacts } from '../../services/contacts';
 import { GeneralContext } from '../../context/GeneralContext';
 import EmptyState from '../../components/common/EmptyState';
 import Button from '../../components/common/Button';
@@ -12,6 +10,7 @@ import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import { useTranslation } from 'react-i18next';
+import useGetAllContacts from '../../services/Contacts/useGetAllContacts';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -30,7 +29,7 @@ const Consumers = ({ navigation, route }: Props) => {
     data,
     isLoading,
     refetch: getClients,
-  } = useQuery('clients', getAllContacts, {
+  } = useGetAllContacts({
     onSuccess(data) {
       setContacts(data?.filter(item => item.type === 'CLIENT') as []);
     },
