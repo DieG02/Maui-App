@@ -13,6 +13,10 @@ export const getTransactionById = async (transactionId: string): Promise<getTran
 };
 
 const useGetTransactionById = (transactionId: string, options?: UseQueryOptions<getTransactionByIdResponseDto>) =>
-  useQuery([QUERY_NAME] as QueryKey, () => getTransactionById(transactionId), options);
+  useQuery([QUERY_NAME] as QueryKey, () => getTransactionById(transactionId), {
+    ...options,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
 
 export default useGetTransactionById;
