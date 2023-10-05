@@ -27,20 +27,14 @@ const Consumers = ({ navigation, route }: Props) => {
   const [isSearch, setIsSearch] = useState(false);
 
   const {
-    data,
+    data: clients,
     isLoading,
     refetch: getClients,
-  } = useGetAllContacts({
-    onSuccess(data) {
-      setContacts(data?.filter(item => item.type === 'CLIENT') as []);
+  } = useGetAllContacts('client', {
+    onSuccess: data => {
+      setContacts(data);
     },
   });
-
-  const clients = useMemo(() => {
-    const res = data?.filter(item => item.type === 'CLIENT');
-    const filtered = res?.filter(item => item.name?.toLowerCase().includes(text.toLowerCase()));
-    return filtered;
-  }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
     if (screen === 'EditIncome') {
