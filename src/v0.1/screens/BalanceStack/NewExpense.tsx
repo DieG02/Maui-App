@@ -102,7 +102,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('expenseDebts');
+        queryClient.invalidateQueries('Transactions');
         navigation.goBack();
         showToast();
       },

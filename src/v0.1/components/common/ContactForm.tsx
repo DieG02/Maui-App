@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 const { mainColor } = customStyles;
 
+//FIXME: Avoid using if else
 interface Props {
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;
@@ -45,22 +46,22 @@ const ContactForm = ({
   navigation,
 }: Props) => {
   const { t } = useTranslation();
-  const action = (queryName: string, screenName: string, data) => {
-    queryClient.invalidateQueries(queryName);
+  const action = (screenName: string, data: any) => {
+    queryClient.invalidateQueries('Contacts');
     navigation.navigate(screenName, { contact: data });
   };
 
   const handleOnPress = (data: IContact) => {
     if (screen === 'NewIncome') {
-      action('clients', 'NewIncome', data);
+      action('NewIncome', data);
     } else if (screen === 'EditIncome') {
-      action('clients', 'EditIncome', data);
+      action('EditIncome', data);
     } else if (screen === 'NewExpense') {
-      action('providers', 'NewExpense', data);
+      action('NewExpense', data);
     } else if (screen === 'EditExpense') {
-      action('providers', 'EditExpense', data);
+      action('EditExpense', data);
     } else {
-      type.toUpperCase() === 'CLIENT' ? action('clients', 'Clients', data) : action('providers', 'Providers', data);
+      type.toUpperCase() === 'CLIENT' ? action('Clients', data) : action('Providers', data);
     }
   };
 

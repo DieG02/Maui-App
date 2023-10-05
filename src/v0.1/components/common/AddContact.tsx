@@ -42,8 +42,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
     },
     {
       onSuccess: data => {
-        queryClient.invalidateQueries('clients');
-        queryClient.invalidateQueries('providers');
+        queryClient.invalidateQueries('Contacts');
         handleOnPress(data);
       },
     }

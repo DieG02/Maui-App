@@ -6,7 +6,6 @@ import { QueryKey, useQuery } from 'react-query';
 const QUERY_NAME = 'Contact';
 
 export const getContactById = async (contactId: string) => {
-  if (!contactId) return;
   await setHeaders();
   const response = await MauiApi.get<getContactByIdResponseDto>(`/getContactById/${contactId}`);
   return response.data;
