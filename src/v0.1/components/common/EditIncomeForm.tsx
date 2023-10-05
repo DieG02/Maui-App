@@ -16,7 +16,6 @@ import { queryClient } from '../../utils/queryClient';
 import Button from './Button';
 import LoadingComponent from '../Library/LoadingComponent';
 import { useTranslation } from 'react-i18next';
-import useGetContactById from '../../services/Contact/useGetContactById';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -42,13 +41,21 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
-  const { data: contact } = useGetContactById(data.contactId);
+  const hasContact = useMemo(() => {
+    if (!data.contactId) {
+      return '';
+    } else if (data.contact.deletedAt) {
+      return '';
+    } else {
+      return data.contact.name;
+    }
+  }, []);
 
   const initialValues: InitialIncome = {
     value: String(data?.total_amount).replace('.', ','),
     name: data.description,
-    clientId: data.contactId,
-    clientName: contact ? contact.name : '',
+    clientId: data.contactId ? data.contactId : '',
+    clientName: hasContact,
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),
     date: data.date,

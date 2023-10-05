@@ -21,7 +21,6 @@ import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
-import useGetContactById from '../../services/Contact/useGetContactById';
 import { getCategoryId, getCategoryName } from '../../utils/getCategoryId';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 
@@ -46,13 +45,22 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
   const { data: expenseCategories } = useGetTransactionCategories('debit', 'transaction');
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
-  const { data: contact } = useGetContactById(data.contactId);
+
+  const hasContact = useMemo(() => {
+    if (!data.contactId) {
+      return '';
+    } else if (data.contact.deletedAt) {
+      return '';
+    } else {
+      return data.contact.name;
+    }
+  }, []);
 
   const initialValues: InitialExpense = {
     value: String(data.total_amount).replace('.', ','),
     name: data.description,
-    providerId: data?.contactId,
-    providerName: contact ? contact.name : '',
+    providerId: data.contactId ? data.contactId : '',
+    providerName: hasContact,
     categoryId: getCategoryName(data.categoryId, expenseCategories),
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),

@@ -55,7 +55,7 @@ const Consumers = ({ navigation, route }: Props) => {
         merge: true,
       });
     } else {
-      navigation.navigate('ContactDetail', { contact: item });
+      navigation.navigate('ContactDetail', { contactId: item.id });
     }
   };
 

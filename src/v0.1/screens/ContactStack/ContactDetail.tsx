@@ -15,6 +15,8 @@ import { showToast } from '../../utils/toast';
 import { alertDelete } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
 import useDeleteContact from '../../services/Contact/useDeleteContact';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import useGetContactById from '../../services/Contact/useGetContactById';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -26,30 +28,28 @@ const { mainColor, background, width } = customStyles;
 const ContactDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
+  const [contact, setContact] = useState<any>(null);
 
-  const initial = {
-    name: params?.contact.name,
-    email: params?.contact.email,
-    phone: params?.contact.phone,
-    note: params?.contact.note,
-  };
+  const { data, isLoading: isFetchingGetContactById } = useGetContactById(params?.contactId, {
+    onSuccess(data) {
+      setContact(data);
+    },
+  });
 
-  const [data, setData] = useState(initial);
+  const isChanged = JSON.stringify(contact) !== JSON.stringify(data);
 
-  const isChanged = JSON.stringify(initial) !== JSON.stringify(data);
-
-  const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contact.id, data), {
+  const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contactId, contact), {
     onSuccess: () => {
-      queryClient.invalidateQueries('Contacts');
+      queryClient.invalidateQueries(['Contact', params?.contactId]);
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.edit_contact'));
     },
   });
 
-  const { mutateAsync: deleteContact } = useDeleteContact(params?.contact.id, {
+  const { mutateAsync: deleteContact } = useDeleteContact(params?.contactId, {
     onSuccess: () => {
-      queryClient.invalidateQueries('Transactions');
       queryClient.invalidateQueries('Contacts');
+      queryClient.invalidateQueries('Transactions');
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.delete_contact'));
     },
@@ -60,12 +60,14 @@ const ContactDetail = ({ route, navigation }: Props) => {
   };
 
   const handleTitle = () => {
-    if (params && params.contact.type === 'CLIENT') {
+    if (contact && contact.type === 'CLIENT') {
       return t('contact_stack.contact_detail.client');
     } else {
       return t('contact_stack.contact_detail.provider');
     }
   };
+
+  if (isFetchingGetContactById) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
@@ -85,23 +87,23 @@ const ContactDetail = ({ route, navigation }: Props) => {
       >
         <Spacer height={20} />
         <SimpleInput
-          setValue={value => setData({ ...data, name: value })}
-          value={data.name}
+          setValue={value => setContact({ ...contact, name: value })}
+          value={contact.name}
           name={t('contact_stack.contact_detail.name')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.name')}
         />
         <SimpleInput
-          setValue={value => setData({ ...data, phone: value })}
-          value={data.phone}
+          setValue={value => setContact({ ...contact, phone: value })}
+          value={contact.phone}
           name={t('contact_stack.contact_detail.phone')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.phone')}
           keyboardType='phone-pad'
         />
         <SimpleInput
-          setValue={value => setData({ ...data, email: value })}
-          value={data.email}
+          setValue={value => setContact({ ...contact, email: value })}
+          value={contact.email}
           name={t('contact_stack.contact_detail.e_mail')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.e_mail')}
@@ -109,8 +111,8 @@ const ContactDetail = ({ route, navigation }: Props) => {
           keyboardType='email-address'
         />
         <SimpleInput
-          setValue={value => setData({ ...data, note: value })}
-          value={data.note}
+          setValue={value => setContact({ ...contact, note: value })}
+          value={contact.note}
           name={t('contact_stack.contact_detail.comments')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.add_comments')}
