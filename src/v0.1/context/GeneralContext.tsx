@@ -1,13 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useMemo } from 'react';
 
 interface IGeneralContext {
   contacts: IContact[];
   setContacts: (value: []) => void;
+  phoneNumbersSet: Set<string>;
 }
 
 const defaultValue: IGeneralContext = {
   contacts: [],
   setContacts: () => {},
+  phoneNumbersSet: new Set(),
 };
 
 export const GeneralContext = createContext<IGeneralContext>(defaultValue);
@@ -18,10 +20,12 @@ interface Props {
 
 const GeneralProvider = ({ children }: Props) => {
   const [contacts, setContacts] = useState<IContact[]>(defaultValue.contacts);
+  const phoneNumbersSet = useMemo(() => {
+    return new Set(contacts.map(contact => contact.phone));
+  }, [contacts]);
+
   return (
-    <GeneralContext.Provider value={{ contacts, setContacts }}>
-      {children}
-    </GeneralContext.Provider>
+    <GeneralContext.Provider value={{ contacts, setContacts, phoneNumbersSet }}>{children}</GeneralContext.Provider>
   );
 };
 export default GeneralProvider;

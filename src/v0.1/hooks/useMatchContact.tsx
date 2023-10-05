@@ -1,16 +1,13 @@
-import { useContext, useMemo } from "react";
-import { GeneralContext } from "../context/GeneralContext";
+import { useContext, useMemo } from 'react';
+import { GeneralContext } from '../context/GeneralContext';
 
+//FIXME: Refactor this componente to avoid a lot of re-renders
 const useMatchContact = (phone: string) => {
-  const { contacts } = useContext(GeneralContext);
+  const { phoneNumbersSet } = useContext(GeneralContext);
 
-  const isAdded = useMemo(
-    () => contacts.some((item) => item.phone === phone),
-    [contacts, phone]
-  );
+  const isAdded = phoneNumbersSet.has(phone);
 
   return {
-    contacts,
     isAdded,
   };
 };
