@@ -31,12 +31,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
   const { handlePaymentName } = usePayment();
-  const [contact, setContact] = useState(null);
 
   const { data: transaction, isLoading: isFetchingTransaction } = useGetTransactionById(params?.transactionId, {
-    onSuccess(data) {
-      if (!data.contact?.deletedAt) setContact(data.contact);
-    },
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
 
   const isExpense = transaction?.type === 'DEBIT';
@@ -156,10 +154,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             value={handleTranslateCategory(transaction.category.name, dictionary)}
           />
         )}
-        {!contact ? null : (
+        {transaction.contact && (
           <ContactCard
             disabled
-            data={contact}
+            data={transaction.contact}
             type={transaction.category.type === 'CREDIT' ? 'client' : 'provider'}
             onPress={() => {}}
             showNoRightIcon={true}
