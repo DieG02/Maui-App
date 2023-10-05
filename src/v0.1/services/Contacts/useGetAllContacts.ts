@@ -3,17 +3,22 @@ import { getAllContactsResponseDto } from "../../../../../Maui-Backend/src/contr
 import { setHeaders } from "../../clientProvider/axiosConfig";
 import { QueryKey, useQuery, UseQueryOptions } from "react-query";
 
+type ContactType = "provider" | "client"
+
 const QUERY_NAME = "Contacts";
 
-export const getAllContacts = async () => {
+export const getAllContacts = async (type?: ContactType) => {
   await setHeaders();
-  const response = await MauiApi.get<getAllContactsResponseDto>(
-    "/getAllContacts/"
-  );
+  let url = "/getAllContacts/";
+  if (type) {
+    url += `?type=${type.toUpperCase()}`;
+  }
+  const response = await MauiApi.get<getAllContactsResponseDto>(url);
   return response.data;
 };
 
 const useGetAllContacts = (
+  type?: ContactType,
   options?: UseQueryOptions<getAllContactsResponseDto>
-) => useQuery([QUERY_NAME] as QueryKey, getAllContacts, options);
+) => useQuery([QUERY_NAME, type] as QueryKey, () => getAllContacts(type), options);
 export default useGetAllContacts;

@@ -26,20 +26,14 @@ const Providers = ({ navigation, route }: Props) => {
   const [isSearch, setIsSearch] = useState(false);
 
   const {
-    data,
+    data: providers,
     isLoading,
     refetch: getProviders,
-  } = useGetAllContacts({
-    onSuccess(data) {
-      setContacts(data?.filter(item => item.type === 'PROVIDER') as []);
+  } = useGetAllContacts('provider', {
+    onSuccess: data => {
+      setContacts(data);
     },
   });
-
-  const providers = useMemo(() => {
-    const res = data?.filter(item => item.type === 'PROVIDER');
-    const filtered = res?.filter(item => item.name?.toLowerCase().includes(text.toLowerCase()));
-    return filtered;
-  }, [data, text]);
 
   const handleOnPress = (item: IContact) => {
     if (route.params?.screen === 'EditExpense') {
