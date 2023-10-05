@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 const { mainColor } = customStyles;
 
+//FIXME: Avoid using if else
 interface Props {
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;

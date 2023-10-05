@@ -18,6 +18,7 @@ interface Props {
 }
 const { mainColor, background, marginHorizontal } = customStyles;
 
+//FIXME: Refactor this component to use query to get data
 const Consumers = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
   const screen = route.params?.screen;

@@ -38,6 +38,8 @@ const validateOptions: ValidateOptions = {
   isPending: ['value', 'providerId', 'categoryId'],
 };
 
+//FIXME: Get data from query, there are some issues with the category and contact
+
 const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const { t } = useTranslation();
   const NEW_EXPENSE = 'balance_stack.new_expense';
