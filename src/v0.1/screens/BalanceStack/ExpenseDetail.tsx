@@ -48,21 +48,11 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const { data: expenseCategories } = useGetTransactionCategories('debit', 'transaction');
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
-  const hasContact = useMemo(() => {
-    if (!data.contactId) {
-      return '';
-    } else if (data.contact.deletedAt) {
-      return '';
-    } else {
-      return data.contact.name;
-    }
-  }, []);
-
   const initialValues: InitialExpense = {
     value: String(data.total_amount).replace('.', ','),
     name: data.description,
     providerId: data.contactId ? data.contactId : '',
-    providerName: hasContact,
+    providerName: data.contact ? data.contact.name : '',
     categoryId: getCategoryName(data.categoryId, expenseCategories),
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),

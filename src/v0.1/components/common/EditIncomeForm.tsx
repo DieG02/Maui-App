@@ -41,21 +41,11 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
-  const hasContact = useMemo(() => {
-    if (!data.contactId) {
-      return '';
-    } else if (data.contact.deletedAt) {
-      return '';
-    } else {
-      return data.contact.name;
-    }
-  }, []);
-
   const initialValues: InitialIncome = {
     value: String(data?.total_amount).replace('.', ','),
     name: data.description,
     clientId: data.contactId ? data.contactId : '',
-    clientName: hasContact,
+    clientName: data.contact ? data.contact.name : '',
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),
     date: data.date,

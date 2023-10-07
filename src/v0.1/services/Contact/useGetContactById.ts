@@ -14,7 +14,5 @@ export const getContactById = async (contactId: string): Promise<getContactByIdR
 const useGetContactById = (contactId: string, options?: UseQueryOptions<getContactByIdResponseDto>) =>
   useQuery([QUERY_NAME, contactId] as QueryKey, () => getContactById(contactId), {
     ...options,
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
   });
 export default useGetContactById;

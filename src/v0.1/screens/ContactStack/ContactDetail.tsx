@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
@@ -31,10 +31,15 @@ const ContactDetail = ({ route, navigation }: Props) => {
   const [contact, setContact] = useState<any>(null);
 
   const { data, isLoading: isFetchingGetContactById } = useGetContactById(params?.contactId, {
-    onSuccess(data) {
-      setContact(data);
-    },
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (data) {
+      setContact(data);
+    }
+  }, [data]);
 
   const isChanged = JSON.stringify(contact) !== JSON.stringify(data);
 
@@ -60,7 +65,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
   };
 
   const handleTitle = () => {
-    if (contact && contact.type === 'CLIENT') {
+    if (data && data?.type === 'CLIENT') {
       return t('contact_stack.contact_detail.client');
     } else {
       return t('contact_stack.contact_detail.provider');
@@ -88,14 +93,14 @@ const ContactDetail = ({ route, navigation }: Props) => {
         <Spacer height={20} />
         <SimpleInput
           setValue={value => setContact({ ...contact, name: value })}
-          value={contact.name}
+          value={contact?.name}
           name={t('contact_stack.contact_detail.name')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.name')}
         />
         <SimpleInput
           setValue={value => setContact({ ...contact, phone: value })}
-          value={contact.phone}
+          value={contact?.phone}
           name={t('contact_stack.contact_detail.phone')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.phone')}
@@ -103,7 +108,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
         />
         <SimpleInput
           setValue={value => setContact({ ...contact, email: value })}
-          value={contact.email}
+          value={contact?.email}
           name={t('contact_stack.contact_detail.e_mail')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.e_mail')}
@@ -112,7 +117,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
         />
         <SimpleInput
           setValue={value => setContact({ ...contact, note: value })}
-          value={contact.note}
+          value={contact?.note}
           name={t('contact_stack.contact_detail.comments')}
           marginBottom={20}
           placeholder={t('contact_stack.contact_detail.add_comments')}

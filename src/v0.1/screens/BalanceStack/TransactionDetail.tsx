@@ -1,5 +1,5 @@
 import { Image, Text, ToastAndroid, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
