@@ -207,6 +207,7 @@
       "edit_contact": "El contacto fue editado satisfactoriamente",
       "delete_contact": "El contacto fue eliminado satisfactoriamente",
       "delete_alert": "¿Estás seguro de elimar este contacto?",
+      "error_delete_message": "El contacto que intentas eliminar tiene deudas activas.",
       "client": "Cliente",
       "provider": "Proveedor",
       "name": "Nombre",

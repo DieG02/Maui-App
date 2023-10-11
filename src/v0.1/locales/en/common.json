@@ -207,6 +207,7 @@
       "edit_contact": "The contact was successfully edited.",
       "delete_contact": "The contact was successfully deleted.",
       "delete_alert": "Are you sure you want to delete the contact?",
+      "error_delete_message": "This contact that you tried to delete has active debts.",
       "client": "Client",
       "provider": "Provider",
       "name": "Name",
