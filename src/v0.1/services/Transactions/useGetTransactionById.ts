@@ -8,7 +8,6 @@ const QUERY_NAME = 'Transaction';
 export const getTransactionById = async (transactionId: string): Promise<getTransactionByIdResponseDto> => {
   await setHeaders();
   const response = await MauiApi.get<getTransactionByIdResponseDto>(`/getTransactionById/${transactionId}`);
-
   return response.data;
 };
 
