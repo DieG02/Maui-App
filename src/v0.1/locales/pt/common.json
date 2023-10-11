@@ -207,6 +207,7 @@
       "edit_contact": "O contato foi editado com sucesso",
       "delete_contact": "O contato foi excluído com sucesso",
       "delete_alert": "Tem certeza de que deseja excluir este contato?",
+      "error_delete_message": "Este contato que você tentou excluir possui dívidas ativas.",
       "client": "Cliente",
       "provider": "Fornecedor",
       "name": "Nome",

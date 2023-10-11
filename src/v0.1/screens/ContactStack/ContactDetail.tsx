@@ -12,7 +12,7 @@ import { updateContactById } from '../../services/contacts';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
-import { alertDelete } from '../../utils/alerts';
+import { alertDelete, commonAlert } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
 import useDeleteContact from '../../services/Contact/useDeleteContact';
 import LoadingComponent from '../../components/Library/LoadingComponent';
@@ -57,6 +57,9 @@ const ContactDetail = ({ route, navigation }: Props) => {
       queryClient.invalidateQueries('Transactions');
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.delete_contact'));
+    },
+    onError: () => {
+      commonAlert(t('contact_stack.contact_detail.error_delete_message'));
     },
   });
 
