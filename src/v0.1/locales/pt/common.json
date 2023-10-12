@@ -118,8 +118,7 @@
     "sale": "Venda",
     "expense": "Gasto",
     "transaction_detail": {
-      "toast_expense_delete": "O gasto foi excluído com sucesso",
-      "toast_income_delete": "A receita foi excluída com sucesso",
+      "toast_transaction_delete": "A transação foi excluído com sucesso",
       "alert_delete": "Tem certeza de que deseja excluir a transação?",
       "details": "Detalhes da operação",
       "transaction_date": "Data da operação",

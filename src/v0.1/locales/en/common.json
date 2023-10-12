@@ -118,8 +118,7 @@
     "sale": "Sale",
     "expense": "Expense",
     "transaction_detail": {
-      "toast_expense_delete": "The expense was successfully deleted",
-      "toast_income_delete": "The income was successfully deleted",
+      "toast_transaction_delete": "The transaction was successfully deleted",
       "alert_delete": "Are you sure about deleting the transaction?",
       "details": "Transaction detail",
       "transaction_date": "Transaction date",
