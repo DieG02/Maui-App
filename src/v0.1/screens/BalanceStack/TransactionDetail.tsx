@@ -7,8 +7,6 @@ import customStyles from '../../styles/customStyles';
 import RowTransaction from '../../components/common/TransactionCard/RowTransaction';
 import Button from '../../components/common/Button';
 import ScrollContainer from '../../components/containers/ScrollContainer';
-import useDeleteExpense from '../../services/Expense/useDeleteExpense';
-import useDeleteIncome from '../../services/Incomes/useDeleteIncome';
 import { queryClient } from '../../utils/queryClient';
 import { parseDDMMYY } from '../../utils/helper';
 import ContactCard from '../../components/common/ContactCard';
@@ -19,6 +17,7 @@ import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
+import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
 
 // TODO: Refactor this component
 interface Props {
@@ -40,22 +39,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const isExpense = transaction?.type === 'DEBIT';
 
   const showToast = () => {
-    if (isExpense) {
-      ToastAndroid.show(t('balance_stack.transaction_detail.toast_expense_delete'), ToastAndroid.SHORT);
-    } else {
-      ToastAndroid.show(t('balance_stack.transaction_detail.toast_income_delete'), ToastAndroid.SHORT);
-    }
+    ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
   };
 
-  const { mutateAsync: deleteExpense } = useDeleteExpense(params?.transactionId, {
-    onSuccess() {
-      navigation.goBack();
-      showToast();
-      queryClient.invalidateQueries('Transactions');
-    },
-  });
-
-  const { mutateAsync: deleteIncome } = useDeleteIncome(params?.transactionId, {
+  const { mutateAsync: deleteTransaction } = useDeleteTransaction(params?.transactionId, {
     onSuccess() {
       navigation.goBack();
       showToast();
@@ -64,7 +51,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   });
 
   const handleDelete = () => {
-    alertDelete(t('balance_stack.transaction_detail.alert_delete'), isExpense ? deleteExpense : deleteIncome);
+    alertDelete(t('balance_stack.transaction_detail.alert_delete'), deleteTransaction);
   };
 
   const handleOnPress = () => {
