@@ -41,6 +41,7 @@ import DebtDetail from './src/v0.1/screens/DebtStack/DebtDetail';
 
 import customStyles from './src/v0.1/styles/customStyles';
 import EditDebt from './src/v0.1/screens/DebtStack/EditDebt';
+import IndividualPayment from './src/v0.1/screens/DebtStack/IndividualPayment';
 
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -115,6 +116,7 @@ const App = () => {
               <Stack.Screen name='DebtDetail' component={DebtDetail} />
               <Stack.Screen name='EditDebt' component={EditDebt} />
               <Stack.Screen name='DebtorScreen' component={DebtorScreen} />
+              <Stack.Screen name='IndividualPayment' component={IndividualPayment} />
             </Stack.Navigator>
           </NavigationContainer>
         </GeneralProvider>
