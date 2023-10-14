@@ -149,6 +149,9 @@
         "providers": "Providers"
       }
     },
+    "new_payment": "New Payment",
+    "payment_done": "Payment done successfully",
+    "to_pay": "To Pay",
     "edit_expense": {
       "title": "Edit Expense"
     },

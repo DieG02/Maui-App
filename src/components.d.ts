@@ -6,6 +6,13 @@ interface IncomeAndExpense {
   paymentMethod: string;
 }
 
+interface InitialDebt {
+  value: string;
+  description: string;
+  date: string;
+  paymentMethod: string;
+}
+
 interface InitialIncome extends IncomeAndExpense {
   clientId: string | null;
   clientName: string;

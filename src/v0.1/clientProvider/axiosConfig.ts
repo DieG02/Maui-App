@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { API_URL } from '@env';
+
+import axios from 'axios';
 
 import { getUserAuthenticationHeader } from '../requests';
 

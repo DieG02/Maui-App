@@ -149,6 +149,9 @@
         "providers": "Proveedores"
       }
     },
+    "new_payment": "Nuevo Abono",
+    "payment_done": "Abono pagado exitosamente",
+    "to_pay": "Creditar",
     "edit_expense": {
       "title": "Editar Gasto"
     },
