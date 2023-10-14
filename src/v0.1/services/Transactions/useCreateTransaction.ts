@@ -6,7 +6,7 @@ import {
 import { setHeaders } from '../../clientProvider/axiosConfig';
 import { useMutation, UseMutationOptions } from 'react-query';
 
-const QUERY_NAME = 'Create_Income';
+const QUERY_NAME = 'Create_Transaction';
 
 export const createTransaction = async (data: createTransactionBodyInputDto) => {
   await setHeaders();

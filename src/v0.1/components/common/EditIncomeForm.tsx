@@ -16,6 +16,9 @@ import { queryClient } from '../../utils/queryClient';
 import Button from './Button';
 import LoadingComponent from '../Library/LoadingComponent';
 import { useTranslation } from 'react-i18next';
+import useEditTransaction from '../../services/Transactions/useEditTransaction';
+
+//FIXME: Make refactor to clean form, use react-hook-form
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -32,10 +35,10 @@ const validateOptions: ValidateOptions = {
   isPaid: ['value'],
   isPending: ['value', 'clientId'],
 };
+const NEW_INCOME = 'balance_stack.new_income';
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const { t } = useTranslation();
-  const NEW_INCOME = 'balance_stack.new_income';
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
 
@@ -44,7 +47,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const initialValues: InitialIncome = {
     value: String(data?.total_amount).replace('.', ','),
     name: data.description,
-    clientId: data.contactId ? data.contactId : '',
+    clientId: data.contactId ? data.contactId : null,
     clientName: data.contact ? data.contact.name : '',
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),
@@ -72,20 +75,20 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
     ToastAndroid.showWithGravity(t('debt_stack.edit_debt.toast_edited'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
-  const { mutateAsync, isLoading } = useEditIncome(
+  const { mutateAsync, isLoading } = useEditTransaction(
     data.id,
     {
-      paymentMethod: handlePayment(values.paymentMethod),
-      clientId: params?.contact ? params?.contact?.id : values.clientId,
+      payment_method: handlePayment(values.paymentMethod),
+      contactId: params?.contact ? params?.contact?.id : values.clientId,
       date: values.date,
-      isPaid: values.isPaid,
-      name: values.name,
-      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+      // status: values.isPaid ? 'APPROVED' : 'DEBT',
+      description: values.name,
+      total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('Transactions');
-        queryClient.removeQueries('IncomeDetail');
+        queryClient.removeQueries(['Transaction_By_Id', data?.id]);
         navigation.navigate('balance');
         showToast();
       },
@@ -196,10 +199,10 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
           onPressClose={() => {
             setValues(prev => ({
               ...prev,
-              clientId: '',
+              clientId: null,
               clientName: '',
             }));
-            navigation.setParams({ contact: '' });
+            navigation.setParams({ contact: null });
           }}
         />
         <InputDate

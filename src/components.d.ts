@@ -7,13 +7,13 @@ interface IncomeAndExpense {
 }
 
 interface InitialIncome extends IncomeAndExpense {
-  clientId: string;
+  clientId: string | null;
   clientName: string;
 }
 
 interface InitialExpense extends IncomeAndExpense {
   categoryId: string;
-  providerId: string;
+  providerId: string | null;
   providerName: string;
 }
 
