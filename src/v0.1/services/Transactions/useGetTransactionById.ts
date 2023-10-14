@@ -3,7 +3,7 @@ import { getTransactionByIdResponseDto } from '../../../../../Maui-Backend/src/c
 import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
 import { setHeaders } from '../../clientProvider/axiosConfig';
 
-const QUERY_NAME = 'Transaction';
+const QUERY_NAME = 'Transaction_By_Id';
 
 export const getTransactionById = async (transactionId: string): Promise<getTransactionByIdResponseDto> => {
   await setHeaders();

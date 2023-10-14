@@ -6,6 +6,8 @@ import customStyles from '../../styles/customStyles';
 import EditIncomeForm from '../../components/common/EditIncomeForm';
 import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
+import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
+import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 
 const { mainColor } = customStyles;
 
@@ -18,6 +20,13 @@ const EditIncome = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
 
+  const { data, isLoading } = useGetTransactionById(params?.income.id, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading) return <LoadingComponent color={mainColor} />;
+
   return (
     <ScreenContainer>
       <BackHeaderTitle
@@ -29,7 +38,7 @@ const EditIncome = ({ navigation, route }: Props) => {
         hasType
         color={mainColor}
       />
-      <EditIncomeForm navigation={navigation} data={params?.income} params={params} />
+      <EditIncomeForm navigation={navigation} data={data} params={params} />
     </ScreenContainer>
   );
 };

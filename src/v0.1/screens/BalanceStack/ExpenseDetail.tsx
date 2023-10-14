@@ -23,6 +23,9 @@ import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
 import { getCategoryId, getCategoryName } from '../../utils/getCategoryId';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
+import useEditTransaction from '../../services/Transactions/useEditTransaction';
+
+//FIXME: Make refactor to clean form, use react-hook-form
 
 const { width } = Dimensions.get('window');
 const { mainColor, marginHorizontal } = customStyles;
@@ -37,11 +40,11 @@ const validateOptions: ValidateOptions = {
   isPending: ['value', 'providerId', 'categoryId'],
 };
 
+const NEW_EXPENSE = 'balance_stack.new_expense';
 //FIXME: Get data from query, there are some issues with the category and contact
 
 const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const { t } = useTranslation();
-  const NEW_EXPENSE = 'balance_stack.new_expense';
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
@@ -51,7 +54,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const initialValues: InitialExpense = {
     value: String(data.total_amount).replace('.', ','),
     name: data.description,
-    providerId: data.contactId ? data.contactId : '',
+    providerId: data.contactId ? data.contactId : null,
     providerName: data.contact ? data.contact.name : '',
     categoryId: getCategoryName(data.categoryId, expenseCategories),
     isPaid: data.status === 'APPROVED',
@@ -76,26 +79,24 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     }
   }, [params?.contact]);
 
-  const { mutateAsync, isLoading } = useEditExpense(
-    data?.id,
-    {
-      paymentMethod: handlePayment(values.paymentMethod),
-      providerId: params?.contact ? params?.contact?.id : values.providerId,
-      date: values.date,
-      isPaid: values.isPaid,
-      name: values.name,
-      value: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      categoryId: getCategoryId(values.categoryId, expenseCategories),
+  const payload = {
+    payment_method: handlePayment(values.paymentMethod),
+    contactId: params?.contact ? params?.contact?.id : values.providerId,
+    date: values.date,
+    // status: values.isPaid ? 'APPROVED' : 'DEBT',
+    description: values.name,
+    total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+    categoryId: getCategoryId(values.categoryId, expenseCategories),
+  };
+
+  const { mutateAsync, isLoading } = useEditTransaction(data?.id, payload, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('Transactions');
+      queryClient.removeQueries(['Transaction_By_Id', data?.id]);
+      navigation.navigate('balance');
+      showToast(t('debt_stack.edit_debt.toast_edited'));
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('Transactions');
-        queryClient.removeQueries('expenseDetail');
-        navigation.navigate('balance');
-        showToast(t('debt_stack.edit_debt.toast_edited'));
-      },
-    }
-  );
+  });
 
   const handleSubmit = () => {
     if (validateValues(toValidate)) return mutateAsync();
@@ -214,10 +215,10 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           onPressClose={() => {
             setValues(prev => ({
               ...prev,
-              providerId: '',
+              providerId: null,
               providerName: '',
             }));
-            navigation.setParams({ contact: '' });
+            navigation.setParams({ contact: null });
           }}
         />
 
