@@ -48,7 +48,10 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-  const { data: expenseCategories } = useGetTransactionCategories('debit', 'transaction');
+  const { data: expenseCategories, isLoading: isLoadingCategories } = useGetTransactionCategories(
+    'debit',
+    'transaction'
+  );
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
   const initialValues: InitialExpense = {
@@ -102,7 +105,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     if (validateValues(toValidate)) return mutateAsync();
   };
 
-  if (isLoading) return <LoadingComponent color={mainColor} />;
+  if (isLoadingCategories || isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <>
