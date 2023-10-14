@@ -48,10 +48,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const [modalPayment, setModalPayment] = useState(false);
   const [modalState, setModalState] = useState(false);
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-  const { data: expenseCategories, isLoading: isLoadingCategories } = useGetTransactionCategories(
-    'debit',
-    'transaction'
-  );
+  const { data: expenseCategories, isFetching } = useGetTransactionCategories('debit', 'transaction');
   const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
 
   const initialValues: InitialExpense = {
@@ -83,13 +80,14 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const payload = {
-    payment_method: handlePayment(values.paymentMethod),
+    payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
     contactId: params?.contact ? params?.contact?.id : values.providerId,
     date: values.date,
-    // status: values.isPaid ? 'APPROVED' : 'DEBT',
+    status: values.isPaid ? 'APPROVED' : 'DEBT',
     description: values.name,
     total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
     categoryId: getCategoryId(values.categoryId, expenseCategories),
+    type: 'DEBIT',
   };
 
   const { mutateAsync, isLoading } = useEditTransaction(data?.id, payload, {
@@ -105,7 +103,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     if (validateValues(toValidate)) return mutateAsync();
   };
 
-  if (isLoadingCategories || isLoading) return <LoadingComponent color={mainColor} />;
+  if (isFetching || isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <>

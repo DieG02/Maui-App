@@ -78,12 +78,13 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const { mutateAsync, isLoading } = useEditTransaction(
     data.id,
     {
-      payment_method: handlePayment(values.paymentMethod),
+      payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
       contactId: params?.contact ? params?.contact?.id : values.clientId,
       date: values.date,
-      // status: values.isPaid ? 'APPROVED' : 'DEBT',
+      status: values.isPaid ? 'APPROVED' : 'DEBT',
       description: values.name,
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
+      type: 'CREDIT',
     },
     {
       onSuccess: () => {
