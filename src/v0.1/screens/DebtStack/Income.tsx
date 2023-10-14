@@ -5,23 +5,24 @@ import SummaryDebt from '../../components/common/SummaryDebt';
 import DebtContactCard from '../../components/common/DebtContactCard';
 import customStyles from '../../styles/customStyles';
 import useRefresh from '../../hooks/useRefresh';
-import useGetIncomeDebts from '../../services/Incomes/useGetIcomeDebts';
 import EmptyState from '../../components/common/EmptyState';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 import { useTranslation } from 'react-i18next';
+import useGetAllDebts from '../../services/Debts/useGetAllDebts';
 
 const { background, mainColor } = customStyles;
 
 const IncomeDebt = () => {
   const { t } = useTranslation();
   const { navigate } = useNavigation<any>();
-  const { data: income, isLoading, refetch } = useGetIncomeDebts();
+  const { data: debts, isLoading, refetch } = useGetAllDebts();
+  const { refreshing, handleRefresh } = useRefresh(refetch);
+
   const total = useCallback(() => {
     let total = 0;
-    income?.map(debt => (total += debt.totalToPay));
+    debts?.incomes?.map(debt => (total += debt.totalToPay));
     return total;
-  }, [income]);
-  const { refreshing, handleRefresh } = useRefresh(refetch);
+  }, [debts]);
 
   return (
     <View
@@ -41,28 +42,28 @@ const IncomeDebt = () => {
           }}
         >
           <FlatList
-            data={income}
+            data={debts?.incomes}
             showsVerticalScrollIndicator={false}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={[mainColor]} />}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.contactId}
             renderItem={({ item }) => (
               <DebtContactCard
                 type='client'
                 onPress={() =>
                   navigate('DebtorScreen', {
-                    incomeId: item.id,
-                    name: item.clientName,
+                    incomeId: item.contactId,
+                    name: item.contactName,
                   })
                 }
-                name={item.clientName}
-                date={item.startingDate}
-                sales={item.sales}
+                name={item.contactName}
+                date={item.initialDate}
+                sales={item.amountDebts}
                 totalPrice={item.totalToPay}
               />
             )}
             ListEmptyComponent={<EmptyState title={t('debt_stack.income_debt.empty_debts')} />}
           />
-          <SummaryDebt type='income' amount={total()} stakeholders={income?.length || 0} />
+          <SummaryDebt type='income' amount={total()} stakeholders={debts?.incomes?.length || 0} />
         </View>
       )}
     </View>
