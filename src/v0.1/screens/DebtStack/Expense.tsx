@@ -4,24 +4,25 @@ import customStyles from '../../styles/customStyles';
 import DebtContactCard from '../../components/common/DebtContactCard';
 import { useNavigation } from '@react-navigation/native';
 import useRefresh from '../../hooks/useRefresh';
-import useGetExpenseDebts from '../../services/Expenses/useGetExpenseDebt';
 import { useCallback } from 'react';
 import EmptyState from '../../components/common/EmptyState';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 import { useTranslation } from 'react-i18next';
+import useGetAllDebts from '../../services/Debts/useGetAllDebts';
 
 const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
   const { t } = useTranslation();
   const { push } = useNavigation<any>();
-  const { data: expenses, isLoading, refetch } = useGetExpenseDebts();
+  const { data: debts, isLoading, refetch } = useGetAllDebts();
+  const { refreshing, handleRefresh } = useRefresh(refetch);
+
   const total = useCallback(() => {
     let total = 0;
-    expenses?.map(debt => (total += debt.totalToPay));
+    debts?.expenses?.map(debt => (total += debt.totalToPay));
     return total;
-  }, [expenses]);
-  const { refreshing, handleRefresh } = useRefresh(refetch);
+  }, [debts]);
 
   return (
     <View
@@ -41,28 +42,28 @@ const ExpenseDebt = () => {
           }}
         >
           <FlatList
-            data={expenses}
+            data={debts?.expenses}
             showsVerticalScrollIndicator={false}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={[mainColor]} />}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.contactId}
             renderItem={({ item }) => (
               <DebtContactCard
                 type='provider'
                 onPress={() =>
                   push('DebtorScreen', {
-                    expenseId: item.id,
-                    name: item.providerName,
+                    expenseId: item.contactId,
+                    name: item.contactName,
                   })
                 }
-                name={item.providerName}
-                date={item.startingDate}
-                sales={item.sales}
+                name={item.contactName}
+                date={item.initialDate}
+                sales={item.amountDebts}
                 totalPrice={item.totalToPay}
               />
             )}
             ListEmptyComponent={<EmptyState title={t('debt_stack.expense_debt.empty_debts')} />}
           />
-          <SummaryDebt type='expense' amount={total()} stakeholders={expenses?.length || 0} />
+          <SummaryDebt type='expense' amount={total()} stakeholders={debts?.expenses?.length || 0} />
         </View>
       )}
     </View>

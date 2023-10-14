@@ -17,6 +17,7 @@ import useGetBalance from '../services/Balance/useGetBalance';
 import useGetAccount from '../services/Account/useGetAccount';
 import useGetAllContacts from '../services/Contacts/useGetAllContacts';
 import { useTranslation } from 'react-i18next';
+import useGetAllDebts from '../services/Debts/useGetAllDebts';
 
 const { mainColor, mistyBlue } = customStyles;
 
@@ -30,9 +31,15 @@ const HomeTabs = () => {
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingContacts = useGetAllContacts().isLoading;
+  const isFetchingDebts = useGetAllDebts().isLoading;
 
   const isLoading =
-    isFetchingTransactions || isFetchingGetMonthlyState || isFetchingBalance || isFetchingAccount || isFetchingContacts;
+    isFetchingTransactions ||
+    isFetchingGetMonthlyState ||
+    isFetchingBalance ||
+    isFetchingAccount ||
+    isFetchingContacts ||
+    isFetchingDebts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
   }

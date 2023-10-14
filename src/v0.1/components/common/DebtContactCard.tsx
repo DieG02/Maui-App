@@ -22,7 +22,6 @@ interface Props {
 const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, name }: Props) => {
   const { t, i18n } = useTranslation();
   moment.locale(i18n.language);
-  const formattedDate = moment(date).format(`D [${t('debt_stack.debt_screen.summary_text.of')}] MMMM`);
 
   const renderTypeContact = () => {
     switch (type) {
@@ -119,7 +118,7 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
       <View style={styles.row}>
         <View style={{ alignItems: 'flex-end' }}>
           {renderTypePrice()}
-          <Text style={styles.descriptionType}>{formattedDate}</Text>
+          <Text style={styles.descriptionType}>{date}</Text>
         </View>
         <Right name='chevron-small-right' color={textBlack} size={30} />
       </View>
