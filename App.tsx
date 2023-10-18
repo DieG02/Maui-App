@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
-import { setNavigatorRef } from './src/v0.1/clientProvider/axiosConfig';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClientProvider } from 'react-query';
 import { getLocales } from 'react-native-localize';
@@ -47,8 +46,7 @@ import IndividualPayment from './src/v0.1/screens/DebtStack/IndividualPayment';
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
 
-const Stack = createNativeStackNavigator();
-let navigator: NavigationContainerRef<RootStackParamList>;
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const defaultLenguage = getLocales()[0].languageCode;
 
@@ -70,7 +68,7 @@ const App = () => {
       <AuthProvider>
         <GeneralProvider>
           <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
-          <NavigationContainer ref={ref => setNavigatorRef(ref as NavigationContainerRef<RootStackParamList>)}>
+          <NavigationContainer>
             <Stack.Navigator
               screenOptions={{
                 headerShown: false,

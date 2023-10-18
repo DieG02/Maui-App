@@ -1,13 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { API_URL } from '@env';
 import { getUserAuthenticationHeader } from '../requests';
-import { NavigationContainerRef } from '@react-navigation/native';
-
-let navigator: NavigationContainerRef<RootStackParamList>;
-
-export const setNavigatorRef = (ref: NavigationContainerRef<RootStackParamList>) => {
-  navigator = ref;
-};
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 console.log('URL', API_URL);
 
@@ -28,7 +22,7 @@ instance.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
-      navigator?.navigate('Login');
+      await AsyncStorage.removeItem('userInfo');
     }
 
     return Promise.reject(error);
