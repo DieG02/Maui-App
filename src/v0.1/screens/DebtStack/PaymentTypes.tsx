@@ -1,37 +1,40 @@
-import { View, FlatList } from "react-native";
-import customStyles from "../../styles/customStyles";
-import DebtsCard from "../../components/Library/DebtsCard/DebtsCard";
-import { useNavigation } from "@react-navigation/native";
+import { View, FlatList } from 'react-native';
+import customStyles from '../../styles/customStyles';
+import DebtsCard from '../../components/Library/DebtsCard/DebtsCard';
+import { useNavigation } from '@react-navigation/native';
 
 const { background } = customStyles;
 
 interface Props {
-    paidData?: Payments[];
+  paidData?: any[];
 }
 
 const PaymentTypes = ({ paidData }: Props) => {
-    const navigation = useNavigation<any>();
+  const navigation = useNavigation<any>();
 
-    return (
-        <View style={{
-            flex: 1,
-            backgroundColor: background,
-            paddingVertical: 20,
-            alignItems: "flex-end"
-        }}>
-            <FlatList
-                showsVerticalScrollIndicator={false}
-                data={paidData}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) =>
-                    <DebtsCard
-                        data={item}
-                        type="payment"
-                        onPress={() => navigation.navigate("DebtDetail", { item, type: 'payment' })}
-                    />
-                } />
-        </View>
-    )
-}
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: background,
+        paddingVertical: 20,
+        alignItems: 'flex-end',
+      }}
+    >
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={paidData}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <DebtsCard
+            data={item}
+            type='payment'
+            onPress={() => navigation.navigate('DebtDetail', { item, type: 'payment' })}
+          />
+        )}
+      />
+    </View>
+  );
+};
 
 export default PaymentTypes;

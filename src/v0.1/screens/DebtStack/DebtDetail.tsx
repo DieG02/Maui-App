@@ -74,7 +74,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
           >
             {params?.type === 'debt'
               ? params?.item.name
-              : `${t('debt_stack.debt_detail.deposite_date')} ${parseDDMMYY(params?.item.paidAt)}`}
+              : `${t('debt_stack.debt_detail.deposit_date')} ${parseDDMMYY(params?.item.paidAt)}`}
           </Text>
         </View>
 

@@ -13,9 +13,11 @@ import useGetAllDebts from '../../services/Debts/useGetAllDebts';
 const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
-  const { t } = useTranslation();
   const { push } = useNavigation<any>();
+  const { t } = useTranslation();
+
   const { data: debts, isLoading, refetch } = useGetAllDebts();
+
   const { refreshing, handleRefresh } = useRefresh(refetch);
 
   const total = useCallback(() => {
@@ -51,7 +53,7 @@ const ExpenseDebt = () => {
                 type='provider'
                 onPress={() =>
                   push('DebtorScreen', {
-                    expenseId: item.contactId,
+                    contactId: item.contactId,
                     name: item.contactName,
                   })
                 }

@@ -171,7 +171,7 @@
     },
     "debt_detail": {
       "title": "Detalles de Operación",
-      "deposite_date": "Abono del",
+      "deposit_date": "Abono del",
       "operation_date": "Fecha de operación",
       "payment_method": "Método de Pago",
       "total": "Total",

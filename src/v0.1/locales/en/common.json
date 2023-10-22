@@ -171,7 +171,7 @@
     },
     "debt_detail": {
       "title": "Operation Detail",
-      "deposite_date": "Credit deposit of",
+      "deposit_date": "Credit deposit of",
       "operation_date": "Operation date",
       "payment_method": "Payment Method",
       "total": "Total",

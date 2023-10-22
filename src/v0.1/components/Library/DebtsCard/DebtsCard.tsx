@@ -38,16 +38,18 @@ const DebtsCard = ({ onPress, data, type }: Props) => {
         </View>
         <View style={styles('left').textContainer}>
           <Text style={styles('', textBlack).titleCard} numberOfLines={1}>
-            {type === 'debt' ? data.name : `${t('debt_stack.debt_detail.deposite_date')} ${parseDDMMYY(data.paidAt)}`}
+            {type === 'debt'
+              ? data.description
+              : `${t('debt_stack.debt_detail.deposit_date')} ${parseDDMMYY(data.createdAt)}`}
           </Text>
-          <Text style={styles().textSubtitle}>{parseDDMMYY(data.paidAt)}</Text>
+          <Text style={styles().textSubtitle}>{parseDDMMYY(data.createdAt)}</Text>
         </View>
       </View>
       <View style={styles().rightContainer}>
         <View style={styles().textContainer}>
           {type === 'debt' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
-              {data.value.toLocaleString('es-AR', {
+              {data.total_amount.toLocaleString('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
               })}
@@ -55,15 +57,15 @@ const DebtsCard = ({ onPress, data, type }: Props) => {
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
               -
-              {data.amount.toLocaleString('es-AR', {
+              {data.total_amount.toLocaleString('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
               })}
             </Text>
           )}
           <Text style={styles().textSubtitle}>
-            {data.paymentMethod
-              ? capitalLetter(t(`${KEY_PATH}.${data.paymentMethod.toLowerCase()}`))
+            {data.payment_method !== 'NONE'
+              ? capitalLetter(t(`${KEY_PATH}.${data.payment_method.toLowerCase()}`))
               : t('balance_stack.state_options.debt')}
           </Text>
         </View>
