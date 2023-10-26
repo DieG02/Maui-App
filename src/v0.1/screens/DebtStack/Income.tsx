@@ -52,7 +52,6 @@ const IncomeDebt = () => {
                 onPress={() =>
                   navigate('DebtorScreen', {
                     contactId: item.contactId,
-                    name: item.contactName,
                   })
                 }
                 name={item.contactName}

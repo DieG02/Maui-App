@@ -7,11 +7,11 @@ const { background } = customStyles;
 
 interface Props {
   data?: any[];
+  type: 'debt' | 'payment';
 }
 
-const DebtTypes = ({ data }: Props) => {
+const DebtTypes = ({ data, type }: Props) => {
   const navigation = useNavigation<any>();
-
   return (
     <View
       style={{
@@ -25,13 +25,21 @@ const DebtTypes = ({ data }: Props) => {
         data={data}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <DebtsCard
-            data={item.transaction[0]}
-            type='debt'
-            onPress={() => navigation.navigate('DebtDetail', { item: item.transaction[0].id, type: 'debt' })}
-          />
-        )}
+        renderItem={({ item }) =>
+          type === 'debt' ? (
+            <DebtsCard
+              data={item?.transaction[0]}
+              type={type}
+              onPress={() => navigation.navigate('DebtDetail', { id: item?.transaction[0].id, type: type })}
+            />
+          ) : (
+            <DebtsCard
+              data={item}
+              type={type}
+              onPress={() => navigation.navigate('DebtDetail', { id: item?.id, type: type })}
+            />
+          )
+        }
       />
     </View>
   );

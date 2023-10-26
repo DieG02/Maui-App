@@ -5,19 +5,15 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import customStyles from '../../styles/customStyles';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import DebtTypes from './DebtTypes';
-import RepayModal from '../../components/common/Modals/RepayModal';
 import DebtPaidDetail from './DebtPaidDetail';
-import PaymentTypes from './PaymentTypes';
-import CustomModal from '../../components/common/Modals/CustomModal';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
-import Button from '../../components/common/Button';
 import { useTranslation } from 'react-i18next';
 import useGetDebtById from '../../services/Debts/useGetDebtsById';
 import { useMemo } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-const { mainColor, secondaryColor, white, background2 } = customStyles;
+const { mainColor, secondaryColor, white } = customStyles;
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
@@ -39,15 +35,15 @@ const DebtorProfile = ({ navigation, route }: Props) => {
     return totalDebt - totalToPay;
   }, [totalDebt, totalToPay]);
 
-  const DebtComponent = () => <DebtTypes data={debtor?.debts} />;
+  const DebtComponent = () => <DebtTypes data={debtor?.debts} type='debt' />;
 
-  const PayComponent = () => <PaymentTypes paidData={[]} />;
+  const PayComponent = () => <DebtTypes data={debtor?.payments} type='payment' />;
 
   if (isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle label={params?.name} onPressBack={navigation.goBack} />
+      <BackHeaderTitle label={debtor?.profile.name as string} onPressBack={navigation.goBack} />
       <View
         style={{
           flex: 1,
@@ -83,7 +79,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
           <Tab.Screen name={t('debt_stack.debtor_profile.debt')} component={DebtComponent} />
           <Tab.Screen name={t('debt_stack.debtor_profile.credited')} component={PayComponent} />
         </Tab.Navigator>
-        {totalToPay === 0 ? (
+        {/* {totalToPay === 0 ? (
           <Button
             text={t('debt_stack.debtor_profile.to_credit')}
             disabled
@@ -98,7 +94,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
               type={debtor?.debts[0].type === 'DEBIT' ? 'DEBIT' : 'CREDIT'}
             />
           </CustomModal>
-        )}
+        )} */}
       </View>
     </ScreenContainer>
   );

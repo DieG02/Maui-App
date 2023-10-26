@@ -170,12 +170,14 @@
       "to_be_credit": "Por abonar"
     },
     "debt_detail": {
-      "title": "Detalhes da Operação",
+      "title": "Detalhe",
       "deposit_date": "Abono do",
-      "operation_date": "Data da operação",
+      "date": "Data",
       "payment_method": "Forma de Pagamento",
       "total": "Total",
-      "edit": "Editar"
+      "operation_type": "Tipo de operação",
+      "expense_category": "Categoria de despesa",
+      "to_pay": "Abonar"
     },
     "edit_debt": {
       "title": "Editar Dívida",
