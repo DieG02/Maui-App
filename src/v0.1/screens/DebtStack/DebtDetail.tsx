@@ -41,8 +41,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
     refetchOnWindowFocus: false,
   });
 
-  const handleOnPress = () =>
-    navigation.navigate('IndividualPayment', { navigation, debtId: data.debtId, type: data.type });
+  const handleOnPress = () => navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type });
 
   if (isLoading) return <LoadingComponent color={mainColor} />;
 
