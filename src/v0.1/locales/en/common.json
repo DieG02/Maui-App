@@ -170,12 +170,14 @@
       "to_be_credit": "To be credited"
     },
     "debt_detail": {
-      "title": "Operation Detail",
-      "deposite_date": "Credit deposit of",
-      "operation_date": "Operation date",
+      "title": "Detail",
+      "deposit_date": "Credit deposit of",
+      "date": "Date",
       "payment_method": "Payment Method",
       "total": "Total",
-      "edit": "Edit"
+      "operation_type": "Operation Type",
+      "expense_category": "Expense Category",
+      "to_pay": "To Pay"
     },
     "edit_debt": {
       "title": "Edit Debt",

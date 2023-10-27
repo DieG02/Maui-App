@@ -72,7 +72,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
             fontSize: 16,
           }}
         >
-          {t('debt_stack.debtor_profile.to_be_credit')}
+          {t('debt_stack.debtor_profile.credited')}
         </Text>
         <Text
           style={{
@@ -92,7 +92,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
           >
             ${amountToPay}
           </Text>{' '}
-          {t('debt_stack.debt_screen.summary_text.of')} ${totalAmount}
+          / ${totalAmount}
         </Text>
       </View>
       <View style={styles.progressBarBase}>

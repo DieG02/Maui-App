@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   amount: string;
   id: string;
-  type: 'income' | 'expense';
+  type: 'CREDIT' | 'DEBIT';
 }
 
 const { mainColor, income, white } = customStyles;
@@ -51,7 +51,7 @@ const RepayModal = ({ amount, id, type }: Props) => {
         paidAt: values.paidAt,
         amount: parseFloat((values.amount as string).replace(/\./g, '').replace(',', '.')),
       };
-      type === 'income' ? mutate(valueToMutate) : expMutate(valueToMutate);
+      type === 'CREDIT' ? mutate(valueToMutate) : expMutate(valueToMutate);
     }
   };
   return (

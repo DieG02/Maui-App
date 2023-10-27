@@ -51,8 +51,7 @@ const IncomeDebt = () => {
                 type='client'
                 onPress={() =>
                   navigate('DebtorScreen', {
-                    incomeId: item.contactId,
-                    name: item.contactName,
+                    contactId: item.contactId,
                   })
                 }
                 name={item.contactName}

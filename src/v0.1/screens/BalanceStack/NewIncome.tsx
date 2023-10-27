@@ -85,6 +85,8 @@ const NewIncome = ({ navigation, route }: Props) => {
     ToastAndroid.showWithGravity(t('balance_stack.new_income.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
+  const InvalidateQuery = values.isPaid ? 'Transactions' : 'Debts';
+
   const { mutateAsync, isLoading } = useCreateTransaction(
     {
       status: values.isPaid ? 'APPROVED' : 'DEBT',
@@ -92,13 +94,13 @@ const NewIncome = ({ navigation, route }: Props) => {
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       description: values.name !== '' ? values.name : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
       date: values.date,
-      payment_method: handlePayment(values.paymentMethod),
+      payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
       categoryId: getCategoryId('Venta', transactionCategories),
       contactId: route.params?.contact?.id,
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('Transactions');
+        queryClient.invalidateQueries(InvalidateQuery);
         navigation.goBack();
         showToast();
       },
