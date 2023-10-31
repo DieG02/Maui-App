@@ -101,6 +101,8 @@ const NewIncome = ({ navigation, route }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(InvalidateQuery);
+        queryClient.invalidateQueries('Balance');
+        queryClient.invalidateQueries('Monthly_Stats');
         navigation.goBack();
         showToast();
       },

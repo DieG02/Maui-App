@@ -46,6 +46,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
   const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contactId, contact), {
     onSuccess: () => {
       queryClient.invalidateQueries(['Contact', params?.contactId]);
+      queryClient.invalidateQueries('Contacts');
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.edit_contact'));
     },

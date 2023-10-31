@@ -64,7 +64,13 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries('Debts');
         queryClient.invalidateQueries('Debt');
-        navigation.goBack();
+        queryClient.invalidateQueries('Transactions');
+        queryClient.invalidateQueries('Balance');
+        queryClient.invalidateQueries('Monthly_Stats');
+        navigation.navigate('DebtorScreen', {
+          contactId: params?.contact,
+        });
+
         showToast();
       },
     }
