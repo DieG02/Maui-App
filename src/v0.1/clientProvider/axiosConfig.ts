@@ -1,7 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+//@ts-ignore
 import { API_URL } from '@env';
 import { getUserAuthenticationHeader } from '../requests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { queryClient } from '../utils/queryClient';
+import { VERIFY_TOKEN } from '../services/Account/useVerifyToken';
 
 console.log('URL', API_URL);
 
@@ -23,6 +26,7 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
       await AsyncStorage.removeItem('userInfo');
+      queryClient.invalidateQueries(VERIFY_TOKEN);
     }
 
     return Promise.reject(error);
