@@ -41,7 +41,8 @@ const DebtDetail = ({ route, navigation }: Props) => {
     refetchOnWindowFocus: false,
   });
 
-  const handleOnPress = () => navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type });
+  const handleOnPress = () =>
+    navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type, contact: data.contact.id });
 
   if (isLoading) return <LoadingComponent color={mainColor} />;
 
@@ -96,10 +97,14 @@ const DebtDetail = ({ route, navigation }: Props) => {
           </Text>
         </View>
         <RowTransaction label={t('debt_stack.debt_detail.date')} value={parseDDMMYY(data.date)} />
-        <RowTransaction
-          label={t('debt_stack.debt_detail.payment_method')}
-          value={params?.type === 'debt' ? t('balance_stack.state_options.debt') : data.payment_method}
-        />
+
+        {data.payment_method !== 'NONE' && (
+          <RowTransaction
+            label={t('debt_stack.debt_detail.payment_method')}
+            value={params?.type === 'debt' ? t('balance_stack.state_options.debt') : data.payment_method}
+          />
+        )}
+
         <RowTransaction
           label={t('debt_stack.debt_detail.total')}
           value={
@@ -121,8 +126,11 @@ const DebtDetail = ({ route, navigation }: Props) => {
             )
           }
         />
+
         <RowTransaction label={t('debt_stack.debt_detail.operation_type')} value={data.type} />
-        <RowTransaction label={t('debt_stack.debt_detail.expense_category')} value={data?.category?.name} />
+        {data?.category?.name !== 'Venta' && (
+          <RowTransaction label={t('debt_stack.debt_detail.expense_category')} value={data?.category?.name} />
+        )}
       </ScrollContainer>
       {data.status === 'DEBT' && (
         <View
