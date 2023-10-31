@@ -56,7 +56,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     name: data.description,
     providerId: data.contactId ? data.contactId : null,
     providerName: data.contact ? data.contact.name : '',
-    categoryId: getCategoryName(data.categoryId, expenseCategories),
+    categoryId: data.category.name,
     isPaid: data.status === 'APPROVED',
     paymentMethod: handlePaymentName(data.payment_method),
     date: data.date,
@@ -116,7 +116,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
           options={expenseCategories ? expenseCategories : []}
           isModalVisible={modalExpenseCategory}
           setIsModalVisible={setModalExpenseCategory}
-          selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
+          selectedOption={t(handleTranslateCategory(values.categoryId, dictionary))}
           setSelectedOption={text => {
             setValues(prev => ({
               ...prev,
