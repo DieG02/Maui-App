@@ -19,6 +19,7 @@ import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 import OptionLanguage from '../../components/common/OptionLanguage';
 import { languageList } from '../../helpers/languageList';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 
 const { textBlack, marginHorizontal, babyBlue } = customStyles;
 
@@ -50,11 +51,8 @@ const More = ({ navigation }: Props) => {
 
   const handleLogout = async () => {
     setIsLoggedIn(false);
-    await AsyncStorage.clear();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
+    await AsyncStorage.removeItem('userInfo');
+    queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();
   };
 
