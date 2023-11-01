@@ -19,9 +19,7 @@ import Form from '../../components/Library/Form';
 import { queryClient } from '../../utils/queryClient';
 import Spacer from '../../components/common/Spacer';
 import { useTranslation } from 'react-i18next';
-import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
-import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
-import { getCategoryId } from '../../utils/getCategoryId';
+import usePayDebtById from '../../services/Debts/usePayDebtById';
 
 const { marginHorizontal, mainColor, background2, navyBlue } = customStyles;
 
@@ -42,6 +40,7 @@ const initialValues: InitialDebt = {
 const validateOption = ['value'];
 
 const IndividualPayment = ({ navigation, route }: Props) => {
+  const { params } = route;
   const { t } = useTranslation();
   const [modalPayment, setModalPayment] = useState(false);
 
@@ -49,28 +48,29 @@ const IndividualPayment = ({ navigation, route }: Props) => {
 
   const { handlePayment, paymentsOptions } = usePayment();
 
-  const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction');
-
   const showToast = () => {
     ToastAndroid.showWithGravity(t('debt_stack.payment_done'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
-  const { mutateAsync, isLoading } = useCreateTransaction(
+  const { mutateAsync, isLoading } = usePayDebtById(
     {
-      status: 'APPROVED',
-      type: 'CREDIT',
-      total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      description:
-        values.description !== '' ? values.description : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
-      date: values.date,
+      type: params?.type,
+      paymentAmount: Number(values.value),
+      paidAt: values.date,
       payment_method: handlePayment(values.paymentMethod),
-      categoryId: getCategoryId('Venta', transactionCategories),
-      contactId: route.params?.contact?.id,
+      debtId: params?.debtId,
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries('Debts');
+        queryClient.invalidateQueries('Debt');
         queryClient.invalidateQueries('Transactions');
-        navigation.goBack();
+        queryClient.invalidateQueries('Balance');
+        queryClient.invalidateQueries('Monthly_Stats');
+        navigation.navigate('DebtorScreen', {
+          contactId: params?.contact,
+        });
+
         showToast();
       },
     }

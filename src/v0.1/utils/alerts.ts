@@ -1,13 +1,13 @@
 import { Alert } from 'react-native';
 
 export const alertDelete = (text: string, fnConfirm: any) => {
-  Alert.alert('Eliminar', text, [
+  Alert.alert('Delete', text, [
     {
-      text: 'Cancelar',
+      text: 'Cancel',
       style: 'cancel',
     },
     {
-      text: 'Eliminar',
+      text: 'Delete',
       onPress: () => fnConfirm(),
     },
   ]);
@@ -16,7 +16,7 @@ export const alertDelete = (text: string, fnConfirm: any) => {
 export const commonAlert = (text: string) => {
   Alert.alert('Error', text, [
     {
-      text: 'Aceptar',
+      text: 'Accept',
       style: 'default',
     },
   ]);

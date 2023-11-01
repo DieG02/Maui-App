@@ -9,30 +9,51 @@ import ScrollContainer from '../../components/containers/ScrollContainer';
 import { parseDDMMYY } from '../../utils/helper';
 import Button from '../../components/common/Button';
 import { useTranslation } from 'react-i18next';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
+import { alertDelete } from '../../utils/alerts';
 
+const { secondaryColor, textBlack, marginHorizontal, mainColor, navyBlue, babyBlue } = customStyles;
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
 }
-const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } = customStyles;
 
 const DebtDetail = ({ route, navigation }: Props) => {
-  const { t } = useTranslation();
   const { params } = route;
+  const { t } = useTranslation();
 
-  const handleOnPress = () => {
-    navigation.navigate('EditDebt', { params });
+  const handleDelete = () => {
+    alertDelete(t('balance_stack.transaction_detail.alert_delete'), () => console.log('eliminado'));
   };
+
+  const options = [
+    {
+      label: 'Editar Transacción',
+      id: 1,
+      fn: () => console.log('Editado'),
+    },
+    { label: 'Eliminar Transacción', id: 2, fn: () => handleDelete() },
+  ];
+
+  const { data, isLoading } = useGetTransactionById(params?.id, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const handleOnPress = () =>
+    navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type, contact: data.contact.id });
+
+  if (isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
       <BackHeaderTitle
         label={t('debt_stack.debt_detail.title')}
         onPressBack={() => navigation.goBack()}
-        withDelete
-        onPressDelete={() => console.log('Borrar deuda')}
+        withOptions
+        options={options}
       />
-
       <ScrollContainer>
         <View
           style={{
@@ -54,9 +75,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
           >
             <Image
               source={{
-                uri: params?.item?.imageUrl
-                  ? params?.item?.imageUrl
-                  : 'https://cdn-icons-png.flaticon.com/512/1255/1255986.png?w=1380&t=st=1654300895~exp=1654301495~hmac=45b46434561dc28bf1924a2c7388c4835ac5f91b59a7ce3f624f943d80d7e98c',
+                uri: data.category?.image,
               }}
               style={{
                 width: 40,
@@ -72,23 +91,26 @@ const DebtDetail = ({ route, navigation }: Props) => {
             }}
             numberOfLines={1}
           >
-            {params?.type === 'debt'
-              ? params?.item.name
-              : `${t('debt_stack.debt_detail.deposite_date')} ${parseDDMMYY(params?.item.paidAt)}`}
+            {data?.description
+              ? data.description
+              : `${t('debt_stack.debt_detail.deposit_date')} ${parseDDMMYY(data.date)}`}
           </Text>
         </View>
+        <RowTransaction label={t('debt_stack.debt_detail.date')} value={parseDDMMYY(data.date)} />
 
-        <RowTransaction label={t('debt_stack.debt_detail.operation_date')} value={parseDDMMYY(params?.item.paidAt)} />
-        <RowTransaction
-          label={t('debt_stack.debt_detail.payment_method')}
-          value={params?.type === 'debt' ? t('balance_stack.state_options.debt') : params?.item.paymentMethod}
-        />
+        {data.payment_method !== 'NONE' && (
+          <RowTransaction
+            label={t('debt_stack.debt_detail.payment_method')}
+            value={params?.type === 'debt' ? t('balance_stack.state_options.debt') : data.payment_method}
+          />
+        )}
+
         <RowTransaction
           label={t('debt_stack.debt_detail.total')}
           value={
             params?.type === 'debt' ? (
               <Text numberOfLines={1}>
-                {params?.item.value.toLocaleString('es-AR', {
+                {data.total_amount?.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}
@@ -96,7 +118,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
             ) : (
               <Text numberOfLines={1}>
                 -
-                {params?.item.amount.toLocaleString('es-AR', {
+                {data?.total_amount.toLocaleString('es-AR', {
                   style: 'currency',
                   currency: 'ARS',
                 })}
@@ -104,24 +126,31 @@ const DebtDetail = ({ route, navigation }: Props) => {
             )
           }
         />
+
+        <RowTransaction label={t('debt_stack.debt_detail.operation_type')} value={data.type} />
+        {data?.category?.name !== 'Venta' && (
+          <RowTransaction label={t('debt_stack.debt_detail.expense_category')} value={data?.category?.name} />
+        )}
       </ScrollContainer>
-      <View
-        style={{
-          justifyContent: 'center',
-          marginHorizontal: marginHorizontal,
-          marginBottom: 40,
-        }}
-      >
-        <Button
-          text={t('debt_stack.debt_detail.edit')}
-          color={mainColor}
+      {data.status === 'DEBT' && (
+        <View
           style={{
-            backgroundColor: babyBlue,
-            marginTop: 10,
+            justifyContent: 'center',
+            marginHorizontal: marginHorizontal,
+            marginBottom: 40,
           }}
-          onPress={handleOnPress}
-        />
-      </View>
+        >
+          <Button
+            text={t('debt_stack.debt_detail.to_pay')}
+            color={navyBlue}
+            style={{
+              backgroundColor: babyBlue,
+              marginTop: 10,
+            }}
+            onPress={handleOnPress}
+          />
+        </View>
+      )}
     </ScreenContainer>
   );
 };

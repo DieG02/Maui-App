@@ -13,9 +13,11 @@ import useGetAllDebts from '../../services/Debts/useGetAllDebts';
 const { background, mainColor } = customStyles;
 
 const ExpenseDebt = () => {
+  const { navigate } = useNavigation<any>();
   const { t } = useTranslation();
-  const { push } = useNavigation<any>();
+
   const { data: debts, isLoading, refetch } = useGetAllDebts();
+
   const { refreshing, handleRefresh } = useRefresh(refetch);
 
   const total = useCallback(() => {
@@ -50,9 +52,8 @@ const ExpenseDebt = () => {
               <DebtContactCard
                 type='provider'
                 onPress={() =>
-                  push('DebtorScreen', {
-                    expenseId: item.contactId,
-                    name: item.contactName,
+                  navigate('DebtorScreen', {
+                    contactId: item.contactId,
                   })
                 }
                 name={item.contactName}
