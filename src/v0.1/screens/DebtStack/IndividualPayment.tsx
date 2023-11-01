@@ -20,6 +20,7 @@ import { queryClient } from '../../utils/queryClient';
 import Spacer from '../../components/common/Spacer';
 import { useTranslation } from 'react-i18next';
 import usePayDebtById from '../../services/Debts/usePayDebtById';
+import useGetDebtById from '../../services/Debts/useGetDebtsById';
 
 const { marginHorizontal, mainColor, background2, navyBlue } = customStyles;
 
@@ -52,6 +53,9 @@ const IndividualPayment = ({ navigation, route }: Props) => {
     ToastAndroid.showWithGravity(t('debt_stack.payment_done'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
+  const { data: debtor, isLoading: loading } = useGetDebtById(params?.contact);
+
+  const equalToDebt = Number(values.value) === debtor.status.totalDebt;
   const { mutateAsync, isLoading } = usePayDebtById(
     {
       type: params?.type,
@@ -59,18 +63,23 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       paidAt: values.date,
       payment_method: handlePayment(values.paymentMethod),
       debtId: params?.debtId,
+      description:
+        values.description !== '' ? values.description : `${t('balance_stack.payment')} ${moment.parseZone().unix()}`,
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('Debts');
-        queryClient.invalidateQueries('Debt');
+        queryClient.invalidateQueries('Debt', params?.contact);
         queryClient.invalidateQueries('Transactions');
         queryClient.invalidateQueries('Balance');
         queryClient.invalidateQueries('Monthly_Stats');
-        navigation.navigate('DebtorScreen', {
-          contactId: params?.contact,
-        });
-
+        if (equalToDebt) {
+          navigation.navigate('HomeTabs', { screen: 'Debts' });
+        } else {
+          navigation.navigate('DebtorScreen', {
+            contactId: params?.contact,
+          });
+        }
         showToast();
       },
     }
@@ -80,7 +89,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
     mutateAsync();
   };
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return <LoadingComponent color={mainColor} />;
   }
 

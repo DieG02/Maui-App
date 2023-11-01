@@ -115,7 +115,8 @@
       "yesterday": "Yesterday",
       "choose_date": "Choose date"
     },
-    "sale": "Sale",
+    "sale": "Income",
+    "payment": "Payment",
     "expense": "Expense",
     "transaction_detail": {
       "toast_transaction_delete": "The transaction was successfully deleted",

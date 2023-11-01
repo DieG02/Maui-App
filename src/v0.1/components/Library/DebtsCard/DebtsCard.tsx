@@ -33,9 +33,7 @@ const DebtsCard = ({ onPress, data, type, actualAmount }: Props) => {
         </View>
         <View style={styles('left').textContainer}>
           <Text style={styles('', textBlack).titleCard} numberOfLines={1}>
-            {type === 'debt'
-              ? data.description
-              : `${t('debt_stack.debt_detail.deposit_date')} ${parseDDMMYY(data.createdAt)}`}
+            {data.description}
           </Text>
           <Text style={styles().textSubtitle}>{parseDDMMYY(data.createdAt)}</Text>
         </View>
