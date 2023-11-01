@@ -27,6 +27,7 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       await AsyncStorage.removeItem('userInfo');
       queryClient.invalidateQueries(VERIFY_TOKEN);
+      return { data: null };
     }
 
     return Promise.reject(error);
