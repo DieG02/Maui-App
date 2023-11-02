@@ -18,6 +18,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLanguage';
 import { languageList } from '../../helpers/languageList';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import { queryClient } from '../../utils/queryClient';
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -54,18 +56,22 @@ export default function SignUpScreen({ navigation }: Props) {
   const { setValues, validateValues, values } = useForm<SignUpUser>(initialValues);
 
   const { mutateAsync } = useMutation(signUp, {
-    onSuccess() {
-      signIn({ email: values.email, password: values.password }).then(data => {
+    onSuccess: async () => {
+      try {
+        const data = await signIn({ email: values.email, password: values.password });
         const value = {
           ...data,
           locale: i18n.language,
         };
-        AsyncStorage.setItem('userInfo', JSON.stringify(value));
+        await AsyncStorage.setItem('userInfo', JSON.stringify(value));
         setIsLoggedIn(true);
-        navigation.dispatch(StackActions.replace('HomeTabs'));
-      });
+        queryClient.invalidateQueries(VERIFY_TOKEN);
+      } catch (error) {
+        console.error('Error al iniciar sesión después de registrarse', error);
+      }
     },
   });
+
   const countrySelected = useMemo(() => {
     return countries.filter(item => item.id === country)[0];
   }, [country]);
