@@ -115,7 +115,8 @@
       "yesterday": "Ayer",
       "choose_date": "Elegir Fecha"
     },
-    "sale": "Venta",
+    "sale": "Ingreso",
+    "payment": "Abono",
     "expense": "Gasto",
     "transaction_detail": {
       "toast_transaction_delete": "La transacción fue eliminada satisfactoriamente",

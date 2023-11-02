@@ -42,11 +42,15 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
   };
 
-  const { mutateAsync: deleteTransaction } = useDeleteTransaction(params?.transactionId, {
+  const { mutateAsync: deleteTransaction, isLoading } = useDeleteTransaction(params?.transactionId, {
     onSuccess() {
       navigation.goBack();
       showToast();
       queryClient.invalidateQueries('Transactions');
+      queryClient.invalidateQueries('Balance');
+      queryClient.invalidateQueries('Monthly_Stats');
+      queryClient.invalidateQueries('Debts');
+      queryClient.invalidateQueries('Debt');
     },
   });
 
@@ -60,7 +64,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       : navigation.navigate('EditIncome', { income: transaction });
   };
 
-  if (isFetchingTransaction) return <LoadingComponent color={mainColor} />;
+  if (isFetchingTransaction || isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
@@ -132,10 +136,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.transaction_type')}
-          value={transaction.category.name === 'Venta' ? t('balance_stack.sale') : t('balance_stack.expense')}
+          value={transaction.type === 'CREDIT' ? t('balance_stack.sale') : t('balance_stack.expense')}
         />
 
-        {transaction.category.name !== 'Venta' && (
+        {transaction.category.group !== 'PAYMENT' && transaction.category.name !== 'Venta' && (
           <RowTransaction
             label={t('balance_stack.transaction_detail.expense_category')}
             value={handleTranslateCategory(transaction.category.name, dictionary)}
@@ -151,23 +155,25 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           />
         )}
       </ScrollContainer>
-      <View
-        style={{
-          justifyContent: 'center',
-          marginHorizontal: marginHorizontal,
-          marginBottom: 40,
-        }}
-      >
-        <Button
-          text={t('balance_stack.transaction_detail.edit')}
-          color={mainColor}
+      {transaction.category.group !== 'PAYMENT' && (
+        <View
           style={{
-            backgroundColor: babyBlue,
-            marginTop: 10,
+            justifyContent: 'center',
+            marginHorizontal: marginHorizontal,
+            marginBottom: 40,
           }}
-          onPress={handleOnPress}
-        />
-      </View>
+        >
+          <Button
+            text={t('balance_stack.transaction_detail.edit')}
+            color={mainColor}
+            style={{
+              backgroundColor: babyBlue,
+              marginTop: 10,
+            }}
+            onPress={handleOnPress}
+          />
+        </View>
+      )}
     </ScreenContainer>
   );
 };

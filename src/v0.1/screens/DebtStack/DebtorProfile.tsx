@@ -25,8 +25,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
   const contactId = params?.contactId;
 
   const { data: debtor, isLoading } = useGetDebtById(contactId, {
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 
   const totalToPay = debtor?.status.totalToPay as number;
