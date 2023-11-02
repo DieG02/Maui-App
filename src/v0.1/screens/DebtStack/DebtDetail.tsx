@@ -149,6 +149,24 @@ const DebtDetail = ({ route, navigation }: Props) => {
         {data?.category?.name !== 'Venta' && (
           <RowTransaction label={t('debt_stack.debt_detail.expense_category')} value={data?.category?.name} />
         )}
+
+        <RowTransaction
+          label={'A pagar'}
+          value={
+            <Text
+              numberOfLines={1}
+              style={{
+                textDecorationLine: 'underline',
+                color: mainColor,
+              }}
+            >
+              {params?.actualAmount?.toLocaleString('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+              })}
+            </Text>
+          }
+        />
       </ScrollContainer>
       {data.status === 'DEBT' && (
         <View

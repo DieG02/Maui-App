@@ -51,6 +51,7 @@ const DebtorProfile = ({ navigation, route }: Props) => {
       >
         <DebtPaidDetail amountPaid={totalPaid} amountToPay={totalToPay} totalAmount={totalDebt} />
         <Tab.Navigator
+          overScrollMode='never'
           style={{ backgroundColor: white }}
           screenOptions={{
             tabBarStyle: {

@@ -31,6 +31,8 @@ const InputForm = ({
   onSubmit,
   required,
 }: Props) => {
+  console.log('InputForm', value);
+
   return (
     <View style={{ marginBottom, marginTop }}>
       <Text
@@ -75,6 +77,7 @@ const InputForm = ({
           }}
           value={value}
           onChangeText={text => {
+            text = text.replace(/[^0-9,]/g, '');
             const [integer, decimal] = text.split(',');
             const formated = separator(integer) + (decimal !== undefined ? ',' + decimal : '');
             if (formated.length <= 20) setValue(formated);
