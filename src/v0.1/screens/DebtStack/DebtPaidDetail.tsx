@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   processBarLabel: {
-    paddingRight: 11,
+    paddingRight: 8,
     textAlign: 'right',
     fontSize: 11,
     fontWeight: 'bold',
@@ -47,7 +47,7 @@ const paidStyles = (paidValue: number) =>
   StyleSheet.create({
     progressBar: {
       backgroundColor: orange,
-      width: paidValue <= 13 ? '18%' : paidValue + '%',
+      width: paidValue <= 13 ? '12%' : paidValue + '%',
       position: 'absolute',
       borderRadius: 10,
       height: '100%',

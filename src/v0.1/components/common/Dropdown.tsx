@@ -45,7 +45,7 @@ function Dropdown({ options }: Props) {
               >
                 {options.map(({ label, id, fn }) => (
                   <TouchableOpacity style={{ paddingVertical: 10 }} key={id} onPress={() => handleOption(fn)}>
-                    <Text style={{ fontSize: 18, fontWeight: '500' }}>{label}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: '500', color: textBlack }}>{label}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
