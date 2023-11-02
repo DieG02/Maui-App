@@ -1,4 +1,4 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, ToastAndroid } from 'react-native';
 import React from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 import { alertDelete } from '../../utils/alerts';
+import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
+import { queryClient } from '../../utils/queryClient';
 
 const { secondaryColor, textBlack, marginHorizontal, mainColor, navyBlue, babyBlue } = customStyles;
 interface Props {
@@ -23,8 +25,29 @@ const DebtDetail = ({ route, navigation }: Props) => {
   const { params } = route;
   const { t } = useTranslation();
 
+  const { data, isLoading } = useGetTransactionById(params?.id, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const showToast = () => {
+    ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
+  };
+
+  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId, {
+    onSuccess() {
+      showToast();
+      queryClient.invalidateQueries('Transactions');
+      queryClient.invalidateQueries('Balance');
+      queryClient.invalidateQueries('Monthly_Stats');
+      queryClient.invalidateQueries('Debts');
+      queryClient.invalidateQueries('Debt');
+      navigation.navigate('HomeTabs', { screen: 'Debts' });
+    },
+  });
+
   const handleDelete = () => {
-    alertDelete(t('balance_stack.transaction_detail.alert_delete'), () => console.log('eliminado'));
+    alertDelete(t('balance_stack.transaction_detail.alert_delete'), deleteTransaction);
   };
 
   const options = [
@@ -36,23 +59,18 @@ const DebtDetail = ({ route, navigation }: Props) => {
     { label: 'Eliminar Transacción', id: 2, fn: () => handleDelete() },
   ];
 
-  const { data, isLoading } = useGetTransactionById(params?.id, {
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-  });
-
   const handleOnPress = () =>
     navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type, contact: data.contact.id });
 
-  if (isLoading) return <LoadingComponent color={mainColor} />;
+  if (isLoading || isDeleting) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
       <BackHeaderTitle
         label={t('debt_stack.debt_detail.title')}
         onPressBack={() => navigation.goBack()}
-        withOptions
-        options={options}
+        onPressDelete={handleDelete}
+        withDelete
       />
       <ScrollContainer>
         <View

@@ -25,20 +25,19 @@ const DebtorProfile = ({ navigation, route }: Props) => {
   const contactId = params?.contactId;
 
   const { data: debtor, isLoading } = useGetDebtById(contactId, {
+    refetchOnMount: true,
     refetchOnWindowFocus: true,
   });
 
+  if (isLoading) return <LoadingComponent color={mainColor} />;
+
   const totalToPay = debtor?.status.totalToPay as number;
   const totalDebt = debtor?.status.totalDebt as number;
-  const totalPaid = useMemo(() => {
-    return totalDebt - totalToPay;
-  }, [totalDebt, totalToPay]);
+  const totalPaid = totalDebt - totalToPay;
 
   const DebtComponent = () => <DebtTypes data={debtor?.debts} type='debt' />;
 
   const PayComponent = () => <DebtTypes data={debtor?.payments} type='payment' />;
-
-  if (isLoading) return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>

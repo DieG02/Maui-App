@@ -108,7 +108,7 @@ export const BackHeaderTitle = ({
           <Search name='trash-2' size={25} color={hasType ? white : textBlack} />
         </Icon>
       )}
-      {withOptions && <Dropdown options={options} />}
+      {/* {withOptions && <Dropdown options={options} />} */}
     </View>
   );
 };
