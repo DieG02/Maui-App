@@ -21,6 +21,7 @@ import Spacer from '../../components/common/Spacer';
 import { useTranslation } from 'react-i18next';
 import usePayDebtById from '../../services/Debts/usePayDebtById';
 import useGetDebtById from '../../services/Debts/useGetDebtsById';
+import { Alert } from 'react-native';
 
 const { marginHorizontal, mainColor, background2, navyBlue } = customStyles;
 
@@ -55,11 +56,12 @@ const IndividualPayment = ({ navigation, route }: Props) => {
 
   const { data: debtor, isLoading: loading } = useGetDebtById(params?.contact);
 
-  const equalToDebt = Number(values.value) === debtor.status.totalDebt;
+  const equalToDebt = Number(values.value) === debtor.status.totalToPay;
+
   const { mutateAsync, isLoading } = usePayDebtById(
     {
       type: params?.type,
-      paymentAmount: Number(values.value),
+      paymentAmount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       paidAt: values.date,
       payment_method: handlePayment(values.paymentMethod),
       debtId: params?.debtId,
@@ -81,6 +83,9 @@ const IndividualPayment = ({ navigation, route }: Props) => {
           });
         }
         showToast();
+      },
+      onError: () => {
+        Alert.alert('Error', 'No se pudo realizar el pago');
       },
     }
   );
