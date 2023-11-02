@@ -1,7 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 //@ts-ignore
 import { API_URL } from '@env';
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { getUserAuthenticationHeader } from '../requests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { queryClient } from '../utils/queryClient';
