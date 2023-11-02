@@ -1,0 +1,23 @@
+type RootStackParamList = {
+  // Splash: undefined;
+  SignUp: undefined;
+  Login: undefined;
+  HomeTabs: undefined;
+  NewIncome: undefined;
+  EditIncome: undefined;
+  NewExpense: undefined;
+  EditExpense: undefined;
+  DebtsModal: undefined;
+  TransactionDetail: undefined;
+  More: undefined;
+  UserData: undefined;
+  Clients: undefined;
+  Providers: undefined;
+  ContactDetail: undefined;
+  NewContact: undefined;
+  Debts: undefined;
+  DebtDetail: undefined;
+  EditDebt: undefined;
+  DebtorScreen: undefined;
+  IndividualPayment: undefined;
+};
