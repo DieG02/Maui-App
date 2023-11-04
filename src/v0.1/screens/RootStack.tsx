@@ -54,14 +54,7 @@ export default function RootStack() {
       ) : (
         <Stack.Group>
           <Stack.Screen name='HomeTabs' component={HomeTabs} />
-          <Stack.Screen
-            name='NewIncome'
-            component={NewIncome}
-            options={{
-              animation: 'fade_from_bottom',
-              animationTypeForReplace: 'push',
-            }}
-          />
+          <Stack.Screen name='NewIncome' component={NewIncome} />
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen
             name='NewExpense'
