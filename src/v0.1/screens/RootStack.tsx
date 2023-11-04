@@ -56,24 +56,10 @@ export default function RootStack() {
           <Stack.Screen name='HomeTabs' component={HomeTabs} />
           <Stack.Screen name='NewIncome' component={NewIncome} />
           <Stack.Screen name='EditIncome' component={EditIncome} />
-          <Stack.Screen
-            name='NewExpense'
-            component={NewExpense}
-            options={{
-              animation: 'fade_from_bottom',
-              animationTypeForReplace: 'push',
-            }}
-          />
+          <Stack.Screen name='NewExpense' component={NewExpense} />
           <Stack.Screen name='EditExpense' component={EditExpense} />
           <Stack.Screen name='DebtsModal' component={DebtsModal} />
-          <Stack.Screen
-            name='TransactionDetail'
-            component={TransactionDetail}
-            options={{
-              animation: 'fade_from_bottom',
-              animationTypeForReplace: 'push',
-            }}
-          />
+          <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
           <Stack.Screen name='More' component={MoreScreen} />
           <Stack.Screen name='UserData' component={UserDataScreen} />
           <Stack.Screen name='Clients' component={ClientsScreen} />
