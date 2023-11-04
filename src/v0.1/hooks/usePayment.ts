@@ -4,7 +4,7 @@ import { paymentMethods, STATE } from '../utils/payment';
 const usePayment = () => {
   const stateOptions = Object.values(STATE).map(state => t(state.label));
 
-  const paymentsOptions = Object.values(paymentMethods).map(payment => payment.es);
+  const paymentsOptions = Object.values(paymentMethods).map(state => t(state.label));
 
   const handleSelected = (value: boolean) => {
     const selected = Object.values(STATE).find(state => state.value === value)?.label || '';
@@ -17,12 +17,12 @@ const usePayment = () => {
   };
 
   const handlePayment = (value: string) => {
-    const selected = Object.values(paymentMethods).find(payment => payment.es === value)?.en as string;
-    return selected;
+    const selected = Object.values(paymentMethods).find(state => state.value === value)?.label || '';
+    return selected ? t(selected) : '';
   };
 
   const handlePaymentName = (value: string) => {
-    const selected = Object.values(paymentMethods).find(payment => payment.en === value)?.es as string;
+    const selected = Object.values(paymentMethods).find(state => t(state.label) === value)?.value as string;
     return selected;
   };
 

@@ -1,5 +1,5 @@
 type PaymentMethods = {
-  [key in PaymentMethod]: { es: string; en: PaymentMethod };
+  [key in PaymentMethod]: { value: string; label: string };
 };
 
 enum State {
@@ -13,20 +13,20 @@ type StatePayment = {
 
 export const paymentMethods: PaymentMethods = {
   CASH: {
-    es: 'balance_stack.payment_method_options.cash',
-    en: 'CASH',
+    label: 'balance_stack.payment_method_options.cash',
+    value: 'CASH',
   },
   CARD: {
-    es: 'balance_stack.payment_method_options.card',
-    en: 'CARD',
+    label: 'balance_stack.payment_method_options.card',
+    value: 'CARD',
   },
   BANK_TRANSFER: {
-    es: 'balance_stack.payment_method_options.bank_transfer',
-    en: 'BANK_TRANSFER',
+    label: 'balance_stack.payment_method_options.bank_transfer',
+    value: 'BANK_TRANSFER',
   },
   OTHER: {
-    es: 'balance_stack.payment_method_options.other',
-    en: 'OTHER',
+    label: 'balance_stack.payment_method_options.other',
+    value: 'OTHER',
   },
 };
 
