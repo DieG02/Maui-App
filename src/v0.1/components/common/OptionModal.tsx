@@ -6,7 +6,7 @@ import OptionSelect from './OptionSelect';
 import CommonInput from './CommonInput';
 import { useTranslation } from 'react-i18next';
 
-const { mainColor, ligthBlue, white, textBlack } = customStyles;
+const { mainColor, white, textBlack, selectedItem } = customStyles;
 
 interface Props {
   options: Array<string>;
@@ -51,7 +51,7 @@ const OptionModal = ({
       >
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: white,
             marginHorizontal: 10,
             borderRadius: 15,
           }}
@@ -61,7 +61,7 @@ const OptionModal = ({
               <OptionSelect
                 key={index}
                 name={t(option)}
-                backgroundColor={selectedOption === option ? ligthBlue : white}
+                backgroundColor={selectedOption === option ? selectedItem : white}
                 textColor={selectedOption === option ? mainColor : textBlack}
                 onPress={() => handleModal(option)}
               />
@@ -76,7 +76,7 @@ const OptionModal = ({
         touchable={true}
         value={selectedOption}
         setValue={setSelectedOption}
-        marginBottom={25}
+        marginBottom={15}
         onPress={() => setIsModalVisible(true)}
       />
     </View>

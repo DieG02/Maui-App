@@ -76,7 +76,7 @@ const OptionWithIcon = ({
         touchable={true}
         value={selectedOption}
         setValue={setSelectedOption}
-        marginBottom={25}
+        marginBottom={15}
         onPress={() => setIsModalVisible(true)}
       />
     </View>

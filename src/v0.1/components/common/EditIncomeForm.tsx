@@ -11,7 +11,6 @@ import customStyles from '../../styles/customStyles';
 import { NavigationProp } from '@react-navigation/native';
 import usePayment from '../../hooks/usePayment';
 import useForm from '../../hooks/useForm';
-import useEditIncome from '../../services/Incomes/useEditIncome';
 import { queryClient } from '../../utils/queryClient';
 import Button from './Button';
 import LoadingComponent from '../Library/LoadingComponent';
@@ -30,7 +29,8 @@ interface ValidateOptions {
   isPending: string[];
 }
 
-const { mainColor, width, marginHorizontal } = customStyles;
+const { mainColor, width, marginHorizontal, income, background2, white } = customStyles;
+
 const validateOptions: ValidateOptions = {
   isPaid: ['value'],
   isPending: ['value', 'clientId'],
@@ -50,7 +50,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
     clientId: data.contactId ? data.contactId : null,
     clientName: data.contact ? data.contact.name : '',
     isPaid: data.status === 'APPROVED',
-    paymentMethod: handlePaymentName(data.payment_method),
+    paymentMethod: data.payment_method,
     date: data.date,
   };
 
@@ -78,7 +78,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const { mutateAsync, isLoading } = useEditTransaction(
     data.id,
     {
-      payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
+      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
       contactId: params?.contact ? params?.contact?.id : values.clientId,
       date: values.date,
       status: values.isPaid ? 'APPROVED' : 'DEBT',
@@ -123,7 +123,6 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
             setValues(prev => ({ ...prev, value: newValue }));
           }}
           marginBottom={20}
-          marginTop={15}
           required
         />
         <CommonInput
@@ -168,11 +167,11 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={t(values.paymentMethod)}
+                selectedOption={handlePayment(values.paymentMethod)}
                 setSelectedOption={text =>
                   setValues(prev => ({
                     ...prev,
-                    paymentMethod: text,
+                    paymentMethod: handlePaymentName(text),
                   }))
                 }
               />
@@ -215,18 +214,18 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
       </Form>
       <View
         style={{
-          height: 80,
           justifyContent: 'center',
           marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
-          text={t('debt_stack.edit_debt.save_changes')}
+          text={t('balance_stack.new_income.save_income')}
+          color={validateValues(toValidate) ? white : income}
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : '#B3B3B3',
-            borderRadius: 25,
+            backgroundColor: validateValues(toValidate) ? mainColor : background2,
           }}
         />
       </View>

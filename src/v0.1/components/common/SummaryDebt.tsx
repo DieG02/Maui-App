@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import { useTranslation } from 'react-i18next';
 
-const { white, mainColor } = customStyles;
+const { mainColor, background2, textBlack } = customStyles;
 
 interface Props {
   type: 'income' | 'expense';
@@ -15,17 +15,18 @@ const SummaryDebt = ({ type, amount, stakeholders }: Props) => {
   return (
     <View
       style={{
-        height: 60,
-        backgroundColor: mainColor,
+        height: 80,
+        backgroundColor: background2,
         flexDirection: 'column',
         display: 'flex',
         paddingHorizontal: 20,
-        margin: 20,
-        borderRadius: 10,
+        marginTop: 20,
+        marginHorizontal: 30,
+        borderRadius: 15,
         justifyContent: 'center',
       }}
     >
-      <Text style={{ fontWeight: 'bold', color: white }}>
+      <Text style={{ color: mainColor, fontSize: 16, padding: 2, fontFamily: 'Gilroy-Bold' }}>
         {t('debt_stack.debt_screen.summary_text.total')}{' '}
         {`${
           type === 'income'
@@ -33,7 +34,7 @@ const SummaryDebt = ({ type, amount, stakeholders }: Props) => {
             : t('debt_stack.debt_screen.summary_text.payables')
         }`}
       </Text>
-      <Text style={{ color: white }}>
+      <Text style={{ color: textBlack, fontSize: 15, padding: 2, fontFamily: 'Gilroy-SemiBold' }}>
         {amount?.toLocaleString('es-AR', {
           style: 'currency',
           currency: 'ARS',

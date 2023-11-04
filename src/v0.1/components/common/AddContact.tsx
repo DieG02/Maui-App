@@ -15,7 +15,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { textBlack, blueGrotto } = customStyles;
+const { textBlack, mainColor } = customStyles;
 
 const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
@@ -95,7 +95,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
             {isAdded ? (
               <Text
                 style={{
-                  color: textBlack,
+                  color: mainColor,
                   fontSize: 16,
                   fontFamily: 'Gilroy-Bold',
                 }}
@@ -105,7 +105,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
             ) : (
               <Text
                 style={{
-                  color: blueGrotto,
+                  color: textBlack,
                   fontSize: 16,
                   fontFamily: 'Gilroy-SemiBold',
                 }}

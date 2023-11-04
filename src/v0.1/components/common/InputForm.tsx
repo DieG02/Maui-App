@@ -15,9 +15,10 @@ interface Props {
   autoFocus?: boolean;
   onSubmit?: () => void;
   required?: boolean;
+  onBlur?: () => void;
 }
 
-const { textBlack, expense, secondaryColorBorder } = customStyles;
+const { textBlack, expense, secondaryColorBorder, textLight } = customStyles;
 
 const InputForm = ({
   keyboardType,
@@ -31,8 +32,6 @@ const InputForm = ({
   onSubmit,
   required,
 }: Props) => {
-  console.log('InputForm', value);
-
   return (
     <View style={{ marginBottom, marginTop }}>
       <Text
@@ -82,9 +81,16 @@ const InputForm = ({
             const formated = separator(integer) + (decimal !== undefined ? ',' + decimal : '');
             if (formated.length <= 20) setValue(formated);
           }}
-          onBlur={() => setValue(round(value))}
+          onBlur={() => {
+            console.log('blur', value);
+            if (parseFloat(value.replace(/\./g, '').replace(',', '.')) !== 0) {
+              setValue(round(value));
+            } else {
+              setValue('');
+            }
+          }}
           placeholder={placeholder}
-          placeholderTextColor='#ACACAC'
+          placeholderTextColor={textLight}
           keyboardType={keyboardType}
           maxLength={20}
           autoFocus={autoFocus}

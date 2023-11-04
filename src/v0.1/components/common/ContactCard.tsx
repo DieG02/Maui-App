@@ -1,10 +1,11 @@
-import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import customStyles from "../../styles/customStyles";
-import Right from "react-native-vector-icons/Entypo";
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import customStyles from '../../styles/customStyles';
 
-const { textBlack, background, background2, blueGrotto } = customStyles;
+const { textBlack, background, background2, iconBlue } = customStyles;
 interface Props {
   data: IContact;
   type: string;
@@ -13,16 +14,10 @@ interface Props {
   disabled?: boolean;
 }
 
-const ContactCard = ({
-  data,
-  type,
-  onPress,
-  showNoRightIcon,
-  disabled,
-}: Props) => {
+const ContactCard = ({ data, type, onPress, showNoRightIcon, disabled }: Props) => {
   const renderTypeContact = () => {
     switch (type) {
-      case "client": {
+      case 'client': {
         return (
           <View
             style={{
@@ -31,16 +26,16 @@ const ContactCard = ({
               backgroundColor: background2,
               borderRadius: 25,
               marginRight: 15,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Icon name="user" size={20} color={blueGrotto} />
+            <AntDesign name='contacts' size={24} color={iconBlue} />
           </View>
         );
       }
 
-      case "provider": {
+      case 'provider': {
         return (
           <View
             style={{
@@ -49,11 +44,11 @@ const ContactCard = ({
               backgroundColor: background2,
               borderRadius: 25,
               marginRight: 15,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Icon name="truck" size={20} color={blueGrotto} />
+            <Feather name='truck' size={22} color={iconBlue} />
           </View>
         );
       }
@@ -64,9 +59,9 @@ const ContactCard = ({
     <TouchableOpacity
       disabled={disabled}
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingVertical: 5,
         backgroundColor: background,
       }}
@@ -74,17 +69,17 @@ const ContactCard = ({
     >
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
         {renderTypeContact()}
-        <View style={{ flexDirection: "column" }}>
+        <View style={{ flexDirection: 'column' }}>
           <Text
             style={{
               color: textBlack,
               fontSize: 16,
-              fontFamily: "Gilroy-SemiBold",
+              fontFamily: 'Gilroy-SemiBold',
             }}
           >
             {data?.name}
@@ -93,7 +88,7 @@ const ContactCard = ({
             style={{
               color: textBlack,
               fontSize: 14,
-              fontFamily: "Gilroy-Regular",
+              fontFamily: 'Gilroy-Regular',
             }}
           >
             {data?.phone}
@@ -105,11 +100,11 @@ const ContactCard = ({
           style={{
             width: 50,
             height: 50,
-            alignItems: "flex-end",
-            justifyContent: "center",
+            alignItems: 'flex-end',
+            justifyContent: 'center',
           }}
         >
-          <Right name="chevron-small-right" color={textBlack} size={30} />
+          <Entypo name='chevron-small-right' color={textBlack} size={30} />
         </View>
       )}
     </TouchableOpacity>

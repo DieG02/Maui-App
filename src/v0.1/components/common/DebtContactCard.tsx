@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 import customStyles from '../../styles/customStyles';
-import Right from 'react-native-vector-icons/Entypo';
+import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
 import 'moment/locale/es';
 import { useTranslation } from 'react-i18next';
 
-const { textBlack, background, secondaryColor, expense, income, royalBlue, marginHorizontal } = customStyles;
+const { textBlack, background, secondaryColor, expense, income, marginHorizontal, iconBlue } = customStyles;
 
 interface Props {
   type: string;
@@ -28,14 +28,14 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
       case 'client': {
         return (
           <View style={styles.iconType}>
-            <Icon name='user' size={25} color={royalBlue} />
+            <Feather name='user' size={25} color={iconBlue} />
           </View>
         );
       }
       case 'provider': {
         return (
           <View style={styles.iconType}>
-            <Icon name='truck' size={25} color={royalBlue} />
+            <Feather name='truck' size={25} color={iconBlue} />
           </View>
         );
       }
@@ -120,7 +120,7 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
           {renderTypePrice()}
           <Text style={styles.descriptionType}>{date}</Text>
         </View>
-        <Right name='chevron-small-right' color={textBlack} size={30} />
+        <Entypo name='chevron-small-right' color={textBlack} size={30} />
       </View>
     </TouchableOpacity>
   );
