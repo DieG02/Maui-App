@@ -9,11 +9,11 @@ interface Props {
   amountToPay?: number;
 }
 
-const { expense, secondaryColor, orange, textBlack, income } = customStyles;
+const { expense, secondaryColor, orange, textBlack, income, mainColor, background2 } = customStyles;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: secondaryColor,
+    backgroundColor: background2,
     // height: 100,
     borderRadius: 10,
     justifyContent: 'space-around',
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   progressBarBase: {
     width: '100%',
     backgroundColor: '#EAEAEA',
-    borderRadius: 12,
-    height: 20,
+    borderRadius: 40,
+    height: 25,
     marginBottom: 6,
   },
   processBarLabel: {
@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
 const paidStyles = (paidValue: number) =>
   StyleSheet.create({
     progressBar: {
-      backgroundColor: orange,
+      backgroundColor: mainColor,
       width: paidValue <= 13 ? '12%' : paidValue + '%',
       position: 'absolute',
-      borderRadius: 10,
+      borderRadius: 20,
       height: '100%',
       justifyContent: 'center',
     },
@@ -72,7 +72,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
             fontSize: 16,
           }}
         >
-          {t('debt_stack.debtor_profile.credited')}
+          {t('debt_stack.debtor_profile.to_be_credit')}
         </Text>
         <Text
           style={{
@@ -85,7 +85,7 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
         >
           <Text
             style={{
-              color: amountToPay !== 0 ? expense : income,
+              color: mainColor,
               maxWidth: '60%',
             }}
             numberOfLines={1}

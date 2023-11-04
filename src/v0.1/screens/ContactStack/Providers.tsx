@@ -35,6 +35,10 @@ const Providers = ({ navigation, route }: Props) => {
     },
   });
 
+  const filterData = useMemo(() => {
+    return providers?.filter((item: any) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
+  }, [providers, text]);
+
   const handleOnPress = (item: IContact) => {
     if (route.params?.screen === 'EditExpense') {
       navigation.navigate({
@@ -91,7 +95,7 @@ const Providers = ({ navigation, route }: Props) => {
       )}
       <FlatList
         overScrollMode='never'
-        data={providers}
+        data={filterData}
         style={{
           flex: 1,
           backgroundColor: white,
@@ -115,7 +119,8 @@ const Providers = ({ navigation, route }: Props) => {
         style={{
           justifyContent: 'center',
           marginHorizontal: marginHorizontal,
-          marginVertical: 20,
+          marginTop: 20,
+          marginBottom: 40,
         }}
       >
         <Button

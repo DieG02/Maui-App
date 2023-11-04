@@ -14,21 +14,20 @@ import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import Form from '../../components/Library/Form';
-import useEditExpense from '../../services/Expense/useEditExpense';
 import { showToast } from '../../utils/toast';
 import OptionWithIcon from '../../components/common/OptionWithIcon';
 import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { dictionary } from '../../helpers/dictionary';
-import { getCategoryId, getCategoryName } from '../../utils/getCategoryId';
+import { getCategoryId } from '../../utils/getCategoryId';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
 const { width } = Dimensions.get('window');
-const { mainColor, marginHorizontal } = customStyles;
+const { mainColor, marginHorizontal, background2 } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   params: any;
@@ -58,7 +57,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     providerName: data.contact ? data.contact.name : '',
     categoryId: data.category.name,
     isPaid: data.status === 'APPROVED',
-    paymentMethod: handlePaymentName(data.payment_method),
+    paymentMethod: data.payment_method,
     date: data.date,
   };
 
@@ -80,7 +79,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const payload = {
-    payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
+    payment_method: values.isPaid ? values.paymentMethod : 'NONE',
     contactId: params?.contact ? params?.contact?.id : values.providerId,
     date: values.date,
     status: values.isPaid ? 'APPROVED' : 'DEBT',
@@ -108,7 +107,6 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   return (
     <>
       <Form>
-        <Spacer height={10} />
         <OptionWithIcon
           title={t(`${NEW_EXPENSE}.category`)}
           required
@@ -184,11 +182,11 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={t(values.paymentMethod)}
+                selectedOption={handlePayment(values.paymentMethod)}
                 setSelectedOption={text =>
                   setValues(prev => ({
                     ...prev,
-                    paymentMethod: text,
+                    paymentMethod: handlePaymentName(text),
                   }))
                 }
               />
@@ -233,15 +231,14 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
       </Form>
       <View
         style={{
-          height: 80,
           justifyContent: 'center',
           marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           style={{
-            backgroundColor: validateValues(toValidate) ? mainColor : '#B3B3B3',
-            borderRadius: 25,
+            backgroundColor: validateValues(toValidate) ? mainColor : background2,
           }}
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}

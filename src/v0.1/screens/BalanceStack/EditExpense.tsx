@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 
-const { background2 } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -30,7 +29,6 @@ const EditExpense = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle
         label={t('balance_stack.edit_expense')}
-        headerStyle={{ backgroundColor: background2 }}
         onPressBack={() => {
           navigation.goBack();
         }}

@@ -31,12 +31,16 @@ const IncomeDebt = () => {
         backgroundColor: background,
       }}
     >
+      {debts.incomes?.length !== 0 && (
+        <SummaryDebt type='income' amount={total()} stakeholders={debts?.incomes?.length || 0} />
+      )}
+
       {isLoading ? (
         <LoadingComponent color={mainColor} />
       ) : (
         <View
           style={{
-            marginTop: 20,
+            marginTop: 15,
             backgroundColor: background,
             flex: 1,
           }}
@@ -62,7 +66,6 @@ const IncomeDebt = () => {
             )}
             ListEmptyComponent={<EmptyState title={t('debt_stack.income_debt.empty_debts')} />}
           />
-          <SummaryDebt type='income' amount={total()} stakeholders={debts?.incomes?.length || 0} />
         </View>
       )}
     </View>

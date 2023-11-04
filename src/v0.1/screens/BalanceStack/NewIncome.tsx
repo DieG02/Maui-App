@@ -26,7 +26,7 @@ import { getCategoryId } from '../../utils/getCategoryId';
 
 // TODO:Refactor this component
 
-const { marginHorizontal, mainColor, width, background2 } = customStyles;
+const { marginHorizontal, mainColor, width, background2, textBlack, white } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -41,7 +41,7 @@ const initialValues: InitialIncome = {
   clientId: '',
   clientName: '',
   isPaid: STATE['PAGADO'].value,
-  paymentMethod: paymentMethods['CASH'].es,
+  paymentMethod: paymentMethods['CASH'].value,
   date: TODAY,
 };
 
@@ -62,7 +62,7 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
-  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
+  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions, handlePaymentName } = usePayment();
 
   const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction');
 
@@ -94,7 +94,7 @@ const NewIncome = ({ navigation, route }: Props) => {
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       description: values.name !== '' ? values.name : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
       date: values.date,
-      payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
+      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
       categoryId: getCategoryId('Venta', transactionCategories),
       contactId: route.params?.contact?.id,
     },
@@ -124,8 +124,7 @@ const NewIncome = ({ navigation, route }: Props) => {
       <BackHeaderTitle
         label={t('balance_stack.new_income.new_income')}
         onPressBack={() => navigation.goBack()}
-        hasType
-        color={mainColor}
+        color={textBlack}
       />
       <Form>
         <InputForm
@@ -137,14 +136,15 @@ const NewIncome = ({ navigation, route }: Props) => {
             const newValue = !!val && val !== 'NaN' ? val : '';
             setValues(prev => ({ ...prev, value: newValue }));
           }}
-          marginBottom={20}
-          marginTop={15}
+          autoFocus
+          marginBottom={15}
+          marginTop={5}
           required
         />
         <CommonInput
           placeholder={t('balance_stack.new_income.placeholder_description')}
           name={t('balance_stack.new_income.description')}
-          marginBottom={20}
+          marginBottom={15}
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
@@ -188,11 +188,11 @@ const NewIncome = ({ navigation, route }: Props) => {
                 options={paymentsOptions}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
-                selectedOption={t(values.paymentMethod)}
+                selectedOption={handlePayment(values.paymentMethod)}
                 setSelectedOption={text =>
                   setValues(prev => ({
                     ...prev,
-                    paymentMethod: text,
+                    paymentMethod: handlePaymentName(text),
                   }))
                 }
               />
@@ -213,7 +213,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           name={t('balance_stack.new_income.client')}
           required={values.isPaid === false}
           value={values.clientName}
-          marginBottom={20}
+          marginBottom={15}
           onPress={() => {
             navigation.navigate('Clients', { screen: 'NewIncome' });
           }}
@@ -232,7 +232,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           setDate={date => setValues(prev => ({ ...prev, date: date }))}
           color={mainColor}
         />
-        <Spacer height={20} />
+        <Spacer height={15} />
       </Form>
       <View
         style={{
@@ -245,10 +245,10 @@ const NewIncome = ({ navigation, route }: Props) => {
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
           text={t('balance_stack.new_income.save_income')}
-          color={validateValues(toValidate) ? 'white' : mainColor}
+          color={validateValues(toValidate) ? white : mainColor}
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : background2,
-            borderRadius: 25,
+            borderRadius: 30,
           }}
         />
       </View>

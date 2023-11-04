@@ -24,12 +24,12 @@ interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
 }
-const { secondaryColor, textBlack, marginHorizontal, mainColor, babyBlue } = customStyles;
+const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 
 const TransactionDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
-  const { handlePaymentName } = usePayment();
+  const { handlePayment } = usePayment();
 
   const { data: transaction, isLoading: isFetchingTransaction } = useGetTransactionById(params?.transactionId, {
     refetchOnMount: true,
@@ -84,9 +84,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         >
           <View
             style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
+              width: 120,
+              height: 120,
+              borderRadius: 70,
               backgroundColor: secondaryColor,
               alignItems: 'center',
               justifyContent: 'center',
@@ -96,8 +96,8 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             <Image
               source={{ uri: transaction.category.image }}
               style={{
-                width: 40,
-                height: 40,
+                width: 60,
+                height: 60,
               }}
             />
           </View>
@@ -118,7 +118,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.payment_method')}
-          value={t(handlePaymentName(transaction.payment_method))}
+          value={handlePayment(transaction.payment_method)}
         />
         <RowTransaction
           label={t('balance_stack.transaction_detail.total')}
@@ -167,7 +167,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             text={t('balance_stack.transaction_detail.edit')}
             color={mainColor}
             style={{
-              backgroundColor: babyBlue,
+              backgroundColor: background2,
               marginTop: 10,
             }}
             onPress={handleOnPress}

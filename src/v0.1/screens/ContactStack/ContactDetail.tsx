@@ -23,7 +23,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const { mainColor, background, width } = customStyles;
+const { mainColor, background2, marginHorizontal } = customStyles;
 
 const ContactDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
@@ -129,22 +129,19 @@ const ContactDetail = ({ route, navigation }: Props) => {
       </ScrollContainer>
       <View
         style={{
-          width: '100%',
-          height: 90,
-          alignItems: 'center',
-          backgroundColor: background,
+          justifyContent: 'center',
+          marginHorizontal: marginHorizontal,
+          marginBottom: 40,
         }}
       >
         <Button
           disabled={!isChanged}
           onPress={() => updateContact()}
+          color={isChanged ? 'white' : mainColor}
           text={t('contact_stack.contact_detail.update_contact')}
           style={{
-            backgroundColor: isChanged ? mainColor : '#B3B3B3',
+            backgroundColor: isChanged ? mainColor : background2,
             borderRadius: 25,
-            elevation: 0,
-            width: width - 40,
-            marginTop: 6,
           }}
         />
       </View>

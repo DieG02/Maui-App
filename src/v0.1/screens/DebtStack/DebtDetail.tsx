@@ -15,7 +15,7 @@ import { alertDelete } from '../../utils/alerts';
 import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { queryClient } from '../../utils/queryClient';
 
-const { secondaryColor, textBlack, marginHorizontal, mainColor, navyBlue, babyBlue } = customStyles;
+const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 interface Props {
   route: RouteProp<any, any>;
   navigation: NavigationProp<any, any>;
@@ -50,14 +50,14 @@ const DebtDetail = ({ route, navigation }: Props) => {
     alertDelete(t('balance_stack.transaction_detail.alert_delete'), deleteTransaction);
   };
 
-  const options = [
-    {
-      label: 'Editar Transacción',
-      id: 1,
-      fn: () => console.log('Editado'),
-    },
-    { label: 'Eliminar Transacción', id: 2, fn: () => handleDelete() },
-  ];
+  // const options = [
+  //   {
+  //     label: 'Editar Transacción',
+  //     id: 1,
+  //     fn: () => console.log('Editado'),
+  //   },
+  //   { label: 'Eliminar Transacción', id: 2, fn: () => handleDelete() },
+  // ];
 
   const handleOnPress = () =>
     navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type, contact: data.contact.id });
@@ -178,9 +178,9 @@ const DebtDetail = ({ route, navigation }: Props) => {
         >
           <Button
             text={t('debt_stack.debt_detail.to_pay')}
-            color={navyBlue}
+            color={mainColor}
             style={{
-              backgroundColor: babyBlue,
+              backgroundColor: background2,
               marginTop: 10,
             }}
             onPress={handleOnPress}

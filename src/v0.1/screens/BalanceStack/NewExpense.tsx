@@ -29,7 +29,7 @@ import { getCategoryId } from '../../utils/getCategoryId';
 
 const { width } = Dimensions.get('window');
 
-const { mainColor, marginHorizontal, background2 } = customStyles;
+const { mainColor, marginHorizontal, background2, white } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -44,7 +44,7 @@ const initialValues: InitialExpense = {
   providerName: '',
   categoryId: '',
   isPaid: STATE['PAGADO'].value,
-  paymentMethod: paymentMethods['CASH'].es,
+  paymentMethod: paymentMethods['CASH'].value,
   date: TODAY,
 };
 
@@ -66,7 +66,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { values, setValues, validateValues } = useForm<InitialExpense>(initialValues);
 
-  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
+  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions, handlePaymentName } = usePayment();
 
   const { data } = useGetTransactionCategories('debit', 'transaction');
 
@@ -98,7 +98,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       date: values.date,
       description: values.name !== '' ? values.name : handleTranslateCategory(values.categoryId, dictionary),
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      payment_method: values.isPaid ? handlePayment(values.paymentMethod) : 'NONE',
+      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
       contactId: route.params?.contact?.id,
       categoryId: getCategoryId(values.categoryId, data),
     },
@@ -125,11 +125,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label={t('balance_stack.new_expense.new_expense')}
-        onPressBack={() => navigation.goBack()}
-        headerStyle={{ backgroundColor: background2 }}
-      />
+      <BackHeaderTitle label={t('balance_stack.new_expense.new_expense')} onPressBack={() => navigation.goBack()} />
       <KeyboardAvoidingView
         style={{
           flex: 1,
@@ -137,7 +133,7 @@ const NewExpense = ({ navigation, route }: Props) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <Form>
-          <Spacer height={10} />
+          <Spacer height={5} />
           <OptionWithIcon
             required
             title={t('balance_stack.new_expense.category')}
@@ -159,13 +155,13 @@ const NewExpense = ({ navigation, route }: Props) => {
               const newValue = !!val && val !== 'NaN' ? val : '';
               setValues(prev => ({ ...prev, value: newValue }));
             }}
-            marginBottom={20}
+            marginBottom={15}
             required
           />
           <CommonInput
             placeholder={t('balance_stack.new_expense.placeholder_description')}
             name={t('balance_stack.new_expense.description')}
-            marginBottom={20}
+            marginBottom={15}
             value={values.name}
             setValue={text => setValues(prev => ({ ...prev, name: text }))}
           />
@@ -210,11 +206,11 @@ const NewExpense = ({ navigation, route }: Props) => {
                   options={paymentsOptions}
                   isModalVisible={modalPayment}
                   setIsModalVisible={setModalPayment}
-                  selectedOption={t(values.paymentMethod)}
+                  selectedOption={handlePayment(values.paymentMethod)}
                   setSelectedOption={text =>
                     setValues(prev => ({
                       ...prev,
-                      paymentMethod: text,
+                      paymentMethod: handlePaymentName(text),
                     }))
                   }
                 />
@@ -235,7 +231,7 @@ const NewExpense = ({ navigation, route }: Props) => {
             name={t('balance_stack.new_expense.provider')}
             required={values.isPaid === false}
             value={values.providerName}
-            marginBottom={20}
+            marginBottom={15}
             onPress={() => {
               navigation.navigate('Providers', { screen: 'NewExpense' });
             }}
@@ -254,7 +250,7 @@ const NewExpense = ({ navigation, route }: Props) => {
             setDate={date => setValues(prev => ({ ...prev, date: date }))}
             color={mainColor}
           />
-          <Spacer height={20} />
+          <Spacer height={15} />
         </Form>
       </KeyboardAvoidingView>
       <View
@@ -268,7 +264,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
           text={t('balance_stack.new_expense.save_expense')}
-          color={validateValues(toValidate) ? 'white' : mainColor}
+          color={validateValues(toValidate) ? white : mainColor}
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : background2,
             borderRadius: 25,

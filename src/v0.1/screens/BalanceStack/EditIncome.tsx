@@ -35,8 +35,6 @@ const EditIncome = ({ navigation, route }: Props) => {
           queryClient.removeQueries('IncomeDetail');
           navigation.goBack();
         }}
-        hasType
-        color={mainColor}
       />
       <EditIncomeForm navigation={navigation} data={data} params={params} />
     </ScreenContainer>

@@ -23,7 +23,7 @@ import usePayDebtById from '../../services/Debts/usePayDebtById';
 import useGetDebtById from '../../services/Debts/useGetDebtsById';
 import { Alert } from 'react-native';
 
-const { marginHorizontal, mainColor, background2, navyBlue } = customStyles;
+const { marginHorizontal, mainColor, background2, white } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -35,7 +35,7 @@ const TODAY = moment.parseZone().toISOString();
 const initialValues: InitialDebt = {
   value: '',
   description: '',
-  paymentMethod: paymentMethods['CASH'].es,
+  paymentMethod: paymentMethods['CASH'].value,
   date: TODAY,
 };
 
@@ -48,7 +48,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
 
   const { values, setValues, validateValues } = useForm<InitialDebt>(initialValues);
 
-  const { handlePayment, paymentsOptions } = usePayment();
+  const { handlePayment, paymentsOptions, handlePaymentName } = usePayment();
 
   const showToast = () => {
     ToastAndroid.showWithGravity(t('debt_stack.payment_done'), ToastAndroid.LONG, ToastAndroid.TOP);
@@ -63,7 +63,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       type: params?.type,
       paymentAmount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       paidAt: values.date,
-      payment_method: handlePayment(values.paymentMethod),
+      payment_method: values.paymentMethod,
       debtId: params?.debtId,
       description:
         values.description !== '' ? values.description : `${t('balance_stack.payment')} ${moment.parseZone().unix()}`,
@@ -100,12 +100,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label={t('debt_stack.new_payment')}
-        onPressBack={() => navigation.goBack()}
-        hasType
-        color={navyBlue}
-      />
+      <BackHeaderTitle label={t('debt_stack.new_payment')} onPressBack={() => navigation.goBack()} />
       <Form>
         <InputForm
           keyboardType='numeric'
@@ -132,11 +127,11 @@ const IndividualPayment = ({ navigation, route }: Props) => {
           options={paymentsOptions}
           isModalVisible={modalPayment}
           setIsModalVisible={setModalPayment}
-          selectedOption={t(values.paymentMethod)}
+          selectedOption={handlePayment(values.paymentMethod)}
           setSelectedOption={text =>
             setValues(prev => ({
               ...prev,
-              paymentMethod: text,
+              paymentMethod: handlePaymentName(text),
             }))
           }
         />
@@ -144,7 +139,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
           name={t('balance_stack.new_income.date')}
           date={values.date}
           setDate={date => setValues(prev => ({ ...prev, date: date }))}
-          color={navyBlue}
+          color={mainColor}
         />
         <Spacer height={20} />
       </Form>
@@ -159,10 +154,9 @@ const IndividualPayment = ({ navigation, route }: Props) => {
           disabled={!validateValues(validateOption)}
           onPress={handleSubmit}
           text={t('debt_stack.to_pay')}
-          color={validateValues(validateOption) ? 'white' : navyBlue}
+          color={validateValues(validateOption) ? white : mainColor}
           style={{
-            backgroundColor: validateValues(validateOption) ? navyBlue : background2,
-            borderRadius: 25,
+            backgroundColor: validateValues(validateOption) ? mainColor : background2,
           }}
         />
       </View>

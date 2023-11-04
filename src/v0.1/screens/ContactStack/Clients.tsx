@@ -36,6 +36,10 @@ const Consumers = ({ navigation, route }: Props) => {
     },
   });
 
+  const filterData = useMemo(() => {
+    return clients?.filter((item: any) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
+  }, [clients, text]);
+
   const handleOnPress = (item: IContact) => {
     if (screen === 'EditIncome') {
       navigation.navigate({
@@ -64,7 +68,7 @@ const Consumers = ({ navigation, route }: Props) => {
           justifyContent: 'center',
         }}
       >
-        <ActivityIndicator size='large' color='#141414' />
+        <ActivityIndicator size='large' color={mainColor} />
       </View>
     );
   }
@@ -92,7 +96,7 @@ const Consumers = ({ navigation, route }: Props) => {
       )}
       <FlatList
         overScrollMode='never'
-        data={clients}
+        data={filterData}
         style={{
           flex: 1,
           backgroundColor: background,
@@ -116,7 +120,8 @@ const Consumers = ({ navigation, route }: Props) => {
         style={{
           justifyContent: 'center',
           marginHorizontal: marginHorizontal,
-          marginVertical: 20,
+          marginTop: 20,
+          marginBottom: 40,
         }}
       >
         <Button
