@@ -56,7 +56,7 @@ const UserData = ({ navigation, route }: Props) => {
       showToast(t('more_screen.user_data.toast_edit_message'));
     },
   });
-  const { mutateAsync: deleteAccount } = useMutation(() => unsubscribe(), {
+  const { mutateAsync: deleteAccount, isLoading: isDeleting } = useMutation(() => unsubscribe(), {
     onSuccess: async () => {
       setIsLoggedIn(false);
       await AsyncStorage.removeItem('userInfo');
@@ -69,7 +69,7 @@ const UserData = ({ navigation, route }: Props) => {
   const handleOnModalShow = (): void => setDeleteModalVisible(true);
   const handleOnModalHide = (): void => setDeleteModalVisible(false);
 
-  if (isLoading) {
+  if (isLoading || isDeleting) {
     return <LoadingComponent color={mainColor} />;
   }
 
