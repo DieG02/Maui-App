@@ -48,7 +48,8 @@
       "phone": "Telefone",
       "phone_number": "Número de telefone",
       "mail": "E-mail",
-      "save": "Salvar"
+      "save": "Salvar",
+      "delete": "Excluir conta"
     }
   },
   "balance_stack": {
