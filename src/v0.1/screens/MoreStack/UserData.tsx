@@ -176,7 +176,6 @@ const UserData = ({ navigation, route }: Props) => {
             />}
         <Button
           text={t('more_screen.user_data.delete')}
-          // onPress={deleteAccount}
           onPress={handleOnModalShow}
           color={expense}
           style={{
