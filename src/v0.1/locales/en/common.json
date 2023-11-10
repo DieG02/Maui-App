@@ -48,7 +48,8 @@
       "phone": "Phone",
       "phone_number": "Cell phone number",
       "mail": "E-mail",
-      "save": "Save"
+      "save": "Save",
+      "delete": "Delete account"
     }
   },
   "balance_stack": {
