@@ -31,6 +31,7 @@ interface SignUpUser {
   cellphone: string;
   country: string;
   countryCode: string;
+  currencyCountry: string;
 }
 
 const initialValues = {
@@ -40,6 +41,7 @@ const initialValues = {
   cellphone: '',
   country: '',
   countryCode: '',
+  currencyCountry: '',
 };
 
 const { mainColor, textBlack, background2, white } = customStyles;
@@ -48,7 +50,7 @@ const toValidate = ['email', 'password', 'name', 'cellphone'];
 
 export default function SignUpScreen({ navigation }: Props) {
   const { t, i18n } = useTranslation();
-  const [country, setCountry] = useState('+ 54');
+  const [country, setCountry] = useState('+54');
   const [modal, setModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -81,6 +83,7 @@ export default function SignUpScreen({ navigation }: Props) {
       ...values,
       country: countrySelected.name,
       countryCode: countrySelected.prefix,
+      currencyCountry: countrySelected.name,
     });
   };
 

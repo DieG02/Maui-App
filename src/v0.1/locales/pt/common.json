@@ -95,9 +95,11 @@
       "marketing": "Marketing e Publicidade",
       "insurance": "Seguro",
       "taxes": "Impostos",
+      "machines": "Máquinas e Equipamentos",
       "maintenance": "Manutenção e Reparos",
       "subscriptions": "Plataformas e Assinaturas",
       "costs": "Despesas Financeiras",
+      "others": "Outros",
       "sale": "Venda",
       "income": "Crédito",
       "expense": "Débito"

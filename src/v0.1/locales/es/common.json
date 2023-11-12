@@ -99,8 +99,10 @@
       "subscriptions": "Plataformas y suscripciones",
       "costs": "Gastos Financieros",
       "sale": "Venta",
+      "machines": "Máquinas y Herramientas",
       "income": "Abono",
-      "expense": "Débito"
+      "expense": "Débito",
+      "others": "Otro"
     },
     "state_options": {
       "paid": "Pagado",

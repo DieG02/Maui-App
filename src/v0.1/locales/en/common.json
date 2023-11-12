@@ -95,9 +95,11 @@
       "marketing": "Marketing and Advertising",
       "insurance": "Insurance",
       "taxes": "Taxes",
+      "machines": "Machines and Equipment",
       "maintenance": "Maintenance and Repairs",
       "subscriptions": "Platforms and Subscriptions",
       "costs": "Financial Costs",
+      "others": "Others",
       "sale": "Sale",
       "income": "Credit",
       "expense": "Debit"
