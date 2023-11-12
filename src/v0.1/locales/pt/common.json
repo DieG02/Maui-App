@@ -7,9 +7,15 @@
       "placeholder_email": "Digite seu e-mail",
       "password": "Senha",
       "placeholder_password": "Digite sua senha",
+      "confirm_password": "Confirmar senha",
+      "placeholder_confirm_password": "Digite novamente sua senha",
       "sign_in_button": "Iniciar sessão",
       "no_account": "Não tem uma conta?",
-      "create_account": "Criar conta"
+      "create_account": "Criar conta",
+      "mismatch_password": "As senhas não correspondem",
+      "short_password": "A senha deve ter pelo menos 8 caracteres",
+      "missing_uppercase": "A senha deve ter pelo menos uma letra maiúscula",
+      "missing_lowercase": "A senha deve ter pelo menos uma letra minúscula"
     },
     "sign_up": {
       "placeholder_name": "Digite seu nome",
