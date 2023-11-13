@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, StackActions } from '@react-navigation/native';
 import React, { useContext, useEffect } from 'react';
@@ -16,6 +16,7 @@ import SecureInput from '../../components/common/SecureInput';
 import { useTranslation } from 'react-i18next';
 import { queryClient } from '../../utils/queryClient';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import Toast from 'react-native-toast-message';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -27,14 +28,16 @@ const KEY_PATH = 'auth_stack.sign_in';
 interface LoginUser {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 const initialValues: LoginUser = {
   email: '',
   password: '',
+  confirmPassword: ''
 };
 
-const toValidate = ['email', 'password'];
+const toValidate = ['email', 'password', 'confirmPassword'];
 
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
@@ -43,14 +46,36 @@ export default function LoginScreen({ navigation }: Props) {
 
   const { mutateAsync } = useMutation(signIn);
 
-  const onPressLogin = async () => {
-    const data = await mutateAsync(values);
+  const validatePassword = (): string | null => {
+    const password = values.password.trim();
+    const confirmPassword = values.confirmPassword.trim();
+  
+    if (password !== confirmPassword)
+      return 'mismatch_password';
+    if (password.length < 8)
+      return 'short_password';
+    if (!/[A-Z]/.test(password))
+      return 'missing_uppercase';
+    if (!/[a-z]/.test(password))
+      return 'missing_lowercase';
+    return null;
+  }
 
+  const onPressLogin = async () => {
+    const validationError = validatePassword();
+    if(validationError) {
+      return Toast.show({
+        type: 'error',
+        text2: `${KEY_PATH}.${validationError}`,
+        position: 'bottom',
+      })
+    };
+
+    const data = await mutateAsync(values);
     if (data.token) {
       await AsyncStorage.setItem('userInfo', JSON.stringify(data));
       setIsLoggedIn(true);
       queryClient.invalidateQueries(VERIFY_TOKEN);
-      // navigation.dispatch(StackActions.replace('HomeTabs'));
     }
   };
 
@@ -96,6 +121,15 @@ export default function LoginScreen({ navigation }: Props) {
             setValue={text => setValues(prev => ({ ...prev, password: text }))}
             value={values.password}
             placeholder={t(`${KEY_PATH}.placeholder_password`)}
+            marginBottom={25}
+          />
+          <SecureInput
+            required
+            secureTextEntry={true}
+            name={t(`${KEY_PATH}.confirm_password`)}
+            setValue={text => setValues(prev => ({ ...prev, confirmPassword: text }))}
+            value={values.confirmPassword}
+            placeholder={t(`${KEY_PATH}.placeholder_confirm_password`)}
             marginBottom={25}
           />
 
