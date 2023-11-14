@@ -58,7 +58,7 @@ const paidStyles = (paidValue: number) =>
 export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }: Props) {
   const { t } = useTranslation();
   const paidValue = useMemo(
-    () => (amountPaid && totalAmount ? Number(((amountPaid / totalAmount) * 100).toFixed(2)) : 0),
+    () => (amountPaid && totalAmount ? Number(((amountPaid / totalAmount) * 100).toFixed(0)) : 0),
     [amountPaid, totalAmount]
   );
 

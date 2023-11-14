@@ -151,7 +151,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
         )}
 
         <RowTransaction
-          label={'A pagar'}
+          label={t('debt_stack.debt_detail.to_pay')}
           value={
             <Text
               numberOfLines={1}
