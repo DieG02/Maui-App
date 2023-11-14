@@ -13,9 +13,7 @@
       "no_account": "Don't you have an account?",
       "create_account": "Create Account",
       "mismatch_password": "Password entries do not match",
-      "short_password": "Password must be at least 8 characters",
-      "missing_uppercase": "Password must have at least one upper case letter",
-      "missing_lowercase": "Password must have at least one lower case letter"
+      "alert_validate_password": "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one number."
     },
     "sign_up": {
       "placeholder_name": "Enter your name",

@@ -13,9 +13,7 @@
       "no_account": "Não tem uma conta?",
       "create_account": "Criar conta",
       "mismatch_password": "As senhas não correspondem",
-      "short_password": "A senha deve ter pelo menos 8 caracteres",
-      "missing_uppercase": "A senha deve ter pelo menos uma letra maiúscula",
-      "missing_lowercase": "A senha deve ter pelo menos uma letra minúscula"
+      "alert_validate_password": "A senha deve ter pelo menos 8 caracteres, conter pelo menos uma letra maiúscula e pelo menos um número."
     },
     "sign_up": {
       "placeholder_name": "Digite seu nome",
