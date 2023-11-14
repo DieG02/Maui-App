@@ -41,6 +41,7 @@
     "clients": "Clientes",
     "providers": "Proveedores",
     "languages": "Idiomas",
+    "share_link": "Invitar amigos",
     "whatsapp": "Ayuda",
     "log_out": "Cerrar Sesión",
     "user_data": {
@@ -53,7 +54,13 @@
       "phone_number": "Número de teléfono",
       "mail": "E-mail",
       "save": "Guardar",
-      "delete": "Eliminar cuenta"
+      "delete": "Eliminar cuenta",
+      "delete_modal": {
+        "title": "Esta acción es irreversible",
+        "description": "Si eliminas tu cuenta deberás empezar de cero, incluso creando un nuevo usuario. ¿Estás seguro que deseas continuar?",
+        "confirm_label": "Sí, eliminar cuenta",
+        "cancel_label": "Cancelar"
+      }
     }
   },
   "balance_stack": {

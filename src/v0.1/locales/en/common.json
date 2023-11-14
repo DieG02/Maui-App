@@ -41,6 +41,7 @@
     "clients": "Clients",
     "providers": "Providers",
     "languages": "Languages",
+    "share_link": "Invite friends",
     "whatsapp": "Help",
     "log_out": "Sign Out",
     "user_data": {
@@ -53,7 +54,13 @@
       "phone_number": "Cell phone number",
       "mail": "E-mail",
       "save": "Save",
-      "delete": "Delete account"
+      "delete": "Delete account",
+      "delete_modal": {
+        "title": "This action is irreversible",
+        "description": "If you delete your account you will have to start from scratch, even creating a new user. Are you sure you want to continue?",
+        "confirm_label": "Yes, delete account",
+        "cancel_label": "Cancel"
+      }
     }
   },
   "balance_stack": {
