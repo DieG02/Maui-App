@@ -16,7 +16,6 @@ import SecureInput from '../../components/common/SecureInput';
 import { useTranslation } from 'react-i18next';
 import { queryClient } from '../../utils/queryClient';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
-import Toast from 'react-native-toast-message';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -37,7 +36,7 @@ const initialValues: LoginUser = {
   confirmPassword: ''
 };
 
-const toValidate = ['email', 'password', 'confirmPassword'];
+const toValidate = ['email', 'password'];
 
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
@@ -46,31 +45,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   const { mutateAsync } = useMutation(signIn);
 
-  const validatePassword = (): string | null => {
-    const password = values.password.trim();
-    const confirmPassword = values.confirmPassword.trim();
-  
-    if (password !== confirmPassword)
-      return 'mismatch_password';
-    if (password.length < 8)
-      return 'short_password';
-    if (!/[A-Z]/.test(password))
-      return 'missing_uppercase';
-    if (!/[a-z]/.test(password))
-      return 'missing_lowercase';
-    return null;
-  }
-
   const onPressLogin = async () => {
-    const validationError = validatePassword();
-    if(validationError) {
-      return Toast.show({
-        type: 'error',
-        text2: `${KEY_PATH}.${validationError}`,
-        position: 'bottom',
-      })
-    };
-
     const data = await mutateAsync(values);
     if (data.token) {
       await AsyncStorage.setItem('userInfo', JSON.stringify(data));
@@ -123,16 +98,7 @@ export default function LoginScreen({ navigation }: Props) {
             placeholder={t(`${KEY_PATH}.placeholder_password`)}
             marginBottom={25}
           />
-          <SecureInput
-            required
-            secureTextEntry={true}
-            name={t(`${KEY_PATH}.confirm_password`)}
-            setValue={text => setValues(prev => ({ ...prev, confirmPassword: text }))}
-            value={values.confirmPassword}
-            placeholder={t(`${KEY_PATH}.placeholder_confirm_password`)}
-            marginBottom={25}
-          />
-
+          
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressLogin}

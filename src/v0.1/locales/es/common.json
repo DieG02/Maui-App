@@ -13,9 +13,7 @@
       "no_account": "¿No tienes una cuenta?",
       "create_account": "Crear Cuenta",
       "mismatch_password": "Las contraseñas no coinciden",
-      "short_password": "La contraseña debe tener al menos 8 caracteres",
-      "missing_uppercase": "La contraseña debe tener al menos una letra mayúscula",
-      "missing_lowercase": "La contraseña debe tener al menos una letra minúscula"
+      "alert_validate_password": "La contraseña debe tener al menos 8 caracteres, contener al menos una letra mayúscula y al menos un número."
     },
     "sign_up": {
       "placeholder_name": "Ingresa tu nombre",
@@ -43,6 +41,7 @@
     "clients": "Clientes",
     "providers": "Proveedores",
     "languages": "Idiomas",
+    "share_link": "Invitar amigos",
     "whatsapp": "Ayuda",
     "log_out": "Cerrar Sesión",
     "user_data": {
@@ -55,7 +54,13 @@
       "phone_number": "Número de teléfono",
       "mail": "E-mail",
       "save": "Guardar",
-      "delete": "Eliminar cuenta"
+      "delete": "Eliminar cuenta",
+      "delete_modal": {
+        "title": "Esta acción es irreversible",
+        "description": "Si eliminas tu cuenta deberás empezar de cero, incluso creando un nuevo usuario. ¿Estás seguro que deseas continuar?",
+        "confirm_label": "Sí, eliminar cuenta",
+        "cancel_label": "Cancelar"
+      }
     }
   },
   "balance_stack": {

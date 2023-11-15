@@ -166,13 +166,13 @@ const UserData = ({ navigation, route }: Props) => {
         />
           {isDeleteModalVisible && 
             <AlertModal
-              title='Está acción es irreversible'
-              description={`Si eliminas tu cuenta deberás empezar de cero, incluso creando un nuevo usuario.\n\¿Estás seguro que desas continuar?`}
+              title={t('more_screen.user_data.delete_modal.title')}
+              description={t('more_screen.user_data.delete_modal.description')}
               isVisible={true}
               confirm={deleteAccount}
-              confirmLabel='Si, eliminar cuenta'
+              confirmLabel={t('more_screen.user_data.delete_modal.confirm_label')}
               cancel={handleOnModalHide}
-              cancelLabel='Cancelar'
+              cancelLabel={t('more_screen.user_data.delete_modal.cancel_label')}
             />}
         <Button
           text={t('more_screen.user_data.delete')}

@@ -13,9 +13,7 @@
       "no_account": "Não tem uma conta?",
       "create_account": "Criar conta",
       "mismatch_password": "As senhas não correspondem",
-      "short_password": "A senha deve ter pelo menos 8 caracteres",
-      "missing_uppercase": "A senha deve ter pelo menos uma letra maiúscula",
-      "missing_lowercase": "A senha deve ter pelo menos uma letra minúscula"
+      "alert_validate_password": "A senha deve ter pelo menos 8 caracteres, conter pelo menos uma letra maiúscula e pelo menos um número."
     },
     "sign_up": {
       "placeholder_name": "Digite seu nome",
@@ -43,6 +41,7 @@
     "clients": "Clientes",
     "providers": "Fornecedores",
     "languages": "Idiomas",
+    "share_link": "Convide amigos",
     "whatsapp": "Auida",
     "log_out": "Sair",
     "user_data": {
@@ -55,7 +54,13 @@
       "phone_number": "Número de telefone",
       "mail": "E-mail",
       "save": "Salvar",
-      "delete": "Excluir conta"
+      "delete": "Excluir conta",
+      "delete_modal": {
+        "title": "Essa ação é irreversível",
+        "description": "Se você excluir sua conta, terá que começar do zero, inclusive criando um novo usuário. Tem certeza de que deseja continuar?",
+        "confirm_label": "Sim, excluir conta",
+        "cancel_label": "Cancelar"
+      }
     }
   },
   "balance_stack": {

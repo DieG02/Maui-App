@@ -53,13 +53,14 @@ const styles = StyleSheet.create({
   },
   content: {
     elevation: 2,
-    height: 40,
+    paddingVertical: 10,
+    maxHeight: 60,
     borderRadius: 5,
     justifyContent: 'center',
   },
   text: {
     marginHorizontal: 20,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '400',
   },
   success: {

@@ -151,7 +151,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={10} />
           <OptionCard
             onPress={shareLink}
-            title={'Invitar a un amigo'}
+            title={t('more_screen.share_link')}
             icon={<Right name='share' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
