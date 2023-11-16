@@ -7,9 +7,13 @@
       "placeholder_email": "Ingresa tu e-mail",
       "password": "Contraseña",
       "placeholder_password": "Ingresa tu contraseña",
+      "confirm_password": "Confirmar contraseña",
+      "placeholder_confirm_password": "Ingresa nuevamente tu contraseña",
       "sign_in_button": "Iniciar Sesión",
       "no_account": "¿No tienes una cuenta?",
-      "create_account": "Crear Cuenta"
+      "create_account": "Crear Cuenta",
+      "mismatch_password": "Las contraseñas no coinciden",
+      "alert_validate_password": "La contraseña debe tener al menos 8 caracteres, contener al menos una letra mayúscula y al menos un número."
     },
     "sign_up": {
       "placeholder_name": "Ingresa tu nombre",
@@ -37,7 +41,7 @@
     "clients": "Clientes",
     "providers": "Proveedores",
     "languages": "Idiomas",
-    "share": "Invitar a un amigo",
+    "share_link": "Invitar amigos",
     "whatsapp": "Ayuda",
     "log_out": "Cerrar Sesión",
     "user_data": {
@@ -49,7 +53,14 @@
       "phone": "Teléfono",
       "phone_number": "Número de teléfono",
       "mail": "E-mail",
-      "save": "Guardar"
+      "save": "Guardar",
+      "delete": "Eliminar cuenta",
+      "delete_modal": {
+        "title": "Esta acción es irreversible",
+        "description": "Si eliminas tu cuenta deberás empezar de cero, incluso creando un nuevo usuario. ¿Estás seguro que deseas continuar?",
+        "confirm_label": "Sí, eliminar cuenta",
+        "cancel_label": "Cancelar"
+      }
     }
   },
   "balance_stack": {
@@ -99,8 +110,10 @@
       "subscriptions": "Plataformas y suscripciones",
       "costs": "Gastos Financieros",
       "sale": "Venta",
+      "machines": "Máquinas y Herramientas",
       "income": "Abono",
-      "expense": "Débito"
+      "expense": "Débito",
+      "others": "Otro"
     },
     "state_options": {
       "paid": "Pagado",

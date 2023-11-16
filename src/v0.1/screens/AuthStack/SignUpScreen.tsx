@@ -20,6 +20,8 @@ import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLang
 import { languageList } from '../../helpers/languageList';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
+import Toast from 'react-native-toast-message';
+
 interface Props {
   navigation: NavigationProp<any, any>;
 }
@@ -27,28 +29,32 @@ interface Props {
 interface SignUpUser {
   email: string;
   password: string;
+  confirmPassword: string;
   name: string;
   cellphone: string;
   country: string;
   countryCode: string;
+  currencyCountry: string;
 }
 
 const initialValues = {
   email: '',
   password: '',
+  confirmPassword: '',
   name: '',
   cellphone: '',
   country: '',
   countryCode: '',
+  currencyCountry: '',
 };
 
 const { mainColor, textBlack, background2, white } = customStyles;
 
-const toValidate = ['email', 'password', 'name', 'cellphone'];
+const toValidate = ['email', 'password', 'confirmPassword','name', 'cellphone'];
 
 export default function SignUpScreen({ navigation }: Props) {
   const { t, i18n } = useTranslation();
-  const [country, setCountry] = useState('+ 54');
+  const [country, setCountry] = useState('+54');
   const [modal, setModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -76,11 +82,31 @@ export default function SignUpScreen({ navigation }: Props) {
     return countries.filter(item => item.id === country)[0];
   }, [country]);
 
+  const validatePassword = (): string | null => {
+    if (values.password !== values.confirmPassword) 
+      return 'mismatch_password';
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const isValidPassword = passwordRegex.test(values.password);
+    if (!isValidPassword) return 'alert_validate_password';
+    
+    return null;
+  }
+
   const onPressSignUp = async () => {
+    const validationError = validatePassword();
+    if(validationError) {
+      return Toast.show({
+        type: 'error',
+        text2: `auth_stack.sign_in.${validationError}`,
+        position: 'bottom',
+      })
+    };
+    
     await mutateAsync({
       ...values,
       country: countrySelected.name,
       countryCode: countrySelected.prefix,
+      currencyCountry: countrySelected.name,
     });
   };
 
@@ -133,9 +159,18 @@ export default function SignUpScreen({ navigation }: Props) {
             required
             secureTextEntry={true}
             name={t('auth_stack.sign_in.password')}
-            setValue={text => setValues(prev => ({ ...prev, password: text }))}
+            setValue={text => setValues(prev => ({ ...prev, password: text.trim() }))}
             value={values.password}
             placeholder={t('auth_stack.sign_in.placeholder_password')}
+            marginBottom={25}
+          />
+          <SecureInput
+            required
+            secureTextEntry={true}
+            name={t('auth_stack.sign_in.confirm_password')}
+            setValue={text => setValues(prev => ({ ...prev, confirmPassword: text.trim() }))}
+            value={values.confirmPassword}
+            placeholder={t('auth_stack.sign_in.placeholder_confirm_password')}
             marginBottom={25}
           />
           <Button
@@ -145,7 +180,6 @@ export default function SignUpScreen({ navigation }: Props) {
             text={t('auth_stack.sign_in.create_account')}
             style={{
               backgroundColor: validateValues(toValidate) ? mainColor : background2,
-
               alignItems: 'center',
               justifyContent: 'center',
               marginTop: 20,

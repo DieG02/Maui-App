@@ -7,9 +7,13 @@
       "placeholder_email": "Enter your e-mail",
       "password": "Password",
       "placeholder_password": "Enter your password",
+      "confirm_password": "Confirm password",
+      "placeholder_confirm_password": "Enter again your password",
       "sign_in_button": "Sign In",
       "no_account": "Don't you have an account?",
-      "create_account": "Create Account"
+      "create_account": "Create Account",
+      "mismatch_password": "Password entries do not match",
+      "alert_validate_password": "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one number."
     },
     "sign_up": {
       "placeholder_name": "Enter your name",
@@ -37,7 +41,7 @@
     "clients": "Clients",
     "providers": "Providers",
     "languages": "Languages",
-    "share": "Invite a friend",
+    "share_link": "Invite friends",
     "whatsapp": "Help",
     "log_out": "Sign Out",
     "user_data": {
@@ -49,7 +53,14 @@
       "phone": "Phone",
       "phone_number": "Cell phone number",
       "mail": "E-mail",
-      "save": "Save"
+      "save": "Save",
+      "delete": "Delete account",
+      "delete_modal": {
+        "title": "This action is irreversible",
+        "description": "If you delete your account you will have to start from scratch, even creating a new user. Are you sure you want to continue?",
+        "confirm_label": "Yes, delete account",
+        "cancel_label": "Cancel"
+      }
     }
   },
   "balance_stack": {
@@ -95,9 +106,11 @@
       "marketing": "Marketing and Advertising",
       "insurance": "Insurance",
       "taxes": "Taxes",
+      "machines": "Machines and Equipment",
       "maintenance": "Maintenance and Repairs",
       "subscriptions": "Platforms and Subscriptions",
       "costs": "Financial Costs",
+      "others": "Others",
       "sale": "Sale",
       "income": "Credit",
       "expense": "Debit"

@@ -34,12 +34,12 @@ const DebtTypes = ({ data, type }: Props) => {
         renderItem={({ item }) =>
           type === 'debt' ? (
             <DebtsCard
-              data={item?.transaction[0]}
+              data={item?.transactions[0]}
               actualAmount={item?.total_amount}
               type={type}
               onPress={() =>
                 navigation.navigate('DebtDetail', {
-                  id: item?.transaction[0].id,
+                  id: item?.transactions[0].id,
                   type: type,
                   actualAmount: item?.total_amount,
                 })

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share } from 'react-native';
+import { View, ScrollView, Text, Share, Linking, Alert } from 'react-native';
 import Spacer from '../../components/common/Spacer';
 import OptionCard from '../../components/common/OptionCard';
 import Right from 'react-native-vector-icons/Entypo';
@@ -26,6 +26,10 @@ const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
 }
+
+const whatsappLink = 'https://wa.me/+5491168708424';
+
+// Llama a la función para abrir el enlace cuando sea necesario
 
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -76,6 +80,22 @@ const More = ({ navigation }: Props) => {
     } catch (error) {
       // Manejo de errores
       console.error(error);
+    }
+  };
+
+  const openWhatsAppLink = () => {
+    if (whatsappLink) {
+      Linking.canOpenURL(whatsappLink)
+        .then(supported => {
+          if (!supported) {
+            Alert.alert('No app can handle the message link');
+          } else {
+            return Linking.openURL(whatsappLink);
+          }
+        })
+        .catch(err => console.error('An error occurred', err));
+    } else {
+      console.error('sendWhatsAppMessage: An error occurred');
     }
   };
 
@@ -151,12 +171,12 @@ const More = ({ navigation }: Props) => {
           <Spacer height={10} />
           <OptionCard
             onPress={shareLink}
-            title={t('more_screen.share')}
+            title={t('more_screen.share_link')}
             icon={<Right name='share' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
-            onPress={() => navigation.navigate('Providers')}
+            onPress={openWhatsAppLink}
             title={t('more_screen.whatsapp')}
             icon={<Business name='whatsapp' color={textBlack} size={22} />}
           />

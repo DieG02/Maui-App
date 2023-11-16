@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StatusBar, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, StackActions } from '@react-navigation/native';
 import React, { useContext, useEffect } from 'react';
@@ -27,11 +27,13 @@ const KEY_PATH = 'auth_stack.sign_in';
 interface LoginUser {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 const initialValues: LoginUser = {
   email: '',
   password: '',
+  confirmPassword: ''
 };
 
 const toValidate = ['email', 'password'];
@@ -45,12 +47,10 @@ export default function LoginScreen({ navigation }: Props) {
 
   const onPressLogin = async () => {
     const data = await mutateAsync(values);
-
     if (data.token) {
       await AsyncStorage.setItem('userInfo', JSON.stringify(data));
       setIsLoggedIn(true);
       queryClient.invalidateQueries(VERIFY_TOKEN);
-      // navigation.dispatch(StackActions.replace('HomeTabs'));
     }
   };
 
@@ -98,7 +98,7 @@ export default function LoginScreen({ navigation }: Props) {
             placeholder={t(`${KEY_PATH}.placeholder_password`)}
             marginBottom={25}
           />
-
+          
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressLogin}

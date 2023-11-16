@@ -7,9 +7,13 @@
       "placeholder_email": "Digite seu e-mail",
       "password": "Senha",
       "placeholder_password": "Digite sua senha",
+      "confirm_password": "Confirmar senha",
+      "placeholder_confirm_password": "Digite novamente sua senha",
       "sign_in_button": "Iniciar sessão",
       "no_account": "Não tem uma conta?",
-      "create_account": "Criar conta"
+      "create_account": "Criar conta",
+      "mismatch_password": "As senhas não correspondem",
+      "alert_validate_password": "A senha deve ter pelo menos 8 caracteres, conter pelo menos uma letra maiúscula e pelo menos um número."
     },
     "sign_up": {
       "placeholder_name": "Digite seu nome",
@@ -37,7 +41,7 @@
     "clients": "Clientes",
     "providers": "Fornecedores",
     "languages": "Idiomas",
-    "share": "Convidar um amigo",
+    "share_link": "Convide amigos",
     "whatsapp": "Auida",
     "log_out": "Sair",
     "user_data": {
@@ -49,7 +53,14 @@
       "phone": "Telefone",
       "phone_number": "Número de telefone",
       "mail": "E-mail",
-      "save": "Salvar"
+      "save": "Salvar",
+      "delete": "Excluir conta",
+      "delete_modal": {
+        "title": "Essa ação é irreversível",
+        "description": "Se você excluir sua conta, terá que começar do zero, inclusive criando um novo usuário. Tem certeza de que deseja continuar?",
+        "confirm_label": "Sim, excluir conta",
+        "cancel_label": "Cancelar"
+      }
     }
   },
   "balance_stack": {
@@ -95,9 +106,11 @@
       "marketing": "Marketing e Publicidade",
       "insurance": "Seguro",
       "taxes": "Impostos",
+      "machines": "Máquinas e Equipamentos",
       "maintenance": "Manutenção e Reparos",
       "subscriptions": "Plataformas e Assinaturas",
       "costs": "Despesas Financeiras",
+      "others": "Outros",
       "sale": "Venda",
       "income": "Crédito",
       "expense": "Débito"

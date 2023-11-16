@@ -10,6 +10,8 @@ import { queryClient } from './src/v0.1/utils/queryClient';
 import { StatusBar } from 'react-native';
 import customStyles from './src/v0.1/styles/customStyles';
 import RootStack from './src/v0.1/screens/RootStack';
+import { SuccessToast, WarningToast, ErrorToast } from './src/v0.1/components/common/Toast';
+import CustomToast from 'react-native-toast-message';
 
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -17,6 +19,12 @@ const statusBarStyle = 'dark-content';
 const defaultLenguage = getLocales()[0].languageCode;
 
 const App = () => {
+  const toastConfig = {
+    success: SuccessToast,
+    warning: WarningToast,
+    error: ErrorToast,
+  };
+
   useEffect(() => {
     const loadLanguage = async () => {
       const locale = await getLocaleFromAsyncStorage();
@@ -37,6 +45,7 @@ const App = () => {
           <NavigationContainer>
             <RootStack />
           </NavigationContainer>
+          <CustomToast config={toastConfig}/>
         </GeneralProvider>
       </AuthProvider>
     </QueryClientProvider>
