@@ -70,4 +70,6 @@ ios/Maui.xcworkspace/xcuserdata/billybautista.xcuserdatad/UserInterfaceState.xcu
 
 .yarn*
 yarn.lock
-android/app/mauiUpload.keystore
+package-lock.json
+android/app/my-upload-key.keystore
+android/gradle.properties
