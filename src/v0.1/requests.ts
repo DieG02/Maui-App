@@ -42,13 +42,22 @@ export const checkPermission = async () => {
 };
 export const requestContactPermission = async () => {
   try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_CONTACTS
-    );
-    return granted;
+    const requestOnceAvailable = await AsyncStorage.getItem('read_contacts_requested');
+    if(!requestOnceAvailable) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS
+      );
+      await AsyncStorage.setItem('read_contacts_requested', JSON.stringify(true));
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) return true;
+      else return false;
+    }
+    return null;
+    
   } catch (err) {
     console.warn(err);
+    return false;
   }
+
 };
 
 export const requestCameraPermission = async () => {

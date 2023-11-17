@@ -53,9 +53,9 @@ const NewContact = ({ route, navigation }: Props) => {
     const hasPermission = await checkPermission();
     if (hasPermission) {
       getContacts();
-    } else {
-      await requestContactPermission();
-      getContacts();
+    } else{
+      const allowed = await requestContactPermission();
+      allowed && getContacts();
     }
   };
 
