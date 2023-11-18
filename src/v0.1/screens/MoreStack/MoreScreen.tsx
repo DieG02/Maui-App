@@ -27,7 +27,7 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const whatsappLink = 'https://wa.me/+5491168708424';
+const whatsappLink = 'https://wa.me/541168708424';
 
 // Llama a la función para abrir el enlace cuando sea necesario
 
@@ -83,19 +83,15 @@ const More = ({ navigation }: Props) => {
     }
   };
 
-  const openWhatsAppLink = () => {
-    if (whatsappLink) {
-      Linking.canOpenURL(whatsappLink)
-        .then(supported => {
-          if (!supported) {
-            Alert.alert('No app can handle the message link');
-          } else {
-            return Linking.openURL(whatsappLink);
-          }
-        })
-        .catch(err => console.error('An error occurred', err));
-    } else {
-      console.error('sendWhatsAppMessage: An error occurred');
+  const openWhatsApp = async () => {
+    try {
+      const supported = await Linking.openURL(whatsappLink);
+      if (!supported) {
+        console.log('WhatsApp is not installed');
+        Alert.alert('No app can handle the message link');
+      }
+    } catch (err) {
+      console.error('An error occurred', err);
     }
   };
 
@@ -176,7 +172,7 @@ const More = ({ navigation }: Props) => {
           />
           <Spacer height={10} />
           <OptionCard
-            onPress={openWhatsAppLink}
+            onPress={openWhatsApp}
             title={t('more_screen.whatsapp')}
             icon={<Business name='whatsapp' color={textBlack} size={22} />}
           />
