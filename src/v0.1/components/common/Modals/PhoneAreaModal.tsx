@@ -50,9 +50,9 @@ const OptionModal = ({ options, isModalVisible, setIsModalVisible, selectedOptio
                   name={option.name}
                   flag={option.flag}
                   prefix={option.prefix}
-                  backgroundColor={selectedOption === option.id ? ligthBlue : 'white'}
-                  textColor={selectedOption === option.id ? mainColor : blueSelected}
-                  onPress={() => handleModal(option.id)}
+                  backgroundColor={selectedOption === option.prefix ? ligthBlue : 'white'}
+                  textColor={selectedOption === option.prefix ? mainColor : blueSelected}
+                  onPress={() => handleModal(option.prefix)}
                 />
               ))}
             </View>
@@ -60,7 +60,7 @@ const OptionModal = ({ options, isModalVisible, setIsModalVisible, selectedOptio
         </View>
       </Modal>
       <PrefixInput
-        value={selectedOption ? selectedOption : '+ 54'}
+        value={selectedOption}
         setValue={setSelectedOption}
         marginBottom={25}
         onPress={() => setIsModalVisible(true)}

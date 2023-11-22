@@ -50,7 +50,7 @@ const initialValues = {
 
 const { mainColor, textBlack, background2, white } = customStyles;
 
-const toValidate = ['email', 'password', 'confirmPassword','name', 'cellphone'];
+const toValidate = ['email', 'password', 'confirmPassword', 'name', 'cellphone'];
 
 export default function SignUpScreen({ navigation }: Props) {
   const { t, i18n } = useTranslation();
@@ -79,29 +79,28 @@ export default function SignUpScreen({ navigation }: Props) {
   });
 
   const countrySelected = useMemo(() => {
-    return countries.filter(item => item.id === country)[0];
+    return countries.filter(item => item.prefix === country)[0];
   }, [country]);
 
   const validatePassword = (): string | null => {
-    if (values.password !== values.confirmPassword) 
-      return 'mismatch_password';
+    if (values.password !== values.confirmPassword) return 'mismatch_password';
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     const isValidPassword = passwordRegex.test(values.password);
     if (!isValidPassword) return 'alert_validate_password';
-    
+
     return null;
-  }
+  };
 
   const onPressSignUp = async () => {
     const validationError = validatePassword();
-    if(validationError) {
+    if (validationError) {
       return Toast.show({
         type: 'error',
         text2: `auth_stack.sign_in.${validationError}`,
         position: 'bottom',
-      })
-    };
-    
+      });
+    }
+
     await mutateAsync({
       ...values,
       country: countrySelected.name,

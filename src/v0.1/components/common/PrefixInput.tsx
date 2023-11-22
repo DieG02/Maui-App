@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import customStyles from "../../styles/customStyles";
-import Down from "react-native-vector-icons/Entypo";
-import { SvgXml } from "react-native-svg";
-import { countries } from "../../helpers/countries";
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import customStyles from '../../styles/customStyles';
+import Down from 'react-native-vector-icons/Entypo';
+import { SvgXml } from 'react-native-svg';
+import { countries } from '../../helpers/countries';
 
 const { mainColor, textBlack, secondaryColorBorder } = customStyles;
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const PrefixInput = ({ value, marginBottom, marginTop, onPress }: Props) => {
-  const flag = countries.find((item: any) => item.id === value);
+  const flag = countries.find((item: any) => item.prefix === value);
 
   return (
     <View
@@ -33,28 +33,23 @@ const PrefixInput = ({ value, marginBottom, marginTop, onPress }: Props) => {
           borderRadius: 12,
           borderColor: secondaryColorBorder,
           borderWidth: 1,
-          width: "100%",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
+          width: '100%',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
-        <SvgXml
-          xml={flag ? flag.flag : null}
-          width="20px"
-          height="20px"
-          style={{ marginRight: 5 }}
-        />
+        <SvgXml xml={flag ? flag.flag : null} width='20px' height='20px' style={{ marginRight: 5 }} />
         <Text
           style={{
             color: textBlack,
-            fontFamily: "Gilroy-Bold",
+            fontFamily: 'Gilroy-Bold',
           }}
         >
           {flag?.prefix}
         </Text>
-        <Down name="chevron-down" size={25} color={mainColor} />
+        <Down name='chevron-down' size={25} color={mainColor} />
       </TouchableOpacity>
     </View>
   );
