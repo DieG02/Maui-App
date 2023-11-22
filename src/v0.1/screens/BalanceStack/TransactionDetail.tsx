@@ -66,6 +66,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
   if (isFetchingTransaction || isLoading) return <LoadingComponent color={mainColor} />;
 
+  const locale = transaction.financialAccount.currency.locale;
+  const code = transaction.financialAccount.currency.code;
+
   return (
     <ScreenContainer>
       <BackHeaderTitle
@@ -124,13 +127,13 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           label={t('balance_stack.transaction_detail.total')}
           value={
             transaction.category.name === 'Venta'
-              ? `${transaction.total_amount.toLocaleString('es-AR', {
+              ? `${transaction.total_amount.toLocaleString(locale, {
                   style: 'currency',
-                  currency: 'ARS',
+                  currency: code,
                 })}`
-              : `-${transaction.total_amount.toLocaleString('es-AR', {
+              : `-${transaction.total_amount.toLocaleString(locale, {
                   style: 'currency',
-                  currency: 'ARS',
+                  currency: code,
                 })}`
           }
         />
