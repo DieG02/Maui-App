@@ -82,7 +82,6 @@ const InputForm = ({
             if (formated.length <= 20) setValue(formated);
           }}
           onBlur={() => {
-            console.log('blur', value);
             if (parseFloat(value.replace(/\./g, '').replace(',', '.')) !== 0) {
               setValue(round(value));
             } else {
