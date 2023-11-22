@@ -17,6 +17,9 @@ interface Props {
 const TransactionCard = ({ onPress, data }: Props) => {
   const { t } = useTranslation();
 
+  const locale = data.financialAccount.currency.locale;
+  const code = data.financialAccount.currency.code;
+
   return (
     <TouchableOpacity onPress={onPress} style={styles().wrapper}>
       <View style={styles().leftContainer}>
@@ -39,17 +42,17 @@ const TransactionCard = ({ onPress, data }: Props) => {
         <View style={styles().textContainer}>
           {data.category?.type === 'CREDIT' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
-              {data?.total_amount.toLocaleString('es-AR', {
+              {data?.total_amount.toLocaleString(locale, {
                 style: 'currency',
-                currency: 'ARS',
+                currency: code,
               })}
             </Text>
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
               -
-              {data?.total_amount.toLocaleString('es-AR', {
+              {data?.total_amount.toLocaleString(locale, {
                 style: 'currency',
-                currency: 'ARS',
+                currency: code,
               })}
             </Text>
           )}

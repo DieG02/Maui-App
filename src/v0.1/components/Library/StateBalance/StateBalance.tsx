@@ -27,37 +27,25 @@ const StateBalance = ({ data }: Props) => {
           <View style={styles.wrapper}>
             <StateBalanceCard
               state={t('home_stack.monthly_summary.incomes')}
-              value={data?.incomes.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              value={data?.incomes}
               left={marginHorizontal}
               type='ingreso'
             />
             <StateBalanceCard
               state={t('home_stack.monthly_summary.expenses')}
-              value={data?.expenses.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              value={data?.expenses}
               left={15}
               type='egreso'
             />
             <StateBalanceCard
               state={t('home_stack.monthly_summary.income_debts')}
-              value={data?.toCollect.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              value={data?.toCollect}
               left={15}
               type='cobrar'
             />
             <StateBalanceCard
               state={t('home_stack.monthly_summary.expense_debts')}
-              value={data?.debt.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              value={data?.debt}
               left={15}
               right={marginHorizontal}
               type='pagar'
