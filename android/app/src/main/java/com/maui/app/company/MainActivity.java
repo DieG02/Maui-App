@@ -1,4 +1,4 @@
-package com.maui;
+package com.maui.app.company;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

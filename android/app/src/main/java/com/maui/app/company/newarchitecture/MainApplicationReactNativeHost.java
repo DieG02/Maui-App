@@ -1,4 +1,4 @@
-package com.maui.newarchitecture;
+package com.maui.app.company.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.maui.BuildConfig;
-import com.maui.newarchitecture.components.MainComponentsRegistry;
-import com.maui.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.maui.app.company.BuildConfig;
+import com.maui.app.company.newarchitecture.components.MainComponentsRegistry;
+import com.maui.app.company.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

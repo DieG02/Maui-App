@@ -1,4 +1,4 @@
-package com.maui.newarchitecture.modules;
+package com.maui.app.company.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

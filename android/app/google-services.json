@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "635380912980",
-    "project_id": "maui-a8a59",
-    "storage_bucket": "maui-a8a59.appspot.com"
+    "project_number": "1010498033992",
+    "project_id": "maui-7b26d",
+    "storage_bucket": "maui-7b26d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635380912980:android:c676c95611e58b6854eec1",
+        "mobilesdk_app_id": "1:1010498033992:android:0e32715a5f3e1e04eabb7d",
         "android_client_info": {
-          "package_name": "com.maui"
+          "package_name": "com.maui.app.company"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCpE0raDvIZrskEekHmo3s_breeVv0_HHM"
+          "current_key": "AIzaSyAayKuIEKp4QuNmSaVkK5KfP1ilvrrfrEg"
         }
       ],
       "services": {
