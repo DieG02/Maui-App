@@ -27,7 +27,9 @@ interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-const whatsappLink = 'https://wa.me/541168708424';
+const whatsappLink = 'https://wa.me/541169708424';
+
+const url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
 
 // Llama a la función para abrir el enlace cuando sea necesario
 
@@ -59,26 +61,16 @@ const More = ({ navigation }: Props) => {
     queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();
   };
-
   const shareLink = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          'Hola! Te invito a probar Maui, una app para administrar tus finanzas y llevar a otro nivel tu negocio.',
-        url: 'https://maui-app.com/',
-      });
+    const options = {
+      title: t('more_screen.title_share'),
+      message: `${t('more_screen.message_share')}\n\n${url}`,
+      url: url,
+    };
 
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // Compartido en una plataforma específica (result.activityType)
-        } else {
-          // Compartido con éxito
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // Compartir cancelado
-      }
+    try {
+      await Share.share(options);
     } catch (error) {
-      // Manejo de errores
       console.error(error);
     }
   };
