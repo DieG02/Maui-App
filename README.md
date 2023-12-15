@@ -5,3 +5,5 @@
 2. Crear el .env desde .env.example, si no toma el .env correr `yarn start --reset-cache`
 
 3. Para levantar la app, correr `npm run android` para android y `npm run ios` para ios
+
+4. No editar el gradlew-properties
