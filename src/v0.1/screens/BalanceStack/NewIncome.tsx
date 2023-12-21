@@ -151,7 +151,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         {/* <Switch
           title={t('balance_stack.new_income.state')}
           isPressed={values.isPaid}
-          handleToggle={() => setValues({ ...values, isPaid: !values.isPaid })}
+          handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
         /> */}
         {values.isPaid === true ? (
           <View

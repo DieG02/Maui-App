@@ -2,13 +2,14 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import i18n from '../../services/i18n-config';
+import useToggle from '../../hooks/useToggle';
 
 const { mainColor, textBlack, white, secondaryColorBorder } = customStyles;
 
 type SwitchTypes = {
   title: string;
   isPressed: boolean;
-  handleToggle: () => void;
+  handleSwitch: () => void;
 };
 
 type ToggleTypes = {
@@ -19,8 +20,14 @@ type ToggleTypes = {
   textColor: string;
 };
 
-const Switch = ({ title, isPressed, handleToggle }: SwitchTypes) => {
+const Switch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
+  const { toggle, value: isToggle } = useToggle(isPressed);
   const { t } = i18n;
+
+  const handleToggle = () => {
+    handleSwitch();
+    toggle();
+  };
 
   const ToggleButton = ({ value, handleValue, text, backgroundColor, textColor }: ToggleTypes) => {
     return (
@@ -71,17 +78,17 @@ const Switch = ({ title, isPressed, handleToggle }: SwitchTypes) => {
         }}
       >
         <ToggleButton
-          value={isPressed}
+          value={isToggle}
           handleValue={handleToggle}
-          backgroundColor={isPressed ? mainColor : white}
-          textColor={isPressed ? white : mainColor}
+          backgroundColor={isToggle ? mainColor : white}
+          textColor={isToggle ? white : mainColor}
           text={t('balance_stack.state_options.paid')}
         />
         <ToggleButton
-          value={!isPressed}
+          value={!isToggle}
           handleValue={handleToggle}
-          backgroundColor={isPressed ? white : mainColor}
-          textColor={isPressed ? mainColor : white}
+          backgroundColor={isToggle ? white : mainColor}
+          textColor={isToggle ? mainColor : white}
           text={t('balance_stack.state_options.debt')}
         />
       </View>
