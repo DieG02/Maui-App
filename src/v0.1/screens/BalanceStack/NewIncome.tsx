@@ -231,6 +231,11 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.setParams({ contact: '' });
           }}
         />
+        {/* <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        /> */}
         <InputDate
           name={t('balance_stack.new_income.date')}
           date={values.date}
