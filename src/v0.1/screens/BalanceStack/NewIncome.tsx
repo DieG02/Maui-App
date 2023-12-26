@@ -148,6 +148,11 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
+        {/* <Switch
+          title={t('balance_stack.new_income.state')}
+          isPressed={values.isPaid}
+          handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
+        /> */}
         {values.isPaid === true ? (
           <View
             style={{
