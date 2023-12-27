@@ -122,10 +122,10 @@
       "debt": "Debt"
     },
     "payment_method_options": {
-      "cash": "CASH",
-      "card": "CARD",
-      "bank_transfer": "BANK TRANSFER",
-      "other": "OTHER"
+      "cash": "Cash",
+      "card": "Card",
+      "bank_transfer": "Bank Transfer",
+      "other": "Other"
     },
     "date_options": {
       "today": "Today",

@@ -122,10 +122,10 @@
       "debt": "Dívida"
     },
     "payment_method_options": {
-      "cash": "DINHEIRO",
-      "card": "CARTÃO",
-      "bank_transfer": "TRANSFERÊNCIA",
-      "other": "OUTRO"
+      "cash": "Dinheiro",
+      "card": "Cartão",
+      "bank_transfer": "Transferência",
+      "other": "Outro"
     },
     "date_options": {
       "today": "Hoje",

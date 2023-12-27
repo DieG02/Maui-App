@@ -62,7 +62,8 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
-  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions, handlePaymentName } = usePayment();
+  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptionsLabels, handlePaymentName } =
+    usePayment();
 
   const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction');
 
@@ -190,7 +191,7 @@ const NewIncome = ({ navigation, route }: Props) => {
             >
               <OptionModal
                 title={t('balance_stack.new_income.payment_method')}
-                options={paymentsOptions}
+                options={paymentsOptionsLabels}
                 isModalVisible={modalPayment}
                 setIsModalVisible={setModalPayment}
                 selectedOption={handlePayment(values.paymentMethod)}
@@ -242,6 +243,17 @@ const NewIncome = ({ navigation, route }: Props) => {
           setDate={date => setValues(prev => ({ ...prev, date: date }))}
           color={mainColor}
         />
+        {/* <PaymentMethodPicker
+          name={t('balance_stack.new_income.payment_method')}
+          options={paymentsOptions}
+          value={values.paymentMethod}
+          handleValue={text =>
+            setValues(prev => ({
+              ...prev,
+              paymentMethod: text,
+            }))
+          }
+        /> */}
         <Spacer height={15} />
       </Form>
       <View
