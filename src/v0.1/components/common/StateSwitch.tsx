@@ -20,7 +20,7 @@ type ToggleTypes = {
   textColor: string;
 };
 
-const Switch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
+const StateSwitch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
   const { toggle, value: isToggle } = useToggle(isPressed);
   const { t } = i18n;
 
@@ -70,7 +70,6 @@ const Switch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
           marginTop: 5,
           borderWidth: 1,
           height: 50,
-          width: 200,
           flexWrap: 'nowrap',
           flexDirection: 'row',
           alignItems: 'center',
@@ -96,4 +95,4 @@ const Switch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
   );
 };
 
-export default Switch;
+export default StateSwitch;

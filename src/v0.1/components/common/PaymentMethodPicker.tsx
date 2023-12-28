@@ -46,7 +46,7 @@ const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
           borderWidth: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          height: 90,
+          height: 80,
           width: 100,
           paddingVertical: 5,
           paddingHorizontal: 4,
