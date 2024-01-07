@@ -122,10 +122,10 @@
       "debt": "Deuda"
     },
     "payment_method_options": {
-      "cash": "EFECTIVO",
-      "card": "TARJETA",
-      "bank_transfer": "TRANSFERENCIA",
-      "other": "OTRO"
+      "cash": "Efectivo",
+      "card": "Tarjeta",
+      "bank_transfer": "Transferencia",
+      "other": "Otro"
     },
     "date_options": {
       "today": "Hoy",
