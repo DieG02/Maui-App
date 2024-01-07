@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Dimensions, ToastAndroid, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Dimensions, ToastAndroid } from 'react-native';
 import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import CommonInput from '../../components/common/CommonInput';
-import OptionModal from '../../components/common/OptionModal';
-import InputDate from '../../components/common/InputDate';
 import moment from 'moment';
 import 'moment-timezone';
 import Spacer from '../../components/common/Spacer';
@@ -26,6 +24,9 @@ import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import { getCategoryId } from '../../utils/getCategoryId';
+import DatePicker from '../../components/common/DatePicker';
+import StateSwitch from '../../components/common/StateSwitch';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 
 const { width } = Dimensions.get('window');
 
@@ -60,13 +61,12 @@ const validateOptions: ValidateOptions = {
 
 const NewExpense = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
-  const [modalPayment, setModalPayment] = useState(false);
-  const [modalState, setModalState] = useState(false);
+
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
 
   const { values, setValues, validateValues } = useForm<InitialExpense>(initialValues);
 
-  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptions, handlePaymentName } = usePayment();
+  const { newPaymentsOptions } = usePayment();
 
   const { data } = useGetTransactionCategories('debit', 'transaction');
 
@@ -126,133 +126,107 @@ const NewExpense = ({ navigation, route }: Props) => {
   return (
     <ScreenContainer>
       <BackHeaderTitle label={t('balance_stack.new_expense.new_expense')} onPressBack={() => navigation.goBack()} />
-      <KeyboardAvoidingView
-        style={{
-          flex: 1,
-        }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <Form>
-          <Spacer height={5} />
-          <OptionWithIcon
-            required
-            title={t('balance_stack.new_expense.category')}
-            placeholder={t('balance_stack.new_expense.placeholder_category')}
-            options={data ? data : []}
-            isModalVisible={modalExpenseCategory}
-            setIsModalVisible={setModalExpenseCategory}
-            selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
-            setSelectedOption={text => {
-              setValues(prev => ({ ...prev, categoryId: text }));
+      <Spacer height={10} />
+      <Form>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
             }}
-          />
-          <InputForm
-            keyboardType='numeric'
-            placeholder='0,00'
-            value={values.value}
-            name={t('balance_stack.new_expense.value')}
-            setValue={val => {
-              const newValue = !!val && val !== 'NaN' ? val : '';
-              setValues(prev => ({ ...prev, value: newValue }));
-            }}
-            marginBottom={15}
-            required
-          />
-          <CommonInput
-            placeholder={t('balance_stack.new_expense.placeholder_description')}
-            name={t('balance_stack.new_expense.description')}
-            marginBottom={15}
-            value={values.name}
-            setValue={text => setValues(prev => ({ ...prev, name: text }))}
-          />
-
-          {values.isPaid === true ? (
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-              }}
-            >
-              <View
-                style={{
-                  display: 'flex',
-                  width: (width - 100) / 2,
-                }}
-              >
-                <OptionModal
-                  title={t('balance_stack.new_expense.state')}
-                  options={stateOptions}
-                  isModalVisible={modalState}
-                  setIsModalVisible={setModalState}
-                  selectedOption={handleSelected(values.isPaid)}
-                  setSelectedOption={text =>
-                    setValues(prev => ({
-                      ...prev,
-                      isPaid: handleState(text),
-                    }))
-                  }
-                />
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  width: (width - 100) / 2,
-                }}
-              >
-                <OptionModal
-                  title={t('balance_stack.new_expense.payment_method')}
-                  options={paymentsOptions}
-                  isModalVisible={modalPayment}
-                  setIsModalVisible={setModalPayment}
-                  selectedOption={handlePayment(values.paymentMethod)}
-                  setSelectedOption={text =>
-                    setValues(prev => ({
-                      ...prev,
-                      paymentMethod: handlePaymentName(text),
-                    }))
-                  }
-                />
-              </View>
-            </View>
-          ) : (
-            <OptionModal
-              title={t('balance_stack.new_expense.state')}
-              options={stateOptions}
-              isModalVisible={modalState}
-              setIsModalVisible={setModalState}
-              selectedOption={handleSelected(values.isPaid)}
-              setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
+          >
+            <DatePicker
+              name={t('balance_stack.new_income.date')}
+              value={values.date}
+              setValue={date => setValues(prev => ({ ...prev, date: date }))}
             />
-          )}
-          <SelectionModal
-            placeholder={t('balance_stack.new_expense.placeholder_provider')}
-            name={t('balance_stack.new_expense.provider')}
-            required={values.isPaid === false}
-            value={values.providerName}
-            marginBottom={15}
-            onPress={() => {
-              navigation.navigate('Providers', { screen: 'NewExpense' });
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
             }}
-            onPressClose={() => {
-              setValues(prev => ({
-                ...prev,
-                providerId: '',
-                providerName: '',
-              }));
-              navigation.setParams({ contact: '' });
-            }}
-          />
-          <InputDate
-            name={t('balance_stack.new_expense.date')}
-            date={values.date}
-            setDate={date => setValues(prev => ({ ...prev, date: date }))}
-            color={mainColor}
-          />
-          <Spacer height={15} />
-        </Form>
-      </KeyboardAvoidingView>
+          >
+            <StateSwitch
+              title={t('balance_stack.new_income.state')}
+              isPressed={values.isPaid}
+              handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
+            />
+          </View>
+        </View>
+        <OptionWithIcon
+          required
+          title={t('balance_stack.new_expense.category')}
+          placeholder={t('balance_stack.new_expense.placeholder_category')}
+          options={data ? data : []}
+          isModalVisible={modalExpenseCategory}
+          setIsModalVisible={setModalExpenseCategory}
+          selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
+          setSelectedOption={text => {
+            setValues(prev => ({ ...prev, categoryId: text }));
+          }}
+        />
+        <InputForm
+          keyboardType='numeric'
+          placeholder='0,00'
+          value={values.value}
+          name={t('balance_stack.new_expense.value')}
+          setValue={val => {
+            const newValue = !!val && val !== 'NaN' ? val : '';
+            setValues(prev => ({ ...prev, value: newValue }));
+          }}
+          marginBottom={15}
+          required
+        />
+        <CommonInput
+          placeholder={t('balance_stack.new_expense.placeholder_description')}
+          name={t('balance_stack.new_expense.description')}
+          marginBottom={15}
+          value={values.name}
+          setValue={text => setValues(prev => ({ ...prev, name: text }))}
+        />
+        <SelectionModal
+          placeholder={t('balance_stack.new_expense.placeholder_provider')}
+          name={t('balance_stack.new_expense.provider')}
+          required={values.isPaid === false}
+          value={values.providerName}
+          marginBottom={15}
+          onPress={() => {
+            navigation.navigate('Providers', { screen: 'NewExpense' });
+          }}
+          onPressClose={() => {
+            setValues(prev => ({
+              ...prev,
+              providerId: '',
+              providerName: '',
+            }));
+            navigation.setParams({ contact: '' });
+          }}
+        />
+        {values.isPaid === true && (
+          <View>
+            <PaymentMethodPicker
+              name={t('balance_stack.new_income.payment_method')}
+              options={newPaymentsOptions}
+              value={values.paymentMethod}
+              handleValue={text =>
+                setValues(prev => ({
+                  ...prev,
+                  paymentMethod: text,
+                }))
+              }
+            />
+          </View>
+        )}
+      </Form>
+      <Spacer height={15} />
       <View
         style={{
           justifyContent: 'center',

@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, ToastAndroid } from 'react-native';
 import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import CommonInput from '../../components/common/CommonInput';
-import OptionModal from '../../components/common/OptionModal';
-import InputDate from '../../components/common/InputDate';
 import moment from 'moment';
 import 'moment-timezone';
 import Button from '../../components/common/Button';
@@ -23,6 +21,9 @@ import { useTranslation } from 'react-i18next';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import { getCategoryId } from '../../utils/getCategoryId';
+import DatePicker from '../../components/common/DatePicker';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import StateSwitch from '../../components/common/StateSwitch';
 
 // TODO:Refactor this component
 
@@ -57,13 +58,10 @@ const validateOptions: ValidateOptions = {
 
 const NewIncome = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
-  const [modalPayment, setModalPayment] = useState(false);
-  const [modalState, setModalState] = useState(false);
 
   const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
-  const { handlePayment, handleSelected, handleState, stateOptions, paymentsOptionsLabels, handlePaymentName } =
-    usePayment();
+  const { newPaymentsOptions } = usePayment();
 
   const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction');
 
@@ -127,7 +125,41 @@ const NewIncome = ({ navigation, route }: Props) => {
         onPressBack={() => navigation.goBack()}
         color={textBlack}
       />
+      <Spacer height={10} />
       <Form>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
+            }}
+          >
+            <DatePicker
+              name={t('balance_stack.new_income.date')}
+              value={values.date}
+              setValue={date => setValues(prev => ({ ...prev, date: date }))}
+            />
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
+            }}
+          >
+            <StateSwitch
+              title={t('balance_stack.new_income.state')}
+              isPressed={values.isPaid}
+              handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
+            />
+          </View>
+        </View>
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'
@@ -149,71 +181,6 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
-        {/* <Switch
-          title={t('balance_stack.new_income.state')}
-          isPressed={values.isPaid}
-          handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
-        /> */}
-        {values.isPaid === true ? (
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-            }}
-          >
-            <View
-              style={{
-                display: 'flex',
-                width: (width - 100) / 2,
-              }}
-            >
-              <OptionModal
-                title={t('balance_stack.new_income.state')}
-                options={stateOptions}
-                isModalVisible={modalState}
-                setIsModalVisible={setModalState}
-                selectedOption={handleSelected(values.isPaid)}
-                setSelectedOption={text =>
-                  setValues(prev => ({
-                    ...prev,
-                    isPaid: handleState(text),
-                  }))
-                }
-              />
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                width: (width - 100) / 2,
-              }}
-            >
-              <OptionModal
-                title={t('balance_stack.new_income.payment_method')}
-                options={paymentsOptionsLabels}
-                isModalVisible={modalPayment}
-                setIsModalVisible={setModalPayment}
-                selectedOption={handlePayment(values.paymentMethod)}
-                setSelectedOption={text =>
-                  setValues(prev => ({
-                    ...prev,
-                    paymentMethod: handlePaymentName(text),
-                  }))
-                }
-              />
-            </View>
-          </View>
-        ) : (
-          <OptionModal
-            title={t('balance_stack.new_income.state')}
-            options={stateOptions}
-            isModalVisible={modalState}
-            setIsModalVisible={setModalState}
-            selectedOption={handleSelected(values.isPaid)}
-            setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
-          />
-        )}
         <SelectionModal
           placeholder={t('balance_stack.new_income.placeholder_client')}
           name={t('balance_stack.new_income.client')}
@@ -232,29 +199,22 @@ const NewIncome = ({ navigation, route }: Props) => {
             navigation.setParams({ contact: '' });
           }}
         />
-        {/* <DatePicker
-          name={t('balance_stack.new_income.date')}
-          value={values.date}
-          setValue={date => setValues(prev => ({ ...prev, date: date }))}
-        /> */}
-        <InputDate
-          name={t('balance_stack.new_income.date')}
-          date={values.date}
-          setDate={date => setValues(prev => ({ ...prev, date: date }))}
-          color={mainColor}
-        />
-        {/* <PaymentMethodPicker
-          name={t('balance_stack.new_income.payment_method')}
-          options={paymentsOptions}
-          value={values.paymentMethod}
-          handleValue={text =>
-            setValues(prev => ({
-              ...prev,
-              paymentMethod: text,
-            }))
-          }
-        /> */}
-        <Spacer height={15} />
+        {values.isPaid === true && (
+          <View>
+            <PaymentMethodPicker
+              name={t('balance_stack.new_income.payment_method')}
+              options={newPaymentsOptions}
+              value={values.paymentMethod}
+              handleValue={text =>
+                setValues(prev => ({
+                  ...prev,
+                  paymentMethod: text,
+                }))
+              }
+            />
+            <Spacer height={15} />
+          </View>
+        )}
       </Form>
       <View
         style={{
