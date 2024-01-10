@@ -56,11 +56,11 @@ type ExpenseDebt = {
 };
 
 type CountryItem = {
-  id: string;
-  flag: string;
-  name: string;
-  prefix: string;
+  countryName: string;
+  isoCode: string;
+  countryPrefix: string;
 };
+
 type Summary = {
   amount: number;
   stakeholders: number;

@@ -1,57 +1,48 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import customStyles from '../../styles/customStyles';
-import Down from 'react-native-vector-icons/Entypo';
-import { SvgXml } from 'react-native-svg';
-import { countries } from '../../helpers/countries';
+import Icon from 'react-native-vector-icons/Entypo';
+import CountryFlag from 'react-native-country-flag';
 
-const { mainColor, textBlack, secondaryColorBorder } = customStyles;
+const { mainColor, textBlack, secondaryColorBorder, width } = customStyles;
 
 interface Props {
-  value: string;
-  setValue: (value: string) => void;
+  value: any;
   marginBottom?: number;
   marginTop?: number;
-  touchable?: boolean;
   onPress?: () => void;
 }
 
 const PrefixInput = ({ value, marginBottom, marginTop, onPress }: Props) => {
-  const flag = countries.find((item: any) => item.prefix === value);
-
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={{
         marginBottom: marginBottom,
         marginTop: marginTop,
+        width: width / 4,
+        borderRadius: 12,
+        borderColor: secondaryColorBorder,
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        height: 55,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
       }}
     >
-      <TouchableOpacity
-        onPress={onPress}
+      <CountryFlag isoCode={value.isoCode} size={15} />
+      <Text
         style={{
-          height: 55,
-          borderRadius: 12,
-          borderColor: secondaryColorBorder,
-          borderWidth: 1,
-          width: '100%',
-          justifyContent: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
+          color: textBlack,
+          fontFamily: 'Gilroy-SemiBold',
+          paddingHorizontal: 5,
         }}
       >
-        <SvgXml xml={flag ? flag.flag : null} width='20px' height='20px' style={{ marginRight: 5 }} />
-        <Text
-          style={{
-            color: textBlack,
-            fontFamily: 'Gilroy-Bold',
-          }}
-        >
-          {flag?.prefix}
-        </Text>
-        <Down name='chevron-down' size={25} color={mainColor} />
-      </TouchableOpacity>
-    </View>
+        {value.countryPrefix}
+      </Text>
+      <Icon name='chevron-down' size={25} color={mainColor} />
+    </TouchableOpacity>
   );
 };
 

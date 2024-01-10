@@ -1,6 +1,6 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { SvgXml } from 'react-native-svg';
+import { Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import CountryFlag from 'react-native-country-flag';
 
 interface Props {
   name: string;
@@ -21,28 +21,30 @@ const OptionCountrySelect = ({ name, flag, prefix, backgroundColor, textColor, o
         borderRadius: 12,
         marginHorizontal: 20,
         marginVertical: 5,
-        justifyContent: "center",
+        justifyContent: 'center',
       }}
     >
       <View
         style={{
           display: 'flex',
-          flexDirection:'row',
-          flexWrap:'nowrap',
-          justifyContent:'flex-start',
-          alignItems:'center',
-        }}>
-        <SvgXml xml={flag} width='30px' height='30px' style={{marginLeft:20}}/>
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <CountryFlag isoCode={flag} size={18} />
         <View
           style={{
-            display:'flex',
-            flexDirection:'column',
-          }}>
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <Text
             style={{
               color: textColor,
-              paddingLeft:20,
-              fontFamily: "Gilroy-Bold",
+              paddingLeft: 20,
+              fontFamily: 'Gilroy-Bold',
             }}
           >
             {name}
@@ -50,8 +52,8 @@ const OptionCountrySelect = ({ name, flag, prefix, backgroundColor, textColor, o
           <Text
             style={{
               color: textColor,
-              paddingLeft:20,
-              fontFamily: "Gilroy-Bold",
+              paddingLeft: 20,
+              fontFamily: 'Gilroy-Bold',
             }}
           >
             {prefix}
