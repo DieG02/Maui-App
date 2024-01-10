@@ -102,7 +102,7 @@ const UserData = ({ navigation, route }: Props) => {
           autoCapitalize='words'
         />
         <Spacer height={5} />
-        {/* Reemplaza values.cellPhone por 'AR', luego usa el modal en la app y selecciona otro pais. Finalmente cambias 'AR' por values.cellPhone. Haz lo mismo en SignUpScreen.tsx */}
+        {/* Si rompe la app rompe hace esto: Reemplazas values.cellPhone por 'AR', luego usas el modal en la app y seleccionas otro pais. Finalmente cambias 'AR' por values.cellPhone*/}
         <PhoneInput
           value={values.cellPhone as string}
           setValue={cellPhone =>

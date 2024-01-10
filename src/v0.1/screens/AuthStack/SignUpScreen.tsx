@@ -21,6 +21,7 @@ import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
 import Toast from 'react-native-toast-message';
 import { countryList } from '../../helpers/countryList';
+import { getCountry } from 'react-native-localize';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -52,9 +53,11 @@ const { mainColor, textBlack, background2, white } = customStyles;
 
 const toValidate = ['email', 'password', 'confirmPassword', 'name', 'cellphone'];
 
+const currentCountry = getCountry();
+
 export default function SignUpScreen({ navigation }: Props) {
   const { t, i18n } = useTranslation();
-  const [country, setCountry] = useState('AR');
+  const [country, setCountry] = useState<string>(currentCountry);
   const [modalVisible, setModalVisible] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
 
@@ -132,7 +135,6 @@ export default function SignUpScreen({ navigation }: Props) {
             placeholder={t('auth_stack.sign_up.placeholder_name')}
             keyboardType='default'
           />
-          {/* Reemplaza values.cellPhone por 'AR', luego usa el modal en la app y selecciona otro pais. Finalmente cambias 'AR' por values.cellPhone. Haz lo mismo en UserData.tsx */}
           <PhoneInput
             value={values.cellphone}
             setValue={text => setValues(prev => ({ ...prev, cellphone: text }))}
