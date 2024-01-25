@@ -1,12 +1,12 @@
-import { View, TextInput } from "react-native";
-import Close from "react-native-vector-icons/AntDesign";
+import { View, TextInput } from 'react-native';
+import Close from 'react-native-vector-icons/AntDesign';
 
-import React from "react";
-import customStyles from "../../../styles/customStyles";
-import ButtonIcon from "../ButtonIcon";
-import styles from "./style";
+import React from 'react';
+import customStyles from '../../../styles/customStyles';
+import ButtonIcon from '../ButtonIcon';
+import styles from './style';
 
-const { textLight, iconColor } = customStyles;
+const { textLight, textBlack, iconColor } = customStyles;
 
 interface Props {
   onChangeText: (text: string) => void;
@@ -16,13 +16,7 @@ interface Props {
   onBlur?: () => void;
 }
 
-const SearchBar = ({
-  onChangeText,
-  text,
-  placeholder,
-  onPress,
-  onBlur,
-}: Props) => {
+const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur }: Props) => {
   return (
     <View style={styles.wrapper}>
       <TextInput
@@ -32,13 +26,14 @@ const SearchBar = ({
         placeholder={placeholder}
         onBlur={onBlur}
         placeholderTextColor={textLight}
-        autoCapitalize="none"
+        autoCapitalize='none'
         style={{
+          color: textBlack,
           fontSize: 18,
         }}
       />
       <ButtonIcon onPress={onPress}>
-        <Close name="close" size={30} color={iconColor} />
+        <Close name='close' size={30} color={iconColor} />
       </ButtonIcon>
     </View>
   );
