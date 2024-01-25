@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, ToastAndroid } from 'react-native';
 import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import CommonInput from '../../components/common/CommonInput';
-import OptionModal from '../../components/common/OptionModal';
-import InputDate from '../../components/common/InputDate';
 import moment from 'moment';
 import 'moment-timezone';
 import Button from '../../components/common/Button';
@@ -22,8 +20,10 @@ import { useTranslation } from 'react-i18next';
 import usePayDebtById from '../../services/Debts/usePayDebtById';
 import useGetDebtById from '../../services/Debts/useGetDebtsById';
 import { Alert } from 'react-native';
+import DatePicker from '../../components/common/DatePicker';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 
-const { marginHorizontal, mainColor, background2, white } = customStyles;
+const { marginHorizontal, width, mainColor, background2, white } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -44,11 +44,10 @@ const validateOption = ['value'];
 const IndividualPayment = ({ navigation, route }: Props) => {
   const { params } = route;
   const { t } = useTranslation();
-  const [modalPayment, setModalPayment] = useState(false);
 
   const { values, setValues, validateValues } = useForm<InitialDebt>(initialValues);
 
-  const { handlePayment, paymentsOptions, handlePaymentName } = usePayment();
+  const { newPaymentsOptions } = usePayment();
 
   const showToast = () => {
     ToastAndroid.showWithGravity(t('debt_stack.payment_done'), ToastAndroid.LONG, ToastAndroid.TOP);
@@ -56,7 +55,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
 
   const { data: debtor, isLoading: loading } = useGetDebtById(params?.contact);
 
-  const equalToDebt = Number(values.value) === debtor.status.totalToPay;
+  const equalToDebt = Number(values.value) === debtor?.status.totalToPay;
 
   const { mutateAsync, isLoading } = usePayDebtById(
     {
@@ -102,6 +101,18 @@ const IndividualPayment = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle label={t('debt_stack.new_payment')} onPressBack={() => navigation.goBack()} />
       <Form>
+        <View
+          style={{
+            display: 'flex',
+            width: (width - 80) / 2,
+          }}
+        >
+          <DatePicker
+            name={t('balance_stack.new_income.date')}
+            value={values.date}
+            setValue={date => setValues(prev => ({ ...prev, date: date }))}
+          />
+        </View>
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'
@@ -122,24 +133,16 @@ const IndividualPayment = ({ navigation, route }: Props) => {
           value={values.description}
           setValue={text => setValues(prev => ({ ...prev, description: text }))}
         />
-        <OptionModal
-          title={t('balance_stack.new_income.payment_method')}
-          options={paymentsOptions}
-          isModalVisible={modalPayment}
-          setIsModalVisible={setModalPayment}
-          selectedOption={handlePayment(values.paymentMethod)}
-          setSelectedOption={text =>
+        <PaymentMethodPicker
+          name={t('balance_stack.new_income.payment_method')}
+          options={newPaymentsOptions}
+          value={values.paymentMethod}
+          handleValue={text =>
             setValues(prev => ({
               ...prev,
-              paymentMethod: handlePaymentName(text),
+              paymentMethod: text,
             }))
           }
-        />
-        <InputDate
-          name={t('balance_stack.new_income.date')}
-          date={values.date}
-          setDate={date => setValues(prev => ({ ...prev, date: date }))}
-          color={mainColor}
         />
         <Spacer height={20} />
       </Form>

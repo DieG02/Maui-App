@@ -9,7 +9,6 @@ import DebtPaidDetail from './DebtPaidDetail';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 import { useTranslation } from 'react-i18next';
 import useGetDebtById from '../../services/Debts/useGetDebtsById';
-import { useMemo } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
