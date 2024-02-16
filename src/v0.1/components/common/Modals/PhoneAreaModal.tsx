@@ -4,67 +4,60 @@ import Modal from 'react-native-modal';
 import customStyles from '../../../styles/customStyles';
 import OptionCountrySelect from '../OptionCountrySelect';
 import PrefixInput from '../PrefixInput';
+import { countryList } from '../../../helpers/countryList';
+import useToggle from '../../../hooks/useToggle';
 
-const { mainColor, ligthBlue, blueSelected } = customStyles;
-
+const { mainColor, white, ligthBlue, blueSelected } = customStyles;
 interface Props {
-  options: Array<CountryItem>;
-  isModalVisible: boolean;
-  setIsModalVisible: (value: boolean) => void;
   selectedOption: string;
   setSelectedOption: (value: string) => void;
 }
 
-const OptionModal = ({ options, isModalVisible, setIsModalVisible, selectedOption, setSelectedOption }: Props) => {
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
+const OptionModal = ({ selectedOption, setSelectedOption }: Props) => {
+  const { toggle, setToggle, value } = useToggle(false);
+  const countryInfo = countryList.find((item: any) => item.isoCode === selectedOption);
 
   const handleModal = (option: string) => {
     setSelectedOption(option);
-    toggleModal();
+    toggle();
   };
+
   return (
     <View>
       <Modal
         scrollOffset={100}
-        isVisible={isModalVisible}
+        isVisible={value}
         useNativeDriverForBackdrop={true}
-        onBackdropPress={() => setIsModalVisible(false)}
-        onSwipeComplete={() => setIsModalVisible(false)}
-        onBackButtonPress={() => setIsModalVisible(false)}
+        onBackdropPress={() => setToggle(false)}
+        onSwipeComplete={() => setToggle(false)}
+        onBackButtonPress={() => setToggle(false)}
       >
         <View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: white,
             marginHorizontal: 10,
             borderRadius: 15,
-            height: '50%',
+            height: 400,
           }}
         >
           <ScrollView>
             <View style={{ marginVertical: 10 }}>
-              {options?.map((option, index) => (
+              {countryList.map((option, index) => (
                 <OptionCountrySelect
                   key={index}
-                  name={option.name}
-                  flag={option.flag}
-                  prefix={option.prefix}
-                  backgroundColor={selectedOption === option.prefix ? ligthBlue : 'white'}
-                  textColor={selectedOption === option.prefix ? mainColor : blueSelected}
-                  onPress={() => handleModal(option.prefix)}
+                  name={option.countryName}
+                  flag={option.isoCode}
+                  prefix={option.countryPrefix}
+                  backgroundColor={selectedOption === option.isoCode ? ligthBlue : white}
+                  textColor={selectedOption === option.isoCode ? mainColor : blueSelected}
+                  onPress={() => handleModal(option.isoCode)}
                 />
               ))}
             </View>
           </ScrollView>
         </View>
       </Modal>
-      <PrefixInput
-        value={selectedOption}
-        setValue={setSelectedOption}
-        marginBottom={25}
-        onPress={() => setIsModalVisible(true)}
-      />
+      <PrefixInput value={countryInfo} marginBottom={25} onPress={() => setToggle(true)} />
     </View>
   );
 };

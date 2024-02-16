@@ -24,7 +24,6 @@ import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
 import AlertModal from '../../components/common/Modals/AlertModal';
 
-
 const statusBarStyle = 'dark-content';
 const { mainColor, textBlack, background2, expense, expenseLight } = customStyles;
 
@@ -34,14 +33,14 @@ interface Props {
 }
 
 const UserData = ({ navigation, route }: Props) => {
-  const { t } = useTranslation();
   const { params } = route;
-  const [modal, setModal] = useState(false);
-  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
-  const email = params?.email;
-  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
   const { setIsLoggedIn } = useContext(AuthContext);
+  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
+  const { t } = useTranslation();
 
+  const email = params?.email;
+
+  const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
   const data: editUserAccountBodyInputDto = {
     cellPhone: values.cellPhone,
@@ -87,7 +86,7 @@ const UserData = ({ navigation, route }: Props) => {
         /> */}
         <Spacer height={10} />
         <CommonInput
-          value={values.name}
+          value={values.name as string}
           setValue={name => setValues({ ...values, name })}
           name={t('more_screen.user_data.name')}
           marginBottom={20}
@@ -95,7 +94,7 @@ const UserData = ({ navigation, route }: Props) => {
         />
         <Spacer height={5} />
         <CommonInput
-          value={values.address}
+          value={values.address as string}
           setValue={address => setValues({ ...values, address })}
           name={t('more_screen.user_data.address')}
           placeholder={t('more_screen.user_data.address_placeholder')}
@@ -103,20 +102,17 @@ const UserData = ({ navigation, route }: Props) => {
           autoCapitalize='words'
         />
         <Spacer height={5} />
+        {/* Si rompe la app rompe hace esto: Reemplazas values.cellPhone por 'AR', luego usas el modal en la app y seleccionas otro pais. Finalmente cambias 'AR' por values.cellPhone*/}
         <PhoneInput
-          value={values.cellPhone}
+          value={values.cellPhone as string}
           setValue={cellPhone =>
             setValues((prev: editUserAccountBodyInputDto) => ({
               ...prev,
               cellPhone,
             }))
           }
-          isModalVisible={modal}
-          setIsModalVisible={setModal}
-          selectedOption={values.countryCode}
-          setSelectedOption={countryCode =>
-            setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, countryCode }))
-          }
+          countryCode={values.countryCode as string}
+          setCountryCode={countryCode => setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, countryCode }))}
           name={t('more_screen.user_data.phone')}
           placeholder={t('more_screen.user_data.phone_number')}
           marginBottom={20}
@@ -164,16 +160,17 @@ const UserData = ({ navigation, route }: Props) => {
             marginTop: 10,
           }}
         />
-          {isDeleteModalVisible && 
-            <AlertModal
-              title={t('more_screen.user_data.delete_modal.title')}
-              description={t('more_screen.user_data.delete_modal.description')}
-              isVisible={true}
-              confirm={deleteAccount}
-              confirmLabel={t('more_screen.user_data.delete_modal.confirm_label')}
-              cancel={handleOnModalHide}
-              cancelLabel={t('more_screen.user_data.delete_modal.cancel_label')}
-            />}
+        {isDeleteModalVisible && (
+          <AlertModal
+            title={t('more_screen.user_data.delete_modal.title')}
+            description={t('more_screen.user_data.delete_modal.description')}
+            isVisible={true}
+            confirm={deleteAccount}
+            confirmLabel={t('more_screen.user_data.delete_modal.confirm_label')}
+            cancel={handleOnModalHide}
+            cancelLabel={t('more_screen.user_data.delete_modal.cancel_label')}
+          />
+        )}
         <Button
           text={t('more_screen.user_data.delete')}
           onPress={handleOnModalShow}

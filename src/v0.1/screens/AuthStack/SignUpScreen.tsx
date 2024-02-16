@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationProp, StackActions } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from 'react-query';
 import CommonInput from '../../components/common/CommonInput';
@@ -13,7 +13,6 @@ import useForm from '../../hooks/useForm';
 import Button from '../../components/common/Button';
 import SecureInput from '../../components/common/SecureInput';
 import PhoneInput from '../../components/common/PhoneInput';
-import { countries } from '../../helpers/countries';
 import { AuthContext } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLanguage';
@@ -21,6 +20,8 @@ import { languageList } from '../../helpers/languageList';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
 import Toast from 'react-native-toast-message';
+import { countryList } from '../../helpers/countryList';
+import { getCountry } from 'react-native-localize';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -52,10 +53,11 @@ const { mainColor, textBlack, background2, white } = customStyles;
 
 const toValidate = ['email', 'password', 'confirmPassword', 'name', 'cellphone'];
 
+const currentCountry = getCountry();
+
 export default function SignUpScreen({ navigation }: Props) {
   const { t, i18n } = useTranslation();
-  const [country, setCountry] = useState('+54');
-  const [modal, setModal] = useState(false);
+  const [country, setCountry] = useState<string>(currentCountry);
   const [modalVisible, setModalVisible] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
 
@@ -79,7 +81,7 @@ export default function SignUpScreen({ navigation }: Props) {
   });
 
   const countrySelected = useMemo(() => {
-    return countries.filter(item => item.prefix === country)[0];
+    return countryList.filter(item => item.isoCode === country)[0];
   }, [country]);
 
   const validatePassword = (): string | null => {
@@ -103,9 +105,9 @@ export default function SignUpScreen({ navigation }: Props) {
 
     await mutateAsync({
       ...values,
-      country: countrySelected.name,
-      countryCode: countrySelected.prefix,
-      currencyCountry: countrySelected.name,
+      country: countrySelected.countryName,
+      countryCode: countrySelected.isoCode,
+      currencyCountry: countrySelected.countryName,
     });
   };
 
@@ -136,10 +138,8 @@ export default function SignUpScreen({ navigation }: Props) {
           <PhoneInput
             value={values.cellphone}
             setValue={text => setValues(prev => ({ ...prev, cellphone: text }))}
-            isModalVisible={modal}
-            setIsModalVisible={setModal}
-            selectedOption={country}
-            setSelectedOption={value => setCountry(value)}
+            countryCode={country}
+            setCountryCode={value => setCountry(value)}
             name={t('more_screen.user_data.phone')}
             placeholder={t('auth_stack.sign_up.placeholder_phone')}
             marginBottom={25}
