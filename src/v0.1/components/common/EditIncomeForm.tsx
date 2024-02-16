@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ToastAndroid, View } from 'react-native';
 import InputForm from '../../components/common/InputForm';
 import CommonInput from '../../components/common/CommonInput';
-import OptionModal from '../../components/common/OptionModal';
-import InputDate from '../../components/common/InputDate';
 import 'moment-timezone';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
 import Form from '../../components/Library/Form';
@@ -16,6 +14,10 @@ import Button from './Button';
 import LoadingComponent from '../Library/LoadingComponent';
 import { useTranslation } from 'react-i18next';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
+import DatePicker from './DatePicker';
+import StateSwitch from './StateSwitch';
+import PaymentMethodPicker from './PaymentMethodPicker';
+import Spacer from './Spacer';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -29,20 +31,19 @@ interface ValidateOptions {
   isPending: string[];
 }
 
-const { mainColor, width, marginHorizontal, income, background2, white } = customStyles;
+const { mainColor, width, marginHorizontal, background2 } = customStyles;
 
 const validateOptions: ValidateOptions = {
   isPaid: ['value'],
   isPending: ['value', 'clientId'],
 };
+
 const NEW_INCOME = 'balance_stack.new_income';
 
 const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const { t } = useTranslation();
-  const [modalPayment, setModalPayment] = useState(false);
-  const [modalState, setModalState] = useState(false);
 
-  const { handlePayment, handlePaymentName, handleSelected, handleState, stateOptions, paymentsOptions } = usePayment();
+  const { newPaymentsOptions } = usePayment();
 
   const initialValues: InitialIncome = {
     value: String(data?.total_amount).replace('.', ','),
@@ -113,6 +114,39 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
       }}
     >
       <Form>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
+            }}
+          >
+            <DatePicker
+              name={t('balance_stack.new_income.date')}
+              value={values.date}
+              setValue={date => setValues(prev => ({ ...prev, date: date }))}
+            />
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              width: (width - 80) / 2,
+            }}
+          >
+            <StateSwitch
+              title={t('balance_stack.new_income.state')}
+              isPressed={values.isPaid}
+              handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
+            />
+          </View>
+        </View>
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'
@@ -132,61 +166,6 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
-        {values.isPaid === true ? (
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-            }}
-          >
-            <View
-              style={{
-                display: 'flex',
-                width: (width - 100) / 2,
-              }}
-            >
-              <OptionModal
-                title={t(`${NEW_INCOME}.state`)}
-                options={stateOptions}
-                isModalVisible={modalState}
-                setIsModalVisible={setModalState}
-                selectedOption={handleSelected(values.isPaid)}
-                setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
-              />
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                width: (width - 100) / 2,
-              }}
-            >
-              <OptionModal
-                title={t(`${NEW_INCOME}.payment_method`)}
-                options={paymentsOptions}
-                isModalVisible={modalPayment}
-                setIsModalVisible={setModalPayment}
-                selectedOption={handlePayment(values.paymentMethod)}
-                setSelectedOption={text =>
-                  setValues(prev => ({
-                    ...prev,
-                    paymentMethod: handlePaymentName(text),
-                  }))
-                }
-              />
-            </View>
-          </View>
-        ) : (
-          <OptionModal
-            title={t(`${NEW_INCOME}.state`)}
-            options={stateOptions}
-            isModalVisible={modalState}
-            setIsModalVisible={setModalState}
-            selectedOption={handleSelected(values.isPaid)}
-            setSelectedOption={text => setValues(prev => ({ ...prev, isPaid: handleState(text) }))}
-          />
-        )}
         <SelectionModal
           placeholder={t(`${NEW_INCOME}.placeholder_client`)}
           name={t(`${NEW_INCOME}.client`)}
@@ -205,12 +184,22 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
             navigation.setParams({ contact: null });
           }}
         />
-        <InputDate
-          name={t(`${NEW_INCOME}.date`)}
-          date={values.date}
-          setDate={date => setValues(prev => ({ ...prev, date: date }))}
-          color={mainColor}
-        />
+        {values.isPaid === true && (
+          <View>
+            <PaymentMethodPicker
+              name={t('balance_stack.new_income.payment_method')}
+              options={newPaymentsOptions}
+              value={values.paymentMethod}
+              handleValue={text =>
+                setValues(prev => ({
+                  ...prev,
+                  paymentMethod: text,
+                }))
+              }
+            />
+            <Spacer height={15} />
+          </View>
+        )}
       </Form>
       <View
         style={{
@@ -223,7 +212,6 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
           disabled={!validateValues(toValidate)}
           onPress={handleSubmit}
           text={t('balance_stack.new_income.save_income')}
-          color={validateValues(toValidate) ? white : income}
           style={{
             backgroundColor: validateValues(toValidate) ? mainColor : background2,
           }}
