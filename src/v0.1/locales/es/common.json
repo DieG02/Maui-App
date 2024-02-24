@@ -3,6 +3,8 @@
   "balance": "Balance",
   "debts": "Deudas",
   "auth_stack": {
+    "login_google": "Continuar con Google",
+    "login_email": "Continuar con Email",
     "sign_in": {
       "placeholder_email": "Ingresa tu e-mail",
       "password": "Contraseña",

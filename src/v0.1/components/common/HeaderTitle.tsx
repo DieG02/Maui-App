@@ -85,7 +85,7 @@ export const BackHeaderTitle = ({
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Icon onPress={onPressBack}>
-          <Arrow name='arrow-back' size={30} color={hasType ? white : textBlack} />
+          <Arrow name='chevron-back' size={30} color={hasType ? white : textBlack} />
         </Icon>
         <Text
           style={{

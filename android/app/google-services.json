@@ -1,26 +1,81 @@
 {
   "project_info": {
-    "project_number": "1010498033992",
-    "project_id": "maui-7b26d",
-    "storage_bucket": "maui-7b26d.appspot.com"
+    "project_number": "891062980138",
+    "project_id": "login-mobile-412109",
+    "storage_bucket": "login-mobile-412109.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1010498033992:android:0e32715a5f3e1e04eabb7d",
+        "mobilesdk_app_id": "1:891062980138:android:5e0031fb8c7a3b03443d53",
         "android_client_info": {
-          "package_name": "com.maui.app.company"
+          "package_name": "com.loginmobile"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "891062980138-k67ec341868n929lqioui9nl7nitn0k8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loginmobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "891062980138-brcosngu3vrmapi7datpskhi840hh4q3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAayKuIEKp4QuNmSaVkK5KfP1ilvrrfrEg"
+          "current_key": "AIzaSyDMXvPfi3loW4YIcp3TDylBXYQEviuuD1E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891062980138-brcosngu3vrmapi7datpskhi840hh4q3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891062980138:android:9808645b5128f6b7443d53",
+        "android_client_info": {
+          "package_name": "com.maui.app.company"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891062980138-24oonjnssf9jl1qvfu2to0a190o6d4fo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maui.app.company",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "891062980138-brcosngu3vrmapi7datpskhi840hh4q3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMXvPfi3loW4YIcp3TDylBXYQEviuuD1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891062980138-brcosngu3vrmapi7datpskhi840hh4q3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
