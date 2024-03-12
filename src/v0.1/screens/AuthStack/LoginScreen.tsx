@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 import googleLogo from '../../assets/google.png';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import Button from '../../components/common/Button';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { useTranslation } from 'react-i18next';
 import Email from 'react-native-vector-icons/Fontisto';
 import LanguageButton from '../../components/common/LanguageButton';
@@ -29,7 +29,10 @@ export default function LoginScreen({ navigation }: Props) {
         navigation.navigate('Loading', { data: user });
       }
     } catch (error) {
-      console.error('Error al iniciar sesión con Google:', JSON.stringify(error));
+      if (statusCodes.PLAY_SERVICES_NOT_AVAILABLE === error.code) {
+      } else if (statusCodes.SIGN_IN_CANCELLED === error.code) {
+      } else if (statusCodes.IN_PROGRESS === error.code) {
+      }
     }
   };
 
