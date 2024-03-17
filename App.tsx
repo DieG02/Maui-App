@@ -12,6 +12,8 @@ import customStyles from './src/v0.1/styles/customStyles';
 import RootStack from './src/v0.1/screens/RootStack';
 import { SuccessToast, WarningToast, ErrorToast } from './src/v0.1/components/common/Toast';
 import CustomToast from 'react-native-toast-message';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
 
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -24,6 +26,10 @@ const App = () => {
     warning: WarningToast,
     error: ErrorToast,
   };
+
+  useEffect(() => {
+    GoogleSignin.configure(googleAuthConfig);
+  }, []);
 
   useEffect(() => {
     const loadLanguage = async () => {
@@ -45,7 +51,7 @@ const App = () => {
           <NavigationContainer>
             <RootStack />
           </NavigationContainer>
-          <CustomToast config={toastConfig}/>
+          <CustomToast config={toastConfig} />
         </GeneralProvider>
       </AuthProvider>
     </QueryClientProvider>

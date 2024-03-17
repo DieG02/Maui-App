@@ -8,8 +8,8 @@ import UserDataScreen from './MoreStack/UserData';
 import MoreScreen from './MoreStack/MoreScreen';
 
 // AUTH STACK
-import SignInScreen from './AuthStack/SignInScreen';
-import SignUpScreen from './AuthStack/SignUpScreen';
+// import SignInScreen from './AuthStack/SignInScreen';
+// import SignUpScreen from './AuthStack/SignUpScreen';
 import SplashScreen from './AuthStack/SplashScreen';
 
 // BALANCE STACK
@@ -31,8 +31,13 @@ import DebtorScreen from './DebtStack/DebtorProfile';
 import DebtDetail from './DebtStack/DebtDetail';
 import EditDebt from './DebtStack/EditDebt';
 import IndividualPayment from './DebtStack/IndividualPayment';
+import { LoginScreen, RegisterScreen } from './AuthStack';
+import LoadingScreen from './AuthStack/LoadingScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+/* <Stack.Screen name='Login' component={SignInScreen} /> */
+/* <Stack.Screen name='SignUp' component={SignUpScreen} /> */
 
 export default function RootStack() {
   const { data: token, isFetching } = useVerifyToken();
@@ -48,8 +53,9 @@ export default function RootStack() {
     >
       {!token ? (
         <Stack.Group>
-          <Stack.Screen name='Login' component={SignInScreen} />
-          <Stack.Screen name='SignUp' component={SignUpScreen} />
+          <Stack.Screen name='Login' component={LoginScreen} />
+          <Stack.Screen name='Register' component={RegisterScreen} />
+          <Stack.Screen name='Loading' component={LoadingScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group>

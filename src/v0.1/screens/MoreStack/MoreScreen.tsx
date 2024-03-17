@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import OptionLanguage from '../../components/common/OptionLanguage';
 import { languageList } from '../../helpers/languageList';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -57,6 +58,8 @@ const More = ({ navigation }: Props) => {
 
   const handleLogout = async () => {
     setIsLoggedIn(false);
+    const isSignedInGoogle = await GoogleSignin.isSignedIn();
+    isSignedInGoogle && (await GoogleSignin.signOut());
     await AsyncStorage.removeItem('userInfo');
     queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();

@@ -1,34 +1,45 @@
-import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import React from 'react';
+import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type props = React.FC<Props & React.ComponentProps<typeof TouchableOpacity>>;
 interface Props {
   text: string;
   disabled?: boolean;
   color?: string;
+  icon?: React.ReactNode;
 }
 
-const Button: props = ({ color, style, text, disabled, ...otherProps }) => {
+const Button: props = ({ color, style, text, disabled, icon, ...otherProps }) => {
   const styles = StyleSheet.create({
     root: {
       borderRadius: 30,
       height: 60,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: 'center',
+      justifyContent: 'center',
+      opacity: disabled ? 0.7 : 1,
     },
     text: {
-      color: color ? color : "white",
+      color: color ? color : 'white',
       fontSize: 18,
-      fontFamily: "Gilroy-SemiBold",
+      textAlign: 'center',
+      fontFamily: 'Gilroy-SemiBold',
     },
   });
   return (
-    <TouchableOpacity
-      style={[styles.root, style]}
-      disabled={disabled}
-      {...otherProps}
-    >
-      <Text style={styles.text}>{text}</Text>
+    <TouchableOpacity style={[styles.root, style]} disabled={disabled} {...otherProps}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 25,
+        }}
+      >
+        {icon ? <View>{icon}</View> : null}
+        <View style={{ flex: 1 }}>
+          <Text style={styles.text}>{text}</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };

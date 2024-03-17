@@ -12,7 +12,20 @@
           "package_name": "com.maui.app.company"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1010498033992-6kejnefh91qqi5j1vl2uqj9tbp3pfdsk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maui.app.company",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1010498033992-2b1793qj1nr2pedbhln10v837kqf6chf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAayKuIEKp4QuNmSaVkK5KfP1ilvrrfrEg"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1010498033992-2b1793qj1nr2pedbhln10v837kqf6chf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
