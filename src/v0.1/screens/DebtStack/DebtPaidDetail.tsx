@@ -2,14 +2,20 @@ import { View, Text, StyleSheet } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { parserToCurrency } from '../../utils/adapter';
 
 interface Props {
   amountPaid?: number;
   totalAmount?: number;
   amountToPay?: number;
+  currency: {
+    code: string;
+    locale: string;
+    isoCode: string;
+  };
 }
 
-const { expense, secondaryColor, orange, textBlack, income, mainColor, background2 } = customStyles;
+const { textBlack, mainColor, background2 } = customStyles;
 
 const styles = StyleSheet.create({
   cardContainer: {
@@ -55,7 +61,7 @@ const paidStyles = (paidValue: number) =>
     },
   });
 
-export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }: Props) {
+export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay, currency }: Props) {
   const { t } = useTranslation();
   const paidValue = useMemo(
     () => (amountPaid && totalAmount ? Number(((amountPaid / totalAmount) * 100).toFixed(0)) : 0),
@@ -90,9 +96,9 @@ export default function DebtPaidDetail({ amountPaid, totalAmount, amountToPay }:
             }}
             numberOfLines={1}
           >
-            ${amountToPay}
+            {parserToCurrency(amountToPay as number, currency.locale, currency.code)}
           </Text>{' '}
-          / ${totalAmount}
+          / {parserToCurrency(totalAmount as number, currency.locale, currency.code)}
         </Text>
       </View>
       <View style={styles.progressBarBase}>

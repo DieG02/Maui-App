@@ -6,7 +6,7 @@ const { mainColor, background2, textBlack } = customStyles;
 
 interface Props {
   type: 'income' | 'expense';
-  amount: number;
+  amount: string;
   stakeholders: number;
 }
 
@@ -35,11 +35,7 @@ const SummaryDebt = ({ type, amount, stakeholders }: Props) => {
         }`}
       </Text>
       <Text style={{ color: textBlack, fontSize: 15, padding: 2, fontFamily: 'Gilroy-SemiBold' }}>
-        {amount?.toLocaleString('es-AR', {
-          style: 'currency',
-          currency: 'ARS',
-        })}{' '}
-        {t('debt_stack.debt_screen.summary_text.of')} {stakeholders}{' '}
+        {amount} {t('debt_stack.debt_screen.summary_text.of')} {stakeholders}{' '}
         {`${
           type === 'income'
             ? t('debt_stack.debt_screen.summary_text.clients')

@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { View, Alert, ActivityIndicator } from "react-native";
-
-import { getTransactionsResponseDto } from "../../../../../../Maui-Backend/src/controllers/types";
-import { useMutation } from "react-query";
-import { deleteExpense } from "../../../services/expenses";
-import { deleteIncome } from "../../../services/incomes";
-import TransactionComponent from "./TransactionComponent";
-import TransactionModal from "./TransactionsModal";
-import { queryClient } from "../../../utils/queryClient";
+import React, { useState } from 'react';
+import { View, Alert, ActivityIndicator } from 'react-native';
+import { getTransactionsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
+import { useMutation } from 'react-query';
+import { deleteExpense } from '../../../services/expenses';
+import { deleteIncome } from '../../../services/incomes';
+import TransactionComponent from './TransactionComponent';
+import TransactionModal from './TransactionsModal';
+import { queryClient } from '../../../utils/queryClient';
 
 interface Props {
   data: getTransactionsResponseDto[0];
@@ -19,22 +18,19 @@ const TransactionCard = ({ data, onPress }: Props) => {
 
   const { mutateAsync: deleteOutcome, isLoading } = useMutation(deleteExpense, {
     onSuccess: () => {
-      queryClient.invalidateQueries("transactions");
-      queryClient.invalidateQueries("transactionsBalance");
+      queryClient.invalidateQueries('transactions');
+      queryClient.invalidateQueries('transactionsBalance');
     },
   });
-  const { mutateAsync: deleteSale, isLoading: isLoadingIncome } = useMutation(
-    deleteIncome,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("transactions");
-        queryClient.invalidateQueries("transactionsBalance");
-      },
-    }
-  );
+  const { mutateAsync: deleteSale, isLoading: isLoadingIncome } = useMutation(deleteIncome, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('transactions');
+      queryClient.invalidateQueries('transactionsBalance');
+    },
+  });
 
   const handleDelete = (category: string, id: string) => {
-    if (category !== "Venta") {
+    if (category !== 'Venta') {
       deleteOutcome(id);
     } else {
       deleteSale(id);
@@ -43,18 +39,14 @@ const TransactionCard = ({ data, onPress }: Props) => {
 
   const handleMenuDelete = (category: string, id: string) => {
     setModalVisible(false);
-    Alert.alert(
-      "Eliminar",
-      "¿Estás seguro que deseas eliminar esta transacción?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => handleDelete(category, id) },
-      ]
-    );
+    Alert.alert('Eliminar', '¿Estás seguro que deseas eliminar esta transacción?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      { text: 'OK', onPress: () => handleDelete(category, id) },
+    ]);
   };
 
   if (isLoading || isLoadingIncome) {
@@ -62,11 +54,11 @@ const TransactionCard = ({ data, onPress }: Props) => {
       <View
         style={{
           flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <ActivityIndicator size="large" color="#141414" />
+        <ActivityIndicator size='large' color='#141414' />
       </View>
     );
   }

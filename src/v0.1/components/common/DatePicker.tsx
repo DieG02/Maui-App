@@ -85,13 +85,13 @@ const DatePicker = ({ name, value, setValue }: Props) => {
         onPress={showDatePicker}
         style={{
           elevation: 0,
-          borderRadius: 15,
+          borderRadius: 12,
           borderColor: secondaryColorBorder,
           margin: 0,
           marginBottom: 15,
           marginTop: 5,
           borderWidth: 1,
-          height: 50,
+          height: 55,
           flexWrap: 'nowrap',
           flexDirection: 'row',
           alignItems: 'center',

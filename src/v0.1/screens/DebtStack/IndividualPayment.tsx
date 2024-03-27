@@ -101,18 +101,11 @@ const IndividualPayment = ({ navigation, route }: Props) => {
     <ScreenContainer>
       <BackHeaderTitle label={t('debt_stack.new_payment')} onPressBack={() => navigation.goBack()} />
       <Form>
-        <View
-          style={{
-            display: 'flex',
-            width: (width - 80) / 2,
-          }}
-        >
-          <DatePicker
-            name={t('balance_stack.new_income.date')}
-            value={values.date}
-            setValue={date => setValues(prev => ({ ...prev, date: date }))}
-          />
-        </View>
+        <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        />
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'

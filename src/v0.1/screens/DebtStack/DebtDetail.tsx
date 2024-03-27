@@ -14,6 +14,7 @@ import useGetTransactionById from '../../services/Transactions/useGetTransaction
 import { alertDelete } from '../../utils/alerts';
 import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { queryClient } from '../../utils/queryClient';
+import { parserToCurrency } from '../../utils/adapter';
 
 const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 interface Props {
@@ -34,7 +35,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
     ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
   };
 
-  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId, {
+  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId as string, {
     onSuccess() {
       showToast();
       queryClient.invalidateQueries('Transactions');
@@ -50,19 +51,10 @@ const DebtDetail = ({ route, navigation }: Props) => {
     alertDelete(t('balance_stack.transaction_detail.alert_delete'), deleteTransaction);
   };
 
-  // const options = [
-  //   {
-  //     label: 'Editar Transacción',
-  //     id: 1,
-  //     fn: () => console.log('Editado'),
-  //   },
-  //   { label: 'Eliminar Transacción', id: 2, fn: () => handleDelete() },
-  // ];
+  if (isLoading || isDeleting) return <LoadingComponent color={mainColor} />;
 
   const handleOnPress = () =>
-    navigation.navigate('IndividualPayment', { debtId: data.debtId, type: data.type, contact: data.contact.id });
-
-  if (isLoading || isDeleting) return <LoadingComponent color={mainColor} />;
+    navigation.navigate('IndividualPayment', { debtId: data?.debtId, type: data?.type, contact: data?.contact?.id });
 
   return (
     <ScreenContainer>
@@ -93,7 +85,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
           >
             <Image
               source={{
-                uri: data.category?.image,
+                uri: data?.category?.image,
               }}
               style={{
                 width: 40,
@@ -128,18 +120,20 @@ const DebtDetail = ({ route, navigation }: Props) => {
           value={
             params?.type === 'debt' ? (
               <Text numberOfLines={1}>
-                {data.total_amount?.toLocaleString('es-AR', {
-                  style: 'currency',
-                  currency: 'ARS',
-                })}
+                {parserToCurrency(
+                  data?.total_amount,
+                  data?.financialAccount?.currency.locale,
+                  data?.financialAccount?.currency.code
+                )}
               </Text>
             ) : (
               <Text numberOfLines={1}>
                 -
-                {data?.total_amount.toLocaleString('es-AR', {
-                  style: 'currency',
-                  currency: 'ARS',
-                })}
+                {parserToCurrency(
+                  data?.total_amount,
+                  data?.financialAccount?.currency.locale,
+                  data?.financialAccount?.currency.code
+                )}
               </Text>
             )
           }
@@ -160,10 +154,11 @@ const DebtDetail = ({ route, navigation }: Props) => {
                 color: mainColor,
               }}
             >
-              {params?.actualAmount?.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              {parserToCurrency(
+                params?.actualAmount,
+                data?.financialAccount?.currency.locale,
+                data?.financialAccount?.currency.code
+              )}
             </Text>
           }
         />

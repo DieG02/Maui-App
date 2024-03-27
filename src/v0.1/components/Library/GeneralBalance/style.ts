@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   text: {
     fontSize: 18,
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   textPrice: {
     fontSize: 30,
+
     color: textBlack,
     fontFamily: 'Gilroy-SemiBold',
   },

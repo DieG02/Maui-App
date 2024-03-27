@@ -18,6 +18,7 @@ import usePayment from '../../hooks/usePayment';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
+import { parserToCurrency } from '../../utils/adapter';
 
 // TODO: Refactor this component
 interface Props {
@@ -127,14 +128,8 @@ const TransactionDetail = ({ route, navigation }: Props) => {
           label={t('balance_stack.transaction_detail.total')}
           value={
             transaction.category.name === 'Venta'
-              ? `${transaction.total_amount.toLocaleString(locale, {
-                  style: 'currency',
-                  currency: code,
-                })}`
-              : `-${transaction.total_amount.toLocaleString(locale, {
-                  style: 'currency',
-                  currency: code,
-                })}`
+              ? `${parserToCurrency(transaction.total_amount, locale, code)}`
+              : `-${parserToCurrency(transaction.total_amount, locale, code)}`
           }
         />
         <RowTransaction

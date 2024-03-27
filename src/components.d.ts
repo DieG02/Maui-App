@@ -32,3 +32,16 @@ interface ValidateOptions {
   isPaid: string[];
   isPending: string[];
 }
+
+interface Country {
+  id: string;
+  name: string;
+  isoCode: string;
+}
+
+interface CountryCode {
+  id: string;
+  name: string;
+  isoCode: string;
+  prefix: string;
+}

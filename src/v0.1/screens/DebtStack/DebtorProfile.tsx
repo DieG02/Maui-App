@@ -48,7 +48,16 @@ const DebtorProfile = ({ navigation, route }: Props) => {
           paddingBottom: 40,
         }}
       >
-        <DebtPaidDetail amountPaid={totalPaid} amountToPay={totalToPay} totalAmount={totalDebt} />
+        <DebtPaidDetail
+          amountPaid={totalPaid}
+          amountToPay={totalToPay}
+          totalAmount={totalDebt}
+          currency={{
+            code: debtor?.financialAccount.currency.code as string,
+            locale: debtor?.financialAccount.currency.locale as string,
+            isoCode: debtor?.financialAccount.currency.isoCode as string,
+          }}
+        />
         <Tab.Navigator
           overScrollMode='never'
           style={{ backgroundColor: white }}
