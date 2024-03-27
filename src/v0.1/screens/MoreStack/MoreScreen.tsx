@@ -127,6 +127,16 @@ const More = ({ navigation }: Props) => {
           >
             {email}
           </Text>
+          <Text
+            style={{
+              color: textBlack,
+              fontFamily: 'Gilroy-Regular',
+              marginTop: 5,
+              fontSize: 18,
+            }}
+          >
+            {data?.country}
+          </Text>
           <Spacer height={20} />
         </View>
         <View style={{ marginHorizontal: marginHorizontal }}>

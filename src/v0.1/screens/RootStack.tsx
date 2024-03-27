@@ -33,6 +33,8 @@ import EditDebt from './DebtStack/EditDebt';
 import IndividualPayment from './DebtStack/IndividualPayment';
 import { LoginScreen, RegisterScreen } from './AuthStack';
 import LoadingScreen from './AuthStack/LoadingScreen';
+import useGetCountries from '../services/Countries/useGetCountries';
+import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -41,8 +43,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStack() {
   const { data: token, isFetching } = useVerifyToken();
+  const { isLoading: isLoadingCountry } = useGetCountries();
+  const { isLoading: isLoadingCountryCode } = useGetCountryCode();
 
-  if (isFetching) return <SplashScreen />;
+  if (isFetching || isLoadingCountry || isLoadingCountryCode) return <SplashScreen />;
 
   return (
     <Stack.Navigator
