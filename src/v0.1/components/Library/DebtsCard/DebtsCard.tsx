@@ -19,8 +19,6 @@ interface Props {
 const DebtsCard = ({ onPress, data, type, actualAmount }: Props) => {
   const { t } = useTranslation();
 
-  console.log('DATA DEBT', JSON.stringify(data, null, 2));
-
   const existPayments = data.total_amount === actualAmount;
   const locale = data?.financialAccount?.currency.locale;
   const code = data?.financialAccount?.currency.code;
