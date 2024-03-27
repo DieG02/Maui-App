@@ -39,7 +39,7 @@ const PrefixInput = ({ value, marginBottom, marginTop, onPress }: Props) => {
           paddingHorizontal: 5,
         }}
       >
-        {value.countryPrefix}
+        {value.prefix}
       </Text>
       <Icon name='chevron-down' size={25} color={mainColor} />
     </TouchableOpacity>

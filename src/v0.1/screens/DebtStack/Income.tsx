@@ -9,6 +9,7 @@ import EmptyState from '../../components/common/EmptyState';
 import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
 import { useTranslation } from 'react-i18next';
 import useGetAllDebts from '../../services/Debts/useGetAllDebts';
+import { parserToCurrency } from '../../utils/adapter';
 
 const { background, mainColor } = customStyles;
 
@@ -31,8 +32,16 @@ const IncomeDebt = () => {
         backgroundColor: background,
       }}
     >
-      {debts.incomes?.length !== 0 && (
-        <SummaryDebt type='income' amount={total()} stakeholders={debts?.incomes?.length || 0} />
+      {debts?.incomes?.length !== 0 && (
+        <SummaryDebt
+          type='income'
+          amount={parserToCurrency(
+            total(),
+            debts?.incomes[0]?.financialAccount.currency.locale as string,
+            debts?.incomes[0]?.financialAccount.currency.code as string
+          )}
+          stakeholders={debts?.incomes?.length || 0}
+        />
       )}
 
       {isLoading ? (
@@ -61,7 +70,11 @@ const IncomeDebt = () => {
                 name={item.contactName}
                 date={item.initialDate}
                 sales={item.amountDebts}
-                totalPrice={item.totalToPay}
+                totalPrice={parserToCurrency(
+                  item.totalToPay,
+                  item.financialAccount.currency.locale,
+                  item.financialAccount.currency.code
+                )}
               />
             )}
             ListEmptyComponent={<EmptyState title={t('debt_stack.income_debt.empty_debts')} />}

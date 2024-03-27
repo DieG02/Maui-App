@@ -3,7 +3,7 @@ import { View, TextInput, Text } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import PhoneAreaModal from '../../components/common/Modals/PhoneAreaModal';
 
-const { secondaryColorBorder, textBlack, expense } = customStyles;
+const { secondaryColorBorder, textBlack, expense, textLight } = customStyles;
 
 interface Props {
   value: string;
@@ -15,6 +15,7 @@ interface Props {
   countryCode: string;
   setCountryCode: (value: string) => void;
   notRequired?: boolean;
+  options: CountryCode[];
 }
 
 const PhoneInput = ({
@@ -27,6 +28,7 @@ const PhoneInput = ({
   countryCode,
   setCountryCode,
   notRequired,
+  options,
 }: Props) => {
   return (
     <View
@@ -52,7 +54,7 @@ const PhoneInput = ({
           height: 55,
         }}
       >
-        <PhoneAreaModal selectedOption={countryCode} setSelectedOption={setCountryCode} />
+        <PhoneAreaModal selectedOption={countryCode} setSelectedOption={setCountryCode} options={options} />
         <View
           style={{
             borderRadius: 12,
@@ -66,10 +68,13 @@ const PhoneInput = ({
             value={value}
             onChangeText={setValue}
             placeholder={placeholder}
+            placeholderTextColor={textLight}
             keyboardType='phone-pad'
             style={{
               paddingHorizontal: 20,
               color: textBlack,
+              fontSize: 15,
+              fontFamily: 'Gilroy-Medium',
             }}
           />
         </View>

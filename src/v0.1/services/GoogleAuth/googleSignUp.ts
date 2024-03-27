@@ -5,7 +5,7 @@ interface Props {
   name: string;
   cellphone: string;
   countryCode: string;
-  currencyCountry: string;
+  language: string;
   country: string;
   photo: string;
 }

@@ -37,7 +37,7 @@ const StateSwitch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
         style={{
           backgroundColor: backgroundColor,
           height: '100%',
-          borderRadius: 15,
+          borderRadius: 12,
           width: '50%',
           justifyContent: 'center',
           alignItems: 'center',
@@ -63,13 +63,13 @@ const StateSwitch = ({ title, isPressed, handleSwitch }: SwitchTypes) => {
       <View
         style={{
           elevation: 0,
-          borderRadius: 15,
+          borderRadius: 12,
           borderColor: secondaryColorBorder,
           margin: 0,
           marginBottom: 15,
           marginTop: 5,
           borderWidth: 1,
-          height: 50,
+          height: 55,
           flexWrap: 'nowrap',
           flexDirection: 'row',
           alignItems: 'center',

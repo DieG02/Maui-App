@@ -55,22 +55,12 @@ const InputForm = ({
           flexDirection: 'row',
         }}
       >
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            color: textBlack,
-            fontFamily: 'Gilroy-Medium',
-            marginLeft: 20,
-          }}
-        >
-          $
-        </Text>
         <TextInput
           style={{
             height: 60,
             width: '100%',
             fontSize: 20,
+            marginLeft: 20,
             color: textBlack,
             fontFamily: 'Gilroy-Medium',
           }}

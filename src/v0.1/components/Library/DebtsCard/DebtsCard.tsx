@@ -5,6 +5,7 @@ import styles from './style';
 import { parseDDMMYY } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
 import { capitalLetter } from '../../../utils/capitalLetter';
+import { parserToCurrency } from '../../../utils/adapter';
 
 const { textBlack, positive } = customStyles;
 const KEY_PATH = 'balance_stack.payment_method_options';
@@ -19,6 +20,8 @@ const DebtsCard = ({ onPress, data, type, actualAmount }: Props) => {
   const { t } = useTranslation();
 
   const existPayments = data.total_amount === actualAmount;
+  const locale = data?.financialAccount?.currency.locale;
+  const code = data?.financialAccount?.currency.code;
 
   return (
     <TouchableOpacity onPress={onPress} style={styles().wrapper}>
@@ -43,27 +46,16 @@ const DebtsCard = ({ onPress, data, type, actualAmount }: Props) => {
           {type === 'debt' ? (
             data.type === 'CREDIT' ? (
               <Text style={styles('', positive).textTitle} numberOfLines={1}>
-                {actualAmount?.toLocaleString('es-AR', {
-                  style: 'currency',
-                  currency: 'ARS',
-                })}
+                {parserToCurrency(actualAmount as number, locale, code)}
               </Text>
             ) : (
               <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
-                -
-                {actualAmount?.toLocaleString('es-AR', {
-                  style: 'currency',
-                  currency: 'ARS',
-                })}
+                -{parserToCurrency(actualAmount as number, locale, code)}
               </Text>
             )
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
-              -
-              {data.total_amount.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              -{parserToCurrency(data.total_amount, locale, code)}
             </Text>
           )}
           {type === 'payment' && (
@@ -83,10 +75,7 @@ const DebtsCard = ({ onPress, data, type, actualAmount }: Props) => {
               ]}
               numberOfLines={1}
             >
-              {data.total_amount?.toLocaleString('es-AR', {
-                style: 'currency',
-                currency: 'ARS',
-              })}
+              {parserToCurrency(data.total_amount, locale, code)}
             </Text>
           )}
         </View>

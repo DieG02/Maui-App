@@ -13,11 +13,44 @@ interface Props {
   type: string;
   onPress: () => void;
   date: string;
-  sales: number;
-  purchases?: string;
-  totalPrice: number;
+  sales?: number;
+  purchases?: number;
+  totalPrice: string;
   name: string;
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: marginHorizontal,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 5,
+    backgroundColor: background,
+  },
+  iconType: {
+    width: 50,
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderRadius: 25,
+    marginRight: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  descriptionType: {
+    color: textBlack,
+    fontSize: 14,
+    fontFamily: 'Gilroy-Regular',
+  },
+  label: {
+    fontSize: 16,
+    fontFamily: 'Gilroy-SemiBold',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
 
 const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, name }: Props) => {
   const { t, i18n } = useTranslation();
@@ -48,7 +81,7 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
         return (
           <Text style={styles.descriptionType}>
             {t('debt_stack.income_debt.sales')}
-            {sales}
+            {sales && sales}
           </Text>
         );
       }
@@ -66,46 +99,14 @@ const DebtContactCard = ({ date, type, onPress, sales, purchases, totalPrice, na
   const renderTypePrice = () => {
     switch (type) {
       case 'client': {
-        return <Text style={[styles.label, { color: income }]}>${totalPrice?.toLocaleString('es')}</Text>;
+        return <Text style={[styles.label, { color: income }]}>{totalPrice}</Text>;
       }
       case 'provider': {
-        return <Text style={[styles.label, { color: expense }]}>${totalPrice?.toLocaleString('es')}</Text>;
+        return <Text style={[styles.label, { color: expense }]}>{totalPrice}</Text>;
       }
     }
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      marginHorizontal: marginHorizontal,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingVertical: 5,
-      backgroundColor: background,
-    },
-    iconType: {
-      width: 50,
-      height: 50,
-      backgroundColor: secondaryColor,
-      borderRadius: 25,
-      marginRight: 15,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    descriptionType: {
-      color: textBlack,
-      fontSize: 14,
-      fontFamily: 'Gilroy-Regular',
-    },
-    label: {
-      fontSize: 16,
-      fontFamily: 'Gilroy-SemiBold',
-    },
-    row: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-  });
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.row}>

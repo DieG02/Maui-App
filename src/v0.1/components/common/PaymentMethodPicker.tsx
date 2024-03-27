@@ -18,6 +18,7 @@ type OptionButtonProps = {
   iconName: string;
   text: string;
   borderColor: string;
+  borderWidth: number;
 };
 
 const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
@@ -31,7 +32,14 @@ const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
     }
   };
 
-  const OptionButton = ({ optionValue, text, paymentIcon: PaymentIcon, iconName, borderColor }: OptionButtonProps) => {
+  const OptionButton = ({
+    optionValue,
+    text,
+    paymentIcon: PaymentIcon,
+    iconName,
+    borderColor,
+    borderWidth,
+  }: OptionButtonProps) => {
     return (
       <TouchableOpacity
         disabled={selectedId === optionValue}
@@ -40,16 +48,12 @@ const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
           elevation: 0,
           borderRadius: 15,
           borderColor: borderColor,
-          margin: 0,
-          marginBottom: 15,
-          marginTop: 5,
-          borderWidth: 1,
+          margin: 5,
+          borderWidth,
           alignItems: 'center',
           justifyContent: 'center',
           height: 80,
-          width: 100,
-          paddingVertical: 5,
-          paddingHorizontal: 4,
+          width: '30%',
         }}
       >
         <PaymentIcon name={iconName} size={25} color={selectedId === optionValue ? mainColor : textBlack} />
@@ -81,9 +85,9 @@ const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
       </Text>
       <View
         style={{
-          flexWrap: 'wrap',
           flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-start',
         }}
       >
         {options.map(item => (
@@ -94,16 +98,9 @@ const PaymentMethodPicker = ({ name, options, value, handleValue }: Props) => {
             paymentIcon={item.icon}
             text={item.label}
             borderColor={selectedId === item.value ? mainColor : secondaryColorBorder}
+            borderWidth={selectedId === item.value ? 2 : 1}
           />
         ))}
-        {options.length % 2 === 0 && (
-          <View
-            style={{
-              height: 90,
-              width: 100,
-            }}
-          />
-        )}
       </View>
     </View>
   );

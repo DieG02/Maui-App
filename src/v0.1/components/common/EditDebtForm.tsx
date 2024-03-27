@@ -8,15 +8,12 @@ import Form from '../Library/Form';
 import customStyles from '../../styles/customStyles';
 import { NavigationProp } from '@react-navigation/native';
 import useForm from '../../hooks/useForm';
-import { queryClient } from '../../utils/queryClient';
 import Button from './Button';
-import LoadingComponent from '../Library/LoadingComponent';
 import { parseDDMMYY } from '../../utils/helper';
 import { showToast } from '../../utils/toast';
 import OptionModal from './OptionModal';
 import usePayment from '../../hooks/usePayment';
 import { useTranslation } from 'react-i18next';
-import { paymentMethods } from '../../utils/payment';
 
 interface Props {
   navigation: NavigationProp<any, any>;

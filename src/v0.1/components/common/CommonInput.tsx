@@ -20,6 +20,7 @@ interface Props {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   multiline?: boolean;
   required?: boolean;
+  editable?: boolean;
 }
 
 const CommonInput = ({
@@ -35,6 +36,7 @@ const CommonInput = ({
   autoCapitalize,
   multiline,
   required,
+  editable,
 }: Props) => {
   return (
     <View
@@ -116,6 +118,7 @@ const CommonInput = ({
             autoCapitalize={autoCapitalize}
             multiline={multiline}
             numberOfLines={multiline ? 4 : 1}
+            editable={editable}
           />
         </View>
       )}

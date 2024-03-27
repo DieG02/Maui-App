@@ -1,25 +1,28 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import customStyles from '../../../styles/customStyles';
 import OptionCountrySelect from '../OptionCountrySelect';
-import PrefixInput from '../PrefixInput';
+
 import useToggle from '../../../hooks/useToggle';
-import EmptyState from '../EmptyState';
 import SearchBar from '../SearchBar';
 import { t } from 'i18next';
+import EmptyState from '../EmptyState';
 
-const { mainColor, white, ligthBlue, blueSelected } = customStyles;
+const { mainColor, white, ligthBlue, blueSelected, textBlack, expense, secondaryColorBorder } = customStyles;
 interface Props {
   selectedOption: string;
   setSelectedOption: (value: string) => void;
-  options: CountryCode[];
+  name: string;
+  notRequired?: boolean;
+  options: Country[];
 }
 
-const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
+const OptionModal = ({ selectedOption, setSelectedOption, name, notRequired, options }: Props) => {
   const { toggle, setToggle, value } = useToggle(false);
+  const countryInfo = options.find((item: Country) => item.isoCode === selectedOption);
+
   const [text, onChangeText] = useState('');
-  const countryInfo = options.find((item: any) => item.isoCode === selectedOption);
 
   const handleModal = (option: string) => {
     setSelectedOption(option);
@@ -38,13 +41,23 @@ const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
 
   return (
     <View>
+      <Text
+        style={{
+          fontSize: 18,
+          color: textBlack,
+          fontFamily: 'Gilroy-Bold',
+          marginBottom: 10,
+        }}
+      >
+        {name} <Text style={{ color: expense }}>{!notRequired && '*'}</Text>
+      </Text>
       <Modal
         scrollOffset={100}
         isVisible={value}
         useNativeDriverForBackdrop={true}
-        onBackdropPress={() => setToggle(false)}
-        onSwipeComplete={() => setToggle(false)}
-        onBackButtonPress={() => setToggle(false)}
+        onBackdropPress={() => handleClear()}
+        onSwipeComplete={() => handleClear()}
+        onBackButtonPress={() => handleClear()}
         style={{
           justifyContent: 'flex-end',
           margin: 0,
@@ -70,6 +83,7 @@ const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
               borderRadius: 30,
             }}
           />
+
           <FlatList
             overScrollMode='never'
             data={filterData}
@@ -89,24 +103,49 @@ const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
             keyExtractor={item => item.id}
             refreshing={false}
             onEndReachedThreshold={0.5}
+            numColumns={3}
+            columnWrapperStyle={{
+              marginHorizontal: 20,
+            }}
             renderItem={({ item }) => (
               <OptionCountrySelect
-                // galleryMode
-                withPrefix
+                galleryMode
+                withPrefix={false}
                 key={item.id}
                 name={item.name}
                 flag={item.isoCode}
-                prefix={item.prefix}
                 backgroundColor={selectedOption === item.isoCode ? ligthBlue : white}
                 textColor={selectedOption === item.isoCode ? mainColor : blueSelected}
-                borderWith={selectedOption === item.isoCode ? 0 : 1}
                 onPress={() => handleModal(item.isoCode)}
+                borderWith={selectedOption === item.isoCode ? 0 : 1}
               />
             )}
           />
         </View>
       </Modal>
-      <PrefixInput value={countryInfo} marginBottom={25} onPress={() => setToggle(true)} />
+      <TouchableOpacity
+        onPress={() => setToggle(true)}
+        style={{
+          borderRadius: 12,
+          borderColor: secondaryColorBorder,
+          borderWidth: 1,
+          paddingHorizontal: 10,
+          height: 55,
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            color: textBlack,
+            fontFamily: 'Gilroy-SemiBold',
+            paddingHorizontal: 5,
+          }}
+        >
+          {countryInfo?.name}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

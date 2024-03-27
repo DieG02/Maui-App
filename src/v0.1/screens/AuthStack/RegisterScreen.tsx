@@ -13,7 +13,11 @@ import { useMutation } from 'react-query';
 import { googleSignUp } from '../../services/GoogleAuth/googleSignUp';
 import { getCountry } from 'react-native-localize';
 import { useTranslation } from 'react-i18next';
-import { countryList } from '../../helpers/countryList';
+import CountrySelect from '../../components/common/Modals/CountrySelect';
+import useGetCountries from '../../services/Countries/useGetCountries';
+import { languageList } from '../../helpers/languageList';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
 
 const { white, mainColor } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -28,7 +32,7 @@ interface RegisterUser {
   name: string;
   cellphone: string;
   countryCode: string;
-  currencyCountry: string;
+  language: string;
   country: string;
   photo: string;
 }
@@ -38,7 +42,7 @@ const initialValues = {
   name: '',
   cellphone: '',
   countryCode: '',
-  currencyCountry: '',
+  language: '',
   country: '',
   photo: '',
 };
@@ -47,7 +51,8 @@ const RegisterScreen = ({ route, navigation }: Props) => {
   const { params } = route;
   const currentCountry = getCountry();
   const [country, setCountry] = useState<string>(currentCountry);
-  const { t } = useTranslation();
+  const [selectedCountry, setSelectedCountry] = useState<string>(currentCountry);
+  const { t, i18n } = useTranslation();
 
   const { setValues, values } = useForm<RegisterUser>({
     ...initialValues,
@@ -56,9 +61,16 @@ const RegisterScreen = ({ route, navigation }: Props) => {
     photo: params?.user.photo,
   });
 
-  const countrySelected = useMemo(() => {
-    return countryList.filter(item => item.isoCode === country)[0];
-  }, [country]);
+  const { data: countries } = useGetCountries();
+  const { data: countryCodes } = useGetCountryCode();
+
+  const selectCountryList = useMemo(() => {
+    return countries?.filter(item => item.isoCode === selectedCountry)[0];
+  }, [selectedCountry]);
+
+  const currentLanguage = useMemo(() => {
+    return languageList.find(language => language.locale === i18n.language);
+  }, [i18n.language]);
 
   const { mutateAsync } = useMutation(googleSignUp, {
     onSuccess: async () => {
@@ -71,12 +83,11 @@ const RegisterScreen = ({ route, navigation }: Props) => {
   });
 
   const handleSignUp = async () => {
-    console.log('values=> ', countrySelected);
     await mutateAsync({
       ...values,
-      country: countrySelected.countryName,
-      countryCode: countrySelected.isoCode,
-      currencyCountry: countrySelected.countryName,
+      country: selectCountryList?.name as string,
+      countryCode: selectCountryList?.isoCode as string,
+      language: currentLanguage?.label as string,
     });
   };
 
@@ -89,8 +100,9 @@ const RegisterScreen = ({ route, navigation }: Props) => {
       <StatusBar backgroundColor={white} barStyle={statusBarStyle} />
       <BackHeaderTitle
         label={'Crear Cuenta'}
-        onPressBack={() => {
+        onPressBack={async () => {
           navigation.goBack();
+          await GoogleSignin.signOut();
         }}
       />
       <View
@@ -104,9 +116,16 @@ const RegisterScreen = ({ route, navigation }: Props) => {
         <View>
           <CommonInput
             placeholder='¿Como te llamas?'
-            name='Nombre'
+            name={t('more_screen.user_data.name')}
             value={values.name}
             setValue={name => handleValues('name', name)}
+          />
+          <Spacer height={20} />
+          <CountrySelect
+            name='Country'
+            selectedOption={selectedCountry}
+            setSelectedOption={setSelectedCountry}
+            options={countries as Country[]}
           />
           <Spacer height={20} />
           <PhoneInput
@@ -116,13 +135,14 @@ const RegisterScreen = ({ route, navigation }: Props) => {
             setCountryCode={value => setCountry(value)}
             name={t('more_screen.user_data.phone')}
             placeholder={t('auth_stack.sign_up.placeholder_phone')}
-            marginBottom={25}
+            marginBottom={20}
+            options={countryCodes as CountryCode[]}
           />
-          <Spacer height={20} />
           <CommonInput
             placeholder='Ingresa tu email'
             keyboardType='email-address'
             name='Email'
+            editable={false}
             value={values.email}
             setValue={email => handleValues('email', email)}
           />

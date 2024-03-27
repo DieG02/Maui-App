@@ -13,20 +13,24 @@ interface Props {
   placeholder: string;
   onPress: () => void;
   onBlur?: () => void;
+  style?: any;
 }
 
-const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur }: Props) => {
+const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur, style }: Props) => {
   return (
     <View
-      style={{
-        height: 60,
-        backgroundColor: 'white',
-        borderColor: '#e0e0e0',
-        borderBottomWidth: 1,
-        flexDirection: 'row',
-        display: 'flex',
-        alignItems: 'center',
-      }}
+      style={[
+        {
+          height: 60,
+          backgroundColor: 'white',
+          borderColor: '#e0e0e0',
+          borderBottomWidth: 1,
+          flexDirection: 'row',
+          display: 'flex',
+          alignItems: 'center',
+        },
+        style,
+      ]}
     >
       <TextInput
         onChangeText={onChangeText}

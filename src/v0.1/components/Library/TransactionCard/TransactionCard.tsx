@@ -1,24 +1,25 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import customStyles from '../../../styles/customStyles';
-import { getTransactionsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
+import { getAllTransactionsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
 import styles from './style';
 import { parseDDMMYY } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
 import { capitalLetter } from '../../../utils/capitalLetter';
+import { parserToCurrency } from '../../../utils/adapter';
 
 const { textBlack, positive } = customStyles;
 const KEY_PATH = 'balance_stack.payment_method_options';
 interface Props {
   onPress: () => void;
-  data: getTransactionsResponseDto[0];
+  data: getAllTransactionsResponseDto[0];
 }
 
 const TransactionCard = ({ onPress, data }: Props) => {
   const { t } = useTranslation();
 
-  const locale = data.financialAccount.currency.locale;
-  const code = data.financialAccount.currency.code;
+  const locale = data.financialAccount?.currency.locale;
+  const code = data.financialAccount?.currency.code;
 
   return (
     <TouchableOpacity onPress={onPress} style={styles().wrapper}>
@@ -42,18 +43,11 @@ const TransactionCard = ({ onPress, data }: Props) => {
         <View style={styles().textContainer}>
           {data.category?.type === 'CREDIT' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
-              {data?.total_amount.toLocaleString(locale, {
-                style: 'currency',
-                currency: code,
-              })}
+              +{parserToCurrency(data.total_amount, locale, code)}
             </Text>
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
-              -
-              {data?.total_amount.toLocaleString(locale, {
-                style: 'currency',
-                currency: code,
-              })}
+              {parserToCurrency(data.total_amount, locale, code)}
             </Text>
           )}
           <Text style={styles().textSubtitle}>

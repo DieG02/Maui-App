@@ -4,7 +4,6 @@ import customStyles from '../../styles/customStyles';
 import Icon from './Icon';
 import Search from 'react-native-vector-icons/Feather';
 import Arrow from 'react-native-vector-icons/Ionicons';
-import Dropdown from './Dropdown';
 
 const { background, white, textBlack } = customStyles;
 
@@ -14,14 +13,12 @@ interface SimpleProps {
   onPressDelete?: () => void;
   withSearch?: boolean;
   withDelete?: boolean;
-  withOptions?: boolean;
 }
 interface Props extends SimpleProps {
   onPressBack: () => void;
   hasType?: boolean;
   color?: string;
   headerStyle?: {};
-  options?: any[];
 }
 
 export const HeaderTitle = ({ label, withSearch, onPressSearch }: SimpleProps) => {
@@ -59,14 +56,12 @@ export const BackHeaderTitle = ({
   label,
   withSearch,
   withDelete,
-  withOptions,
   onPressSearch,
   onPressDelete,
   onPressBack,
   hasType,
   color,
   headerStyle,
-  options = [],
 }: Props) => {
   return (
     <View
@@ -108,7 +103,6 @@ export const BackHeaderTitle = ({
           <Search name='trash-2' size={25} color={hasType ? white : textBlack} />
         </Icon>
       )}
-      {/* {withOptions && <Dropdown options={options} />} */}
     </View>
   );
 };

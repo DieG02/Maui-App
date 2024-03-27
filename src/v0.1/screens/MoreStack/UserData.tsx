@@ -23,6 +23,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
 import AlertModal from '../../components/common/Modals/AlertModal';
+import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
 
 const statusBarStyle = 'dark-content';
 const { mainColor, textBlack, background2, expense, expenseLight } = customStyles;
@@ -39,6 +40,7 @@ const UserData = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
 
   const email = params?.email;
+  const { data: countryCodes } = useGetCountryCode();
 
   const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
@@ -104,6 +106,7 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={5} />
         {/* Si rompe la app rompe hace esto: Reemplazas values.cellPhone por 'AR', luego usas el modal en la app y seleccionas otro pais. Finalmente cambias 'AR' por values.cellPhone*/}
         <PhoneInput
+          options={countryCodes as CountryCode[]}
           value={values.cellPhone as string}
           setValue={cellPhone =>
             setValues((prev: editUserAccountBodyInputDto) => ({
