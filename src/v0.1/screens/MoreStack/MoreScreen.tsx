@@ -85,8 +85,10 @@ const More = ({ navigation }: Props) => {
 
   const openWhatsApp = async () => {
     try {
-      const supported = await Linking.openURL(whatsappLink);
-      if (!supported) {
+      const supported = await Linking.canOpenURL(whatsappLink);
+      if (supported) {
+        await Linking.openURL(whatsappLink);
+      } else {
         console.log('WhatsApp is not installed');
         Alert.alert('No app can handle the message link');
       }
@@ -203,6 +205,7 @@ const More = ({ navigation }: Props) => {
             onPress={() => handleLogout()}
             icon={<AntDesign name='logout' color={expense} size={20} />}
           />
+          <Spacer height={30} />
         </View>
       </ScrollView>
     </ScreenContainer>
