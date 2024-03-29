@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, Alert } from 'react-native';
+import { View, ScrollView, Text, Share, Linking, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import Spacer from '../../components/common/Spacer';
 import OptionCard from '../../components/common/OptionCard';
-import Right from 'react-native-vector-icons/Entypo';
-import Business from 'react-native-vector-icons/FontAwesome';
-import Logout from 'react-native-vector-icons/AntDesign';
-import Truck from 'react-native-vector-icons/Feather';
-import Flag from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../context/AuthContext';
@@ -45,6 +45,11 @@ const More = ({ navigation }: Props) => {
     const storage = await AsyncStorage.getItem('userInfo');
     const email = storage ? JSON.parse(storage).email : '';
     return setEmail(email);
+  };
+
+  const handleClipboard = () => {
+    Clipboard.setString(email);
+    ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
   };
 
   useEffect(() => {
@@ -117,16 +122,25 @@ const More = ({ navigation }: Props) => {
           >
             {data?.name}
           </Text>
-          <Text
+          <TouchableOpacity
+            onPress={handleClipboard}
             style={{
-              color: textBlack,
-              fontFamily: 'Gilroy-Regular',
+              flexDirection: 'row',
+              alignItems: 'center',
               marginTop: 5,
-              fontSize: 18,
             }}
           >
-            {email}
-          </Text>
+            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingRight: 5 }} />
+            <Text
+              style={{
+                color: textBlack,
+                fontFamily: 'Gilroy-Regular',
+                fontSize: 18,
+              }}
+            >
+              {email}
+            </Text>
+          </TouchableOpacity>
           <Text
             style={{
               color: textBlack,
@@ -144,49 +158,50 @@ const More = ({ navigation }: Props) => {
           <OptionCard
             title={t('more_screen.profile')}
             onPress={() => navigation.navigate('UserData', { data, email })}
-            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
-            icon={<Truck name='user' color={textBlack} size={24} />}
+            arrow={<Entypo name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<Feather name='user' color={textBlack} size={24} />}
           />
           <Spacer height={10} />
           <OptionCard
             title={t('more_screen.clients')}
             onPress={() => navigation.navigate('Clients')}
-            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
-            icon={<Logout name='contacts' color={textBlack} size={24} />}
+            arrow={<Entypo name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<AntDesign name='contacts' color={textBlack} size={24} />}
           />
           <Spacer height={10} />
           <OptionCard
             title={t('more_screen.providers')}
             onPress={() => navigation.navigate('Providers')}
-            arrow={<Right name='chevron-small-right' color={textBlack} size={30} />}
-            icon={<Truck name='truck' color={textBlack} size={22} />}
+            arrow={<Entypo name='chevron-small-right' color={textBlack} size={30} />}
+            icon={<Feather name='truck' color={textBlack} size={22} />}
           />
+
           <Spacer height={10} />
-          <OptionLanguage
-            title={t('more_screen.languages')}
-            icon={<Flag name='language' color={textBlack} size={22} />}
-            options={languageList}
-            modalVisible={isVisible}
-            setModalVisible={setIsVisible}
+          <OptionCard
+            title={t('more_screen.settings')}
+            icon={<Feather name='settings' color={textBlack} size={22} />}
+            onPress={() => navigation.navigate('Settings')}
+            arrow={<Entypo name='chevron-small-right' color={textBlack} size={30} />}
           />
+
           <Spacer height={10} />
           <OptionCard
             onPress={shareLink}
             title={t('more_screen.share_link')}
-            icon={<Right name='share' color={textBlack} size={22} />}
+            icon={<Entypo name='share' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
             onPress={openWhatsApp}
             title={t('more_screen.whatsapp')}
-            icon={<Business name='whatsapp' color={textBlack} size={22} />}
+            icon={<FontAwesome name='whatsapp' color={textBlack} size={22} />}
           />
           <Spacer height={10} />
           <OptionCard
             style={{ color: expense }}
             title={t('more_screen.log_out')}
             onPress={() => handleLogout()}
-            icon={<Logout name='logout' color={expense} size={20} />}
+            icon={<AntDesign name='logout' color={expense} size={20} />}
           />
         </View>
       </ScrollView>
