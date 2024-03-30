@@ -5,6 +5,7 @@ import HomeTabs from '../navigation/HomeTabs';
 // MORE STACK
 import DebtsModal from '../components/common/Modals/DebtsModal';
 import UserDataScreen from './MoreStack/UserData';
+import SettingsScreen from './MoreStack/SettingsScreen';
 import MoreScreen from './MoreStack/MoreScreen';
 
 // AUTH STACK
@@ -74,6 +75,7 @@ export default function RootStack() {
           <Stack.Screen name='UserData' component={UserDataScreen} />
           <Stack.Screen name='Clients' component={ClientsScreen} />
           <Stack.Screen name='Providers' component={ProvidersScreen} />
+          <Stack.Screen name='Settings' component={SettingsScreen} />
           <Stack.Screen name='ContactDetail' component={ContactDetail} />
           <Stack.Screen name='NewContact' component={NewContact} />
           <Stack.Screen name='Debts' component={DebtsScreen} />
