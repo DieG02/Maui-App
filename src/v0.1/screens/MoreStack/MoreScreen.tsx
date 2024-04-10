@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, Alert, TouchableOpacity, ToastAndroid } from 'react-native';
+import { View, ScrollView, Text, Share, Linking, Alert, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import Spacer from '../../components/common/Spacer';
 import OptionCard from '../../components/common/OptionCard';
@@ -17,16 +17,20 @@ import customStyles from '../../styles/customStyles';
 import useGetAccount from '../../services/Account/useGetAccount';
 import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
-import OptionLanguage from '../../components/common/OptionLanguage';
-import { languageList } from '../../helpers/languageList';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { version as AppVersion } from '../../../../package.json';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
+
+const versionName = Platform.select({
+  android: AppVersion,
+  ios: AppVersion,
+});
 
 const whatsappLink = 'https://wa.me/541169708424';
 
@@ -38,7 +42,6 @@ const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { data, refetch } = useGetAccount();
   const [email, setEmail] = useState('');
-  const [isVisible, setIsVisible] = useState(false);
   const { t } = useTranslation();
 
   const getEmail = async () => {
@@ -206,6 +209,20 @@ const More = ({ navigation }: Props) => {
             icon={<AntDesign name='logout' color={expense} size={20} />}
           />
           <Spacer height={30} />
+          <View style={{ paddingVertical: 10 }}>
+            <Text
+              style={{
+                color: textBlack,
+                opacity: 0.8,
+                fontFamily: 'Gilroy-Regular',
+                marginTop: 5,
+                fontSize: 18,
+                textAlign: 'center',
+              }}
+            >
+              Version {versionName}
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </ScreenContainer>
