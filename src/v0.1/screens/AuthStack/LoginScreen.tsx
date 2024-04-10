@@ -24,6 +24,8 @@ export default function LoginScreen({ navigation }: Props) {
   const handleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
+      const isSignedIn = await GoogleSignin.isSignedIn();
+      isSignedIn && (await GoogleSignin.signOut());
       const { user } = await GoogleSignin.signIn();
       if (user) {
         navigation.navigate('Loading', { data: user });

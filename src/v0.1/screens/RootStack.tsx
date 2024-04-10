@@ -4,6 +4,7 @@ import HomeTabs from '../navigation/HomeTabs';
 // MORE STACK
 import DebtsModal from '../components/common/Modals/DebtsModal';
 import UserDataScreen from './MoreStack/UserData';
+import SettingsScreen from './MoreStack/SettingsScreen';
 import MoreScreen from './MoreStack/MoreScreen';
 
 // AUTH STACK

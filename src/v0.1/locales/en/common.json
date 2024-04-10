@@ -46,6 +46,7 @@
     "profile": "My Profile",
     "clients": "Clients",
     "providers": "Providers",
+    "settings": "Settings",
     "languages": "Languages",
     "share_link": "Invite friends",
     "whatsapp": "Help",
@@ -68,6 +69,14 @@
         "description": "If you delete your account you will have to start from scratch, even creating a new user. Are you sure you want to continue?",
         "confirm_label": "Yes, delete account",
         "cancel_label": "Cancel"
+      }
+    },
+    "config": {
+      "title": "Settings",
+      "section_1": {
+        "header": "General",
+        "languages": "Languages",
+        "feedback": "Rate the app"
       }
     }
   },

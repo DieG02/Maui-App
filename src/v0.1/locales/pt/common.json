@@ -46,6 +46,7 @@
     "profile": "Meus Dados",
     "clients": "Clientes",
     "providers": "Fornecedores",
+    "settings": "Configurações",
     "languages": "Idiomas",
     "share_link": "Convide amigos",
     "whatsapp": "Auida",
@@ -68,6 +69,14 @@
         "description": "Se você excluir sua conta, terá que começar do zero, inclusive criando um novo usuário. Tem certeza de que deseja continuar?",
         "confirm_label": "Sim, excluir conta",
         "cancel_label": "Cancelar"
+      }
+    },
+    "config": {
+      "title": "Configurações",
+      "section_1": {
+        "header": "Geral",
+        "languages": "Idiomas",
+        "feedback": "Avaliar o aplicativo"
       }
     }
   },

@@ -14,6 +14,7 @@ type RootStackParamList = {
   UserData: undefined;
   Clients: undefined;
   Providers: undefined;
+  Settings: undefined;
   ContactDetail: undefined;
   NewContact: undefined;
   Debts: undefined;
