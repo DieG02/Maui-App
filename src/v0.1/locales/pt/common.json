@@ -21,6 +21,10 @@
       "placeholder_name": "Digite seu nome",
       "placeholder_phone": "Digite seu telefone",
       "have_account": "Já tem uma conta?"
+    },
+    "version_manager": {
+      "title": "A versão do aplicativo não é suportada",
+      "button": "Atualizar aplicativo"
     }
   },
   "home_stack": {

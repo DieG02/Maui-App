@@ -17,7 +17,6 @@ interface Props {
 
 const LoadingScreen = ({ route, navigation }: Props) => {
   const { params } = route;
-
   const payload = {
     name: params?.data.name,
     email: params?.data.email,
@@ -34,11 +33,13 @@ const LoadingScreen = ({ route, navigation }: Props) => {
           await GoogleSignin.signIn();
           await AsyncStorage.setItem('userInfo', JSON.stringify(data));
           queryClient.invalidateQueries(VERIFY_TOKEN);
+          navigation.dispatch(StackActions.replace(data.screenRedirect, { user: data }));
         }
       } catch (error) {
         console.error('Algo salio mal', error);
       }
     },
+    onError: async error => console.error(error),
   });
 
   return (
