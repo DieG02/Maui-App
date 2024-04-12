@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import useToggle from '../../../hooks/useToggle';
 import customStyles from '../../../styles/customStyles';
 import HiderComponent from '../../common/HiderComponent';
@@ -9,11 +9,13 @@ import CountryFlag from 'react-native-country-flag';
 import Spacer from '../../common/Spacer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { parserToCurrency } from '../../../utils/adapter';
+import { NavigationProp } from '@react-navigation/native';
 
 const { textBlack } = customStyles;
 
 // TODO: Refactor this interface to use the correct types
 interface Props {
+  navigation: NavigationProp<any, any>;
   data: {
     financialAccount: {
       id: string;
@@ -28,12 +30,13 @@ interface Props {
     total_balance: number;
   };
 }
-const GeneralBalance = ({ data }: Props) => {
+
+const GeneralBalance = ({ data, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
 
   return (
-    <View style={styles.wrapper}>
+    <TouchableOpacity onPress={() => navigation.navigate('MonthlySummaries')} style={styles.wrapper}>
       <View style={styles.container}>
         <View
           style={{
@@ -134,7 +137,7 @@ const GeneralBalance = ({ data }: Props) => {
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
