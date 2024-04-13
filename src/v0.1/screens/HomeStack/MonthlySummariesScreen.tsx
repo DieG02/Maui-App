@@ -5,44 +5,36 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import { NavigationProp } from '@react-navigation/native';
 import customStyles from '../../styles/customStyles';
 import Spacer from '../../components/common/Spacer';
+import moment from 'moment';
+import { parserToCurrency } from '../../utils/adapter';
+import useGetMonthlyBalance from '../../services/Balance/useGetMonthlyBalance';
+import EmptyState from '../../components/common/EmptyState';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-type TabProp = {
+interface Balance {
+  month: number;
+  year: number;
+  total: number | null;
+  previousBalance: number;
+  expenses?: number;
+  incomes?: number;
+}
+
+interface TabProps {
   id: number;
-  month: string;
-  data: any;
-};
+  balance: Balance;
+}
 
 const { textBlack } = customStyles;
 
-const balances: TabProp[] = [
-  {
-    id: 0,
-    month: 'Agosto 2023',
-    data: { previous: '1000', incomes: '1000', expense: '0', total: '2000' },
-  },
-  {
-    id: 1,
-    month: 'Septiembre 2023',
-    data: { previous: '1000', incomes: '1000', expense: '0', total: '2000' },
-  },
-  {
-    id: 2,
-    month: 'Octubre 2023',
-    data: { previous: '1000', incomes: '1000', expense: '0', total: '2000' },
-  },
-  {
-    id: 3,
-    month: 'Noviembre 2023',
-    data: { previous: '1000', incomes: '1000', expense: '0', total: '2000' },
-  },
-];
-
 const MonthlySummariesScreen = ({ navigation }: Props) => {
   const [tabId, setTabId] = useState<number[]>([]);
+  const { data, refetch: getMonthlyBalance } = useGetMonthlyBalance();
+  const { t, i18n } = useTranslation();
 
   const handlePress = (value: number) => {
     if (!tabId.includes(value)) {
@@ -52,33 +44,53 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
     }
   };
 
-  const Tab = ({ id, month, data }: TabProp) => {
+  const Tab = ({ balance, id }: TabProps) => {
+    const date = moment(balance.month, 'M').locale(i18n.language).format('MMMM');
+
     return (
       <View style={{ marginBottom: 20, marginHorizontal: 30 }}>
         <TouchableOpacity
           onPress={() => handlePress(id)}
           style={{ backgroundColor: '#F8F8F8', paddingHorizontal: 20, paddingVertical: 16 }}
         >
-          <Text style={{ color: textBlack, fontSize: 16 }}>{month}</Text>
+          <Text style={{ color: textBlack, fontSize: 16 }}>
+            {date[0].toUpperCase() + date.slice(1)} {balance.year}
+          </Text>
         </TouchableOpacity>
         {tabId.includes(id) && (
           <View style={{ paddingHorizontal: 20, paddingVertical: 10, borderWidth: 1, borderColor: '#F8F8F8' }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>Saldo Anterior</Text>
-              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>${data.previous}</Text>
+              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>
+                {t('home_stack.monthly_balance.previous_balance')}
+              </Text>
+              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>
+                {parserToCurrency(balance?.previousBalance, data.currency.locale, data.currency.code)}
+              </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>Ingresos</Text>
-              <Text style={{ color: '#48BB8B', fontSize: 16 }}>${data.incomes}</Text>
+              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.incomes')}</Text>
+              <Text style={{ color: '#48BB8B', fontSize: 16 }}>
+                {balance?.incomes
+                  ? parserToCurrency(balance.incomes, data.currency.locale, data.currency.code)
+                  : parserToCurrency(0, data.currency.locale, data.currency.code)}
+              </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>Egresos</Text>
-              <Text style={{ color: textBlack, fontSize: 16 }}>${data.expense}</Text>
+              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.expenses')}</Text>
+              <Text style={{ color: textBlack, fontSize: 16 }}>
+                {balance?.expenses
+                  ? parserToCurrency(balance.expenses, data.currency.locale, data.currency.code)
+                  : parserToCurrency(0, data.currency.locale, data.currency.code)}
+              </Text>
             </View>
             <View style={{ width: '100%', borderTopColor: '#F8F8F8', borderTopWidth: 2, marginVertical: 7 }}></View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>Total</Text>
-              <Text style={{ color: textBlack, fontSize: 16 }}>${data.total}</Text>
+              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.total')}</Text>
+              <Text style={{ color: textBlack, fontSize: 16 }}>
+                {balance?.total
+                  ? parserToCurrency(balance.total, data.currency.locale, data.currency.code)
+                  : parserToCurrency(0, data.currency.locale, data.currency.code)}
+              </Text>
             </View>
           </View>
         )}
@@ -96,9 +108,13 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
       />
       <Spacer height={30} />
       <FlatList
-        data={balances}
-        renderItem={({ item }) => <Tab id={item.id} month={item.month} data={item.data} />}
-        keyExtractor={item => item.id.toString()}
+        data={data.balance}
+        renderItem={({ item, index }) => <Tab key={index} id={index} balance={item} />}
+        refreshing={false}
+        onRefresh={() => getMonthlyBalance()}
+        onEndReached={() => getMonthlyBalance()}
+        ListEmptyComponent={() => <EmptyState title={t('home_stack.monthly_balance.empty_balance')} />}
+        keyExtractor={item => item.toString()}
       />
     </ScreenContainer>
   );
