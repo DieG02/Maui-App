@@ -4,6 +4,7 @@ type RootStackParamList = {
   SignUp: undefined;
   Login: undefined;
   HomeTabs: undefined;
+  MonthlySummaries: undefined;
   NewIncome: undefined;
   EditIncome: undefined;
   NewExpense: undefined;

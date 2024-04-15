@@ -35,6 +35,13 @@
       "income_debts": "Deudas por Cobrar",
       "expense_debts": "Deudas por Pagar"
     },
+    "monthly_balance": {
+      "previous_balance": "Saldo Anterior",
+      "incomes": "Ingresos",
+      "expenses": "Egresos",
+      "total": "Total",
+      "empty_balance": "No tienes transacciones"
+    },
     "last_records": "Últimos registros",
     "see_more": "Ver Más"
   },
