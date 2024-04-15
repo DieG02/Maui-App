@@ -29,7 +29,7 @@ interface TabProps {
   balance: Balance;
 }
 
-const { textBlack } = customStyles;
+const { textBlack, background2, positive } = customStyles;
 
 const MonthlySummariesScreen = ({ navigation }: Props) => {
   const [tabId, setTabId] = useState<number[]>([]);
@@ -51,42 +51,48 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
       <View style={{ marginBottom: 20, marginHorizontal: 30 }}>
         <TouchableOpacity
           onPress={() => handlePress(id)}
-          style={{ backgroundColor: '#F8F8F8', paddingHorizontal: 20, paddingVertical: 16 }}
+          style={{ backgroundColor: background2, paddingHorizontal: 20, paddingVertical: 16 }}
         >
-          <Text style={{ color: textBlack, fontSize: 16 }}>
+          <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 18 }}>
             {date[0].toUpperCase() + date.slice(1)} {balance.year}
           </Text>
         </TouchableOpacity>
         {tabId.includes(id) && (
-          <View style={{ paddingHorizontal: 20, paddingVertical: 10, borderWidth: 1, borderColor: '#F8F8F8' }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 10, borderWidth: 2, borderColor: background2 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-Medium', fontWeight: '300', fontSize: 16 }}>
                 {t('home_stack.monthly_balance.previous_balance')}
               </Text>
-              <Text style={{ color: textBlack, fontWeight: '300', fontSize: 14 }}>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-Medium', fontWeight: '300', fontSize: 16 }}>
                 {parserToCurrency(balance?.previousBalance, data.currency.locale, data.currency.code)}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.incomes')}</Text>
-              <Text style={{ color: '#48BB8B', fontSize: 16 }}>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
+                {t('home_stack.monthly_balance.incomes')}
+              </Text>
+              <Text style={{ color: positive, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
                 {balance?.incomes
                   ? parserToCurrency(balance.incomes, data.currency.locale, data.currency.code)
                   : parserToCurrency(0, data.currency.locale, data.currency.code)}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.expenses')}</Text>
-              <Text style={{ color: textBlack, fontSize: 16 }}>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
+                {t('home_stack.monthly_balance.expenses')}
+              </Text>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
                 {balance?.expenses
                   ? parserToCurrency(balance.expenses, data.currency.locale, data.currency.code)
                   : parserToCurrency(0, data.currency.locale, data.currency.code)}
               </Text>
             </View>
-            <View style={{ width: '100%', borderTopColor: '#F8F8F8', borderTopWidth: 2, marginVertical: 7 }}></View>
+            <View style={{ width: '100%', borderTopColor: background2, borderTopWidth: 2, marginVertical: 7 }}></View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: textBlack, fontSize: 16 }}>{t('home_stack.monthly_balance.total')}</Text>
-              <Text style={{ color: textBlack, fontSize: 16 }}>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
+                {t('home_stack.monthly_balance.total')}
+              </Text>
+              <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 16 }}>
                 {balance?.total
                   ? parserToCurrency(balance.total, data.currency.locale, data.currency.code)
                   : parserToCurrency(0, data.currency.locale, data.currency.code)}
@@ -106,7 +112,7 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
           navigation.goBack();
         }}
       />
-      <Spacer height={30} />
+      <Spacer height={10} />
       <FlatList
         data={data.balance}
         renderItem={({ item, index }) => <Tab key={index} id={index} balance={item} />}
@@ -114,7 +120,6 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
         onRefresh={() => getMonthlyBalance()}
         onEndReached={() => getMonthlyBalance()}
         ListEmptyComponent={() => <EmptyState title={t('home_stack.monthly_balance.empty_balance')} />}
-        keyExtractor={item => item.toString()}
       />
     </ScreenContainer>
   );
