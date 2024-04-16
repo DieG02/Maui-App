@@ -39,6 +39,13 @@
       "income_debts": "Dívidas a Receber",
       "expense_debts": "Dívidas a Pagar"
     },
+    "monthly_balance": {
+      "previous_balance": "Saldo Anterior",
+      "incomes": "Receitas",
+      "expenses": "Despesas",
+      "total": "Total",
+      "empty_balance": "Você não possui transações"
+    },
     "last_records": "Últimos registros",
     "see_more": "Ver Mais"
   },

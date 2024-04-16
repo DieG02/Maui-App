@@ -39,6 +39,13 @@
       "income_debts": "Debts to pay",
       "expense_debts": "Debts to collect"
     },
+    "monthly_balance": {
+      "previous_balance": "Previous Balance",
+      "incomes": "Incomes",
+      "expenses": "Expenses",
+      "total": "Total",
+      "empty_balance": "You have no transactions"
+    },
     "last_records": "Last records",
     "see_more": "See More"
   },
