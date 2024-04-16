@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../context/AuthContext';
 import ScreenContainer from '../../components/containers/ScreenContainer';
@@ -71,6 +71,7 @@ const More = ({ navigation }: Props) => {
     await AsyncStorage.removeItem('userInfo');
     queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();
+    navigation.dispatch(StackActions.replace('Login'));
   };
   const shareLink = async () => {
     const options = {
