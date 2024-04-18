@@ -36,6 +36,7 @@ import { LoginScreen, RegisterScreen } from './AuthStack';
 import LoadingScreen from './AuthStack/LoadingScreen';
 import useGetCountries from '../services/Countries/useGetCountries';
 import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
+import MonthlySummariesScreen from './HomeStack/MonthlySummariesScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -65,6 +66,7 @@ export default function RootStack() {
       ) : (
         <Stack.Group>
           <Stack.Screen name='HomeTabs' component={HomeTabs} />
+          <Stack.Screen name='MonthlySummaries' component={MonthlySummariesScreen} />
           <Stack.Screen name='NewIncome' component={NewIncome} />
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />

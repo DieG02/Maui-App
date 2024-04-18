@@ -22,6 +22,7 @@ import homeFilled from '../assets/home-filled.png';
 import balanceFilled from '../assets/balance-filled.png';
 import debtFilled from '../assets/debt-filled.png';
 import useLocalStorage from '../hooks/useLocalStorage';
+import useGetMonthlyBalance from '../services/Balance/useGetMonthlyBalance';
 
 const { mainColor, textBlack } = customStyles;
 
@@ -35,6 +36,7 @@ const HomeTabs = () => {
   const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
+  const isFetchingMonthlyBalance = useGetMonthlyBalance().isLoading;
   const isFetchingContacts = useGetAllContacts().isLoading;
   const isFetchingDebts = useGetAllDebts().isLoading;
 
@@ -49,6 +51,7 @@ const HomeTabs = () => {
   const isLoading =
     isFetchingTransactions ||
     isFetchingGetMonthlyState ||
+    isFetchingMonthlyBalance ||
     isFetchingBalance ||
     isFetchingAccount ||
     isFetchingContacts ||

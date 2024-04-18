@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={balance} />
+        <GeneralBalance data={balance} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
