@@ -19,6 +19,8 @@ import StateSwitch from './StateSwitch';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import Spacer from './Spacer';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -91,8 +93,8 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
 
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('Transactions');
-        queryClient.removeQueries(['Transaction_By_Id', data?.id]);
+        queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+        queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
         navigation.navigate('balance');
         showToast();
       },

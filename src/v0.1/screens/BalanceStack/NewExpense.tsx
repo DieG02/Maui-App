@@ -30,6 +30,8 @@ import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 
 const { width } = Dimensions.get('window');
 
@@ -92,7 +94,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     ToastAndroid.showWithGravity(t('balance_stack.new_expense.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
   };
 
-  const InvalidateQuery = values.isPaid ? 'Transactions' : 'Debts';
+  const InvalidateQuery = values.isPaid ? GET_TRANSACTIONS_KEY : GET_DEBTS_KEY;
 
   const { mutateAsync, isLoading } = useCreateTransaction(
     {

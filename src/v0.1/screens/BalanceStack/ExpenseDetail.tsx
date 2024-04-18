@@ -25,6 +25,8 @@ import DatePicker from '../../components/common/DatePicker';
 import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -91,8 +93,8 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
 
   const { mutateAsync, isLoading } = useEditTransaction(data?.id, payload, {
     onSuccess: () => {
-      queryClient.invalidateQueries('Transactions');
-      queryClient.removeQueries(['Transaction_By_Id', data?.id]);
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
       navigation.navigate('balance');
       showToast(t('debt_stack.edit_debt.toast_edited'));
     },

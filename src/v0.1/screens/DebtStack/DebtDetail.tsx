@@ -15,6 +15,10 @@ import { alertDelete } from '../../utils/alerts';
 import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { queryClient } from '../../utils/queryClient';
 import { parserToCurrency } from '../../utils/adapter';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 
 const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 interface Props {
@@ -38,11 +42,10 @@ const DebtDetail = ({ route, navigation }: Props) => {
   const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId as string, {
     onSuccess() {
       showToast();
-      queryClient.invalidateQueries('Transactions');
-      queryClient.invalidateQueries('Balance');
-      queryClient.invalidateQueries('Monthly_Stats');
-      queryClient.invalidateQueries('Debts');
-      queryClient.invalidateQueries('Debt');
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.invalidateQueries(GET_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+      queryClient.invalidateQueries(GET_DEBTS_KEY);
       navigation.navigate('HomeTabs', { screen: 'Debts' });
     },
   });
@@ -51,7 +54,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
     alertDelete(t('balance_stack.transaction_detail.alert_delete'), deleteTransaction);
   };
 
-  if (isLoading || isDeleting) return <LoadingComponent color={mainColor} />;
+  if (isLoading || isDeleting || !data) return <LoadingComponent color={mainColor} />;
 
   const handleOnPress = () =>
     navigation.navigate('IndividualPayment', { debtId: data?.debtId, type: data?.type, contact: data?.contact?.id });

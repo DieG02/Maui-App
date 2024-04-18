@@ -47,7 +47,7 @@ const ContactForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const action = (screenName: string, data: IContact) => {
-    queryClient.invalidateQueries('Contacts');
+    queryClient.invalidateQueries(GET_CONTACTS_KEY);
     navigation.navigate(screenName, { contact: data });
   };
 

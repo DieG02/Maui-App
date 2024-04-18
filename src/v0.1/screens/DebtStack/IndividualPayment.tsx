@@ -26,6 +26,7 @@ import { IPaymentMethod } from '../../types/types';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 
 const { marginHorizontal, mainColor, background2, white } = customStyles;
 
@@ -75,7 +76,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries(GET_DEBTS_KEY);
         queryClient.invalidateQueries(GET_DEBT_KEY, params?.contact);
-        queryClient.invalidateQueries('Transactions');
+        queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
         queryClient.invalidateQueries(GET_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         if (equalToDebt) {
