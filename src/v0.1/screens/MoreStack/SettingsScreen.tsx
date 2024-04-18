@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, StatusBar, Linking } from 'react-native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
@@ -10,6 +10,11 @@ import OptionCard from '../../components/common/OptionCard';
 import OptionLanguage from '../../components/common/OptionLanguage';
 import { languageList } from '../../helpers/languageList';
 import customStyles from '../../styles/customStyles';
+import { editUserAccount } from '../../services/userAccount';
+import useGetAccount from '../../services/Account/useGetAccount';
+import { useMutation } from 'react-query';
+import { showToast } from '../../utils/toast';
+import { useTranslation } from 'react-i18next';
 
 const statusBarStyle = 'dark-content';
 const { textBlack, marginHorizontal, disabled } = customStyles;
@@ -19,6 +24,19 @@ interface SettingsProps {
 }
 export default function Settings({ navigation }: SettingsProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const { i18n } = useTranslation();
+  const { data: user } = useGetAccount();
+  const { mutateAsync: editAccount, isLoading } = useMutation(
+    () =>
+      editUserAccount({
+        language: i18n.language,
+      }),
+    {
+      onSuccess: () => {
+        showToast(t('more_screen.user_data.toast_edit_message'));
+      },
+    }
+  );
 
   const handleOpenLink = async () => {
     const playstore = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
@@ -29,6 +47,12 @@ export default function Settings({ navigation }: SettingsProps) {
       console.error('Cannot open the link: ', playstore);
     }
   };
+
+  useEffect(() => {
+    if (user && user.language !== i18n.language) {
+      editAccount();
+    }
+  }, [i18n.language]);
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor='white' />
