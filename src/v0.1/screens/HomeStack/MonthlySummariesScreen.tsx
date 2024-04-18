@@ -10,30 +10,23 @@ import { parserToCurrency } from '../../utils/adapter';
 import useGetMonthlyBalance from '../../services/Balance/useGetMonthlyBalance';
 import EmptyState from '../../components/common/EmptyState';
 import { useTranslation } from 'react-i18next';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import { IBalanceItem } from '../../types/types';
 
 interface Props {
   navigation: NavigationProp<any, any>;
 }
 
-interface Balance {
-  month: number;
-  year: number;
-  total: number | null;
-  previousBalance: number;
-  expenses?: number;
-  incomes?: number;
-}
-
 interface TabProps {
   id: number;
-  balance: Balance;
+  balance: IBalanceItem;
 }
 
-const { textBlack, background2, positive } = customStyles;
+const { textBlack, background2, positive, mainColor } = customStyles;
 
 const MonthlySummariesScreen = ({ navigation }: Props) => {
   const [tabId, setTabId] = useState<number[]>([]);
-  const { data, refetch: getMonthlyBalance } = useGetMonthlyBalance();
+  const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance();
   const { t, i18n } = useTranslation();
 
   const handlePress = (value: number) => {
@@ -43,6 +36,8 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
       setTabId(tabId.filter(item => item !== value));
     }
   };
+
+  if (isLoading || !data) return <LoadingComponent color={mainColor} />;
 
   const Tab = ({ balance, id }: TabProps) => {
     const date = moment(balance.month, 'M').locale(i18n.language).format('MMMM');

@@ -6,11 +6,12 @@ import Button from '../../components/common/Button';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import customStyles from '../../styles/customStyles';
 
-import Header from '../../components/Library/Header';
-import SearchBar from '../../components/Library/SearchBar';
+import { Header } from '../../components/common/HeaderTitle';
+import SearchBar from '../../components/common/SearchBar';
 import TransactionCard from '../../components/Library/TransactionCard';
 import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
 import { useTranslation } from 'react-i18next';
+import { ITransactionDetail } from '../../types/types';
 
 // TODO: Refactor this component
 interface Props {
@@ -27,7 +28,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const { data, refetch: getAllTransactions } = useGetTransactions();
 
   const filterData = useMemo(() => {
-    return data?.filter((item: any) => item.description?.toLowerCase().startsWith(text.toLowerCase()));
+    return data?.filter((item: ITransactionDetail) => item.description?.toLowerCase().startsWith(text.toLowerCase()));
   }, [data, text]);
 
   useFocusEffect(

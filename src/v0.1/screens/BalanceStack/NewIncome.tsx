@@ -24,6 +24,9 @@ import { getCategoryId } from '../../utils/getCategoryId';
 import DatePicker from '../../components/common/DatePicker';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import StateSwitch from '../../components/common/StateSwitch';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 
 // TODO:Refactor this component
 
@@ -88,20 +91,20 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { mutateAsync, isLoading } = useCreateTransaction(
     {
-      status: values.isPaid ? 'APPROVED' : 'DEBT',
-      type: 'CREDIT',
+      status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,
+      type: TransactionType.CREDIT,
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       description: values.name !== '' ? values.name : `${t('balance_stack.sale')} ${moment.parseZone().unix()}`,
       date: values.date,
-      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
-      categoryId: getCategoryId('Venta', transactionCategories),
+      payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
+      categoryId: getCategoryId('Venta', transactionCategories) as string,
       contactId: route.params?.contact?.id,
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(InvalidateQuery);
-        queryClient.invalidateQueries('Balance');
-        queryClient.invalidateQueries('Monthly_Stats');
+        queryClient.invalidateQueries(GET_BALANCE_KEY);
+        queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         navigation.goBack();
         showToast();
       },

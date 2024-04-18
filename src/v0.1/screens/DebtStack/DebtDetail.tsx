@@ -4,7 +4,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import customStyles from '../../styles/customStyles';
-import RowTransaction from '../../components/common/TransactionCard/RowTransaction';
+import RowTransaction from '../../components/common/RowTransaction';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { parseDDMMYY } from '../../utils/helper';
 import Button from '../../components/common/Button';

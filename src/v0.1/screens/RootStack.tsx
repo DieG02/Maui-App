@@ -3,7 +3,6 @@ import useVerifyToken from '../services/Account/useVerifyToken';
 import HomeTabs from '../navigation/HomeTabs';
 
 // MORE STACK
-import DebtsModal from '../components/common/Modals/DebtsModal';
 import UserDataScreen from './MoreStack/UserData';
 import SettingsScreen from './MoreStack/SettingsScreen';
 import MoreScreen from './MoreStack/MoreScreen';
@@ -71,7 +70,7 @@ export default function RootStack() {
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />
           <Stack.Screen name='EditExpense' component={EditExpense} />
-          <Stack.Screen name='DebtsModal' component={DebtsModal} />
+          {/* <Stack.Screen name='DebtsModal' component={DebtsModal} /> */}
           <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
           <Stack.Screen name='More' component={MoreScreen} />
           <Stack.Screen name='UserData' component={UserDataScreen} />

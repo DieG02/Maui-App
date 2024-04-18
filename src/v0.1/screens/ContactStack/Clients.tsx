@@ -11,6 +11,7 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import { useTranslation } from 'react-i18next';
 import useGetAllContacts from '../../services/Contacts/useGetAllContacts';
+import { IContact, IContactType } from '../../types/types';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -18,7 +19,6 @@ interface Props {
 }
 const { mainColor, background, marginHorizontal } = customStyles;
 
-//FIXME: Refactor this component to use query to get data
 const Consumers = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
   const screen = route.params?.screen;
@@ -30,14 +30,14 @@ const Consumers = ({ navigation, route }: Props) => {
     data: clients,
     isLoading,
     refetch: getClients,
-  } = useGetAllContacts('client', {
+  } = useGetAllContacts(IContactType.CLIENT, {
     onSuccess: data => {
       setContacts(data);
     },
   });
 
   const filterData = useMemo(() => {
-    return clients?.filter((item: any) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
+    return clients?.filter((item: IContact) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
   }, [clients, text]);
 
   const handleOnPress = (item: IContact) => {

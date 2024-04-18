@@ -7,11 +7,7 @@ import customStyles from '../../styles/customStyles';
 import Spacer from '../../components/common/Spacer';
 import CommonInput from '../../components/common/CommonInput';
 import Button from '../../components/common/Button';
-import { editUserAccount } from '../../services/userAccount';
-import { unsubscribe } from '../../services/auth';
 import ImageProfile from '../../components/common/ImageProfile';
-import { useMutation } from 'react-query';
-import { editUserAccountBodyInputDto } from '../../../../../Maui-Backend/src/controllers/types';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import Form from '../../components/Library/Form';
 import useForm from '../../hooks/useForm';
@@ -24,6 +20,9 @@ import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { queryClient } from '../../utils/queryClient';
 import AlertModal from '../../components/common/Modals/AlertModal';
 import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
+import useDeleteAccount from '../../services/Auth/useDeleteAccount';
+import usePutAccount from '../../services/Account/usePutAccount';
+import { IAccountInput, ICountryCode } from '../../types/types';
 
 const statusBarStyle = 'dark-content';
 const { mainColor, textBlack, background2, expense, expenseLight } = customStyles;
@@ -36,7 +35,7 @@ interface Props {
 const UserData = ({ navigation, route }: Props) => {
   const { params } = route;
   const { setIsLoggedIn } = useContext(AuthContext);
-  const { values, setValues } = useForm<editUserAccountBodyInputDto>(params?.data);
+  const { values, setValues } = useForm<IAccountInput>(params?.data);
   const { t } = useTranslation();
 
   const email = params?.email;
@@ -44,20 +43,21 @@ const UserData = ({ navigation, route }: Props) => {
 
   const isChanged = JSON.stringify(values) !== JSON.stringify(params?.data);
 
-  const data: editUserAccountBodyInputDto = {
+  const data: IAccountInput = {
     cellPhone: values.cellPhone,
     name: values.name,
     address: values.address,
     countryCode: values.countryCode,
   };
 
-  const { mutateAsync: editAccount, isLoading } = useMutation(() => editUserAccount(data), {
+  const { mutateAsync: editAccount, isLoading } = usePutAccount({
     onSuccess: () => {
       navigation.goBack();
       showToast(t('more_screen.user_data.toast_edit_message'));
     },
   });
-  const { mutateAsync: deleteAccount, isLoading: isDeleting } = useMutation(() => unsubscribe(), {
+
+  const { mutateAsync: deleteAccount, isLoading: isDeleting } = useDeleteAccount({
     onSuccess: async () => {
       setIsLoggedIn(false);
       await AsyncStorage.removeItem('userInfo');
@@ -106,16 +106,16 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={5} />
         {/* Si rompe la app rompe hace esto: Reemplazas values.cellPhone por 'AR', luego usas el modal en la app y seleccionas otro pais. Finalmente cambias 'AR' por values.cellPhone*/}
         <PhoneInput
-          options={countryCodes as CountryCode[]}
+          options={countryCodes as ICountryCode[]}
           value={values.cellPhone as string}
           setValue={cellPhone =>
-            setValues((prev: editUserAccountBodyInputDto) => ({
+            setValues((prev: IAccountInput) => ({
               ...prev,
               cellPhone,
             }))
           }
           countryCode={values.countryCode as string}
-          setCountryCode={countryCode => setValues((prev: editUserAccountBodyInputDto) => ({ ...prev, countryCode }))}
+          setCountryCode={countryCode => setValues((prev: IAccountInput) => ({ ...prev, countryCode }))}
           name={t('more_screen.user_data.phone')}
           placeholder={t('more_screen.user_data.phone_number')}
           marginBottom={20}
@@ -155,7 +155,7 @@ const UserData = ({ navigation, route }: Props) => {
         <Spacer height={15} />
         <Button
           text={t('more_screen.user_data.save')}
-          onPress={editAccount}
+          onPress={() => editAccount({ data })}
           disabled={!isChanged}
           color={isChanged ? 'white' : mainColor}
           style={{

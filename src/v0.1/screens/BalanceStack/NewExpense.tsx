@@ -27,6 +27,9 @@ import { getCategoryId } from '../../utils/getCategoryId';
 import DatePicker from '../../components/common/DatePicker';
 import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 
 const { width } = Dimensions.get('window');
 
@@ -68,7 +71,7 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { newPaymentsOptions } = usePayment();
 
-  const { data } = useGetTransactionCategories('debit', 'transaction');
+  const { data: categories } = useGetTransactionCategories('debit', 'transaction');
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -93,20 +96,20 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { mutateAsync, isLoading } = useCreateTransaction(
     {
-      status: values.isPaid ? 'APPROVED' : 'DEBT',
-      type: 'DEBIT',
+      status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,
+      type: TransactionType.DEBIT,
       date: values.date,
       description: values.name !== '' ? values.name : handleTranslateCategory(values.categoryId, dictionary),
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
+      payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
       contactId: route.params?.contact?.id,
-      categoryId: getCategoryId(values.categoryId, data),
+      categoryId: getCategoryId(values.categoryId, categories) as string,
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(InvalidateQuery);
-        queryClient.invalidateQueries('Balance');
-        queryClient.invalidateQueries('Monthly_Stats');
+        queryClient.invalidateQueries(GET_BALANCE_KEY);
+        queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         navigation.goBack();
         showToast();
       },
@@ -165,7 +168,7 @@ const NewExpense = ({ navigation, route }: Props) => {
           required
           title={t('balance_stack.new_expense.category')}
           placeholder={t('balance_stack.new_expense.placeholder_category')}
-          options={data ? data : []}
+          options={categories ? categories : []}
           isModalVisible={modalExpenseCategory}
           setIsModalVisible={setModalExpenseCategory}
           selectedOption={handleTranslateCategory(values.categoryId, dictionary)}
