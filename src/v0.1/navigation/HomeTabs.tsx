@@ -22,6 +22,7 @@ import homeFilled from '../assets/home-filled.png';
 import balanceFilled from '../assets/balance-filled.png';
 import debtFilled from '../assets/debt-filled.png';
 import useGetMonthlyBalance from '../services/Balance/useGetMonthlyBalance';
+import { IContactType } from '../types/types';
 
 const { mainColor, textBlack } = customStyles;
 
@@ -35,7 +36,8 @@ const HomeTabs = () => {
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingMonthlyBalance = useGetMonthlyBalance().isLoading;
-  const isFetchingContacts = useGetAllContacts().isLoading;
+  const isFetchingClients = useGetAllContacts(IContactType.CLIENT).isLoading;
+  const isFetchingProviders = useGetAllContacts(IContactType.PROVIDER).isLoading;
   const isFetchingDebts = useGetAllDebts().isLoading;
 
   const isLoading =
@@ -44,7 +46,8 @@ const HomeTabs = () => {
     isFetchingMonthlyBalance ||
     isFetchingBalance ||
     isFetchingAccount ||
-    isFetchingContacts ||
+    isFetchingClients ||
+    isFetchingProviders ||
     isFetchingDebts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
