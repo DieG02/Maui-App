@@ -1,17 +1,17 @@
 import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
-import { useMutation } from 'react-query';
-import { createContactBodyInputDto } from '../../../../../Maui-Backend/src/controllers/types';
 import useMatchContact from '../../hooks/useMatchContact';
-import { createNewContact } from '../../services/contacts';
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
+import { IContact, IContactInput, IContactType } from '../../types/types';
+import useCreateContact from '../../services/Contacts/useCreateContact';
+import { GET_CONTACTS_KEY } from '../../services/Contacts/useGetAllContacts';
 
 interface Props {
   data: IContact;
   screen: string;
-  type: createContactBodyInputDto['type'];
+  type: IContactType;
   navigation: NavigationProp<any, any>;
 }
 
@@ -29,28 +29,29 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
     }
   };
 
-  const form: createContactBodyInputDto = {
+  const form: IContactInput = {
     name: data.name,
     phone: data.phone,
     note: '',
     email: '',
-    type: type.toUpperCase() as createContactBodyInputDto['type'],
+    type: type.toUpperCase() as IContactType,
   };
-  const { mutateAsync, isLoading } = useMutation(
-    (form: createContactBodyInputDto) => {
-      return createNewContact(form);
+
+  const { mutateAsync: createContact, isLoading } = useCreateContact({
+    onSuccess: data => {
+      queryClient.invalidateQueries(GET_CONTACTS_KEY);
+      handleOnPress(data);
     },
-    {
-      onSuccess: data => {
-        queryClient.invalidateQueries('Contacts');
-        handleOnPress(data);
-      },
-    }
-  );
+  });
 
   return (
     <TouchableOpacity
-      onPress={() => !isAdded && mutateAsync(form)}
+      onPress={() =>
+        !isAdded &&
+        createContact({
+          data: form,
+        })
+      }
       disabled={isAdded}
       style={{
         flexDirection: 'row',

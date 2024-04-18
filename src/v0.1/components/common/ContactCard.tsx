@@ -4,6 +4,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import customStyles from '../../styles/customStyles';
+import { IContact } from '../../types/types';
 
 const { textBlack, background, background2, iconBlue } = customStyles;
 interface Props {

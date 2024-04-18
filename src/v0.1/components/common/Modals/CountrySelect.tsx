@@ -8,6 +8,7 @@ import useToggle from '../../../hooks/useToggle';
 import SearchBar from '../SearchBar';
 import { t } from 'i18next';
 import EmptyState from '../EmptyState';
+import { ICountry } from '../../../types/types';
 
 const { mainColor, white, ligthBlue, blueSelected, textBlack, expense, secondaryColorBorder } = customStyles;
 interface Props {
@@ -15,12 +16,12 @@ interface Props {
   setSelectedOption: (value: string) => void;
   name: string;
   notRequired?: boolean;
-  options: Country[];
+  options: ICountry[];
 }
 
-const OptionModal = ({ selectedOption, setSelectedOption, name, notRequired, options }: Props) => {
+const CountrySelect = ({ selectedOption, setSelectedOption, name, notRequired, options }: Props) => {
   const { toggle, setToggle, value } = useToggle(false);
-  const countryInfo = options.find((item: Country) => item.isoCode === selectedOption);
+  const countryInfo = options.find((item: ICountry) => item.isoCode === selectedOption);
 
   const [text, onChangeText] = useState('');
 
@@ -31,7 +32,7 @@ const OptionModal = ({ selectedOption, setSelectedOption, name, notRequired, opt
   };
 
   const filterData = useMemo(() => {
-    return options?.filter((item: Country) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
+    return options?.filter((item: ICountry) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
   }, [options, text]);
 
   const handleClear = () => {
@@ -150,4 +151,4 @@ const OptionModal = ({ selectedOption, setSelectedOption, name, notRequired, opt
   );
 };
 
-export default OptionModal;
+export default CountrySelect;

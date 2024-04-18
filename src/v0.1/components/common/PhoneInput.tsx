@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 import customStyles from '../../styles/customStyles';
 import PhoneAreaModal from '../../components/common/Modals/PhoneAreaModal';
+import { ICountryCode } from '../../types/types';
 
 const { secondaryColorBorder, textBlack, expense, textLight } = customStyles;
 
@@ -15,7 +16,7 @@ interface Props {
   countryCode: string;
   setCountryCode: (value: string) => void;
   notRequired?: boolean;
-  options: CountryCode[];
+  options: ICountryCode[];
 }
 
 const PhoneInput = ({
