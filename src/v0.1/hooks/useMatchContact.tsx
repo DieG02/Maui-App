@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { GeneralContext } from '../context/GeneralContext';
 
 //FIXME: Refactor this componente to avoid a lot of re-renders
