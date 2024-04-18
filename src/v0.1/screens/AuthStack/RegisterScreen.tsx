@@ -13,7 +13,6 @@ import { getCountry } from 'react-native-localize';
 import { useTranslation } from 'react-i18next';
 import CountrySelect from '../../components/common/Modals/CountrySelect';
 import useGetCountries from '../../services/Countries/useGetCountries';
-import { languageList } from '../../helpers/languageList';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
 import { ICountry, ICountryCode } from '../../types/types';
@@ -68,16 +67,12 @@ const RegisterScreen = ({ route, navigation }: Props) => {
     return countries?.filter(item => item.isoCode === selectedCountry)[0];
   }, [selectedCountry]);
 
-  const currentLanguage = useMemo(() => {
-    return languageList.find(language => language.locale === i18n.language);
-  }, [i18n.language]);
-
   const { mutateAsync: mutateAsync } = useSignupGoogle(
     {
       ...values,
       country: selectCountryList?.name as string,
       countryCode: selectCountryList?.isoCode as string,
-      language: currentLanguage?.label as string,
+      language: i18n.language,
     },
     {
       onSuccess: async () => {

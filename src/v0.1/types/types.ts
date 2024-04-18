@@ -37,10 +37,10 @@ export type IAccount = {
 };
 
 export type IAccountInput = {
-  address: string;
-  cellPhone: string;
-  name: string;
-  countryCode: string;
+  address?: string;
+  cellPhone?: string;
+  name?: string;
+  countryCode?: string;
   image?: string;
   country?: string;
   language?: string;

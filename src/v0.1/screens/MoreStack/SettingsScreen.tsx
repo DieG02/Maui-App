@@ -10,11 +10,10 @@ import OptionCard from '../../components/common/OptionCard';
 import OptionLanguage from '../../components/common/OptionLanguage';
 import { languageList } from '../../helpers/languageList';
 import customStyles from '../../styles/customStyles';
-import { editUserAccount } from '../../services/userAccount';
 import useGetAccount from '../../services/Account/useGetAccount';
-import { useMutation } from 'react-query';
 import { showToast } from '../../utils/toast';
 import { useTranslation } from 'react-i18next';
+import usePutAccount from '../../services/Account/usePutAccount';
 
 const statusBarStyle = 'dark-content';
 const { textBlack, marginHorizontal, disabled } = customStyles;
@@ -26,17 +25,12 @@ export default function Settings({ navigation }: SettingsProps) {
   const [isVisible, setIsVisible] = useState(false);
   const { i18n } = useTranslation();
   const { data: user } = useGetAccount();
-  const { mutateAsync: editAccount, isLoading } = useMutation(
-    () =>
-      editUserAccount({
-        language: i18n.language,
-      }),
-    {
-      onSuccess: () => {
-        showToast(t('more_screen.user_data.toast_edit_message'));
-      },
-    }
-  );
+
+  const { mutateAsync: editAccount } = usePutAccount({
+    onSuccess: () => {
+      showToast(t('more_screen.user_data.toast_edit_message'));
+    },
+  });
 
   const handleOpenLink = async () => {
     const playstore = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
@@ -50,9 +44,14 @@ export default function Settings({ navigation }: SettingsProps) {
 
   useEffect(() => {
     if (user && user.language !== i18n.language) {
-      editAccount();
+      editAccount({
+        data: {
+          language: i18n.language,
+        },
+      });
     }
   }, [i18n.language]);
+
   return (
     <ScreenContainer>
       <StatusBar barStyle={statusBarStyle} backgroundColor='white' />
