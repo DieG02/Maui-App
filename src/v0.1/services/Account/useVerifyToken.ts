@@ -4,7 +4,7 @@ import { QueryKey, useQuery } from 'react-query';
 export const VERIFY_TOKEN = 'VERIFY_TOKEN';
 
 export const verfiyToken = async () => {
-  const response = await MauiApi.post('/verifyToken');
+  const response = await MauiApi.post('/verify-token');
   return response.data;
 };
 

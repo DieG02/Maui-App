@@ -2,14 +2,14 @@ import MauiApi from '../../clientProvider';
 import { setHeaders } from '../../clientProvider/axiosConfig';
 import { QueryKey, UseMutationOptions, useMutation } from 'react-query';
 
-const QUERY_NAME = 'Delete_Contact';
+export const DELETE_CONTACT_KEY = 'DELETE_CONTACT_KEY';
 
 export const deleteContact = async (contactId: string) => {
   await setHeaders();
-  const response = await MauiApi.delete(`/deleteContact/${contactId}`);
+  const response = await MauiApi.delete(`/contacts/${contactId}`);
   return response.data;
 };
 
 const useDeleteContact = (contactId: string, options: UseMutationOptions) =>
-  useMutation([QUERY_NAME, contactId] as QueryKey, () => deleteContact(contactId), options);
+  useMutation([DELETE_CONTACT_KEY, contactId] as QueryKey, () => deleteContact(contactId), options);
 export default useDeleteContact;

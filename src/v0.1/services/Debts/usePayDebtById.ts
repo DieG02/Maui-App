@@ -1,16 +1,16 @@
 import MauiApi from '../../clientProvider';
-import { payDebtBodyInputDto, payDebtBodyInputGuard } from '../../../../../Maui-Backend/src/controllers/types';
 import { setHeaders } from '../../clientProvider/axiosConfig';
 import { QueryKey, UseMutationOptions, useMutation } from 'react-query';
+import { IPayDebtInput } from '../../types/types';
 
-const QUERY_NAME = 'Pay_Debt_By_Id';
+export const PAY_DEBT_KEY = 'PAY_DEBT_KEY';
 
-export const payDebtById = async (data: payDebtBodyInputDto) => {
+export const payDebtById = async (data: IPayDebtInput, id: string) => {
   await setHeaders();
-  const response = await MauiApi.post<payDebtBodyInputGuard>('/payDebtById', data);
+  const response = await MauiApi.post<IPayDebtInput>('/pay-debt/' + id, data);
   return response.data;
 };
 
-const usePayDebtById = (data: any, options?: UseMutationOptions) =>
-  useMutation([QUERY_NAME] as QueryKey, () => payDebtById(data), options);
+const usePayDebtById = (data: IPayDebtInput, id: string, options?: UseMutationOptions) =>
+  useMutation([PAY_DEBT_KEY] as QueryKey, () => payDebtById(data, id), options);
 export default usePayDebtById;

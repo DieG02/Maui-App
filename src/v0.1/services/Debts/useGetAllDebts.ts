@@ -1,16 +1,16 @@
 import MauiApi from '../../clientProvider';
-import { getAllDebtsResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
 import { setHeaders } from '../../clientProvider/axiosConfig';
 import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
+import { IDebts } from '../../types/types';
 
-const QUERY_NAME = 'Debts';
+export const GET_DEBTS_KEY = 'GET_DEBTS_KEY';
 
 export const getAllDebts = async () => {
   await setHeaders();
-  const response = await MauiApi.get<getAllDebtsResponseDto>('/getAllDebts');
+  const response = await MauiApi.get<IDebts>('/debts');
   return response.data;
 };
 
-const useGetAllDebts = (options?: UseQueryOptions<getAllDebtsResponseDto>) =>
-  useQuery([QUERY_NAME] as QueryKey, () => getAllDebts(), options);
+const useGetAllDebts = (options?: UseQueryOptions<IDebts>) =>
+  useQuery([GET_DEBTS_KEY] as QueryKey, () => getAllDebts(), options);
 export default useGetAllDebts;

@@ -1,18 +1,16 @@
-import MauiApi from "../../clientProvider";
-import { getMonthlyMainStatsResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
-import { setHeaders } from "../../clientProvider/axiosConfig";
-import { QueryKey, useQuery } from "react-query";
+import MauiApi from '../../clientProvider';
+import { setHeaders } from '../../clientProvider/axiosConfig';
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { IMontlyStats } from '../../types/types';
 
-const QUERY_NAME = "Monthly_Stats";
+export const GET_MONTHLY_STATS_KEY = 'GET_MONTHLY_STATS_KEY';
 
 export const getMonthlyMainStats = async () => {
   await setHeaders();
-  const response = await MauiApi.get<getMonthlyMainStatsResponseDto>(
-    "/getMonthlyMainStats"
-  );
+  const response = await MauiApi.get<IMontlyStats>('/monthly-stats');
   return response.data;
 };
 
-const useGetMonthlyStats = () =>
-  useQuery([QUERY_NAME] as QueryKey, getMonthlyMainStats);
+const useGetMonthlyStats = (options?: UseQueryOptions<IMontlyStats>) =>
+  useQuery([GET_MONTHLY_STATS_KEY] as QueryKey, getMonthlyMainStats, options);
 export default useGetMonthlyStats;

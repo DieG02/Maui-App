@@ -1,21 +1,20 @@
-import MauiApi from "../../clientProvider";
-import { editExpenseResponseDto, editExpenseBodyInputDto } from "../../../../../Maui-Backend/src/controllers/types";
-import { setHeaders } from "../../clientProvider/axiosConfig";
-import { useMutation, UseMutationOptions } from "react-query";
+import MauiApi from '../../clientProvider';
+import { setHeaders } from '../../clientProvider/axiosConfig';
+import { useMutation, UseMutationOptions } from 'react-query';
+import { ITransactionInput, ITransaction } from '../../types/types';
 
-const QUERY_NAME = "Edit_Transaction"
+export const PUT_TRANSACTION_KEY = 'PUT_TRANSACTION_KEY';
 
-export const editTransaction = async (transactionId: string, data: editExpenseBodyInputDto) => {
+export const editTransaction = async (transactionId: string, data: ITransactionInput) => {
+  await setHeaders();
+  const response = await MauiApi.patch<ITransaction>('/transactions/' + transactionId, data);
+  return response.data;
+};
 
-    await setHeaders();
-    const response = await MauiApi.patch<editExpenseResponseDto>(
-        '/editTransaction/' + transactionId, data
-    );
-    return response.data
-}
-
-const useEditTransaction = (transactionId: string, data: any, options?: UseMutationOptions) =>
-
-    useMutation([QUERY_NAME], () => editTransaction(transactionId, data), options);
+const useEditTransaction = (
+  transactionId: string,
+  data: ITransactionInput,
+  options?: UseMutationOptions<ITransaction>
+) => useMutation([PUT_TRANSACTION_KEY], () => editTransaction(transactionId, data), options);
 
 export default useEditTransaction;

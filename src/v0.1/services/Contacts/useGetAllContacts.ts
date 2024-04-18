@@ -1,24 +1,21 @@
-import MauiApi from "../../clientProvider";
-import { getAllContactsResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
-import { setHeaders } from "../../clientProvider/axiosConfig";
-import { QueryKey, useQuery, UseQueryOptions } from "react-query";
+import MauiApi from '../../clientProvider';
+import { setHeaders } from '../../clientProvider/axiosConfig';
+import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
+import { IContact, IContactType } from '../../types/types';
 
-type ContactType = "provider" | "client"
+export const GET_CONTACTS_KEY = 'GET_CONTACTS_KEY';
 
-const QUERY_NAME = "Contacts";
-
-export const getAllContacts = async (type?: ContactType) => {
+export const getContacts = async (type: IContactType) => {
   await setHeaders();
-  let url = "/getAllContacts/";
-  if (type) {
-    url += `?type=${type.toUpperCase()}`;
-  }
-  const response = await MauiApi.get<getAllContactsResponseDto>(url);
+
+  const response = await MauiApi.get<IContact[]>('/contacts/', {
+    params: {
+      type: type,
+    },
+  });
   return response.data;
 };
 
-const useGetAllContacts = (
-  type?: ContactType,
-  options?: UseQueryOptions<getAllContactsResponseDto>
-) => useQuery([QUERY_NAME, type] as QueryKey, () => getAllContacts(type), options);
+const useGetAllContacts = (type: IContactType, options?: UseQueryOptions<IContact[]>) =>
+  useQuery([GET_CONTACTS_KEY, type] as QueryKey, () => getContacts(type), options);
 export default useGetAllContacts;
