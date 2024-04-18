@@ -1,25 +1,19 @@
 import MauiApi from '../../clientProvider';
-import {
-  getTransactionsQueryParamsDto,
-  getTransactionsResponseDto,
-} from '../../../../../Maui-Backend/src/controllers/types';
+
 import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
 import { setHeaders } from '../../clientProvider/axiosConfig';
+import { IQueryTransaction, ITransactionDetail } from '../../types/types';
 
-const QUERY_NAME = 'Transactions';
+export const GET_TRANSACTIONS_KEY = 'GET_TRANSACTIONS_KEY';
 
-export const getTransactions = async (
-  queryParams?: getTransactionsQueryParamsDto
-): Promise<getTransactionsResponseDto> => {
+export const getTransactions = async (queryParams?: IQueryTransaction) => {
   await setHeaders();
-  const response = await MauiApi.get<getTransactionsResponseDto>('/getTransactions', { params: queryParams });
+  const response = await MauiApi.get<ITransactionDetail[]>('/transactions', { params: queryParams });
 
   return response.data;
 };
 
-const useGetTransactions = (
-  queryParams?: getTransactionsQueryParamsDto,
-  options?: UseQueryOptions<getTransactionsResponseDto>
-) => useQuery([QUERY_NAME, queryParams] as QueryKey, () => getTransactions(queryParams), options);
+const useGetTransactions = (queryParams?: IQueryTransaction, options?: UseQueryOptions<ITransactionDetail[]>) =>
+  useQuery([GET_TRANSACTIONS_KEY, queryParams] as QueryKey, () => getTransactions(queryParams), options);
 
 export default useGetTransactions;

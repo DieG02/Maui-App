@@ -1,18 +1,18 @@
 import MauiApi from '../../clientProvider';
-import { getTransactionByIdResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
 import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
 import { setHeaders } from '../../clientProvider/axiosConfig';
+import { ITransactionDetail } from '../../types/types';
 
-const QUERY_NAME = 'Transaction_By_Id';
+export const GET_TRANSACTION_KEY = 'GET_TRANSACTION_KEY';
 
-export const getTransactionById = async (transactionId: string): Promise<getTransactionByIdResponseDto> => {
+export const getTransactionById = async (transactionId: string): Promise<ITransactionDetail> => {
   await setHeaders();
-  const response = await MauiApi.get<getTransactionByIdResponseDto>(`/getTransactionById/${transactionId}`);
+  const response = await MauiApi.get<ITransactionDetail>(`/transactions/${transactionId}`);
   return response.data;
 };
 
-const useGetTransactionById = (transactionId: string, options?: UseQueryOptions<getTransactionByIdResponseDto>) =>
-  useQuery([QUERY_NAME, transactionId] as QueryKey, () => getTransactionById(transactionId), {
+const useGetTransactionById = (transactionId: string, options?: UseQueryOptions<ITransactionDetail>) =>
+  useQuery([GET_TRANSACTION_KEY, transactionId] as QueryKey, () => getTransactionById(transactionId), {
     ...options,
   });
 

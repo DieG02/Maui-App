@@ -1,13 +1,14 @@
 import MauiApi from '../../clientProvider';
-import { getCountryCodesResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
-import { QueryKey, useQuery } from 'react-query';
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { ICountryCode } from '../../types/types';
 
-export const QUERY_NAME = 'CountryCode';
+export const GET_COUNTRY_CODE_KEY = 'GET_COUNTRY_CODE_KEY';
 
 export const getCountryCode = async () => {
-  const response = await MauiApi.get<getCountryCodesResponseDto>(`/country-codes`);
+  const response = await MauiApi.get<ICountryCode[]>(`/country-codes`);
   return response.data;
 };
 
-const useGetCountryCode = () => useQuery([QUERY_NAME] as QueryKey, () => getCountryCode());
+const useGetCountryCode = (options?: UseQueryOptions<ICountryCode[]>) =>
+  useQuery([GET_COUNTRY_CODE_KEY] as QueryKey, () => getCountryCode(), options);
 export default useGetCountryCode;

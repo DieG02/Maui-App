@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+
 import Spacer from '../../components/common/Spacer';
 import customStyles from '../../styles/customStyles';
 import ScreenContainer from '../../components/containers/ScreenContainer';
@@ -13,7 +16,6 @@ import useGetTransactions from '../../services/Transactions/useGetAllTransaction
 import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
-import { useTranslation } from 'react-i18next';
 
 const { mainColor } = customStyles;
 
@@ -40,6 +42,7 @@ const HomeScreen = ({ navigation }: Props) => {
     getAlltransactions();
     setRefreshing(false);
   };
+
   return (
     <ScreenContainer>
       <ScrollView
@@ -49,7 +52,7 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={balance} navigation={navigation} />
+        <GeneralBalance data={balance!} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />

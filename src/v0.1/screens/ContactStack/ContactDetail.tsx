@@ -7,16 +7,17 @@ import Spacer from '../../components/common/Spacer';
 import SimpleInput from '../../components/common/SimpleInput';
 import Button from '../../components/common/Button';
 import customStyles from '../../styles/customStyles';
-import { useMutation } from 'react-query';
-import { updateContactById } from '../../services/contacts';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
 import { alertDelete, commonAlert } from '../../utils/alerts';
 import { useTranslation } from 'react-i18next';
-import useDeleteContact from '../../services/Contact/useDeleteContact';
+import useDeleteContact from '../../services/Contacts/useDeleteContact';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetContactById from '../../services/Contact/useGetContactById';
+import useGetContactById, { GET_CONTACT_KEY } from '../../services/Contacts/useGetContactById';
+import { IContact, IContactType } from '../../types/types';
+import { GET_CONTACTS_KEY } from '../../services/Contacts/useGetAllContacts';
+import usePutContact from '../../services/Contacts/usePutContact';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -28,7 +29,7 @@ const { mainColor, background2, marginHorizontal } = customStyles;
 const ContactDetail = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
   const { params } = route;
-  const [contact, setContact] = useState<any>(null);
+  const [contact, setContact] = useState<IContact>({} as IContact);
 
   const { data, isLoading: isFetchingGetContactById } = useGetContactById(params?.contactId, {
     refetchOnMount: true,
@@ -43,19 +44,26 @@ const ContactDetail = ({ route, navigation }: Props) => {
 
   const isChanged = JSON.stringify(contact) !== JSON.stringify(data);
 
-  const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contactId, contact), {
+  // const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contactId, contact), {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries([GET_CONTACT_KEY, params?.contactId]);
+  //     navigation.goBack();
+  //     showToast(t('contact_stack.contact_detail.edit_contact'));
+  //   },
+  // });
+
+  const { mutateAsync: updateContact } = usePutContact({
     onSuccess: () => {
-      queryClient.invalidateQueries(['Contact', params?.contactId]);
-      queryClient.invalidateQueries('Contacts');
+      queryClient.invalidateQueries(GET_CONTACT_KEY);
+      queryClient.invalidateQueries(GET_CONTACTS_KEY);
       navigation.goBack();
-      showToast(t('contact_stack.contact_detail.edit_contact'));
+      showToast(t('contact_stack.contact_detail.delete_contact'));
     },
   });
 
   const { mutateAsync: deleteContact } = useDeleteContact(params?.contactId, {
     onSuccess: () => {
-      queryClient.invalidateQueries('Contacts');
-      queryClient.invalidateQueries('Transactions');
+      queryClient.invalidateQueries(GET_CONTACTS_KEY);
       navigation.goBack();
       showToast(t('contact_stack.contact_detail.delete_contact'));
     },
@@ -69,7 +77,7 @@ const ContactDetail = ({ route, navigation }: Props) => {
   };
 
   const handleTitle = () => {
-    if (data && data?.type === 'CLIENT') {
+    if (data && data?.type === IContactType.CLIENT) {
       return t('contact_stack.contact_detail.client');
     } else {
       return t('contact_stack.contact_detail.provider');
@@ -136,7 +144,12 @@ const ContactDetail = ({ route, navigation }: Props) => {
       >
         <Button
           disabled={!isChanged}
-          onPress={() => updateContact()}
+          onPress={() =>
+            updateContact({
+              data: contact,
+              id: params?.contactId,
+            })
+          }
           color={isChanged ? 'white' : mainColor}
           text={t('contact_stack.contact_detail.update_contact')}
           style={{

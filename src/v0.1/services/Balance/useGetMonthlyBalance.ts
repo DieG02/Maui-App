@@ -1,15 +1,16 @@
 import MauiApi from '../../clientProvider';
-import { MonthlyBalanceResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
 import { setHeaders } from '../../clientProvider/axiosConfig';
-import { QueryKey, useQuery } from 'react-query';
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { IMonthlyBalance } from '../../types/types';
 
-const QUERY_NAME = 'Monthly_Balance';
+export const GET_MONTHLY_BALANCE_KEY = 'GET_MONTHLY_BALANCE_KEY';
 
 export const getMonthlyBalance = async () => {
   await setHeaders();
-  const response = await MauiApi.get<MonthlyBalanceResponseDto>('/monthly-balance');
+  const response = await MauiApi.get<IMonthlyBalance>('/monthly-balance');
   return response.data;
 };
 
-const useGetMonthlyBalance = () => useQuery([QUERY_NAME] as QueryKey, getMonthlyBalance);
+const useGetMonthlyBalance = (options?: UseQueryOptions<IMonthlyBalance>) =>
+  useQuery([GET_MONTHLY_BALANCE_KEY] as QueryKey, getMonthlyBalance, options);
 export default useGetMonthlyBalance;

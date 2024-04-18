@@ -24,6 +24,7 @@ import useEditTransaction from '../../services/Transactions/useEditTransaction';
 import DatePicker from '../../components/common/DatePicker';
 import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -78,14 +79,14 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const payload = {
-    payment_method: values.isPaid ? values.paymentMethod : 'NONE',
+    status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,
+    payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
     contactId: params?.contact ? params?.contact?.id : values.providerId,
     date: values.date,
-    status: values.isPaid ? 'APPROVED' : 'DEBT',
     description: values.name,
     total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-    categoryId: getCategoryId(values.categoryId, expenseCategories),
-    type: 'DEBIT',
+    categoryId: getCategoryId(values.categoryId, expenseCategories) as string,
+    type: TransactionType.DEBIT,
   };
 
   const { mutateAsync, isLoading } = useEditTransaction(data?.id, payload, {

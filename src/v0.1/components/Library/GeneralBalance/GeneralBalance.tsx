@@ -10,25 +10,14 @@ import Spacer from '../../common/Spacer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { parserToCurrency } from '../../../utils/adapter';
 import { NavigationProp } from '@react-navigation/native';
+import { IBalance } from '../../../types/types';
 
 const { textBlack } = customStyles;
 
 // TODO: Refactor this interface to use the correct types
 interface Props {
   navigation: NavigationProp<any, any>;
-  data: {
-    financialAccount: {
-      id: string;
-      businessId: string;
-      accountName: string;
-      currency: {
-        code: string;
-        locale: string;
-        isoCode: string;
-      };
-    };
-    total_balance: number;
-  };
+  data: IBalance;
 }
 
 const GeneralBalance = ({ data, navigation }: Props) => {

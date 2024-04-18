@@ -11,6 +11,7 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import { useTranslation } from 'react-i18next';
 import useGetAllContacts from '../../services/Contacts/useGetAllContacts';
+import { IContact, IContactType } from '../../types/types';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -29,7 +30,7 @@ const Providers = ({ navigation, route }: Props) => {
     data: providers,
     isLoading,
     refetch: getProviders,
-  } = useGetAllContacts('provider', {
+  } = useGetAllContacts(IContactType.PROVIDER, {
     onSuccess: data => {
       setContacts(data);
     },

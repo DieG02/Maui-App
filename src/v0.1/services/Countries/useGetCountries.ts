@@ -1,13 +1,14 @@
 import MauiApi from '../../clientProvider';
-import { getCountriesResponseDto } from '../../../../../Maui-Backend/src/controllers/types';
-import { QueryKey, useQuery } from 'react-query';
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { ICountry } from '../../types/types';
 
-export const QUERY_NAME = 'Countries';
+export const GET_COUNTRIES_KEY = 'GET_COUNTRIES_KEY';
 
 export const getCountries = async () => {
-  const response = await MauiApi.get<getCountriesResponseDto>(`/countries`);
+  const response = await MauiApi.get<ICountry[]>(`/countries`);
   return response.data;
 };
 
-const useGetCountries = () => useQuery([QUERY_NAME] as QueryKey, () => getCountries());
+const useGetCountries = (options?: UseQueryOptions<ICountry[]>) =>
+  useQuery([GET_COUNTRIES_KEY] as QueryKey, getCountries, options);
 export default useGetCountries;

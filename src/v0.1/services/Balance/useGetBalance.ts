@@ -1,15 +1,16 @@
-import MauiApi from "../../clientProvider";
-import { getBalanceResponseDto } from "../../../../../Maui-Backend/src/controllers/types";
-import { setHeaders } from "../../clientProvider/axiosConfig";
-import { QueryKey, useQuery } from "react-query";
+import MauiApi from '../../clientProvider';
+import { setHeaders } from '../../clientProvider/axiosConfig';
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { IBalance } from '../../types/types';
 
-const QUERY_NAME = "Balance";
+export const GET_BALANCE_KEY = 'GET_BALANCE_KEY';
 
 export const getBalance = async () => {
   await setHeaders();
-  const response = await MauiApi.get<getBalanceResponseDto>("/getMyBalance");
+  const response = await MauiApi.get<IBalance>('/balance');
   return response.data;
 };
 
-const useGetBalance = () => useQuery([QUERY_NAME] as QueryKey, getBalance);
+const useGetBalance = (options?: UseQueryOptions<IBalance>) =>
+  useQuery([GET_BALANCE_KEY] as QueryKey, getBalance, options);
 export default useGetBalance;

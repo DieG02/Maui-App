@@ -18,12 +18,16 @@ import { queryClient } from '../../utils/queryClient';
 import Spacer from '../../components/common/Spacer';
 import { useTranslation } from 'react-i18next';
 import usePayDebtById from '../../services/Debts/usePayDebtById';
-import useGetDebtById from '../../services/Debts/useGetDebtsById';
+import useGetDebtById, { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
 import { Alert } from 'react-native';
 import DatePicker from '../../components/common/DatePicker';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import { IPaymentMethod } from '../../types/types';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 
-const { marginHorizontal, width, mainColor, background2, white } = customStyles;
+const { marginHorizontal, mainColor, background2, white } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -62,18 +66,18 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       type: params?.type,
       paymentAmount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
       paidAt: values.date,
-      payment_method: values.paymentMethod,
-      debtId: params?.debtId,
+      payment_method: values.paymentMethod as IPaymentMethod,
       description:
         values.description !== '' ? values.description : `${t('balance_stack.payment')} ${moment.parseZone().unix()}`,
     },
+    params?.debtId as string,
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('Debts');
-        queryClient.invalidateQueries('Debt', params?.contact);
+        queryClient.invalidateQueries(GET_DEBTS_KEY);
+        queryClient.invalidateQueries(GET_DEBT_KEY, params?.contact);
         queryClient.invalidateQueries('Transactions');
-        queryClient.invalidateQueries('Balance');
-        queryClient.invalidateQueries('Monthly_Stats');
+        queryClient.invalidateQueries(GET_BALANCE_KEY);
+        queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         if (equalToDebt) {
           navigation.navigate('HomeTabs', { screen: 'Debts' });
         } else {

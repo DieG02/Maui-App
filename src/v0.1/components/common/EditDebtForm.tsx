@@ -49,24 +49,6 @@ const EditDebtForm = ({ navigation, data }: Props) => {
 
   const { values, setValues, validateValues } = useForm<InitialIncome>(initialValues);
 
-  // Aquì va el mutateAsync
-  // const { mutateAsync, isLoading } = useEditIncome(
-  //     data.id,
-  //     {
-  //     date: values.date,
-  //     name: values.name,
-  //     value: parseFloat(values.value.replace(/\./g, "").replace(",", ".")),
-  //     },
-  //     {
-  //     onSuccess: () => {
-  //         queryClient.invalidateQueries("Transactions");
-  //         queryClient.removeQueries("IncomeDetail");
-  //         navigation.navigate("balance");
-  //         showToast();
-  //     },
-  //     }
-  // );
-
   const handleSubmit = () => {
     if (validateValues(validateOptions.value)) {
       //   mutateAsync();
@@ -76,9 +58,6 @@ const EditDebtForm = ({ navigation, data }: Props) => {
     }
   };
 
-  // if (isLoading) {
-  //     return <LoadingComponent color={mainColor} />;
-  // }
   return (
     <View
       style={{

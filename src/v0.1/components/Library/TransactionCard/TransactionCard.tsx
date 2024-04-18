@@ -1,18 +1,18 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import customStyles from '../../../styles/customStyles';
-import { getAllTransactionsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
 import styles from './style';
 import { parseDDMMYY } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
 import { capitalLetter } from '../../../utils/capitalLetter';
 import { parserToCurrency } from '../../../utils/adapter';
+import { ITransactionDetail } from '../../../types/types';
 
 const { textBlack, positive } = customStyles;
 const KEY_PATH = 'balance_stack.payment_method_options';
 interface Props {
   onPress: () => void;
-  data: getAllTransactionsResponseDto[0];
+  data: ITransactionDetail;
 }
 
 const TransactionCard = ({ onPress, data }: Props) => {

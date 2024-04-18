@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { version as AppVersion } from '../../../../package.json';
+import { IAccount } from '../../types/types';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -35,8 +36,6 @@ const versionName = Platform.select({
 const whatsappLink = 'https://wa.me/541169708424';
 
 const url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
-
-// Llama a la función para abrir el enlace cuando sea necesario
 
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -102,7 +101,7 @@ const More = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
         <BackHeaderTitle
           label=''
           onPressBack={() => navigation.goBack()}
@@ -116,7 +115,7 @@ const More = ({ navigation }: Props) => {
             alignItems: 'center',
           }}
         >
-          <ProfileBadge user={data} size='large' />
+          <ProfileBadge user={data as IAccount} size='large' />
           <Text
             style={{
               fontSize: 25,
@@ -208,7 +207,7 @@ const More = ({ navigation }: Props) => {
             onPress={() => handleLogout()}
             icon={<AntDesign name='logout' color={expense} size={20} />}
           />
-          <Spacer height={30} />
+          <Spacer height={10} />
           <View style={{ paddingVertical: 10 }}>
             <Text
               style={{
