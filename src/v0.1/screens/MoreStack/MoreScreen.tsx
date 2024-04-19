@@ -101,14 +101,14 @@ const More = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
+      <BackHeaderTitle
+        label=''
+        onPressBack={() => navigation.goBack()}
+        headerStyle={{
+          backgroundColor: babyBlue,
+        }}
+      />
       <ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
-        <BackHeaderTitle
-          label=''
-          onPressBack={() => navigation.goBack()}
-          headerStyle={{
-            backgroundColor: babyBlue,
-          }}
-        />
         <View
           style={{
             backgroundColor: babyBlue,
@@ -134,7 +134,6 @@ const More = ({ navigation }: Props) => {
               marginTop: 5,
             }}
           >
-            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingRight: 5 }} />
             <Text
               style={{
                 color: textBlack,
@@ -144,6 +143,7 @@ const More = ({ navigation }: Props) => {
             >
               {email}
             </Text>
+            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingLeft: 5 }} />
           </TouchableOpacity>
           <Text
             style={{
@@ -158,7 +158,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={20} />
         </View>
         <View style={{ marginHorizontal: marginHorizontal }}>
-          <Spacer height={30} />
+          <Spacer height={20} />
           <OptionCard
             title={t('more_screen.profile')}
             onPress={() => navigation.navigate('UserData', { data, email })}
@@ -208,13 +208,12 @@ const More = ({ navigation }: Props) => {
             icon={<AntDesign name='logout' color={expense} size={20} />}
           />
           <Spacer height={10} />
-          <View style={{ paddingVertical: 10 }}>
+          <View>
             <Text
               style={{
                 color: textBlack,
                 opacity: 0.8,
                 fontFamily: 'Gilroy-Regular',
-                marginTop: 5,
                 fontSize: 18,
                 textAlign: 'center',
               }}

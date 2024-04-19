@@ -6,13 +6,13 @@ const { mainColor, background2 } = customStyles;
 const styles = (size: string) =>
   StyleSheet.create({
     image: {
-      width: size === 'large' ? 100 : 50,
-      height: size === 'large' ? 100 : 50,
+      width: size === 'large' ? 80 : 50,
+      height: size === 'large' ? 80 : 50,
       borderRadius: size === 'large' ? 100 : 50,
     },
     wrapper: {
-      width: size === 'large' ? 100 : 50,
-      height: size === 'large' ? 100 : 50,
+      width: size === 'large' ? 80 : 50,
+      height: size === 'large' ? 80 : 50,
       borderRadius: size === 'large' ? 100 : 50,
       backgroundColor: background2,
       alignItems: 'center',
