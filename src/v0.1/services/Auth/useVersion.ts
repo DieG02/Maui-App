@@ -11,7 +11,7 @@ const version = Platform.select({
 export const VERSION_MANAGER = 'VERSION_MANAGER';
 
 export const validateAppVersion = async () => {
-  const response = await MauiApi.get(`/validateAppVersion?version=${version}`);
+  const response = await MauiApi.get(`/validate-version?version=${version}`);
   return response.data;
 };
 

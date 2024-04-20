@@ -1,31 +1,19 @@
 import { View, Image, Linking, StyleSheet, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
-import { NavigationProp } from '@react-navigation/native';
 import customStyles from '../../styles/customStyles';
 import Button from '../../components/common/Button';
 
-import useVerifyToken from '../../services/Account/useVerifyToken';
-import useGetCountries from '../../services/Countries/useGetCountries';
-import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
-import useVersion from '../../services/App/useVersion';
+import useVersion from '../../services/Auth/useVersion';
 import { useTranslation } from 'react-i18next';
-
-interface Props {
-  navigation: NavigationProp<any, any>;
-}
 
 const { mainColor, textBlack, white } = customStyles;
 const playstore_url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
 
-export default function SplashScreen({ navigation }: Props) {
-  const { data: token, isFetching } = useVerifyToken();
-  const { isLoading: isLoadingCountry } = useGetCountries();
-  const { isLoading: isLoadingCountryCode } = useGetCountryCode();
+export default function SplashScreen() {
   const { data: version } = useVersion();
   const { t } = useTranslation();
   const [available, setAvailable] = useState<boolean | undefined>();
-  const loaders = isFetching || isLoadingCountry || isLoadingCountryCode;
 
   const handleUpdate = async () => {
     try {
@@ -37,15 +25,6 @@ export default function SplashScreen({ navigation }: Props) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (!loaders && available) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: token ? 'HomeTabs' : 'Login' }],
-      });
-    }
-  }, [loaders, available, token]);
 
   useEffect(() => {
     setAvailable(version?.available);
