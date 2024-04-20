@@ -36,6 +36,8 @@ import LoadingScreen from './AuthStack/LoadingScreen';
 import useGetCountries from '../services/Countries/useGetCountries';
 import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
 import MonthlySummariesScreen from './HomeStack/MonthlySummariesScreen';
+import useVersion from '../services/Auth/useVersion';
+import useGetLinks from '../services/Links/useGetLinks';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,10 +46,23 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStack() {
   const { data: token, isFetching } = useVerifyToken();
+  const { data: version, isLoading, isError } = useVersion();
   const { isLoading: isLoadingCountry } = useGetCountries();
+  const { isLoading: isLoadingLinks } = useGetLinks();
   const { isLoading: isLoadingCountryCode } = useGetCountryCode();
 
-  if (isFetching || isLoadingCountry || isLoadingCountryCode) return <SplashScreen />;
+  if (isFetching || isLoadingCountry || isLoadingCountryCode || isLoading || isLoadingLinks) return <SplashScreen />;
+  if (isError) {
+    return (
+      <SplashScreen
+        version={{
+          available: false,
+        }}
+      />
+    );
+  }
+
+  if (!version.available) return <SplashScreen version={version} />;
 
   return (
     <Stack.Navigator

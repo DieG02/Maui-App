@@ -32,7 +32,6 @@ const LoadingScreen = ({ route, navigation }: Props) => {
           await GoogleSignin.signIn();
           await AsyncStorage.setItem('userInfo', JSON.stringify(data));
           queryClient.invalidateQueries(VERIFY_TOKEN);
-          navigation.dispatch(StackActions.replace(data.screenRedirect, { user: data }));
         }
       } catch (error) {
         console.error('Something went wrong', error);

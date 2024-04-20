@@ -70,7 +70,6 @@ const More = ({ navigation }: Props) => {
     await AsyncStorage.removeItem('userInfo');
     queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();
-    navigation.dispatch(StackActions.replace('Login'));
   };
   const shareLink = async () => {
     const options = {

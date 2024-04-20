@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
 import customStyles from '../../styles/customStyles';
 import Button from '../../components/common/Button';
-
-import useVersion from '../../services/Auth/useVersion';
 import { useTranslation } from 'react-i18next';
+import { getLocaleFromAsyncStorage } from '../../utils/getUserInfo';
+import i18n from '../../services/i18n-config';
+import { getLocales } from 'react-native-localize';
 
+const defaultLenguage = getLocales()[0].languageCode;
 const { mainColor, textBlack, white } = customStyles;
 const playstore_url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
 
-export default function SplashScreen() {
-  const { data: version } = useVersion();
+export default function SplashScreen({ version }: any) {
   const { t } = useTranslation();
-  const [available, setAvailable] = useState<boolean | undefined>();
 
   const handleUpdate = async () => {
     try {
@@ -27,10 +27,18 @@ export default function SplashScreen() {
   };
 
   useEffect(() => {
-    setAvailable(version?.available);
-  }, [version]);
+    const loadLanguage = async () => {
+      const locale = await getLocaleFromAsyncStorage();
+      if (locale) {
+        i18n.changeLanguage(locale);
+      } else {
+        i18n.changeLanguage(defaultLenguage);
+      }
+    };
+    loadLanguage();
+  }, []);
 
-  if (available === false) {
+  if (version?.available === false) {
     return (
       <View style={styles.container}>
         <Text style={styles.message}>{t('auth_stack.version_manager.title')}</Text>
