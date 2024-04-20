@@ -24,6 +24,9 @@ import useEditTransaction from '../../services/Transactions/useEditTransaction';
 import DatePicker from '../../components/common/DatePicker';
 import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -78,20 +81,20 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const payload = {
-    payment_method: values.isPaid ? values.paymentMethod : 'NONE',
+    status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,
+    payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
     contactId: params?.contact ? params?.contact?.id : values.providerId,
     date: values.date,
-    status: values.isPaid ? 'APPROVED' : 'DEBT',
     description: values.name,
     total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-    categoryId: getCategoryId(values.categoryId, expenseCategories),
-    type: 'DEBIT',
+    categoryId: getCategoryId(values.categoryId, expenseCategories) as string,
+    type: TransactionType.DEBIT,
   };
 
   const { mutateAsync, isLoading } = useEditTransaction(data?.id, payload, {
     onSuccess: () => {
-      queryClient.invalidateQueries('Transactions');
-      queryClient.removeQueries(['Transaction_By_Id', data?.id]);
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
       navigation.navigate('balance');
       showToast(t('debt_stack.edit_debt.toast_edited'));
     },

@@ -18,6 +18,9 @@ import DatePicker from './DatePicker';
 import StateSwitch from './StateSwitch';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import Spacer from './Spacer';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -79,18 +82,19 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   const { mutateAsync, isLoading } = useEditTransaction(
     data.id,
     {
-      payment_method: values.isPaid ? values.paymentMethod : 'NONE',
+      status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,
+      payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
       contactId: params?.contact ? params?.contact?.id : values.clientId,
       date: values.date,
-      status: values.isPaid ? 'APPROVED' : 'DEBT',
       description: values.name,
       total_amount: parseFloat(values.value.replace(/\./g, '').replace(',', '.')),
-      type: 'CREDIT',
+      type: TransactionType.CREDIT,
     },
+
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('Transactions');
-        queryClient.removeQueries(['Transaction_By_Id', data?.id]);
+        queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+        queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
         navigation.navigate('balance');
         showToast();
       },

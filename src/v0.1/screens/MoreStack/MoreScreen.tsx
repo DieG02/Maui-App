@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { version as AppVersion } from '../../../../package.json';
+import { IAccount } from '../../types/types';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -35,8 +36,6 @@ const versionName = Platform.select({
 const whatsappLink = 'https://wa.me/541169708424';
 
 const url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
-
-// Llama a la función para abrir el enlace cuando sea necesario
 
 const More = ({ navigation }: Props) => {
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -103,21 +102,21 @@ const More = ({ navigation }: Props) => {
 
   return (
     <ScreenContainer>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <BackHeaderTitle
-          label=''
-          onPressBack={() => navigation.goBack()}
-          headerStyle={{
-            backgroundColor: babyBlue,
-          }}
-        />
+      <BackHeaderTitle
+        label=''
+        onPressBack={() => navigation.goBack()}
+        headerStyle={{
+          backgroundColor: babyBlue,
+        }}
+      />
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
         <View
           style={{
             backgroundColor: babyBlue,
             alignItems: 'center',
           }}
         >
-          <ProfileBadge user={data} size='large' />
+          <ProfileBadge user={data as IAccount} size='large' />
           <Text
             style={{
               fontSize: 25,
@@ -136,7 +135,6 @@ const More = ({ navigation }: Props) => {
               marginTop: 5,
             }}
           >
-            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingRight: 5 }} />
             <Text
               style={{
                 color: textBlack,
@@ -146,6 +144,7 @@ const More = ({ navigation }: Props) => {
             >
               {email}
             </Text>
+            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingLeft: 5 }} />
           </TouchableOpacity>
           <Text
             style={{
@@ -160,7 +159,7 @@ const More = ({ navigation }: Props) => {
           <Spacer height={20} />
         </View>
         <View style={{ marginHorizontal: marginHorizontal }}>
-          <Spacer height={30} />
+          <Spacer height={20} />
           <OptionCard
             title={t('more_screen.profile')}
             onPress={() => navigation.navigate('UserData', { data, email })}
@@ -209,14 +208,13 @@ const More = ({ navigation }: Props) => {
             onPress={() => handleLogout()}
             icon={<AntDesign name='logout' color={expense} size={20} />}
           />
-          <Spacer height={30} />
-          <View style={{ paddingVertical: 10 }}>
+          <Spacer height={10} />
+          <View>
             <Text
               style={{
                 color: textBlack,
                 opacity: 0.8,
                 fontFamily: 'Gilroy-Regular',
-                marginTop: 5,
                 fontSize: 18,
                 textAlign: 'center',
               }}

@@ -4,7 +4,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import customStyles from '../../styles/customStyles';
-import RowTransaction from '../../components/common/TransactionCard/RowTransaction';
+import RowTransaction from '../../components/common/RowTransaction';
 import Button from '../../components/common/Button';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import { queryClient } from '../../utils/queryClient';
@@ -19,6 +19,11 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
 import { parserToCurrency } from '../../utils/adapter';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 
 // TODO: Refactor this component
 interface Props {
@@ -47,11 +52,11 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     onSuccess() {
       navigation.goBack();
       showToast();
-      queryClient.invalidateQueries('Transactions');
-      queryClient.invalidateQueries('Balance');
-      queryClient.invalidateQueries('Monthly_Stats');
-      queryClient.invalidateQueries('Debts');
-      queryClient.invalidateQueries('Debt');
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.invalidateQueries(GET_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+      queryClient.invalidateQueries(GET_DEBTS_KEY);
+      queryClient.invalidateQueries(GET_DEBT_KEY);
     },
   });
 
@@ -65,7 +70,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       : navigation.navigate('EditIncome', { income: transaction });
   };
 
-  if (isFetchingTransaction || isLoading) return <LoadingComponent color={mainColor} />;
+  if (isFetchingTransaction || isLoading || !transaction) return <LoadingComponent color={mainColor} />;
 
   const locale = transaction.financialAccount.currency.locale;
   const code = transaction.financialAccount.currency.code;

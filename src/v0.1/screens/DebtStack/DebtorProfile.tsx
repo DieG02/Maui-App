@@ -86,22 +86,6 @@ const DebtorProfile = ({ navigation, route }: Props) => {
           <Tab.Screen name={t('debt_stack.debtor_profile.debt')} component={DebtComponent} />
           <Tab.Screen name={t('debt_stack.debtor_profile.credited')} component={PayComponent} />
         </Tab.Navigator>
-        {/* {totalToPay === 0 ? (
-          <Button
-            text={t('debt_stack.debtor_profile.to_credit')}
-            disabled
-            style={{ backgroundColor: background2 }}
-            color={mainColor}
-          />
-        ) : (
-          <CustomModal title={t('debt_stack.debtor_profile.to_credit')}>
-            <RepayModal
-              amount={totalToPay.toLocaleString()}
-              id={debtor?.debts[0].transaction[0].id as string}
-              type={debtor?.debts[0].type === 'DEBIT' ? 'DEBIT' : 'CREDIT'}
-            />
-          </CustomModal>
-        )} */}
       </View>
     </ScreenContainer>
   );

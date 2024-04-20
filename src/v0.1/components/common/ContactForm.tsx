@@ -4,12 +4,12 @@ import Modal from 'react-native-modal';
 import CommonInput from './CommonInput';
 import Button from './Button';
 import customStyles from '../../styles/customStyles';
-import { createContactBodyInputDto } from '../../../../Maui-Backend/src/controllers/types';
-import { useMutation } from 'react-query';
-import { createNewContact } from '../../services/contacts';
 import { NavigationProp } from '@react-navigation/native';
 import { queryClient } from '../../utils/queryClient';
 import { useTranslation } from 'react-i18next';
+import useCreateContact from '../../services/Contacts/useCreateContact';
+import { IContact, IContactInput, IContactType } from '../../types/types';
+import { GET_CONTACTS_KEY } from '../../services/Contacts/useGetAllContacts';
 
 const { mainColor } = customStyles;
 
@@ -26,7 +26,7 @@ interface Props {
   comments: string;
   setComments: (value: string) => void;
   screen: string;
-  type: createContactBodyInputDto['type'];
+  type: IContactType;
   navigation: NavigationProp<any, any>;
 }
 
@@ -46,8 +46,8 @@ const ContactForm = ({
   navigation,
 }: Props) => {
   const { t } = useTranslation();
-  const action = (screenName: string, data: any) => {
-    queryClient.invalidateQueries('Contacts');
+  const action = (screenName: string, data: IContact) => {
+    queryClient.invalidateQueries(GET_CONTACTS_KEY);
     navigation.navigate(screenName, { contact: data });
   };
 
@@ -65,24 +65,20 @@ const ContactForm = ({
     }
   };
 
-  const form: createContactBodyInputDto = {
+  const form: IContactInput = {
     name: name,
     phone: phone,
     note: comments,
     email: email,
-    type: type.toUpperCase() as createContactBodyInputDto['type'],
+    type: type.toUpperCase() as IContactType,
   };
 
-  const { mutateAsync } = useMutation(
-    (form: createContactBodyInputDto) => {
-      return createNewContact(form);
+  const { mutateAsync: createContact } = useCreateContact({
+    onSuccess: data => {
+      queryClient.invalidateQueries(GET_CONTACTS_KEY);
+      handleOnPress(data);
     },
-    {
-      onSuccess: data => {
-        handleOnPress(data);
-      },
-    }
-  );
+  });
 
   return (
     <Modal
@@ -140,7 +136,11 @@ const ContactForm = ({
           />
           <Button
             text={t('contact_stack.new_contact.contact_form.create_contact')}
-            onPress={() => mutateAsync(form)}
+            onPress={() =>
+              createContact({
+                data: form,
+              })
+            }
             style={{ backgroundColor: mainColor, height: 50 }}
           />
         </ScrollView>

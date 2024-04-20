@@ -2,14 +2,14 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import customStyles from '../../../styles/customStyles';
 import styles from './style';
-import { getMonthlyMainStatsResponseDto } from '../../../../../../Maui-Backend/src/controllers/types';
 import StateBalanceCard from '../StateBalanceCard';
 import { useTranslation } from 'react-i18next';
+import { IMontlyStats } from '../../../types/types';
 
 const { width, marginHorizontal } = customStyles;
 
 interface Props {
-  data: getMonthlyMainStatsResponseDto;
+  data: IMontlyStats;
 }
 
 const StateBalance = ({ data }: Props) => {

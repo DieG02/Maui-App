@@ -8,15 +8,16 @@ import useToggle from '../../../hooks/useToggle';
 import EmptyState from '../EmptyState';
 import SearchBar from '../SearchBar';
 import { t } from 'i18next';
+import { ICountry, ICountryCode } from '../../../types/types';
 
 const { mainColor, white, ligthBlue, blueSelected } = customStyles;
 interface Props {
   selectedOption: string;
   setSelectedOption: (value: string) => void;
-  options: CountryCode[];
+  options: ICountryCode[];
 }
 
-const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
+const PhoneAreaModal = ({ selectedOption, setSelectedOption, options }: Props) => {
   const { toggle, setToggle, value } = useToggle(false);
   const [text, onChangeText] = useState('');
   const countryInfo = options.find((item: any) => item.isoCode === selectedOption);
@@ -28,7 +29,7 @@ const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
   };
 
   const filterData = useMemo(() => {
-    return options?.filter((item: Country) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
+    return options?.filter((item: ICountry) => item.name?.toLowerCase().startsWith(text.toLowerCase()));
   }, [options, text]);
 
   const handleClear = () => {
@@ -111,4 +112,4 @@ const OptionModal = ({ selectedOption, setSelectedOption, options }: Props) => {
   );
 };
 
-export default OptionModal;
+export default PhoneAreaModal;

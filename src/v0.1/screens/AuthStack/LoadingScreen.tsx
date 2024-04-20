@@ -1,14 +1,13 @@
 import { View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationProp, RouteProp, StackActions } from '@react-navigation/native';
 import logo from '../../assets/logo.png';
-import { useQuery } from 'react-query';
-import { googleLogin } from '../../services/GoogleAuth/googleLogIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { queryClient } from '../../utils/queryClient';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Image } from 'react-native';
+import useLoginGoogle from '../../services/Auth/useLoginGoogle';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -24,7 +23,7 @@ const LoadingScreen = ({ route, navigation }: Props) => {
     photo: params?.data.photo,
   };
 
-  useQuery('GOOGLE_LOGIN', () => googleLogin(payload), {
+  const { mutateAsync } = useLoginGoogle(payload, {
     onSuccess: async data => {
       try {
         if (data.screenRedirect === 'Register') {
@@ -36,11 +35,23 @@ const LoadingScreen = ({ route, navigation }: Props) => {
           navigation.dispatch(StackActions.replace(data.screenRedirect, { user: data }));
         }
       } catch (error) {
-        console.error('Algo salio mal', error);
+        console.error('Something went wrong', error);
       }
     },
     onError: async error => console.error(error),
   });
+
+  useEffect(() => {
+    const login = async () => {
+      try {
+        await mutateAsync();
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+      }
+    };
+
+    login();
+  }, [mutateAsync]);
 
   return (
     <View

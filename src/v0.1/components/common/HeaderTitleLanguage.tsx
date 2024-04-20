@@ -22,7 +22,7 @@ interface Props extends SimpleProps {
   headerStyle?: {};
 }
 
-export const HeaderTitle = ({ label }: SimpleProps) => {
+export const HeaderTitleLanguage = ({ label }: SimpleProps) => {
   return (
     <View
       style={{

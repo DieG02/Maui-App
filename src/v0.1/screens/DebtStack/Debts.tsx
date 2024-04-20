@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import customStyles from '../../styles/customStyles';
 import IncomeDebt from './Income';
 import ExpenseDebt from './Expense';
-import Header from '../../components/Library/Header';
+import { Header } from '../../components/common/HeaderTitle';
 import { useTranslation } from 'react-i18next';
 
 const { mainColor, white, background2, marginHorizontal } = customStyles;

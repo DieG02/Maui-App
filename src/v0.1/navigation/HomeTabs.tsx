@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeStack/HomeScreen';
 import TransactionsScreen from '../screens/BalanceStack/TransactionsScreen';
@@ -21,22 +21,34 @@ import debt from '../assets/debt.png';
 import homeFilled from '../assets/home-filled.png';
 import balanceFilled from '../assets/balance-filled.png';
 import debtFilled from '../assets/debt-filled.png';
+import useLocalStorage from '../hooks/useLocalStorage';
 import useGetMonthlyBalance from '../services/Balance/useGetMonthlyBalance';
+import { IContactType } from '../types/types';
 
 const { mainColor, textBlack } = customStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 
 const HomeTabs = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { modifyData } = useLocalStorage();
 
-  const isFetchingAccount = useGetAccount().isLoading;
+  const { data: user, isLoading: isFetchingAccount } = useGetAccount();
   const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
   const isFetchingBalance = useGetBalance().isLoading;
   const isFetchingMonthlyBalance = useGetMonthlyBalance().isLoading;
-  const isFetchingContacts = useGetAllContacts().isLoading;
+  const isFetchingClients = useGetAllContacts(IContactType.CLIENT).isLoading;
+  const isFetchingProviders = useGetAllContacts(IContactType.PROVIDER).isLoading;
   const isFetchingDebts = useGetAllDebts().isLoading;
+
+  useEffect(() => {
+    // Sync user language with LocaleStorage
+    if (user?.language) {
+      i18n.changeLanguage(user.language);
+      modifyData('locale', user.language);
+    }
+  }, [user]);
 
   const isLoading =
     isFetchingTransactions ||
@@ -44,7 +56,8 @@ const HomeTabs = () => {
     isFetchingMonthlyBalance ||
     isFetchingBalance ||
     isFetchingAccount ||
-    isFetchingContacts ||
+    isFetchingClients ||
+    isFetchingProviders ||
     isFetchingDebts;
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;

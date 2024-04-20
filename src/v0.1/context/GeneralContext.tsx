@@ -1,8 +1,9 @@
 import React, { createContext, useState, useMemo } from 'react';
+import { IContact } from '../types/types';
 
 interface IGeneralContext {
   contacts: IContact[];
-  setContacts: (value: []) => void;
+  setContacts: (value: IContact[]) => void;
   phoneNumbersSet: Set<string>;
 }
 
