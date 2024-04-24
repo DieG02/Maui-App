@@ -3,6 +3,7 @@
   "balance": "Balance",
   "debts": "Deudas",
   "auth_stack": {
+    "login_title": "Gestiona tu negocio desde tu celular",
     "login_google": "Continuar con Google",
     "login_email": "Continuar con Email",
     "sign_in": {
@@ -20,11 +21,15 @@
     "sign_up": {
       "placeholder_name": "Ingresa tu nombre",
       "placeholder_phone": "Ingresa tu teléfono",
-      "have_account": "Ya tienes una cuenta?"
+      "have_account": "Ya tienes una cuenta?",
+      "continue": "Continuar"
     },
     "version_manager": {
-      "title": "La versión de la aplicación no es compatible",
-      "button": "Actualizar aplicación"
+      "update_title": "Actualización Requerida", 
+      "update": "Actualiza la aplicación a la última versión para continuar usando Maui",
+      "button": "Actualizar aplicación",
+      "error_title": "Algo salió mal",
+      "error": "Estamos trabajando en solucionar el problema. Por favor, actualiza la aplicación e inténtalo de nuevo."
     }
   },
   "home_stack": {
@@ -64,6 +69,7 @@
       "title": "Mis Datos",
       "toast_edit_message": "Tu cuenta fue editada satisfactoriamente",
       "name": "Nombre",
+      "country": "País",
       "address": "Dirección",
       "address_placeholder": "Escribe tu dirección",
       "phone": "Teléfono",
