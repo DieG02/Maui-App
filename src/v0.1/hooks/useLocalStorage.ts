@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useLocalStorage = () => {
-  const [userInfo, setUserInfo] = useState({});
-
-  useEffect(() => {
-    getData("userInfo").then((item) => setUserInfo(item));
-  }, []);
-
   const getData = async (key: string) => {
     try {
       const value = await AsyncStorage.getItem(key);
@@ -30,18 +23,17 @@ const useLocalStorage = () => {
 
   const modifyData = async (key: string, value: string) => {
     const mergedData = {
-      ...userInfo,
       [key]: value,
     };
     const body = JSON.stringify(mergedData);
     try {
-      storeData("userInfo", body);
+      storeData('locale', body);
     } catch (e) {
       console.error(e);
     }
   };
 
-  return { userInfo, getData, storeData, modifyData };
+  return { getData, storeData, modifyData };
 };
 
 export default useLocalStorage;
