@@ -15,7 +15,7 @@ const HiderComponent = ({ size, color, value, toggle }: Props) => {
     <TouchableOpacity
       onPress={toggle}
       style={{
-        height: 50,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
@@ -27,7 +27,7 @@ const HiderComponent = ({ size, color, value, toggle }: Props) => {
     <TouchableOpacity
       onPress={toggle}
       style={{
-        height: 50,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,

@@ -10,13 +10,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 100,
     justifyContent: 'center',
-    paddingHorizontal: 20,
   },
   container: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
   },
   text: {
     fontSize: 18,
