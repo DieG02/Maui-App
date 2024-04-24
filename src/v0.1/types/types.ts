@@ -16,6 +16,14 @@ export type ICreateAuthGoogle = {
   photo: string;
 };
 
+export type IAuthGoogleResponse = {
+  id: string;
+  email: string;
+  name: string;
+  authSource: string;
+  photo: string;
+};
+
 export type IAuthGoogle = {
   id: string;
   email: string;
@@ -264,4 +272,33 @@ export type ITransactionCategory = {
   image: string;
   type: TransactionType;
   group: TransactionGroup;
+};
+
+// Link
+export type ILink = {
+  id: string;
+  name: string;
+  url: string;
+};
+
+export enum ILinkType {
+  PLAYSTORE = 'PLAYSTORE',
+  WHATSAPP = 'WHATSAPP',
+  WEB = 'WEB',
+}
+
+// App Version
+
+export enum AppStatus {
+  LIVE = 'LIVE',
+  ERROR = 'ERROR',
+  DEPRECATED = 'DEPRECATED',
+  NEEDS_UPDATE = 'NEEDS_UPDATE',
+}
+export type IAppVersion = {
+  version: string;
+  releaseDate?: string;
+  description?: string;
+  available: boolean;
+  status: AppStatus;
 };
