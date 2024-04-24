@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeStack/HomeScreen';
 import TransactionsScreen from '../screens/BalanceStack/TransactionsScreen';
@@ -7,61 +7,20 @@ import { MainBottomTabParamList } from '../screens/types';
 import customStyles from '../styles/customStyles';
 import { Image, Platform } from 'react-native';
 import Debts from '../screens/DebtStack/Debts';
-import LoadingComponent from '../components/Library/LoadingComponent';
-import useGetTransactions from '../services/Transactions/useGetAllTransactions';
-import useGetMonthlyStats from '../services/Balance/useGetStats';
-import useGetBalance from '../services/Balance/useGetBalance';
-import useGetAccount from '../services/Account/useGetAccount';
-import useGetAllContacts from '../services/Contacts/useGetAllContacts';
 import { useTranslation } from 'react-i18next';
-import useGetAllDebts from '../services/Debts/useGetAllDebts';
 import home from '../assets/home.png';
 import balance from '../assets/balance.png';
 import debt from '../assets/debt.png';
 import homeFilled from '../assets/home-filled.png';
 import balanceFilled from '../assets/balance-filled.png';
 import debtFilled from '../assets/debt-filled.png';
-import useLocalStorage from '../hooks/useLocalStorage';
-import useGetMonthlyBalance from '../services/Balance/useGetMonthlyBalance';
-import { IContactType } from '../types/types';
 
-const { mainColor, textBlack } = customStyles;
+const { textBlack } = customStyles;
 
 const Tab = createBottomTabNavigator<MainBottomTabParamList>();
 
 const HomeTabs = () => {
-  const { t, i18n } = useTranslation();
-  const { modifyData } = useLocalStorage();
-
-  const { data: user, isLoading: isFetchingAccount } = useGetAccount();
-  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
-  const isFetchingGetMonthlyState = useGetMonthlyStats().isLoading;
-  const isFetchingBalance = useGetBalance().isLoading;
-  const isFetchingMonthlyBalance = useGetMonthlyBalance().isLoading;
-  const isFetchingClients = useGetAllContacts(IContactType.CLIENT).isLoading;
-  const isFetchingProviders = useGetAllContacts(IContactType.PROVIDER).isLoading;
-  const isFetchingDebts = useGetAllDebts().isLoading;
-
-  useEffect(() => {
-    // Sync user language with LocaleStorage
-    if (user?.language) {
-      i18n.changeLanguage(user.language);
-      modifyData('locale', user.language);
-    }
-  }, [user]);
-
-  const isLoading =
-    isFetchingTransactions ||
-    isFetchingGetMonthlyState ||
-    isFetchingMonthlyBalance ||
-    isFetchingBalance ||
-    isFetchingAccount ||
-    isFetchingClients ||
-    isFetchingProviders ||
-    isFetchingDebts;
-  if (isLoading) {
-    return <LoadingComponent color={mainColor} />;
-  }
+  const { t } = useTranslation();
 
   return (
     <SafeAreaProvider>
@@ -153,7 +112,7 @@ const HomeTabs = () => {
           }}
         />
         <Tab.Screen
-          name='inventory'
+          name='debts'
           component={Debts}
           options={{
             tabBarIconStyle: { borderRadius: 20 },

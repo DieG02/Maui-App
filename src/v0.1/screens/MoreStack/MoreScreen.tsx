@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, Alert, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
+import { View, ScrollView, Text, Share, Linking, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import Spacer from '../../components/common/Spacer';
 import OptionCard from '../../components/common/OptionCard';
@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
-import { NavigationProp, StackActions } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../../context/AuthContext';
 import ScreenContainer from '../../components/containers/ScreenContainer';
@@ -20,7 +20,8 @@ import { useTranslation } from 'react-i18next';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { version as AppVersion } from '../../../../package.json';
-import { IAccount } from '../../types/types';
+import { IAccount, ILink, ILinkType } from '../../types/types';
+import useGetLinks from '../../services/Links/useGetLinks';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -33,11 +34,13 @@ const versionName = Platform.select({
   ios: AppVersion,
 });
 
-const whatsappLink = 'https://wa.me/541169708424';
-
-const url = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
-
 const More = ({ navigation }: Props) => {
+  const { data: links } = useGetLinks();
+
+  const playStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.PLAYSTORE)?.url as string;
+
+  const whatsAppLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.WHATSAPP)?.url as string;
+
   const { setIsLoggedIn } = useContext(AuthContext);
   const { data, refetch } = useGetAccount();
   const [email, setEmail] = useState('');
@@ -74,8 +77,8 @@ const More = ({ navigation }: Props) => {
   const shareLink = async () => {
     const options = {
       title: t('more_screen.title_share'),
-      message: `${t('more_screen.message_share')}\n\n${url}`,
-      url: url,
+      message: `${t('more_screen.message_share')}\n\n${playStoreLink}`,
+      url: playStoreLink,
     };
 
     try {
@@ -87,13 +90,7 @@ const More = ({ navigation }: Props) => {
 
   const openWhatsApp = async () => {
     try {
-      const supported = await Linking.canOpenURL(whatsappLink);
-      if (supported) {
-        await Linking.openURL(whatsappLink);
-      } else {
-        console.log('WhatsApp is not installed');
-        Alert.alert('No app can handle the message link');
-      }
+      await Linking.openURL(whatsAppLink);
     } catch (err) {
       console.error('An error occurred', err);
     }

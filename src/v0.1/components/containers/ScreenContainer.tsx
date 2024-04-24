@@ -4,7 +4,7 @@ import customStyles from '../../styles/customStyles';
 
 interface Props extends React.ComponentProps<typeof SafeAreaView> {
   children: React.ReactNode;
-  style: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
 const { background } = customStyles;

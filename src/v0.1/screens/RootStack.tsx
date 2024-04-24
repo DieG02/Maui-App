@@ -32,36 +32,75 @@ import DebtDetail from './DebtStack/DebtDetail';
 import EditDebt from './DebtStack/EditDebt';
 import IndividualPayment from './DebtStack/IndividualPayment';
 import { LoginScreen, RegisterScreen } from './AuthStack';
-import LoadingScreen from './AuthStack/LoadingScreen';
 import useGetCountries from '../services/Countries/useGetCountries';
 import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
 import MonthlySummariesScreen from './HomeStack/MonthlySummariesScreen';
 import useVersion from '../services/Auth/useVersion';
 import useGetLinks from '../services/Links/useGetLinks';
+import LoadingComponent from '../components/Library/LoadingComponent';
+import { useEffect } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { useTranslation } from 'react-i18next';
+import useGetAccount from '../services/Account/useGetAccount';
+import useGetTransactions from '../services/Transactions/useGetAllTransactions';
+import useGetMonthlyStats from '../services/Balance/useGetStats';
+import useGetBalance from '../services/Balance/useGetBalance';
+import useGetAllDebts from '../services/Debts/useGetAllDebts';
+import { AppStatus } from '../types/types';
+import customStyles from '../styles/customStyles';
+
+const { mainColor } = customStyles;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-/* <Stack.Screen name='Login' component={SignInScreen} /> */
-/* <Stack.Screen name='SignUp' component={SignUpScreen} /> */
-
 export default function RootStack() {
-  const { data: token, isFetching } = useVerifyToken();
+  const { i18n } = useTranslation();
+  const { data: token, isLoading: loadingToken, isFetching } = useVerifyToken();
   const { data: version, isLoading, isError } = useVersion();
   const { isLoading: isLoadingCountry } = useGetCountries();
   const { isLoading: isLoadingLinks } = useGetLinks();
   const { isLoading: isLoadingCountryCode } = useGetCountryCode();
+  const { modifyData } = useLocalStorage();
 
-  if (isFetching || isLoadingCountry || isLoadingCountryCode || isLoading || isLoadingLinks) return <SplashScreen />;
+  const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
+  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingGetMonthlyState = useGetMonthlyStats({ enabled: !!token }).isLoading;
+  const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
+  const isFetchingDebts = useGetAllDebts({ enabled: !!token }).isLoading;
+
+  useEffect(() => {
+    // Sync user language with LocaleStorage
+    if (user?.language) {
+      i18n.changeLanguage(user.language);
+      modifyData('locale', user.language);
+    }
+  }, [user]);
+
+  if (loadingToken) return <SplashScreen />;
+  if (
+    isFetching ||
+    isLoadingCountry ||
+    isLoadingCountryCode ||
+    isLoading ||
+    isLoadingLinks ||
+    isFetchingAccount ||
+    isFetchingTransactions ||
+    isFetchingGetMonthlyState ||
+    isFetchingDebts ||
+    isFetchingBalance
+  )
+    return <LoadingComponent color={mainColor} />;
   if (isError) {
     return (
       <SplashScreen
         version={{
           available: false,
+          status: AppStatus.ERROR,
+          version: '0.0.0',
         }}
       />
     );
   }
-
   if (!version.available) return <SplashScreen version={version} />;
 
   return (
@@ -75,7 +114,7 @@ export default function RootStack() {
         <Stack.Group>
           <Stack.Screen name='Login' component={LoginScreen} />
           <Stack.Screen name='Register' component={RegisterScreen} />
-          <Stack.Screen name='Loading' component={LoadingScreen} />
+          {/* <Stack.Screen name='Loading' component={LoadingScreen} /> */}
         </Stack.Group>
       ) : (
         <Stack.Group>
@@ -85,7 +124,6 @@ export default function RootStack() {
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />
           <Stack.Screen name='EditExpense' component={EditExpense} />
-          {/* <Stack.Screen name='DebtsModal' component={DebtsModal} /> */}
           <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
           <Stack.Screen name='More' component={MoreScreen} />
           <Stack.Screen name='UserData' component={UserDataScreen} />
