@@ -6,8 +6,9 @@ import HiderComponent from '../../common/HiderComponent';
 import styles from './style';
 import { useTranslation } from 'react-i18next';
 import CountryFlag from 'react-native-country-flag';
-import Spacer from '../../common/Spacer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon1 from '../../common/Icon';
+import Back from 'react-native-vector-icons/Ionicons';
 import { parserToCurrency } from '../../../utils/adapter';
 import { NavigationProp } from '@react-navigation/native';
 import { IBalance } from '../../../types/types';
@@ -23,20 +24,21 @@ interface Props {
 const GeneralBalance = ({ data, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
+  const hideNumber = Array.from({ length: 4 }, (_, i) => i);
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('MonthlySummaries')} style={styles.wrapper}>
+    <View style={styles.wrapper}>
       <View style={styles.container}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 5,
+            marginLeft: 20,
           }}
         >
           <CountryFlag
             isoCode={data?.financialAccount.currency.isoCode}
-            size={30}
+            size={25}
             style={{
               width: 25,
               height: 25,
@@ -45,20 +47,18 @@ const GeneralBalance = ({ data, navigation }: Props) => {
             }}
           />
           <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + data.financialAccount.currency.code}</Text>
+          <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
-      </View>
-      <Spacer height={8} />
-
-      <View style={styles.container}>
-        {value ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MonthlySummaries')}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginLeft: 20,
+          }}
+        >
+          {value ? (
             <View
               style={{
                 alignItems: 'center',
@@ -67,66 +67,37 @@ const GeneralBalance = ({ data, navigation }: Props) => {
                 flexDirection: 'row',
               }}
             >
-              <Icon
-                name={value ? 'circle' : 'circle-thin'}
-                color={textBlack}
-                style={{
-                  marginRight: 5,
-                }}
-              />
-              <Icon
-                name={value ? 'circle' : 'circle-thin'}
-                color={textBlack}
-                style={{
-                  marginRight: 5,
-                }}
-              />
-              <Icon
-                name={value ? 'circle' : 'circle-thin'}
-                color={textBlack}
-                style={{
-                  marginRight: 5,
-                }}
-              />
-              <Icon
-                name={value ? 'circle' : 'circle-thin'}
-                color={textBlack}
-                style={{
-                  marginRight: 5,
-                }}
-              />
+              {hideNumber.map(index => (
+                <Icon
+                  key={index}
+                  name={value ? 'circle' : 'circle-thin'}
+                  color={textBlack}
+                  style={{
+                    marginRight: 5,
+                  }}
+                />
+              ))}
             </View>
-            <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
-          </View>
-        ) : (
-          <View
+          ) : (
+            <Text style={styles.textPrice}>
+              {parserToCurrency(
+                data?.total_balance,
+                data?.financialAccount.currency.locale,
+                data?.financialAccount.currency.code
+              )}
+            </Text>
+          )}
+          <Icon1
+            onPress={() => navigation.navigate('MonthlySummaries')}
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
+              width: 60,
             }}
           >
-            <View
-              style={{
-                height: 40,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Text style={styles.textPrice}>
-                {parserToCurrency(
-                  data?.total_balance,
-                  data?.financialAccount.currency.locale,
-                  data?.financialAccount.currency.code
-                )}
-              </Text>
-            </View>
-            <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
-          </View>
-        )}
+            <Back name='chevron-forward' size={25} color={textBlack} />
+          </Icon1>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

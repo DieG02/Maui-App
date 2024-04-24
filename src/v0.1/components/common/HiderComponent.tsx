@@ -1,23 +1,39 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+import React from 'react';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 interface Props {
   size: number;
   color: string;
   value: boolean;
   toggle: () => void;
-  style?: object;
+  style?: StyleProp<ViewStyle>;
 }
 
-const HiderComponent = ({ size, color, value, style, toggle }: Props) => {
+const HiderComponent = ({ size, color, value, toggle }: Props) => {
   return value ? (
-    <TouchableOpacity onPress={toggle} style={style}>
-      <Icon name="eye-off" size={size} color={color} />
+    <TouchableOpacity
+      onPress={toggle}
+      style={{
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+      }}
+    >
+      <Icon name='eye-off' size={size} color={color} />
     </TouchableOpacity>
   ) : (
-    <TouchableOpacity onPress={toggle} style={style}>
-      <Icon name="eye" size={size} color={color} />
+    <TouchableOpacity
+      onPress={toggle}
+      style={{
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+      }}
+    >
+      <Icon name='eye' size={size} color={color} />
     </TouchableOpacity>
   );
 };

@@ -9,7 +9,15 @@ export const googleLogin = async (data: IAuthGoogleInput) => {
   return response.data;
 };
 
-const useLoginGoogle = (data: IAuthGoogleInput, options?: UseMutationOptions<IAuthGoogle>) =>
-  useMutation([LOGIN_GOOGLE_KEY], () => googleLogin(data), options);
+const useLoginGoogle = (
+  options?: UseMutationOptions<
+    IAuthGoogle,
+    Error,
+    {
+      data: IAuthGoogleInput;
+    },
+    [typeof LOGIN_GOOGLE_KEY]
+  >
+) => useMutation([LOGIN_GOOGLE_KEY], (params: { data: IAuthGoogleInput }) => googleLogin(params.data), { ...options });
 
 export default useLoginGoogle;

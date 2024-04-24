@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider } from 'react-query';
-import { getLocales } from 'react-native-localize';
-import { getLocaleFromAsyncStorage } from './src/v0.1/utils/getUserInfo';
-import i18n from './src/v0.1/services/i18n-config';
 import AuthProvider from './src/v0.1/context/AuthContext';
 import GeneralProvider from './src/v0.1/context/GeneralContext';
 import { queryClient } from './src/v0.1/utils/queryClient';
@@ -18,29 +15,15 @@ import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
 
-const defaultLenguage = getLocales()[0].languageCode;
+const toastConfig = {
+  success: SuccessToast,
+  warning: WarningToast,
+  error: ErrorToast,
+};
 
 const App = () => {
-  const toastConfig = {
-    success: SuccessToast,
-    warning: WarningToast,
-    error: ErrorToast,
-  };
-
   useEffect(() => {
     GoogleSignin.configure(googleAuthConfig);
-  }, []);
-
-  useEffect(() => {
-    const loadLanguage = async () => {
-      const locale = await getLocaleFromAsyncStorage();
-      if (locale) {
-        i18n.changeLanguage(locale);
-      } else {
-        i18n.changeLanguage(defaultLenguage);
-      }
-    };
-    loadLanguage();
   }, []);
 
   return (

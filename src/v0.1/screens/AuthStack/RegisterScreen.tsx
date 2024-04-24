@@ -17,8 +17,13 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
 import { ICountry, ICountryCode } from '../../types/types';
 import useSignupGoogle from '../../services/Auth/useSignUpGoogle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { queryClient } from '../../utils/queryClient';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import OverlayLoading from '../../components/common/OverlayLoading';
+import useLoginGoogle from '../../services/Auth/useLoginGoogle';
 
-const { white, mainColor } = customStyles;
+const { white, mainColor, background2 } = customStyles;
 const statusBarStyle = 'dark-content';
 
 interface Props {
@@ -46,14 +51,17 @@ const initialValues = {
   photo: '',
 };
 
+const toValidate = ['name'];
+
 const RegisterScreen = ({ route, navigation }: Props) => {
   const { params } = route;
   const currentCountry = getCountry();
+
   const [country, setCountry] = useState<string>(currentCountry);
   const [selectedCountry, setSelectedCountry] = useState<string>(currentCountry);
   const { t, i18n } = useTranslation();
 
-  const { setValues, values } = useForm<RegisterUser>({
+  const { setValues, values, validateValues } = useForm<RegisterUser>({
     ...initialValues,
     email: params?.user.email,
     name: params?.user.name,
@@ -67,7 +75,14 @@ const RegisterScreen = ({ route, navigation }: Props) => {
     return countries?.filter(item => item.isoCode === selectedCountry)[0];
   }, [selectedCountry]);
 
-  const { mutateAsync: mutateAsync } = useSignupGoogle(
+  const { mutateAsync: googleLogin } = useLoginGoogle({
+    onSuccess: async data => {
+      await GoogleSignin.signIn();
+      await AsyncStorage.setItem('userInfo', JSON.stringify(data));
+      queryClient.invalidateQueries(VERIFY_TOKEN);
+    },
+  });
+  const { mutateAsync, isLoading } = useSignupGoogle(
     {
       ...values,
       country: selectCountryList?.name as string,
@@ -75,11 +90,18 @@ const RegisterScreen = ({ route, navigation }: Props) => {
       language: i18n.language,
     },
     {
-      onSuccess: async () => {
+      onSuccess: async data => {
         try {
-          navigation.navigate('Loading', { data: { email: values.email, name: values.name, photo: values.photo } });
+          await googleLogin({
+            data: {
+              name: data.name,
+              email: data.email,
+              authSource: 'GOOGLE',
+              photo: data.photo,
+            },
+          });
         } catch (error) {
-          console.error('Error al iniciar sesión después de registrarse', error);
+          console.error('Something went wrong', error);
         }
       },
     }
@@ -91,6 +113,7 @@ const RegisterScreen = ({ route, navigation }: Props) => {
 
   return (
     <ScreenContainer>
+      <OverlayLoading isLoading={isLoading} />
       <StatusBar backgroundColor={white} barStyle={statusBarStyle} />
       <BackHeaderTitle
         label={'Crear Cuenta'}
@@ -109,14 +132,14 @@ const RegisterScreen = ({ route, navigation }: Props) => {
       >
         <View>
           <CommonInput
-            placeholder='¿Como te llamas?'
+            placeholder={t('auth_stack.sign_up.placeholder_name')}
             name={t('more_screen.user_data.name')}
             value={values.name}
             setValue={name => handleValues('name', name)}
           />
           <Spacer height={20} />
           <CountrySelect
-            name='Country'
+            name={t('more_screen.user_data.country')}
             selectedOption={selectedCountry}
             setSelectedOption={setSelectedCountry}
             options={countries as ICountry[]}
@@ -133,7 +156,6 @@ const RegisterScreen = ({ route, navigation }: Props) => {
             options={countryCodes as ICountryCode[]}
           />
           <CommonInput
-            placeholder='Ingresa tu email'
             keyboardType='email-address'
             name='Email'
             editable={false}
@@ -141,7 +163,16 @@ const RegisterScreen = ({ route, navigation }: Props) => {
             setValue={email => handleValues('email', email)}
           />
         </View>
-        <Button text='Continuar' onPress={() => mutateAsync()} style={{ backgroundColor: mainColor }}></Button>
+        <Button
+          disabled={!validateValues(toValidate)}
+          onPress={() => mutateAsync()}
+          text={t('auth_stack.sign_up.continue')}
+          color={validateValues(toValidate) ? white : mainColor}
+          style={{
+            backgroundColor: validateValues(toValidate) ? mainColor : background2,
+            borderRadius: 25,
+          }}
+        />
       </View>
     </ScreenContainer>
   );

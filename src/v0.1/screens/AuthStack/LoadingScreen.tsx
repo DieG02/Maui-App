@@ -16,7 +16,6 @@ interface Props {
 
 const LoadingScreen = ({ route, navigation }: Props) => {
   const { params } = route;
-
   const payload = {
     name: params?.data.name,
     email: params?.data.email,
@@ -38,6 +37,7 @@ const LoadingScreen = ({ route, navigation }: Props) => {
         console.error('Something went wrong', error);
       }
     },
+    onError: async error => console.error(error),
   });
 
   useEffect(() => {

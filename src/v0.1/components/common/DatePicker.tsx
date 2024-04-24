@@ -20,6 +20,8 @@ type Props = {
 
 const TODAY = moment.parseZone().toISOString();
 const YESTERDAY = moment.parseZone().subtract(1, 'days').toISOString();
+const MAX_LIMIT_DATE = moment.parseZone().add(1, 'year');
+const MIN_LIMIT_DATE = moment.parseZone().subtract(1, 'year');
 
 const DatePicker = ({ name, value, setValue }: Props) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false);
@@ -80,6 +82,8 @@ const DatePicker = ({ name, value, setValue }: Props) => {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         date={indicatorDate}
+        maximumDate={MAX_LIMIT_DATE.toDate()}
+        minimumDate={MIN_LIMIT_DATE.toDate()}
       />
       <TouchableOpacity
         onPress={showDatePicker}
