@@ -1,9 +1,14 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * Metro configuration for React Native
  * https://github.com/facebook/react-native
  *
  * @format
  */
+const {
+  createSentryMetroSerializer
+} = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
 
 module.exports = {
   transformer: {
@@ -14,4 +19,8 @@ module.exports = {
       },
     }),
   },
+  serializer: {
+    customSerializer: createSentryMetroSerializer()
+  }
 };
+

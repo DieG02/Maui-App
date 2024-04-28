@@ -7,8 +7,8 @@ import moment from 'moment';
 import 'moment/locale/pt';
 import 'moment/locale/es';
 import Icon from 'react-native-vector-icons/Feather';
-import i18n from '../../services/i18n-config';
 import { ellipsisText } from '../../utils/ellipsisText';
+import { useTranslation } from 'react-i18next';
 
 const { textBlack, secondaryColorBorder } = customStyles;
 
@@ -26,7 +26,7 @@ const MIN_LIMIT_DATE = moment.parseZone().subtract(1, 'year');
 const DatePicker = ({ name, value, setValue }: Props) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false);
   const [textDate, setTextDate] = useState<string>('');
-  const { t, language } = i18n;
+  const { t, i18n } = useTranslation();
 
   const indicatorDate = moment(value).toDate();
 
@@ -40,7 +40,7 @@ const DatePicker = ({ name, value, setValue }: Props) => {
   const clasifyDate = (date: string) => {
     const of = 'debt_stack.debt_screen.summary_text.of';
     const day = moment(date).date();
-    const month = moment(date).locale(language).format('MMMM');
+    const month = moment(date).locale(i18n.language).format('MMMM');
 
     if (parseYYMMDD(date) === parseYYMMDD(TODAY)) {
       setValue(TODAY);

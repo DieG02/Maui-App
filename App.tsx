@@ -1,3 +1,5 @@
+//@ts-ignore
+import { SENTRY_DSN } from '@env';
 import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider } from 'react-query';
@@ -11,6 +13,14 @@ import { SuccessToast, WarningToast, ErrorToast } from './src/v0.1/components/co
 import CustomToast from 'react-native-toast-message';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
+import * as Sentry from '@sentry/react-native';
+
+const enabled = !__DEV__;
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  enabled: enabled,
+});
 
 const { white } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -41,4 +51,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sentry.wrap(App);
