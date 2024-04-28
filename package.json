@@ -22,6 +22,7 @@
     "@react-navigation/material-top-tabs": "6.2.1",
     "@react-navigation/native": "6.0.10",
     "@react-navigation/native-stack": "6.2.5",
+    "@sentry/react-native": "^5.22.0",
     "axios": "^0.26.1",
     "country-flag-icons": "^1.5.5",
     "git-cz": "^4.8.0",

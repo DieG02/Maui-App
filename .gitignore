@@ -72,3 +72,6 @@ ios/Maui.xcworkspace/xcuserdata/billybautista.xcuserdatad/UserInterfaceState.xcu
 yarn.lock
 android/app/my-upload-key.keystore
 android/gradle.properties
+android/sentry.properties
+
+ios/sentry.properties

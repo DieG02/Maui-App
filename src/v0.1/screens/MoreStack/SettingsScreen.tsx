@@ -14,6 +14,8 @@ import useGetAccount from '../../services/Account/useGetAccount';
 import { showToast } from '../../utils/toast';
 import { useTranslation } from 'react-i18next';
 import usePutAccount from '../../services/Account/usePutAccount';
+import useGetLinks from '../../services/Links/useGetLinks';
+import { ILink, ILinkType } from '../../types/types';
 
 const statusBarStyle = 'dark-content';
 const { textBlack, marginHorizontal, disabled } = customStyles;
@@ -26,6 +28,10 @@ export default function Settings({ navigation }: SettingsProps) {
   const { i18n } = useTranslation();
   const { data: user } = useGetAccount();
 
+  const { data: links } = useGetLinks();
+
+  const playStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.PLAYSTORE)?.url as string;
+
   const { mutateAsync: editAccount } = usePutAccount({
     onSuccess: () => {
       showToast(t('more_screen.user_data.toast_edit_message'));
@@ -33,12 +39,11 @@ export default function Settings({ navigation }: SettingsProps) {
   });
 
   const handleOpenLink = async () => {
-    const playstore = 'https://play.google.com/store/apps/details?id=com.maui.app.company&pcampaignid=web_share';
-    const supported = await Linking.canOpenURL(playstore);
+    const supported = await Linking.canOpenURL(playStoreLink);
     if (supported) {
-      await Linking.openURL(playstore);
+      await Linking.openURL(playStoreLink);
     } else {
-      console.error('Cannot open the link: ', playstore);
+      console.error('Cannot open the link: ', playStoreLink);
     }
   };
 
