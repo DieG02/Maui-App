@@ -15,7 +15,7 @@ import LoadingComponent from '../Library/LoadingComponent';
 import { useTranslation } from 'react-i18next';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
 import DatePicker from './DatePicker';
-import StateSwitch from './StateSwitch';
+// import StateSwitch from './StateSwitch';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import Spacer from './Spacer';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
@@ -138,7 +138,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
               setValue={date => setValues(prev => ({ ...prev, date: date }))}
             />
           </View>
-          <View
+          {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -149,7 +149,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
               isPressed={values.isPaid}
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
-          </View>
+          </View> */}
         </View>
         <InputForm
           keyboardType='numeric'

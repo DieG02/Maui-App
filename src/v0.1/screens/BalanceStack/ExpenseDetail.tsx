@@ -22,7 +22,7 @@ import { getCategoryId } from '../../utils/getCategoryId';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
 import DatePicker from '../../components/common/DatePicker';
-import StateSwitch from '../../components/common/StateSwitch';
+// import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
@@ -129,7 +129,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               setValue={date => setValues(prev => ({ ...prev, date: date }))}
             />
           </View>
-          <View
+          {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -140,7 +140,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               isPressed={values.isPaid}
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
-          </View>
+          </View> */}
         </View>
         <OptionWithIcon
           title={t(`${NEW_EXPENSE}.category`)}
