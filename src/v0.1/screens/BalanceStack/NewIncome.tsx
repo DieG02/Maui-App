@@ -23,7 +23,7 @@ import useGetTransactionCategories from '../../services/TransactionCategories/us
 import { getCategoryId } from '../../utils/getCategoryId';
 import DatePicker from '../../components/common/DatePicker';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
-import StateSwitch from '../../components/common/StateSwitch';
+// import StateSwitch from '../../components/common/StateSwitch';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
@@ -152,7 +152,7 @@ const NewIncome = ({ navigation, route }: Props) => {
               setValue={date => setValues(prev => ({ ...prev, date: date }))}
             />
           </View>
-          <View
+          {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -163,7 +163,7 @@ const NewIncome = ({ navigation, route }: Props) => {
               isPressed={values.isPaid}
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
-          </View>
+          </View> */}
         </View>
         <InputForm
           keyboardType='numeric'

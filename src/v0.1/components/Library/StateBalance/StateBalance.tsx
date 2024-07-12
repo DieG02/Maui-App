@@ -37,7 +37,7 @@ const StateBalance = ({ data }: Props) => {
               left={15}
               type='egreso'
             />
-            <StateBalanceCard
+            {/* <StateBalanceCard
               state={t('home_stack.monthly_summary.income_debts')}
               value={data?.toCollect}
               left={15}
@@ -49,7 +49,7 @@ const StateBalance = ({ data }: Props) => {
               left={15}
               right={marginHorizontal}
               type='pagar'
-            />
+            /> */}
           </View>
         </View>
       </View>

@@ -25,7 +25,7 @@ import useCreateTransaction from '../../services/Transactions/useCreateTransacti
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import { getCategoryId } from '../../utils/getCategoryId';
 import DatePicker from '../../components/common/DatePicker';
-import StateSwitch from '../../components/common/StateSwitch';
+// import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
@@ -153,7 +153,7 @@ const NewExpense = ({ navigation, route }: Props) => {
               setValue={date => setValues(prev => ({ ...prev, date: date }))}
             />
           </View>
-          <View
+          {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -164,7 +164,7 @@ const NewExpense = ({ navigation, route }: Props) => {
               isPressed={values.isPaid}
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
-          </View>
+          </View> */}
         </View>
         <OptionWithIcon
           required
