@@ -1,5 +1,5 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface Props {
   onPress?: () => void;
@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 5,
   },
 });

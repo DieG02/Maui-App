@@ -68,6 +68,7 @@ export default function RootStack() {
   const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
   const isFetchingDebts = useGetAllDebts({ enabled: !!token }).isLoading;
 
+  console.log(JSON.stringify(token, null, 2));
   useEffect(() => {
     // Sync user language with LocaleStorage
     if (user?.language) {

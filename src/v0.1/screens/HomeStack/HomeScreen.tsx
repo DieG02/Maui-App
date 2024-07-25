@@ -16,6 +16,7 @@ import useGetTransactions from '../../services/Transactions/useGetAllTransaction
 import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
+import MultipleBalance from '../../components/Library/MultipleBalance';
 
 const { mainColor } = customStyles;
 
@@ -33,7 +34,6 @@ const HomeScreen = ({ navigation }: Props) => {
   const { refetch: getAlltransactions } = useGetTransactions();
 
   const [refreshing, setRefreshing] = useState(false);
-
   const onRefresh = () => {
     setRefreshing(true);
     getTransactionsFromHome();
@@ -42,7 +42,10 @@ const HomeScreen = ({ navigation }: Props) => {
     getAlltransactions();
     setRefreshing(false);
   };
-
+  // const accounts = [balance?.financialAccounts[0]];
+  // const accounts = balance?.financialAccounts;
+  console.log(JSON.stringify(user, null, 2));
+  console.log(JSON.stringify(balance, null, 2));
   return (
     <ScreenContainer>
       <ScrollView
@@ -56,8 +59,8 @@ const HomeScreen = ({ navigation }: Props) => {
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
-        <StateBalance data={stateBalance!} />
-        <Spacer height={20} />
+        {/* {accounts.length > 1 ? <MultipleBalance data={balance!} /> : <StateBalance data={stateBalance!} />} */}
+        {/* <Spacer height={20} /> */}
         <Title
           title={t('home_stack.last_records')}
           label={t('home_stack.see_more')}

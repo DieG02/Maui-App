@@ -83,16 +83,19 @@ export type IContactInput = {
 
 export type IBalance = {
   total_balance: number;
-  financialAccount: {
-    id: string;
-    businessId: string;
-    accountName: string;
-    currency: {
-      code: string;
-      locale: string;
-      isoCode: string;
-    };
+  financialAccounts: IFinancialAccount[];
+};
+
+export type IFinancialAccount = {
+  id: string;
+  businessId: string;
+  accountName: string;
+  currency: {
+    code: string;
+    locale: string;
+    isoCode: string;
   };
+  total_balance: number;
 };
 
 export type IBalanceItem = {

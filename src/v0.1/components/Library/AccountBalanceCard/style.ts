@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import customStyles from '../../../styles/customStyles';
 
-const { width, background2, textBlack, marginHorizontal } = customStyles;
+const { width, background2, textBlack } = customStyles;
 
 interface Props {
   left?: number | undefined;
@@ -13,7 +13,7 @@ const styles = ({ left, right, background }: Props) =>
   StyleSheet.create({
     wrapper: {
       backgroundColor: background2,
-      width: (width - (marginHorizontal * 2 + 15)) / 2,
+      width: width / 1.5,
       borderRadius: 15,
       marginLeft: left,
       marginRight: right,

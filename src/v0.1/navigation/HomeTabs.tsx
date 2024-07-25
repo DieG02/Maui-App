@@ -6,14 +6,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MainBottomTabParamList } from '../screens/types';
 import customStyles from '../styles/customStyles';
 import { Image, Platform } from 'react-native';
-// import Debts from '../screens/DebtStack/Debts';
+import Debts from '../screens/DebtStack/Debts';
 import { useTranslation } from 'react-i18next';
 import home from '../assets/home.png';
 import balance from '../assets/balance.png';
-// import debt from '../assets/debt.png';
+import debt from '../assets/debt.png';
 import homeFilled from '../assets/home-filled.png';
 import balanceFilled from '../assets/balance-filled.png';
-// import debtFilled from '../assets/debt-filled.png';
+import debtFilled from '../assets/debt-filled.png';
 
 const { textBlack } = customStyles;
 
@@ -111,7 +111,7 @@ const HomeTabs = () => {
             ),
           }}
         />
-        {/* <Tab.Screen
+        <Tab.Screen
           name='debts'
           component={Debts}
           options={{
@@ -147,7 +147,7 @@ const HomeTabs = () => {
               </>
             ),
           }}
-        /> */}
+        />
       </Tab.Navigator>
     </SafeAreaProvider>
   );
