@@ -46,7 +46,6 @@ import useGetTransactions from '../services/Transactions/useGetAllTransactions';
 import useGetMonthlyStats from '../services/Balance/useGetStats';
 import useGetBalance from '../services/Balance/useGetBalance';
 import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
-import useGetAllDebts from '../services/Debts/useGetAllDebts';
 import { AppStatus } from '../types/types';
 import customStyles from '../styles/customStyles';
 
