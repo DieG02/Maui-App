@@ -8,11 +8,12 @@ const styles = StyleSheet.create({
     marginHorizontal: marginHorizontal,
     backgroundColor: background2,
     borderRadius: 15,
-    height: 100,
+    // height: 120,
     justifyContent: 'center',
   },
   container: {
     display: 'flex',
+    marginVertical: 5,
   },
   text: {
     fontSize: 18,
@@ -22,6 +23,23 @@ const styles = StyleSheet.create({
   textPrice: {
     fontSize: 30,
 
+    color: textBlack,
+    fontFamily: 'Gilroy-SemiBold',
+  },
+
+  button: {
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderWidth: 4,
+    borderColor: background2,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 15,
+  },
+  buttonLabel: {
+    fontSize: 18,
     color: textBlack,
     fontFamily: 'Gilroy-SemiBold',
   },

@@ -45,6 +45,7 @@ import useGetAccount from '../services/Account/useGetAccount';
 import useGetTransactions from '../services/Transactions/useGetAllTransactions';
 import useGetMonthlyStats from '../services/Balance/useGetStats';
 import useGetBalance from '../services/Balance/useGetBalance';
+import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
 import useGetAllDebts from '../services/Debts/useGetAllDebts';
 import { AppStatus } from '../types/types';
 import customStyles from '../styles/customStyles';
@@ -66,7 +67,8 @@ export default function RootStack() {
   const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats({ enabled: !!token }).isLoading;
   const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
-  const isFetchingDebts = useGetAllDebts({ enabled: !!token }).isLoading;
+  const isFetchingFinancialAccounts = useGetFinancialAccount({ enabled: !!token }).isLoading;
+  // const isFetchingDebts = useGetAllDebts({ enabled: !!token }).isLoading;
 
   useEffect(() => {
     // Sync user language with LocaleStorage
@@ -86,8 +88,8 @@ export default function RootStack() {
     isFetchingAccount ||
     isFetchingTransactions ||
     isFetchingGetMonthlyState ||
-    isFetchingDebts ||
-    isFetchingBalance
+    isFetchingBalance ||
+    isFetchingFinancialAccounts
   )
     return <LoadingComponent color={mainColor} />;
   if (isError) {

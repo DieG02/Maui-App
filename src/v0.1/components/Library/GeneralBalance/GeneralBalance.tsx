@@ -6,9 +6,10 @@ import HiderComponent from '../../common/HiderComponent';
 import styles from './style';
 import { useTranslation } from 'react-i18next';
 import CountryFlag from 'react-native-country-flag';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon1 from '../../common/Icon';
-import Back from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import IconContainer from '../../common/Icon';
 import { parserToCurrency } from '../../../utils/adapter';
 import { NavigationProp } from '@react-navigation/native';
 import { IBalance } from '../../../types/types';
@@ -18,10 +19,11 @@ const { textBlack } = customStyles;
 // TODO: Refactor this interface to use the correct types
 interface Props {
   navigation: NavigationProp<any, any>;
-  data: IBalance;
+  multiple: boolean;
+  data: any;
 }
 
-const GeneralBalance = ({ data, navigation }: Props) => {
+const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
   const hideNumber = Array.from({ length: 4 }, (_, i) => i);
@@ -37,7 +39,7 @@ const GeneralBalance = ({ data, navigation }: Props) => {
           }}
         >
           <CountryFlag
-            isoCode={data?.financialAccount.currency.isoCode}
+            isoCode={financialAccount.currency.isoCode}
             size={25}
             style={{
               width: 25,
@@ -46,7 +48,7 @@ const GeneralBalance = ({ data, navigation }: Props) => {
               marginRight: 10,
             }}
           />
-          <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + data.financialAccount.currency.code}</Text>
+          <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccount.currency.code}</Text>
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
@@ -68,7 +70,7 @@ const GeneralBalance = ({ data, navigation }: Props) => {
               }}
             >
               {hideNumber.map(index => (
-                <Icon
+                <FontAwesome
                   key={index}
                   name={value ? 'circle' : 'circle-thin'}
                   color={textBlack}
@@ -80,23 +82,27 @@ const GeneralBalance = ({ data, navigation }: Props) => {
             </View>
           ) : (
             <Text style={styles.textPrice}>
-              {parserToCurrency(
-                data?.total_balance,
-                data?.financialAccount.currency.locale,
-                data?.financialAccount.currency.code
-              )}
+              {parserToCurrency(total_balance, financialAccount.currency.locale, financialAccount.currency.code)}
             </Text>
           )}
-          <Icon1
+          <IconContainer
             onPress={() => navigation.navigate('MonthlySummaries')}
             style={{
               width: 60,
             }}
           >
-            <Back name='chevron-forward' size={25} color={textBlack} />
-          </Icon1>
+            <Ionicons name='chevron-forward' size={25} color={textBlack} />
+          </IconContainer>
         </TouchableOpacity>
       </View>
+      {!multiple && (
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+          <Feather name='plus' size={25} color={textBlack} style={{ marginRight: 5 }} />
+          <View>
+            <Text style={styles.buttonLabel}>{'Add balance'}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

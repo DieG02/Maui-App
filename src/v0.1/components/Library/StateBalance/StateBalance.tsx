@@ -19,7 +19,7 @@ const StateBalance = ({ data }: Props) => {
       horizontal
       overScrollMode='never'
       showsHorizontalScrollIndicator={false}
-      snapToInterval={width - 60}
+      snapToInterval={width}
       decelerationRate={0.5}
     >
       <View style={styles.wrapper}>
