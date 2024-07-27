@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   container: {
     display: 'flex',
-    marginTop: 5,
+    marginVertical: 5,
   },
   text: {
     fontSize: 18,

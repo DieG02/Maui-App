@@ -17,6 +17,7 @@ import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
 import MultipleBalance from '../../components/Library/MultipleBalance';
+import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
 
 const { mainColor } = customStyles;
 
@@ -30,6 +31,8 @@ const HomeScreen = ({ navigation }: Props) => {
   const { data: transactions, refetch: getTransactionsFromHome } = useGetTransactions({ take: 6 });
 
   const { data: balance, refetch: getBalance } = useGetBalance();
+  const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } =
+    useGetFinancialAccount();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
   const { refetch: getAlltransactions } = useGetTransactions();
 
@@ -38,14 +41,12 @@ const HomeScreen = ({ navigation }: Props) => {
     setRefreshing(true);
     getTransactionsFromHome();
     getBalance();
+    getFinancialAccounts();
     getMonthlyStats();
     getAlltransactions();
     setRefreshing(false);
   };
-  // const accounts = [balance?.financialAccounts[0]];
-  // const accounts = balance?.financialAccounts;
-  console.log(JSON.stringify(user, null, 2));
-  console.log(JSON.stringify(balance, null, 2));
+
   return (
     <ScreenContainer>
       <ScrollView
@@ -55,12 +56,16 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={balance!} navigation={navigation} />
+        <GeneralBalance data={balance!} multiple={financialAccounts.length > 2} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
-        {/* {accounts.length > 1 ? <MultipleBalance data={balance!} /> : <StateBalance data={stateBalance!} />} */}
-        {/* <Spacer height={20} /> */}
+        {financialAccounts.length > 1 ? (
+          <MultipleBalance data={financialAccounts!} />
+        ) : (
+          <StateBalance data={stateBalance!} />
+        )}
+        <Spacer height={20} />
         <Title
           title={t('home_stack.last_records')}
           label={t('home_stack.see_more')}

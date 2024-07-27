@@ -82,7 +82,7 @@ export type IContactInput = {
 // Balance
 
 export type IBalance = {
-  total_balance: number;
+  total_balance?: number;
   financialAccounts: IFinancialAccount[];
 };
 

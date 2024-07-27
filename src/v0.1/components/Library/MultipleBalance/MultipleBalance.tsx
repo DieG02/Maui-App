@@ -3,18 +3,18 @@ import { View, ScrollView } from 'react-native';
 import customStyles from '../../../styles/customStyles';
 import styles from './style';
 import { useTranslation } from 'react-i18next';
-import { IBalance, IFinancialAccount } from '../../../types/types';
+import { IFinancialAccount } from '../../../types/types';
 import AccountBalanceCard from '../AccountBalanceCard/AccountBalanceCard';
+import NewBalanceCard from '../NewBalanceCard';
 
 const { width, marginHorizontal } = customStyles;
 
 interface Props {
-  data: IBalance;
+  data: IFinancialAccount[];
 }
 
 const MultipleBalance = ({ data }: Props) => {
   const { t } = useTranslation();
-  const accounts = data.financialAccounts;
 
   return (
     <ScrollView
@@ -25,20 +25,10 @@ const MultipleBalance = ({ data }: Props) => {
       decelerationRate={0.5}
     >
       <View style={styles.wrapper}>
-        <View>
-          <View style={styles.wrapper}>
-            {accounts.map((account: IFinancialAccount, i: number) => {
-              return (
-                <AccountBalanceCard
-                  key={account.id}
-                  account={account}
-                  left={i === 0 ? marginHorizontal : 15}
-                  right={i === accounts.length - 1 ? marginHorizontal : 0}
-                />
-              );
-            })}
-          </View>
-        </View>
+        {data.map((account: IFinancialAccount, i: number) => {
+          return <AccountBalanceCard key={account.id} account={account} left={i === 0 ? marginHorizontal : 15} />;
+        })}
+        <NewBalanceCard left={15} right={marginHorizontal} />
       </View>
     </ScrollView>
   );

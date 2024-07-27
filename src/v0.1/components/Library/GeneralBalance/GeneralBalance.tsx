@@ -19,17 +19,15 @@ const { textBlack } = customStyles;
 // TODO: Refactor this interface to use the correct types
 interface Props {
   navigation: NavigationProp<any, any>;
+  multiple: boolean;
   data: any;
 }
 
-const GeneralBalance = ({ data: { total_balance, financialAccounts }, navigation }: Props) => {
+const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
   const hideNumber = Array.from({ length: 4 }, (_, i) => i);
 
-  // const accounts = [financialAccounts[0]];
-  console.log(JSON.stringify({ financialAccounts }, null, 2));
-  // const add_button = accounts.length > 1;
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -41,7 +39,7 @@ const GeneralBalance = ({ data: { total_balance, financialAccounts }, navigation
           }}
         >
           <CountryFlag
-            isoCode={'es'}
+            isoCode={financialAccount.currency.isoCode}
             size={25}
             style={{
               width: 25,
@@ -50,7 +48,7 @@ const GeneralBalance = ({ data: { total_balance, financialAccounts }, navigation
               marginRight: 10,
             }}
           />
-          {/* <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccounts[0].currency.code}</Text> */}
+          <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccount.currency.code}</Text>
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
@@ -84,12 +82,7 @@ const GeneralBalance = ({ data: { total_balance, financialAccounts }, navigation
             </View>
           ) : (
             <Text style={styles.textPrice}>
-              {/* {parserToCurrency(
-                total_balance,
-                financialAccounts[0].currency.locale,
-                financialAccounts[0].currency.code
-              )} */}
-              some
+              {parserToCurrency(total_balance, financialAccount.currency.locale, financialAccount.currency.code)}
             </Text>
           )}
           <IconContainer
@@ -102,10 +95,14 @@ const GeneralBalance = ({ data: { total_balance, financialAccounts }, navigation
           </IconContainer>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button} activeOpacity={0.5}>
-        <Feather name='plus' size={25} color={textBlack} style={{ marginRight: 5 }} />
-        <View>{/* <Text style={styles.buttonLabel}>{add_button ? 'show' : 'Add balance'}</Text> */}</View>
-      </TouchableOpacity>
+      {!multiple && (
+        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
+          <Feather name='plus' size={25} color={textBlack} style={{ marginRight: 5 }} />
+          <View>
+            <Text style={styles.buttonLabel}>{'Add balance'}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
