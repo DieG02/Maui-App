@@ -16,7 +16,7 @@ import useGetTransactions from '../../services/Transactions/useGetAllTransaction
 import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
-import MultipleBalance from '../../components/Library/MultipleBalance';
+import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
 
 const { mainColor } = customStyles;
@@ -61,7 +61,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
         {financialAccounts.length > 1 ? (
-          <MultipleBalance data={financialAccounts!} />
+          <MultipleAccounts data={financialAccounts!} />
         ) : (
           <StateBalance data={stateBalance!} />
         )}

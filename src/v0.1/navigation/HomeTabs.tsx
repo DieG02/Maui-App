@@ -76,10 +76,10 @@ const HomeTabs = () => {
           }}
         />
         <Tab.Screen
-          name='balance'
+          name='transactions'
           component={TransactionsScreen}
           options={{
-            tabBarLabel: t('balance'),
+            tabBarLabel: t('transactions'),
             tabBarLabelStyle: {
               fontSize: 14,
               marginBottom: Platform.OS === 'ios' ? 0 : 4,
