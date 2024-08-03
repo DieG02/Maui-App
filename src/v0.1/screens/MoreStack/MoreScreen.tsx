@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
-import Clipboard from '@react-native-community/clipboard';
+import { View, ScrollView, Text, Share, Linking, TouchableOpacity, ToastAndroid, Platform, Alert } from 'react-native';
+// import Clipboard from '@react-native-community/clipboard';
 import Spacer from '../../components/common/Spacer';
 import OptionCard from '../../components/common/OptionCard';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -53,8 +53,9 @@ const More = ({ navigation }: Props) => {
   };
 
   const handleClipboard = () => {
-    Clipboard.setString(email);
-    ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
+    // Clipboard.setString(email);
+    Alert.alert(t('Texto copiado al portapapeles'));
+    // ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
   };
 
   useEffect(() => {
