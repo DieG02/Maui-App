@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import { useTranslation } from 'react-i18next';
 import customStyles from '../../../styles/customStyles';
 import styles from './style';
 
@@ -12,7 +13,8 @@ interface Props {
   right?: number;
 }
 
-const NewBalanceCard = ({ left, right }: Props) => {
+const NewAccountCard = ({ left, right }: Props) => {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity style={styles({ left, right }).wrapper} activeOpacity={0.5}>
       <View style={styles({}).container}>
@@ -21,7 +23,7 @@ const NewBalanceCard = ({ left, right }: Props) => {
         </View>
         <View style={styles({}).subWrapper}>
           <Text style={styles({}).textValue} numberOfLines={1}>
-            {`Add new account`}
+            {t('home_stack.accounts.add_new_account')}
           </Text>
         </View>
       </View>
@@ -29,4 +31,4 @@ const NewBalanceCard = ({ left, right }: Props) => {
   );
 };
 
-export default NewBalanceCard;
+export default NewAccountCard;
