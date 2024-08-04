@@ -52,7 +52,8 @@ const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, n
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('MonthlySummaries')}
+          onPress={() => navigation.navigate('NewFinancialAccount')}
+          // onPress={() => navigation.navigate('MonthlySummaries')}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
