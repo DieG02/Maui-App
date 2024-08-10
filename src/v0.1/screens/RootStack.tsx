@@ -17,6 +17,7 @@ import NewIncome from './BalanceStack/NewIncome';
 import EditIncome from './BalanceStack/EditIncome';
 import NewExpense from './BalanceStack/NewExpense';
 import EditExpense from './BalanceStack/EditExpense';
+import AccountDetail from './BalanceStack/AccountDetail';
 import TransactionDetail from './BalanceStack/TransactionDetail';
 
 // CONTACT STACK
@@ -125,6 +126,7 @@ export default function RootStack() {
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />
           <Stack.Screen name='EditExpense' component={EditExpense} />
+          <Stack.Screen name='AccountDetail' component={AccountDetail} />
           <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
           <Stack.Screen name='More' component={MoreScreen} />
           <Stack.Screen name='UserData' component={UserDataScreen} />
