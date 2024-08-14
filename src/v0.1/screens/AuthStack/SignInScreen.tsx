@@ -1,21 +1,21 @@
-import { View, Text, TouchableOpacity, Image, StatusBar, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationProp, StackActions } from '@react-navigation/native';
-import React, { useContext, useEffect } from 'react';
-import CommonInput from '../../components/common/CommonInput';
-import customStyles from '../../styles/customStyles';
-import logo from '../../assets/logo.png';
+import { NavigationProp } from '@react-navigation/native';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { useMutation } from 'react-query';
-import { signIn } from '../../services/auth';
-import { AuthContext } from '../../context/AuthContext';
+import logo from '../../assets/logo.png';
+import Button from '../../components/common/Button';
+import CommonInput from '../../components/common/CommonInput';
+import SecureInput from '../../components/common/SecureInput';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import Form from '../../components/Library/Form';
-import Button from '../../components/common/Button';
+import { AuthContext } from '../../context/AuthContext';
 import useForm from '../../hooks/useForm';
-import SecureInput from '../../components/common/SecureInput';
-import { useTranslation } from 'react-i18next';
-import { queryClient } from '../../utils/queryClient';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import { signIn } from '../../services/auth';
+import customStyles from '../../styles/customStyles';
+import { queryClient } from '../../utils/queryClient';
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -33,7 +33,7 @@ interface LoginUser {
 const initialValues: LoginUser = {
   email: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
 };
 
 const toValidate = ['email', 'password'];
@@ -98,7 +98,7 @@ export default function LoginScreen({ navigation }: Props) {
             placeholder={t(`${KEY_PATH}.placeholder_password`)}
             marginBottom={25}
           />
-          
+
           <Button
             disabled={!validateValues(toValidate)}
             onPress={onPressLogin}

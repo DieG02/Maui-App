@@ -1,27 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, TouchableOpacity, ToastAndroid, Platform, Alert } from 'react-native';
-// import Clipboard from '@react-native-community/clipboard';
-import Spacer from '../../components/common/Spacer';
-import OptionCard from '../../components/common/OptionCard';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthContext } from '../../context/AuthContext';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import ProfileBadge from '../../components/Library/ProfileBadge';
-import customStyles from '../../styles/customStyles';
-import useGetAccount from '../../services/Account/useGetAccount';
-import { queryClient } from '../../utils/queryClient';
-import { useTranslation } from 'react-i18next';
-import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { NavigationProp } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Linking, Platform, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-root-toast';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { version as AppVersion } from '../../../../package.json';
-import { IAccount, ILink, ILinkType } from '../../types/types';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import OptionCard from '../../components/common/OptionCard';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import ProfileBadge from '../../components/Library/ProfileBadge';
+import { AuthContext } from '../../context/AuthContext';
+import useGetAccount from '../../services/Account/useGetAccount';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import useGetLinks from '../../services/Links/useGetLinks';
+import customStyles from '../../styles/customStyles';
+import { IAccount, ILink, ILinkType } from '../../types/types';
+import { queryClient } from '../../utils/queryClient';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -53,9 +53,10 @@ const More = ({ navigation }: Props) => {
   };
 
   const handleClipboard = () => {
-    // Clipboard.setString(email);
-    Alert.alert(t('Texto copiado al portapapeles'));
-    // ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
+    Toast.show(t('Texto copiado al portapapeles'), {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.TOP,
+    });
   };
 
   useEffect(() => {

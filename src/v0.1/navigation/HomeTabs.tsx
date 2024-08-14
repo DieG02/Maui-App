@@ -111,7 +111,7 @@ const HomeTabs = () => {
             ),
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name='debts'
           component={Debts}
           options={{
@@ -147,7 +147,7 @@ const HomeTabs = () => {
               </>
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </SafeAreaProvider>
   );

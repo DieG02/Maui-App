@@ -1,24 +1,25 @@
-import { Image, Text, View, ToastAndroid } from 'react-native';
-import React from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
-import RowTransaction from '../../components/common/RowTransaction';
-import ScrollContainer from '../../components/containers/ScrollContainer';
-import { parseDDMMYY } from '../../utils/helper';
-import Button from '../../components/common/Button';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Image, Text, View } from 'react-native';
+import Toast from 'react-native-root-toast';
+import Button from '../../components/common/Button';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import RowTransaction from '../../components/common/RowTransaction';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import ScrollContainer from '../../components/containers/ScrollContainer';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
-import { alertDelete } from '../../utils/alerts';
-import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
-import { queryClient } from '../../utils/queryClient';
-import { parserToCurrency } from '../../utils/adapter';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
+import customStyles from '../../styles/customStyles';
+import { parserToCurrency } from '../../utils/adapter';
+import { alertDelete } from '../../utils/alerts';
+import { parseDDMMYY } from '../../utils/helper';
+import { queryClient } from '../../utils/queryClient';
 
 const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 interface Props {
@@ -36,7 +37,10 @@ const DebtDetail = ({ route, navigation }: Props) => {
   });
 
   const showToast = () => {
-    ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
+    Toast.show(t('balance_stack.transaction_detail.toast_transaction_delete'), {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+    });
   };
 
   const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId as string, {
