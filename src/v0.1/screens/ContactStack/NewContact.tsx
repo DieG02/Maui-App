@@ -1,8 +1,8 @@
-import { StatusBar, View, ActivityIndicator, FlatList } from 'react-native';
+import { StatusBar, View, ActivityIndicator, FlatList, Platform } from 'react-native';
 import React, { useEffect, useMemo, useState } from 'react';
 import { RouteProp, NavigationProp } from '@react-navigation/native';
 import customStyles from '../../styles/customStyles';
-import { checkPermission, fetchContacts, requestContactPermission } from '../../requests';
+import { checkPermissionAndroid, fetchContacts, requestContactPermission } from '../../requests';
 import AddContact from '../../components/common/AddContact';
 import ContactForm from '../../components/common/ContactForm';
 import Button from '../../components/common/Button';
@@ -11,6 +11,7 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import EmptyState from '../../components/common/EmptyState';
 import { useTranslation } from 'react-i18next';
+import RNPermissions, { PERMISSIONS } from 'react-native-permissions';
 
 interface Props {
   route: RouteProp<any, any>;
@@ -25,6 +26,8 @@ interface Contact {
   phone: string;
   id: string;
 }
+
+const { ...PERMISSIONS_IOS } = PERMISSIONS.IOS; // remove siri (certificate required)
 
 const NewContact = ({ route, navigation }: Props) => {
   const { t } = useTranslation();
@@ -50,12 +53,18 @@ const NewContact = ({ route, navigation }: Props) => {
   };
 
   const getAllContactsFromPhone = async () => {
-    const hasPermission = await checkPermission();
-    if (hasPermission) {
+    const PLATFORM = Platform.OS === 'ios' ? 'ios' : 'android';
+    if (PLATFORM === 'ios') {
+      await RNPermissions.request(PERMISSIONS_IOS.CONTACTS);
       getContacts();
-    } else{
-      const allowed = await requestContactPermission();
-      allowed && getContacts();
+    } else {
+      const hasPermission = await checkPermissionAndroid();
+      if (hasPermission) {
+        getContacts();
+      } else {
+        const allowed = await requestContactPermission();
+        allowed && getContacts();
+      }
     }
   };
 

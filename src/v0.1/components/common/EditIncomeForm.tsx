@@ -1,26 +1,27 @@
-import React, { useEffect, useMemo } from 'react';
-import { ToastAndroid, View } from 'react-native';
-import InputForm from '../../components/common/InputForm';
-import CommonInput from '../../components/common/CommonInput';
+import { NavigationProp } from '@react-navigation/native';
 import 'moment-timezone';
+import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import CommonInput from '../../components/common/CommonInput';
+import InputForm from '../../components/common/InputForm';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
 import Form from '../../components/Library/Form';
-import customStyles from '../../styles/customStyles';
-import { NavigationProp } from '@react-navigation/native';
-import usePayment from '../../hooks/usePayment';
 import useForm from '../../hooks/useForm';
-import { queryClient } from '../../utils/queryClient';
-import Button from './Button';
-import LoadingComponent from '../Library/LoadingComponent';
-import { useTranslation } from 'react-i18next';
+import usePayment from '../../hooks/usePayment';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
+import customStyles from '../../styles/customStyles';
+import { queryClient } from '../../utils/queryClient';
+import LoadingComponent from '../Library/LoadingComponent';
+import Button from './Button';
 import DatePicker from './DatePicker';
 // import StateSwitch from './StateSwitch';
-import PaymentMethodPicker from './PaymentMethodPicker';
-import Spacer from './Spacer';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import Toast from 'react-native-root-toast';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import PaymentMethodPicker from './PaymentMethodPicker';
+import Spacer from './Spacer';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -76,7 +77,10 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
   }, [params?.contact]);
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(t('debt_stack.edit_debt.toast_edited'), ToastAndroid.LONG, ToastAndroid.TOP);
+    Toast.show(t('debt_stack.edit_debt.toast_edited'), {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.TOP,
+    });
   };
 
   const { mutateAsync, isLoading } = useEditTransaction(

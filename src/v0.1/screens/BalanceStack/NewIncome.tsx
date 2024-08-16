@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { View, ToastAndroid } from 'react-native';
+import { View } from 'react-native';
 import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import CommonInput from '../../components/common/CommonInput';
@@ -29,6 +29,7 @@ import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import Toast from 'react-native-root-toast';
 
 // TODO:Refactor this component
 
@@ -86,7 +87,10 @@ const NewIncome = ({ navigation, route }: Props) => {
   }, [route.params?.contact]);
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(t('balance_stack.new_income.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
+    Toast.show(t('balance_stack.new_income.toast_new_expense'), {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.TOP,
+    });
   };
 
   const InvalidateQuery = values.isPaid ? GET_TRANSACTIONS_KEY : GET_DEBTS_KEY;

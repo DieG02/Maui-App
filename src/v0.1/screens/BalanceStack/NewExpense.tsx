@@ -1,37 +1,38 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { View, Dimensions, ToastAndroid } from 'react-native';
-import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import CommonInput from '../../components/common/CommonInput';
 import moment from 'moment';
 import 'moment-timezone';
-import Spacer from '../../components/common/Spacer';
-import Button from '../../components/common/Button';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
-import SelectionModal from '../../components/common/Modals/SelectionModal';
-import useForm from '../../hooks/useForm';
-import { STATE, paymentMethods } from '../../utils/payment';
-import usePayment from '../../hooks/usePayment';
-import LoadingComponent from '../../components/Library/LoadingComponent';
-import Form from '../../components/Library/Form';
-import OptionWithIcon from '../../components/common/OptionWithIcon';
-import { queryClient } from '../../utils/queryClient';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { dictionary } from '../../helpers/dictionary';
-import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
-import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
-import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
-import { getCategoryId } from '../../utils/getCategoryId';
+import { Dimensions, View } from 'react-native';
+import Form from '../../components/Library/Form';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import Button from '../../components/common/Button';
+import CommonInput from '../../components/common/CommonInput';
 import DatePicker from '../../components/common/DatePicker';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import InputForm from '../../components/common/InputForm';
+import SelectionModal from '../../components/common/Modals/SelectionModal';
+import OptionWithIcon from '../../components/common/OptionWithIcon';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { dictionary } from '../../helpers/dictionary';
+import useForm from '../../hooks/useForm';
+import usePayment from '../../hooks/usePayment';
+import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
+import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
+import customStyles from '../../styles/customStyles';
+import { getCategoryId } from '../../utils/getCategoryId';
+import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { STATE, paymentMethods } from '../../utils/payment';
+import { queryClient } from '../../utils/queryClient';
 // import StateSwitch from '../../components/common/StateSwitch';
+import Toast from 'react-native-root-toast';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 
 const { width } = Dimensions.get('window');
 
@@ -91,7 +92,10 @@ const NewExpense = ({ navigation, route }: Props) => {
   }, [route.params?.contact]);
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(t('balance_stack.new_expense.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
+    Toast.show(t('balance_stack.new_expense.toast_new_expense'), {
+      duration: Toast.durations.LONG,
+      position: Toast.positions.TOP,
+    });
   };
 
   const InvalidateQuery = values.isPaid ? GET_TRANSACTIONS_KEY : GET_DEBTS_KEY;

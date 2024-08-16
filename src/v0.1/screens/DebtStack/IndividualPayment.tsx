@@ -1,32 +1,32 @@
-import React from 'react';
-import { View, ToastAndroid } from 'react-native';
-import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import CommonInput from '../../components/common/CommonInput';
 import moment from 'moment';
 import 'moment-timezone';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, View } from 'react-native';
+import Toast from 'react-native-root-toast';
 import Button from '../../components/common/Button';
-import ScreenContainer from '../../components/containers/ScreenContainer';
+import CommonInput from '../../components/common/CommonInput';
+import DatePicker from '../../components/common/DatePicker';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
+import InputForm from '../../components/common/InputForm';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import Form from '../../components/Library/Form';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import { paymentMethods } from '../../utils/payment';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
-import Form from '../../components/Library/Form';
-import { queryClient } from '../../utils/queryClient';
-import Spacer from '../../components/common/Spacer';
-import { useTranslation } from 'react-i18next';
-import usePayDebtById from '../../services/Debts/usePayDebtById';
-import useGetDebtById, { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
-import { Alert } from 'react-native';
-import DatePicker from '../../components/common/DatePicker';
-import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
-import { IPaymentMethod } from '../../types/types';
-import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import useGetDebtById, { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
+import usePayDebtById from '../../services/Debts/usePayDebtById';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import customStyles from '../../styles/customStyles';
+import { IPaymentMethod } from '../../types/types';
+import { paymentMethods } from '../../utils/payment';
+import { queryClient } from '../../utils/queryClient';
 
 const { marginHorizontal, mainColor, background2, white } = customStyles;
 
@@ -55,7 +55,10 @@ const IndividualPayment = ({ navigation, route }: Props) => {
   const { newPaymentsOptions } = usePayment();
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(t('debt_stack.payment_done'), ToastAndroid.LONG, ToastAndroid.TOP);
+    Toast.show(t('debt_stack.payment_done'), {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+    });
   };
 
   const { data: debtor, isLoading: loading } = useGetDebtById(params?.contact);

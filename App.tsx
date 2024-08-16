@@ -14,6 +14,7 @@ import CustomToast from 'react-native-toast-message';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
 import * as Sentry from '@sentry/react-native';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 const enabled = !__DEV__;
 
@@ -37,17 +38,19 @@ const App = () => {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <GeneralProvider>
-          <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
-          <NavigationContainer>
-            <RootStack />
-          </NavigationContainer>
-          <CustomToast config={toastConfig} />
-        </GeneralProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <RootSiblingParent>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <GeneralProvider>
+            <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
+            <NavigationContainer>
+              <RootStack />
+            </NavigationContainer>
+            <CustomToast config={toastConfig} />
+          </GeneralProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </RootSiblingParent>
   );
 };
 

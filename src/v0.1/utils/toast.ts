@@ -1,9 +1,8 @@
-import { ToastAndroid } from 'react-native'
+import Toast from 'react-native-root-toast';
 
 export const showToast = (message: string) => {
-    ToastAndroid.showWithGravity(
-        message,
-        ToastAndroid.LONG,
-        ToastAndroid.TOP
-    )
-}
+  Toast.show(message, {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.TOP,
+  });
+};

@@ -44,14 +44,6 @@ const ContactDetail = ({ route, navigation }: Props) => {
 
   const isChanged = JSON.stringify(contact) !== JSON.stringify(data);
 
-  // const { mutateAsync: updateContact } = useMutation(() => updateContactById(params?.contactId, contact), {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries([GET_CONTACT_KEY, params?.contactId]);
-  //     navigation.goBack();
-  //     showToast(t('contact_stack.contact_detail.edit_contact'));
-  //   },
-  // });
-
   const { mutateAsync: updateContact } = usePutContact({
     onSuccess: () => {
       queryClient.invalidateQueries(GET_CONTACT_KEY);
@@ -84,7 +76,9 @@ const ContactDetail = ({ route, navigation }: Props) => {
     }
   };
 
-  if (isFetchingGetContactById) return <LoadingComponent color={mainColor} />;
+  if (isFetchingGetContactById) {
+    return <LoadingComponent color={mainColor} />;
+  }
 
   return (
     <ScreenContainer>

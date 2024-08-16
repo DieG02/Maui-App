@@ -5,19 +5,19 @@ export const paymentsMethod: {
   };
 } = {
   CASH: {
-    es: "Efectivo",
-    en: "Cash",
+    es: 'Efectivo',
+    en: 'Cash',
   },
   CARD: {
-    es: "Tarjeta",
-    en: "Card",
+    es: 'Tarjeta',
+    en: 'Card',
   },
   BANK_TRANSFER: {
-    es: "Transferencia",
-    en: "Bank transfer",
+    es: 'Transferencia',
+    en: 'Bank transfer',
   },
   OTHER: {
-    es: "Otro",
-    en: "Other",
+    es: 'Otro',
+    en: 'Other',
   },
 };
