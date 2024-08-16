@@ -1,5 +1,5 @@
 export type MainBottomTabParamList = {
   home: undefined;
-  balance: undefined;
+  transactions: undefined;
   debts: undefined;
 };

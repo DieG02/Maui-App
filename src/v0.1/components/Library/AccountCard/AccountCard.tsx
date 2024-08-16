@@ -15,38 +15,8 @@ interface Props {
   left?: number;
   right?: number;
 }
-// TODO: Refactor this componente
-const handleIcon = (type: string) => {
-  switch (type) {
-    case 'ingreso':
-      return (
-        <View style={styles({ background: incomeLight }).iconStyle}>
-          <Top name='ios-arrow-up-sharp' size={35} color={income} />
-        </View>
-      );
 
-    case 'egreso':
-      return (
-        <View style={styles({ background: expenseLight }).iconStyle}>
-          <Down name='ios-arrow-down-sharp' size={35} color={expense} />
-        </View>
-      );
-    case 'cobrar':
-      return (
-        <View style={styles({ background: itemLight }).iconStyle}>
-          <Top name='ios-arrow-up-sharp' size={35} color={item} />
-        </View>
-      );
-    case 'pagar':
-      return (
-        <View style={styles({ background: orangeLight }).iconStyle}>
-          <Down name='ios-arrow-down-sharp' size={35} color={orange} />
-        </View>
-      );
-  }
-};
-
-const AccountBalanceCard = ({ account, left, right }: Props) => {
+const AccountCard = ({ account, left, right }: Props) => {
   const {
     accountName,
     currency: { code, isoCode },
@@ -77,4 +47,4 @@ const AccountBalanceCard = ({ account, left, right }: Props) => {
   );
 };
 
-export default AccountBalanceCard;
+export default AccountCard;
