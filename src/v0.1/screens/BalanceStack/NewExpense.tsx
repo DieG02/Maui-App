@@ -3,7 +3,8 @@ import moment from 'moment';
 import 'moment-timezone';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import Form from '../../components/Library/Form';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import Button from '../../components/common/Button';
@@ -13,28 +14,24 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import InputForm from '../../components/common/InputForm';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
 import OptionWithIcon from '../../components/common/OptionWithIcon';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import Spacer from '../../components/common/Spacer';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { dictionary } from '../../helpers/dictionary';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
+import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import customStyles from '../../styles/customStyles';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { getCategoryId } from '../../utils/getCategoryId';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { STATE, paymentMethods } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
-// import StateSwitch from '../../components/common/StateSwitch';
-import Toast from 'react-native-root-toast';
-import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
-import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
-import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
-
-const { width } = Dimensions.get('window');
 
 const { mainColor, marginHorizontal, background2, white } = customStyles;
 interface Props {
@@ -89,12 +86,14 @@ const NewExpense = ({ navigation, route }: Props) => {
         providerName: route.params?.contact.name,
       }));
     }
-  }, [route.params?.contact]);
+  }, [route.params?.contact, setValues]);
 
   const showToast = () => {
-    Toast.show(t('balance_stack.new_expense.toast_new_expense'), {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.TOP,
+    Toast.show({
+      type: 'success',
+      text2: t('balance_stack.new_expense.toast_new_expense'),
+      position: 'top',
+      visibilityTime: 1000,
     });
   };
 
@@ -137,39 +136,11 @@ const NewExpense = ({ navigation, route }: Props) => {
       <BackHeaderTitle label={t('balance_stack.new_expense.new_expense')} onPressBack={() => navigation.goBack()} />
       <Spacer height={10} />
       <Form>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-          }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <DatePicker
-              name={t('balance_stack.new_income.date')}
-              value={values.date}
-              setValue={date => setValues(prev => ({ ...prev, date: date }))}
-            />
-          </View>
-          {/* <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <StateSwitch
-              title={t('balance_stack.new_income.state')}
-              isPressed={values.isPaid}
-              handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
-            />
-          </View> */}
-        </View>
+        <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        />
         <OptionWithIcon
           required
           title={t('balance_stack.new_expense.category')}

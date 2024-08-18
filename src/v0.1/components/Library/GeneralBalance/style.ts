@@ -35,11 +35,11 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: background2,
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingVertical: 6,
     borderRadius: 15,
   },
   buttonLabel: {
-    fontSize: 18,
+    fontSize: 16,
     color: textBlack,
     fontFamily: 'Gilroy-SemiBold',
   },

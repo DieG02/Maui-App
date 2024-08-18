@@ -1,14 +1,14 @@
+import { t } from 'i18next';
 import React, { useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import Modal from 'react-native-modal';
-import customStyles from '../../../styles/customStyles';
-import OptionCountrySelect from '../OptionCountrySelect';
-import PrefixInput from '../PrefixInput';
 import useToggle from '../../../hooks/useToggle';
-import EmptyState from '../EmptyState';
-import SearchBar from '../SearchBar';
-import { t } from 'i18next';
+import customStyles from '../../../styles/customStyles';
 import { ICountry, ICountryCode } from '../../../types/types';
+import EmptyState from '../EmptyState';
+import OptionCountrySelect from '../OptionCountrySelect';
+import SearchBar from '../SearchBar';
+import PrefixInput from '../PrefixInput';
 
 const { mainColor, white, ligthBlue, blueSelected } = customStyles;
 interface Props {
@@ -92,7 +92,6 @@ const PhoneAreaModal = ({ selectedOption, setSelectedOption, options }: Props) =
             onEndReachedThreshold={0.5}
             renderItem={({ item }) => (
               <OptionCountrySelect
-                // galleryMode
                 withPrefix
                 key={item.id}
                 name={item.name}

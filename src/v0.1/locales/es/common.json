@@ -120,7 +120,7 @@
       "save_expense": "Registrar gasto"
     },
     "new_income": {
-      "toast_new_expense": "La transacción fue creada satisfactoriamente",
+      "toast_new_expense": "La transacción fue creada exitosamente",
       "new_income": "Nuevo Ingreso",
       "category": "Categoría",
       "placeholder_category": "Seleccione una categoría",
@@ -172,7 +172,7 @@
     "payment": "Abono",
     "expense": "Gasto",
     "transaction_detail": {
-      "toast_transaction_delete": "La transacción fue eliminada satisfactoriamente",
+      "toast_transaction_delete": "La transacción fue eliminada exitosamente",
       "alert_delete": "¿Estás seguro de eliminar la transacción?",
       "details": "Detalle de operación",
       "transaction_date": "Fecha de operación",

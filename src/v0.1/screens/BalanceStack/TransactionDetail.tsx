@@ -2,7 +2,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-toast-message';
 import Button from '../../components/common/Button';
 import ContactCard from '../../components/common/ContactCard';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
@@ -46,9 +46,11 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const isExpense = transaction?.type === 'DEBIT';
 
   const showToast = () => {
-    Toast.show(t('balance_stack.transaction_detail.toast_transaction_delete'), {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.BOTTOM,
+    Toast.show({
+      type: 'success',
+      text2: t('balance_stack.transaction_detail.toast_transaction_delete'),
+      position: 'bottom',
+      visibilityTime: 1000,
     });
   };
 

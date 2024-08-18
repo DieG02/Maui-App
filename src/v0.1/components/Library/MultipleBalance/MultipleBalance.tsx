@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import customStyles from '../../../styles/customStyles';
-import styles from './style';
-import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
 import AccountBalanceCard from '../AccountBalanceCard/AccountBalanceCard';
 import NewBalanceCard from '../NewBalanceCard';
+import styles from './style';
 
 const { width, marginHorizontal } = customStyles;
 
@@ -14,8 +13,6 @@ interface Props {
 }
 
 const MultipleBalance = ({ data }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <ScrollView
       horizontal
