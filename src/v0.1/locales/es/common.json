@@ -1,6 +1,7 @@
 {
   "home": "Inicio",
-  "balance": "Transacciones",
+  "transactions": "Transacciones",
+  "contacts": "Contactos",
   "debts": "Deudas",
   "auth_stack": {
     "login_title": "Gestiona tu negocio desde tu celular",
@@ -50,6 +51,9 @@
       "expenses": "Egresos",
       "total": "Total",
       "empty_balance": "No tienes transacciones"
+    },  
+    "accounts": {
+      "add_new_account": "Añadir nueva cuenta"
     },
     "last_records": "Últimos registros",
     "see_more": "Ver Más"
