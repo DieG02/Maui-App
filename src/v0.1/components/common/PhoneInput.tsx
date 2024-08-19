@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
-import customStyles from '../../styles/customStyles';
+import { Text, TextInput, View } from 'react-native';
 import PhoneAreaModal from '../../components/common/Modals/PhoneAreaModal';
+import customStyles from '../../styles/customStyles';
 import { ICountryCode } from '../../types/types';
 
-const { secondaryColorBorder, textBlack, expense, textLight } = customStyles;
+const { secondaryColorBorder, textBlack, expense, textLight, width } = customStyles;
 
 interface Props {
   value: string;
@@ -62,7 +62,7 @@ const PhoneInput = ({
             borderColor: secondaryColorBorder,
             borderWidth: 1,
             flex: 1,
-            maxWidth: 225,
+            maxWidth: width * 0.54,
           }}
         >
           <TextInput
@@ -75,6 +75,7 @@ const PhoneInput = ({
               paddingHorizontal: 20,
               color: textBlack,
               fontSize: 15,
+              height: 55,
               fontFamily: 'Gilroy-Medium',
             }}
           />

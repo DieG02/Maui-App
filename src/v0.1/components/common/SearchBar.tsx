@@ -1,6 +1,6 @@
-import { View, TextInput } from 'react-native';
+import { TextInput, View } from 'react-native';
+import Close from 'react-native-vector-icons/Fontisto';
 import Icon from '../../components/common/Icon';
-import Close from 'react-native-vector-icons/AntDesign';
 
 import React from 'react';
 import customStyles from '../../styles/customStyles';
@@ -49,7 +49,7 @@ const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur, style }: 
         autoCapitalize='none'
       />
       <Icon onPress={onPress}>
-        <Close name='close' size={25} color={textBlack} />
+        <Close name='close-a' size={16} color={textBlack} />
       </Icon>
     </View>
   );

@@ -16,7 +16,7 @@ import LoadingComponent from '../Library/LoadingComponent';
 import Button from './Button';
 import DatePicker from './DatePicker';
 // import StateSwitch from './StateSwitch';
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-toast-message';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
@@ -74,12 +74,14 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
         clientId: params?.contact.id,
       }));
     }
-  }, [params?.contact]);
+  }, [params?.contact, setValues]);
 
   const showToast = () => {
-    Toast.show(t('debt_stack.edit_debt.toast_edited'), {
-      duration: Toast.durations.LONG,
-      position: Toast.positions.TOP,
+    Toast.show({
+      type: 'success',
+      text2: t('debt_stack.edit_debt.toast_edited'),
+      position: 'top',
+      visibilityTime: 1000,
     });
   };
 

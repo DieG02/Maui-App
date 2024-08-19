@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View } from 'react-native';
 import { BaseToastProps } from 'react-native-toast-message';
 import customStyles from '../../styles/customStyles';
-import { useTranslation } from 'react-i18next';
 
 export const SuccessToast = (props: BaseToastProps) => {
   const { t } = useTranslation();
@@ -44,14 +44,15 @@ const styles = StyleSheet.create({
   content: {
     elevation: 2,
     paddingVertical: 10,
+    height: 50,
     maxHeight: 60,
     borderRadius: 5,
     justifyContent: 'center',
   },
   text: {
     marginHorizontal: 20,
-    fontSize: 13,
-    fontWeight: '400',
+    fontSize: 14,
+    fontFamily: 'Gilroy-SemiBold',
   },
   success: {
     color: customStyles.income,
