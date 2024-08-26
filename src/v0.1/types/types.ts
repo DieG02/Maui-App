@@ -90,11 +90,7 @@ export type IFinancialAccount = {
   id: string;
   businessId: string;
   accountName: string;
-  currency: {
-    code: string;
-    locale: string;
-    isoCode: string;
-  };
+  currency: ICurrency;
   total_balance: number;
 };
 
@@ -108,10 +104,7 @@ export type IBalanceItem = {
 };
 
 export type IMonthlyBalance = {
-  currency: {
-    code: string;
-    locale: string;
-  };
+  currency: ICurrency;
   balance: IBalanceItem[];
 };
 
@@ -138,6 +131,17 @@ export type ICountryCode = {
   prefix: string;
 };
 
+// Currency
+export type ICurrency = {
+  id: string;
+  code: string;
+  symbol: string;
+  locale: string;
+  country: string;
+  image: string | null;
+  isoCode: string | null;
+};
+
 // Debt
 export type IDebtDetail = {
   contactId: string;
@@ -148,11 +152,7 @@ export type IDebtDetail = {
   financialAccount: {
     id: string;
     accountName: string;
-    currency: {
-      code: string;
-      locale: string;
-      isoCode: string;
-    };
+    currency: ICurrency;
   };
 };
 
@@ -181,11 +181,7 @@ export type IDebtor = {
   financialAccount: {
     id: string;
     accountName: string;
-    currency: {
-      code: string;
-      locale: string;
-      isoCode: string;
-    };
+    currency: ICurrency;
   };
   profile: IContact;
   status: {
@@ -239,10 +235,7 @@ export interface ITransactionDetail extends ITransaction {
   contact: IContact;
   financialAccount: {
     accountName: string;
-    currency: {
-      code: string;
-      locale: string;
-    };
+    currency: ICurrency;
   };
 }
 

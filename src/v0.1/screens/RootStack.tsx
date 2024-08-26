@@ -73,6 +73,7 @@ export default function RootStack() {
   useEffect(() => {
     // Sync user language with LocaleStorage
     if (user?.language) {
+      console.log(JSON.stringify({ user, token }, null, 2));
       i18n.changeLanguage(user.language);
       modifyData('locale', user.language);
     }
