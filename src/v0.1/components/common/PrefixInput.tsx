@@ -1,8 +1,8 @@
-import { Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import customStyles from '../../styles/customStyles';
-import Icon from 'react-native-vector-icons/Entypo';
+import { Text, TouchableOpacity } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
+import Icon from 'react-native-vector-icons/Entypo';
+import customStyles from '../../styles/customStyles';
 
 const { mainColor, textBlack, secondaryColorBorder, width } = customStyles;
 
@@ -20,7 +20,7 @@ const PrefixInput = ({ value, marginBottom, marginTop, onPress }: Props) => {
       style={{
         marginBottom: marginBottom,
         marginTop: marginTop,
-        width: width / 4,
+        width: width * 0.28,
         borderRadius: 12,
         borderColor: secondaryColorBorder,
         borderWidth: 1,

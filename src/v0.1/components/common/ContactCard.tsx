@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import customStyles from '../../styles/customStyles';
 import { IContact } from '../../types/types';
 
@@ -31,7 +31,7 @@ const ContactCard = ({ data, type, onPress, showNoRightIcon, disabled }: Props) 
               justifyContent: 'center',
             }}
           >
-            <AntDesign name='contacts' size={24} color={iconBlue} />
+            <MaterialIcons name='perm-contact-cal' size={24} color={iconBlue} />
           </View>
         );
       }

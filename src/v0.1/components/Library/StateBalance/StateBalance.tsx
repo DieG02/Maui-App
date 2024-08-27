@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
-import customStyles from '../../../styles/customStyles';
-import styles from './style';
-import StateBalanceCard from '../StateBalanceCard';
 import { useTranslation } from 'react-i18next';
+import { ScrollView, View } from 'react-native';
+import customStyles from '../../../styles/customStyles';
 import { IMontlyStats } from '../../../types/types';
+import StateBalanceCard from '../StateBalanceCard';
+import styles from './style';
 
 const { width, marginHorizontal } = customStyles;
 
@@ -17,27 +17,26 @@ const StateBalance = ({ data }: Props) => {
   return (
     <ScrollView
       horizontal
+      scrollEnabled={false}
       overScrollMode='never'
       showsHorizontalScrollIndicator={false}
       snapToInterval={width}
       decelerationRate={0.5}
     >
       <View style={styles.wrapper}>
-        <View>
-          <View style={styles.wrapper}>
-            <StateBalanceCard
-              state={t('home_stack.monthly_summary.incomes')}
-              value={data?.incomes}
-              left={marginHorizontal}
-              type='ingreso'
-            />
-            <StateBalanceCard
-              state={t('home_stack.monthly_summary.expenses')}
-              value={data?.expenses}
-              left={15}
-              type='egreso'
-            />
-            {/* <StateBalanceCard
+        <StateBalanceCard
+          state={t('home_stack.monthly_summary.incomes')}
+          value={data?.incomes}
+          left={marginHorizontal}
+          type='ingreso'
+        />
+        <StateBalanceCard
+          state={t('home_stack.monthly_summary.expenses')}
+          value={data?.expenses}
+          left={15}
+          type='egreso'
+        />
+        {/* <StateBalanceCard
               state={t('home_stack.monthly_summary.income_debts')}
               value={data?.toCollect}
               left={15}
@@ -50,8 +49,6 @@ const StateBalance = ({ data }: Props) => {
               right={marginHorizontal}
               type='pagar'
             /> */}
-          </View>
-        </View>
       </View>
     </ScrollView>
   );

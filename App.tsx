@@ -1,20 +1,19 @@
 //@ts-ignore
 import { SENTRY_DSN } from '@env';
-import { useEffect } from 'react';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { NavigationContainer } from '@react-navigation/native';
+import * as Sentry from '@sentry/react-native';
+import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
+import CustomToast from 'react-native-toast-message';
 import { QueryClientProvider } from 'react-query';
+import { ErrorToast, SuccessToast, WarningToast } from './src/v0.1/components/common/Toast';
 import AuthProvider from './src/v0.1/context/AuthContext';
 import GeneralProvider from './src/v0.1/context/GeneralContext';
-import { queryClient } from './src/v0.1/utils/queryClient';
-import { StatusBar } from 'react-native';
-import customStyles from './src/v0.1/styles/customStyles';
 import RootStack from './src/v0.1/screens/RootStack';
-import { SuccessToast, WarningToast, ErrorToast } from './src/v0.1/components/common/Toast';
-import CustomToast from 'react-native-toast-message';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import customStyles from './src/v0.1/styles/customStyles';
 import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
-import * as Sentry from '@sentry/react-native';
-import { RootSiblingParent } from 'react-native-root-siblings';
+import { queryClient } from './src/v0.1/utils/queryClient';
 
 const enabled = !__DEV__;
 
@@ -38,19 +37,17 @@ const App = () => {
   }, []);
 
   return (
-    <RootSiblingParent>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <GeneralProvider>
-            <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
-            <NavigationContainer>
-              <RootStack />
-            </NavigationContainer>
-            <CustomToast config={toastConfig} />
-          </GeneralProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </RootSiblingParent>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <GeneralProvider>
+          <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+          <CustomToast config={toastConfig} />
+        </GeneralProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 };
 

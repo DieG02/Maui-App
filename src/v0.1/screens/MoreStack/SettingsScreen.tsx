@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { Text, View, StatusBar, Linking } from 'react-native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import { t } from 'i18next';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Linking, Platform, StatusBar, Text, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Spacer from '../../components/common/Spacer';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import OptionCard from '../../components/common/OptionCard';
 import OptionLanguage from '../../components/common/OptionLanguage';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
 import { languageList } from '../../helpers/languageList';
-import customStyles from '../../styles/customStyles';
 import useGetAccount from '../../services/Account/useGetAccount';
-import { showToast } from '../../utils/toast';
-import { useTranslation } from 'react-i18next';
 import usePutAccount from '../../services/Account/usePutAccount';
 import useGetLinks from '../../services/Links/useGetLinks';
+import customStyles from '../../styles/customStyles';
 import { ILink, ILinkType } from '../../types/types';
+import { showToast } from '../../utils/toast';
 
 const statusBarStyle = 'dark-content';
 const { textBlack, marginHorizontal, disabled } = customStyles;
@@ -32,6 +32,8 @@ export default function Settings({ navigation }: SettingsProps) {
 
   const playStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.PLAYSTORE)?.url as string;
 
+  const appStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.APPSTORE)?.url as string;
+
   const { mutateAsync: editAccount } = usePutAccount({
     onSuccess: () => {
       showToast(t('more_screen.user_data.toast_edit_message'));
@@ -39,11 +41,12 @@ export default function Settings({ navigation }: SettingsProps) {
   });
 
   const handleOpenLink = async () => {
-    const supported = await Linking.canOpenURL(playStoreLink);
+    const store = Platform.OS === 'ios' ? appStoreLink : playStoreLink;
+    const supported = await Linking.canOpenURL(store);
     if (supported) {
-      await Linking.openURL(playStoreLink);
+      await Linking.openURL(store);
     } else {
-      console.error('Cannot open the link: ', playStoreLink);
+      console.error('Cannot open the link: ', store);
     }
   };
 

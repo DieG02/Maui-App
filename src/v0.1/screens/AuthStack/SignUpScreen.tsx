@@ -1,27 +1,27 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationProp } from '@react-navigation/native';
+import React, { useContext, useMemo, useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useMutation } from 'react-query';
 import CommonInput from '../../components/common/CommonInput';
 import customStyles from '../../styles/customStyles';
 
-import { signIn, signUp } from '../../services/auth';
+import { useTranslation } from 'react-i18next';
+import { getCountry } from 'react-native-localize';
+import Toast from 'react-native-toast-message';
+import Button from '../../components/common/Button';
+import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLanguage';
+import PhoneInput from '../../components/common/PhoneInput';
+import SecureInput from '../../components/common/SecureInput';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import Form from '../../components/Library/Form';
-import useForm from '../../hooks/useForm';
-import Button from '../../components/common/Button';
-import SecureInput from '../../components/common/SecureInput';
-import PhoneInput from '../../components/common/PhoneInput';
 import { AuthContext } from '../../context/AuthContext';
-import { useTranslation } from 'react-i18next';
-import { BackHeaderTitleLanguage } from '../../components/common/HeaderTitleLanguage';
-import { languageList } from '../../helpers/languageList';
-import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
-import { queryClient } from '../../utils/queryClient';
-import Toast from 'react-native-toast-message';
 import { countryList } from '../../helpers/countryList';
-import { getCountry } from 'react-native-localize';
+import { languageList } from '../../helpers/languageList';
+import useForm from '../../hooks/useForm';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import { signIn, signUp } from '../../services/auth';
+import { queryClient } from '../../utils/queryClient';
 
 interface Props {
   navigation: NavigationProp<any, any>;

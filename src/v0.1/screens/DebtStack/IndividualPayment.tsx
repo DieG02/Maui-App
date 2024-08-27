@@ -4,7 +4,7 @@ import 'moment-timezone';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-toast-message';
 import Button from '../../components/common/Button';
 import CommonInput from '../../components/common/CommonInput';
 import DatePicker from '../../components/common/DatePicker';
@@ -55,9 +55,11 @@ const IndividualPayment = ({ navigation, route }: Props) => {
   const { newPaymentsOptions } = usePayment();
 
   const showToast = () => {
-    Toast.show(t('debt_stack.payment_done'), {
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.BOTTOM,
+    Toast.show({
+      type: 'success',
+      text2: t('debt_stack.payment_done'),
+      position: 'bottom',
+      visibilityTime: 1000,
     });
   };
 

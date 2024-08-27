@@ -279,6 +279,7 @@ export type ILink = {
 
 export enum ILinkType {
   PLAYSTORE = 'PLAYSTORE',
+  APPSTORE = 'APPSTORE',
   WHATSAPP = 'WHATSAPP',
   WEB = 'WEB',
 }
