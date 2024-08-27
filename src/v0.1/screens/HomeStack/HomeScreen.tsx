@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={balance!} multiple={financialAccounts.length > 2} navigation={navigation} />
+        <GeneralBalance data={balance!} multiple={financialAccounts.length > 1} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />

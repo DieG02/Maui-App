@@ -27,7 +27,7 @@ const AccountCard = ({ account, left, right }: Props) => {
     <TouchableOpacity onPress={handleOnPress} style={styles({ left, right }).wrapper} activeOpacity={0.5}>
       <View style={styles({}).container}>
         <CountryFlag
-          isoCode={isoCode}
+          isoCode={isoCode!}
           size={40}
           style={{
             marginVertical: 5,
