@@ -1,27 +1,27 @@
-import React, { useMemo, useState } from 'react';
-import { View, StatusBar } from 'react-native';
-import customStyles from '../../styles/customStyles';
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import CommonInput from '../../components/common/CommonInput';
-import Spacer from '../../components/common/Spacer';
-import Button from '../../components/common/Button';
-import PhoneInput from '../../components/common/PhoneInput';
-import useForm from '../../hooks/useForm';
-import { getCountry } from 'react-native-localize';
-import { useTranslation } from 'react-i18next';
-import CountrySelect from '../../components/common/Modals/CountrySelect';
-import useGetCountries from '../../services/Countries/useGetCountries';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
-import { ICountry, ICountryCode } from '../../types/types';
-import useSignupGoogle from '../../services/Auth/useSignUpGoogle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { queryClient } from '../../utils/queryClient';
-import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { StatusBar, View } from 'react-native';
+import { getCountry } from 'react-native-localize';
+import Button from '../../components/common/Button';
+import CommonInput from '../../components/common/CommonInput';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import CountrySelect from '../../components/common/Modals/CountrySelect';
 import OverlayLoading from '../../components/common/OverlayLoading';
+import PhoneInput from '../../components/common/PhoneInput';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import useForm from '../../hooks/useForm';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import useLoginGoogle from '../../services/Auth/useLoginGoogle';
+import useSignupGoogle from '../../services/Auth/useSignUpGoogle';
+import useGetCountries from '../../services/Countries/useGetCountries';
+import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
+import customStyles from '../../styles/customStyles';
+import { ICountry, ICountryCode } from '../../types/types';
+import { queryClient } from '../../utils/queryClient';
 
 const { white, mainColor, background2 } = customStyles;
 const statusBarStyle = 'dark-content';
@@ -73,7 +73,7 @@ const RegisterScreen = ({ route, navigation }: Props) => {
 
   const selectCountryList = useMemo(() => {
     return countries?.filter(item => item.isoCode === selectedCountry)[0];
-  }, [selectedCountry]);
+  }, [selectedCountry, countries]);
 
   const { mutateAsync: googleLogin } = useLoginGoogle({
     onSuccess: async data => {

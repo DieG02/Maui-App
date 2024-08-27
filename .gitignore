@@ -17,12 +17,15 @@ build/
 .gradle
 local.properties
 
-/ios/Pods/
+**/Pods/
 
 **.UserInterfaceState.xcuserstate
 # Thumbnails
 ._*
 **.xcuserstate
+*.xcuserstate
+xcuserdata
+**/.xcode.env.local
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
@@ -68,10 +71,26 @@ Temporary Items
 node_modules
 ios/Maui.xcworkspace/xcuserdata/billybautista.xcuserdatad/UserInterfaceState.xcuserstate
 
-.yarn*
 yarn.lock
 android/app/my-upload-key.keystore
 android/gradle.properties
 android/sentry.properties
 
 ios/sentry.properties
+**/.xcode.env.local
+.cxx/
+*.keystore
+!debug.keystore
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
+ 
+# testing
+/coverage
+ 
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/version

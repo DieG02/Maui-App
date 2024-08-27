@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';

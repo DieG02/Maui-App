@@ -1,32 +1,32 @@
-import { useState, useEffect, useMemo } from 'react';
-import { View, Dimensions } from 'react-native';
-import InputForm from '../../components/common/InputForm';
 import { NavigationProp } from '@react-navigation/native';
-import CommonInput from '../../components/common/CommonInput';
 import 'moment-timezone';
-import Spacer from '../../components/common/Spacer';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions, View } from 'react-native';
 import Button from '../../components/common/Button';
-import customStyles from '../../styles/customStyles';
+import CommonInput from '../../components/common/CommonInput';
+import DatePicker from '../../components/common/DatePicker';
+import InputForm from '../../components/common/InputForm';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
+import OptionWithIcon from '../../components/common/OptionWithIcon';
+import Spacer from '../../components/common/Spacer';
+import Form from '../../components/Library/Form';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import { dictionary } from '../../helpers/dictionary';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
-import LoadingComponent from '../../components/Library/LoadingComponent';
-import Form from '../../components/Library/Form';
-import { showToast } from '../../utils/toast';
-import OptionWithIcon from '../../components/common/OptionWithIcon';
-import { queryClient } from '../../utils/queryClient';
-import { useTranslation } from 'react-i18next';
-import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
-import { dictionary } from '../../helpers/dictionary';
-import { getCategoryId } from '../../utils/getCategoryId';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
-import DatePicker from '../../components/common/DatePicker';
+import customStyles from '../../styles/customStyles';
+import { getCategoryId } from '../../utils/getCategoryId';
+import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { queryClient } from '../../utils/queryClient';
+import { showToast } from '../../utils/toast';
 // import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -78,7 +78,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
         providerName: params?.contact.name,
       }));
     }
-  }, [params?.contact]);
+  }, [params?.contact, setValues]);
 
   const payload = {
     status: values.isPaid ? TransactionStatus.APPROVED : TransactionStatus.DEBT,

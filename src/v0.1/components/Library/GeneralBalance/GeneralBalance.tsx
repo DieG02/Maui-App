@@ -1,18 +1,17 @@
+import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import useToggle from '../../../hooks/useToggle';
-import customStyles from '../../../styles/customStyles';
-import HiderComponent from '../../common/HiderComponent';
-import styles from './style';
 import { useTranslation } from 'react-i18next';
+import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
+import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
-import IconContainer from '../../common/Icon';
+import useToggle from '../../../hooks/useToggle';
+import customStyles from '../../../styles/customStyles';
 import { parserToCurrency } from '../../../utils/adapter';
-import { NavigationProp } from '@react-navigation/native';
-import { IBalance } from '../../../types/types';
+import HiderComponent from '../../common/HiderComponent';
+import IconContainer from '../../common/Icon';
+import styles from './style';
 
 const { textBlack } = customStyles;
 
@@ -36,23 +35,32 @@ const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, n
             flexDirection: 'row',
             alignItems: 'center',
             marginLeft: 20,
+            justifyContent: 'space-between',
           }}
         >
-          <CountryFlag
-            isoCode={financialAccount.currency.isoCode}
-            size={25}
+          <View
             style={{
-              width: 25,
-              height: 25,
-              borderRadius: 30,
-              marginRight: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
             }}
-          />
-          <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccount.currency.code}</Text>
+          >
+            <CountryFlag
+              isoCode={financialAccount.currency.isoCode}
+              size={25}
+              style={{
+                width: 25,
+                height: 25,
+                borderRadius: 30,
+                marginRight: 10,
+              }}
+            />
+            <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccount.currency.code}</Text>
+          </View>
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('MonthlySummaries')}
+          onPress={() => navigation.navigate('NewFinancialAccount')}
+          // onPress={() => navigation.navigate('MonthlySummaries')}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -97,7 +105,7 @@ const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, n
       </View>
       {!multiple && (
         <TouchableOpacity style={styles.button} activeOpacity={0.5}>
-          <Feather name='plus' size={25} color={textBlack} style={{ marginRight: 5 }} />
+          <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5 }} />
           <View>
             <Text style={styles.buttonLabel}>{'Add balance'}</Text>
           </View>

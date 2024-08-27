@@ -1,29 +1,30 @@
-import { Image, Text, ToastAndroid, View } from 'react-native';
-import React from 'react';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
-import RowTransaction from '../../components/common/RowTransaction';
-import Button from '../../components/common/Button';
-import ScrollContainer from '../../components/containers/ScrollContainer';
-import { queryClient } from '../../utils/queryClient';
-import { parseDDMMYY } from '../../utils/helper';
-import ContactCard from '../../components/common/ContactCard';
-import { alertDelete } from '../../utils/alerts';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { Image, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import Button from '../../components/common/Button';
+import ContactCard from '../../components/common/ContactCard';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import RowTransaction from '../../components/common/RowTransaction';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import ScrollContainer from '../../components/containers/ScrollContainer';
+import LoadingComponent from '../../components/Library/LoadingComponent';
 import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
-import LoadingComponent from '../../components/Library/LoadingComponent';
-import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
-import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
-import { parserToCurrency } from '../../utils/adapter';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
+import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
+import customStyles from '../../styles/customStyles';
+import { parserToCurrency } from '../../utils/adapter';
+import { alertDelete } from '../../utils/alerts';
+import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
+import { parseDDMMYY } from '../../utils/helper';
+import { queryClient } from '../../utils/queryClient';
 
 // TODO: Refactor this component
 interface Props {
@@ -45,7 +46,12 @@ const TransactionDetail = ({ route, navigation }: Props) => {
   const isExpense = transaction?.type === 'DEBIT';
 
   const showToast = () => {
-    ToastAndroid.show(t('balance_stack.transaction_detail.toast_transaction_delete'), ToastAndroid.SHORT);
+    Toast.show({
+      type: 'success',
+      text2: t('balance_stack.transaction_detail.toast_transaction_delete'),
+      position: 'bottom',
+      visibilityTime: 1000,
+    });
   };
 
   const { mutateAsync: deleteTransaction, isLoading } = useDeleteTransaction(params?.transactionId, {

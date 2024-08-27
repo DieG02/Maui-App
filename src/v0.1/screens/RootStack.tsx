@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import useVerifyToken from '../services/Account/useVerifyToken';
 import HomeTabs from '../navigation/HomeTabs';
+import NewFinancialAccount from './HomeStack/NewFinancialAccount';
 
 // MORE STACK
 import UserDataScreen from './MoreStack/UserData';
@@ -121,6 +122,7 @@ export default function RootStack() {
       ) : (
         <Stack.Group>
           <Stack.Screen name='HomeTabs' component={HomeTabs} />
+          <Stack.Screen name='NewFinancialAccount' component={NewFinancialAccount} />
           <Stack.Screen name='MonthlySummaries' component={MonthlySummariesScreen} />
           <Stack.Screen name='NewIncome' component={NewIncome} />
           <Stack.Screen name='EditIncome' component={EditIncome} />

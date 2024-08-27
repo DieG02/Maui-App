@@ -1,27 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Text, Share, Linking, TouchableOpacity, ToastAndroid, Platform } from 'react-native';
-import Clipboard from '@react-native-community/clipboard';
-import Spacer from '../../components/common/Spacer';
-import OptionCard from '../../components/common/OptionCard';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import { NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthContext } from '../../context/AuthContext';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import ProfileBadge from '../../components/Library/ProfileBadge';
-import customStyles from '../../styles/customStyles';
-import useGetAccount from '../../services/Account/useGetAccount';
-import { queryClient } from '../../utils/queryClient';
-import { useTranslation } from 'react-i18next';
-import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { NavigationProp } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Linking, Platform, ScrollView, Share, Text, TouchableOpacity, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { version as AppVersion } from '../../../../package.json';
-import { IAccount, ILink, ILinkType } from '../../types/types';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import OptionCard from '../../components/common/OptionCard';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import ProfileBadge from '../../components/Library/ProfileBadge';
+import { AuthContext } from '../../context/AuthContext';
+import useGetAccount from '../../services/Account/useGetAccount';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import useGetLinks from '../../services/Links/useGetLinks';
+import customStyles from '../../styles/customStyles';
+import { IAccount, ILink, ILinkType } from '../../types/types';
+import { Clipboard } from '../../utils/ClipBoard';
+import { queryClient } from '../../utils/queryClient';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -41,6 +42,8 @@ const More = ({ navigation }: Props) => {
 
   const whatsAppLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.WHATSAPP)?.url as string;
 
+  const appStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.APPSTORE)?.url as string;
+
   const { setIsLoggedIn } = useContext(AuthContext);
   const { data, refetch } = useGetAccount();
   const [email, setEmail] = useState('');
@@ -54,7 +57,12 @@ const More = ({ navigation }: Props) => {
 
   const handleClipboard = () => {
     Clipboard.setString(email);
-    ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
+    Toast.show({
+      type: 'success',
+      text2: t('Texto copiado al portapapeles'),
+      position: 'top',
+      visibilityTime: 1000,
+    });
   };
 
   useEffect(() => {
@@ -64,7 +72,7 @@ const More = ({ navigation }: Props) => {
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, refetch]);
 
   const handleLogout = async () => {
     setIsLoggedIn(false);
@@ -75,10 +83,13 @@ const More = ({ navigation }: Props) => {
     queryClient.clear();
   };
   const shareLink = async () => {
+    const store = Platform.OS === 'ios' ? appStoreLink : playStoreLink;
+    const isAndroid = Platform.OS === 'android' ? appStoreLink : '';
+
     const options = {
       title: t('more_screen.title_share'),
-      message: `${t('more_screen.message_share')}\n\n${playStoreLink}`,
-      url: playStoreLink,
+      message: `${t('more_screen.message_share')}\n\n${isAndroid}`,
+      url: store,
     };
 
     try {
@@ -105,55 +116,56 @@ const More = ({ navigation }: Props) => {
           backgroundColor: babyBlue,
         }}
       />
-      <ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
-        <View
+
+      <View
+        style={{
+          backgroundColor: babyBlue,
+          alignItems: 'center',
+        }}
+      >
+        <ProfileBadge user={data as IAccount} size='large' />
+        <Text
           style={{
-            backgroundColor: babyBlue,
-            alignItems: 'center',
+            fontSize: 25,
+            color: textBlack,
+            fontFamily: 'Gilroy-Medium',
+            marginTop: 10,
           }}
         >
-          <ProfileBadge user={data as IAccount} size='large' />
-          <Text
-            style={{
-              fontSize: 25,
-              color: textBlack,
-              fontFamily: 'Gilroy-Medium',
-              marginTop: 10,
-            }}
-          >
-            {data?.name}
-          </Text>
-          <TouchableOpacity
-            onPress={handleClipboard}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 5,
-            }}
-          >
-            <Text
-              style={{
-                color: textBlack,
-                fontFamily: 'Gilroy-Regular',
-                fontSize: 18,
-              }}
-            >
-              {email}
-            </Text>
-            <Feather name='clipboard' color={textBlack} size={16} style={{ paddingLeft: 5 }} />
-          </TouchableOpacity>
+          {data?.name}
+        </Text>
+        <TouchableOpacity
+          onPress={handleClipboard}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 5,
+          }}
+        >
           <Text
             style={{
               color: textBlack,
               fontFamily: 'Gilroy-Regular',
-              marginTop: 5,
               fontSize: 18,
             }}
           >
-            {data?.country}
+            {email}
           </Text>
-          <Spacer height={20} />
-        </View>
+          <Feather name='clipboard' color={textBlack} size={16} style={{ paddingLeft: 5 }} />
+        </TouchableOpacity>
+        <Text
+          style={{
+            color: textBlack,
+            fontFamily: 'Gilroy-Regular',
+            marginTop: 5,
+            fontSize: 18,
+          }}
+        >
+          {data?.country}
+        </Text>
+        <Spacer height={20} />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
         <View style={{ marginHorizontal: marginHorizontal }}>
           <Spacer height={20} />
           <OptionCard
@@ -167,7 +179,7 @@ const More = ({ navigation }: Props) => {
             title={t('more_screen.clients')}
             onPress={() => navigation.navigate('Clients')}
             arrow={<Entypo name='chevron-small-right' color={textBlack} size={30} />}
-            icon={<AntDesign name='contacts' color={textBlack} size={24} />}
+            icon={<MaterialIcons name='perm-contact-cal' color={textBlack} size={24} />}
           />
           <Spacer height={10} />
           <OptionCard
@@ -202,7 +214,7 @@ const More = ({ navigation }: Props) => {
             style={{ color: expense }}
             title={t('more_screen.log_out')}
             onPress={() => handleLogout()}
-            icon={<AntDesign name='logout' color={expense} size={20} />}
+            icon={<MaterialIcons name='logout' color={expense} size={20} />}
           />
           <Spacer height={10} />
           <View>

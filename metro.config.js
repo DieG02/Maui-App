@@ -1,16 +1,14 @@
-/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
-const {
-  createSentryMetroSerializer
-} = require("@sentry/react-native/dist/js/tools/sentryMetroSerializer");
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const { createSentryMetroSerializer } = require('@sentry/react-native/dist/js/tools/sentryMetroSerializer');
 
-module.exports = {
+/**
+ * Metro configuration
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -20,7 +18,8 @@ module.exports = {
     }),
   },
   serializer: {
-    customSerializer: createSentryMetroSerializer()
-  }
+    customSerializer: createSentryMetroSerializer(),
+  },
 };
 
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

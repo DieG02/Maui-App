@@ -1,38 +1,38 @@
-import React, { useEffect, useMemo } from 'react';
-import { View, ToastAndroid } from 'react-native';
-import InputForm from '../../components/common/InputForm';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import CommonInput from '../../components/common/CommonInput';
 import moment from 'moment';
 import 'moment-timezone';
+import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import Button from '../../components/common/Button';
-import ScreenContainer from '../../components/containers/ScreenContainer';
+import CommonInput from '../../components/common/CommonInput';
+import DatePicker from '../../components/common/DatePicker';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
+import InputForm from '../../components/common/InputForm';
 import SelectionModal from '../../components/common/Modals/SelectionModal';
+import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import Form from '../../components/Library/Form';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import { paymentMethods, STATE } from '../../utils/payment';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
-import Form from '../../components/Library/Form';
-import { queryClient } from '../../utils/queryClient';
-import Spacer from '../../components/common/Spacer';
-import { useTranslation } from 'react-i18next';
-import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
-import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
-import { getCategoryId } from '../../utils/getCategoryId';
-import DatePicker from '../../components/common/DatePicker';
-import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
-// import StateSwitch from '../../components/common/StateSwitch';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
+import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import customStyles from '../../styles/customStyles';
+import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { getCategoryId } from '../../utils/getCategoryId';
+import { paymentMethods, STATE } from '../../utils/payment';
+import { queryClient } from '../../utils/queryClient';
 
 // TODO:Refactor this component
 
-const { marginHorizontal, mainColor, width, background2, textBlack, white } = customStyles;
+const { marginHorizontal, mainColor, background2, textBlack, white } = customStyles;
 
 interface Props {
   navigation: NavigationProp<any, any>;
@@ -83,10 +83,15 @@ const NewIncome = ({ navigation, route }: Props) => {
         clientId: route.params?.contact.id,
       }));
     }
-  }, [route.params?.contact]);
+  }, [route.params?.contact, setValues]);
 
   const showToast = () => {
-    ToastAndroid.showWithGravity(t('balance_stack.new_income.toast_new_expense'), ToastAndroid.LONG, ToastAndroid.TOP);
+    Toast.show({
+      type: 'success',
+      text2: t('balance_stack.new_income.toast_new_expense'),
+      position: 'top',
+      visibilityTime: 1000,
+    });
   };
 
   const InvalidateQuery = values.isPaid ? GET_TRANSACTIONS_KEY : GET_DEBTS_KEY;
@@ -132,39 +137,11 @@ const NewIncome = ({ navigation, route }: Props) => {
       />
       <Spacer height={10} />
       <Form>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-          }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <DatePicker
-              name={t('balance_stack.new_income.date')}
-              value={values.date}
-              setValue={date => setValues(prev => ({ ...prev, date: date }))}
-            />
-          </View>
-          {/* <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <StateSwitch
-              title={t('balance_stack.new_income.state')}
-              isPressed={values.isPaid}
-              handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
-            />
-          </View> */}
-        </View>
+        <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        />
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'

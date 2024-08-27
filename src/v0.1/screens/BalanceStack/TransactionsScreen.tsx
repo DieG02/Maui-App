@@ -1,16 +1,17 @@
-import { View, FlatList } from 'react-native';
-import React, { useCallback, useMemo, useState } from 'react';
+/* eslint-disable react/no-unstable-nested-components */
 import { NavigationProp, useFocusEffect } from '@react-navigation/native';
-import EmptyState from '../../components/common/EmptyState';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FlatList, View } from 'react-native';
 import Button from '../../components/common/Button';
+import EmptyState from '../../components/common/EmptyState';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import customStyles from '../../styles/customStyles';
 
+import { useTranslation } from 'react-i18next';
 import { Header } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import TransactionCard from '../../components/Library/TransactionCard';
 import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
-import { useTranslation } from 'react-i18next';
 import { ITransactionDetail } from '../../types/types';
 
 // TODO: Refactor this component
@@ -34,7 +35,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   useFocusEffect(
     useCallback(() => {
       getAllTransactions();
-    }, [])
+    }, [getAllTransactions])
   );
 
   return (

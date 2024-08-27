@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
 interface IAuthContext {
   isLoggedIn: boolean;
@@ -17,13 +17,7 @@ interface Props {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    defaultValue.isLoggedIn
-  );
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(defaultValue.isLoggedIn);
+  return <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>{children}</AuthContext.Provider>;
 };
 export default AuthProvider;

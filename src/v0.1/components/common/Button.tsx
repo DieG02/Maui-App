@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import customStyles from '../../styles/customStyles';
 
 type props = React.FC<Props & React.ComponentProps<typeof TouchableOpacity>>;
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const Button: props = ({ color, style, text, disabled, icon, ...otherProps }) => {
+  const { white, width } = customStyles;
+
   const styles = StyleSheet.create({
     root: {
       borderRadius: 30,
@@ -19,8 +22,8 @@ const Button: props = ({ color, style, text, disabled, icon, ...otherProps }) =>
       opacity: disabled ? 0.7 : 1,
     },
     text: {
-      color: color ? color : 'white',
-      fontSize: 18,
+      color: color ? color : white,
+      fontSize: width / 24,
       textAlign: 'center',
       fontFamily: 'Gilroy-SemiBold',
     },

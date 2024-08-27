@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import customStyles from '../../../styles/customStyles';
-import styles from './style';
 import { IFinancialAccount } from '../../../types/types';
 import AccountCard from '../AccountCard';
 import NewAccountCard from '../NewAccountCard';
+import styles from './style';
 
 const { width, marginHorizontal } = customStyles;
 

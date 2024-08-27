@@ -1,23 +1,23 @@
-import { View, Image, StatusBar, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { NavigationProp, StackActions } from '@react-navigation/native';
 import React from 'react';
-import customStyles from '../../styles/customStyles';
-import logoBlue from '../../assets/logo-blue.png';
+import { useTranslation } from 'react-i18next';
+import { Image, Platform, StatusBar, Text, View } from 'react-native';
 import background from '../../assets/background-image.png';
 import googleLogo from '../../assets/google.png';
-import ScreenContainer from '../../components/containers/ScreenContainer';
+import logoBlue from '../../assets/logo-blue.png';
 import Button from '../../components/common/Button';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { useTranslation } from 'react-i18next';
 import LanguageButton from '../../components/common/LanguageButton';
-import { NavigationProp, StackActions } from '@react-navigation/native';
-import useLoginGoogle from '../../services/Auth/useLoginGoogle';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
-import { queryClient } from '../../utils/queryClient';
 import OverlayLoading from '../../components/common/OverlayLoading';
 import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
+import useLoginGoogle from '../../services/Auth/useLoginGoogle';
+import customStyles from '../../styles/customStyles';
+import { queryClient } from '../../utils/queryClient';
 
-const { textBlack, white, background2, mainColor } = customStyles;
+const { textBlack, white, background2, mainColor, height, width } = customStyles;
 const statusBarStyle = 'light-content';
 
 interface Props {
@@ -27,13 +27,14 @@ interface Props {
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useTranslation();
 
+  const iOS = Platform.OS === 'ios';
+
   const { mutate, isLoading } = useLoginGoogle({
     onSuccess: async data => {
       try {
         if (data.screenRedirect === 'Register') {
           navigation.dispatch(StackActions.push(data.screenRedirect, { user: data }));
         } else {
-          await GoogleSignin.signIn();
           await AsyncStorage.setItem('userInfo', JSON.stringify(data));
           queryClient.invalidateQueries(VERIFY_TOKEN);
         }
@@ -77,12 +78,11 @@ export default function LoginScreen({ navigation }: Props) {
       <Image
         source={logoBlue}
         style={{
-          width: 240,
+          width: width * 0.5,
           height: 60,
           position: 'absolute',
-          top: 35,
-          left: '50%',
-          marginLeft: -120,
+          top: iOS ? 80 : 35,
+          left: width / 4,
         }}
       />
       <View
@@ -96,12 +96,11 @@ export default function LoginScreen({ navigation }: Props) {
           <Image
             source={background}
             style={{
-              width: 400,
-              height: 400,
+              width: width * 0.95,
+              height: height * 0.45,
             }}
           />
         </View>
-
         <Text
           style={{
             color: white,
@@ -128,16 +127,6 @@ export default function LoginScreen({ navigation }: Props) {
             marginBottom: 20,
           }}
         />
-        {/* <Button
-          disabled
-          text={t('auth_stack.login_email')}
-          icon={<Email name='email' size={24} color={textBlack} />}
-          color={textBlack}
-          style={{
-            backgroundColor: background2,
-            width: '100%',
-          }}
-        /> */}
       </View>
     </ScreenContainer>
   );
