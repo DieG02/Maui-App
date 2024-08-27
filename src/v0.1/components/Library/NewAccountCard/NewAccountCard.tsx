@@ -4,6 +4,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { useTranslation } from 'react-i18next';
 import customStyles from '../../../styles/customStyles';
 import styles from './style';
+import { useNavigation } from '@react-navigation/native';
 
 const { textLight } = customStyles;
 
@@ -15,8 +16,12 @@ interface Props {
 
 const NewAccountCard = ({ left, right }: Props) => {
   const { t } = useTranslation();
+  const navigation = useNavigation<any>();
+  const handleRedirect = () => {
+    navigation.navigate('NewFinancialAccount');
+  };
   return (
-    <TouchableOpacity style={styles({ left, right }).wrapper} activeOpacity={0.5}>
+    <TouchableOpacity style={styles({ left, right }).wrapper} activeOpacity={0.5} onPress={handleRedirect}>
       <View style={styles({}).container}>
         <View style={styles({}).icon}>
           <Feather name='plus' size={35} color={textLight} />
