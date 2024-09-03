@@ -91,11 +91,6 @@ export type IFinancialAccount = {
   businessId: string;
   accountName: string;
   mainAccount: boolean;
-  // currency: {
-  //   code: string;
-  //   locale: string;
-  //   isoCode: string;
-  // };
   currency: ICurrency;
   total_balance: number;
 };
@@ -145,7 +140,7 @@ export type ICurrency = {
   locale: string;
   country: string;
   image: string | null;
-  isoCode: string | null;
+  isoCode: string;
 };
 
 // Debt
