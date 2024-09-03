@@ -13,7 +13,7 @@ export const getTransactions = async (queryParams?: IQueryTransaction) => {
   return response.data;
 };
 
-const useGetTransactions = (queryParams?: IQueryTransaction, options?: UseQueryOptions<ITransactionDetail[]>) =>
+const useGetAllTransactions = (queryParams?: IQueryTransaction, options?: UseQueryOptions<ITransactionDetail[]>) =>
   useQuery([GET_TRANSACTIONS_KEY, queryParams] as QueryKey, () => getTransactions(queryParams), options);
 
-export default useGetTransactions;
+export default useGetAllTransactions;

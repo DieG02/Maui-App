@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Header } from '../../components/common/HeaderTitle';
 import SearchBar from '../../components/common/SearchBar';
 import TransactionCard from '../../components/Library/TransactionCard';
-import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
+import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
 import { ITransactionDetail } from '../../types/types';
 
 // TODO: Refactor this component
@@ -26,7 +26,7 @@ const TransactionsScreen = ({ navigation }: Props) => {
   const [text, onChangeText] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
-  const { data, refetch: getAllTransactions } = useGetTransactions();
+  const { data, refetch: getAllTransactions } = useGetAllTransactions();
 
   const filterData = useMemo(() => {
     return data?.filter((item: ITransactionDetail) => item.description?.toLowerCase().startsWith(text.toLowerCase()));

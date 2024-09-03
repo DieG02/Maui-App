@@ -1,15 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Down from 'react-native-vector-icons/Ionicons';
-import Top from 'react-native-vector-icons/Ionicons';
-import customStyles from '../../../styles/customStyles';
 import styles from './style';
 import CountryFlag from 'react-native-country-flag';
 import { IFinancialAccount } from '../../../types/types';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-const { item, itemLight, income, incomeLight, expense, expenseLight, orange, orangeLight } = customStyles;
-
-// TODO: Refactor this interface to use the correct types
 interface Props {
   account: IFinancialAccount;
   left?: number;
@@ -17,16 +12,22 @@ interface Props {
 }
 
 const AccountCard = ({ account, left, right }: Props) => {
+  const navigation = useNavigation<NavigationProp<any, any>>();
   const {
     accountName,
     currency: { code, isoCode },
     total_balance,
   } = account;
+
+  const handleOnPress = () => {
+    navigation.navigate('AccountDetail', { account });
+  };
+
   return (
-    <TouchableOpacity style={styles({ left, right }).wrapper} activeOpacity={0.5}>
+    <TouchableOpacity onPress={handleOnPress} style={styles({ left, right }).wrapper} activeOpacity={0.5}>
       <View style={styles({}).container}>
         <CountryFlag
-          isoCode={isoCode}
+          isoCode={isoCode!}
           size={40}
           style={{
             marginVertical: 5,

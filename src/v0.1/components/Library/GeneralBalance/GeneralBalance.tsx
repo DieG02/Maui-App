@@ -1,8 +1,8 @@
-import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
+import { NavigationProp } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -22,10 +22,13 @@ interface Props {
   data: any;
 }
 
-const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, navigation }: Props) => {
+const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
   const hideNumber = Array.from({ length: 4 }, (_, i) => i);
+  const handleRedirect = () => {
+    navigation.navigate('NewFinancialAccount');
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -59,8 +62,7 @@ const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, n
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('NewFinancialAccount')}
-          // onPress={() => navigation.navigate('MonthlySummaries')}
+          onPress={() => navigation.navigate('MonthlySummaries')}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -104,8 +106,8 @@ const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, n
         </TouchableOpacity>
       </View>
       {!multiple && (
-        <TouchableOpacity style={styles.button} activeOpacity={0.5}>
-          <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5 }} />
+        <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleRedirect}>
+          <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5, marginVertical: 5 }} />
           <View>
             <Text style={styles.buttonLabel}>{'Add balance'}</Text>
           </View>

@@ -18,6 +18,7 @@ import NewIncome from './BalanceStack/NewIncome';
 import EditIncome from './BalanceStack/EditIncome';
 import NewExpense from './BalanceStack/NewExpense';
 import EditExpense from './BalanceStack/EditExpense';
+import AccountDetail from './BalanceStack/AccountDetail';
 import TransactionDetail from './BalanceStack/TransactionDetail';
 
 // CONTACT STACK
@@ -43,7 +44,7 @@ import { useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useTranslation } from 'react-i18next';
 import useGetAccount from '../services/Account/useGetAccount';
-import useGetTransactions from '../services/Transactions/useGetAllTransactions';
+import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
 import useGetMonthlyStats from '../services/Balance/useGetStats';
 import useGetBalance from '../services/Balance/useGetBalance';
 import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
@@ -64,7 +65,7 @@ export default function RootStack() {
   const { modifyData } = useLocalStorage();
 
   const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
-  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingTransactions = useGetAllTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats({ enabled: !!token }).isLoading;
   const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
   const isFetchingFinancialAccounts = useGetFinancialAccount({ enabled: !!token }).isLoading;
@@ -127,6 +128,7 @@ export default function RootStack() {
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />
           <Stack.Screen name='EditExpense' component={EditExpense} />
+          <Stack.Screen name='AccountDetail' component={AccountDetail} />
           <Stack.Screen name='TransactionDetail' component={TransactionDetail} />
           <Stack.Screen name='More' component={MoreScreen} />
           <Stack.Screen name='UserData' component={UserDataScreen} />

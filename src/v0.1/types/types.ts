@@ -242,6 +242,7 @@ export interface ITransactionDetail extends ITransaction {
 export type IQueryTransaction = {
   take?: number;
   type?: TransactionType;
+  accountId?: string;
   status?: TransactionStatus;
 };
 

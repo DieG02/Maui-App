@@ -12,6 +12,7 @@ type RootStackParamList = {
   EditExpense: undefined;
   DebtsModal: undefined;
   TransactionDetail: undefined;
+  AccountDetail: undefined;
   More: undefined;
   UserData: undefined;
   Clients: undefined;

@@ -46,7 +46,7 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
       <View style={{ marginBottom: 20, marginHorizontal: 30 }}>
         <TouchableOpacity
           onPress={() => handlePress(id)}
-          style={{ backgroundColor: background2, paddingHorizontal: 20, paddingVertical: 16 }}
+          style={{ backgroundColor: 'background2', paddingHorizontal: 20, paddingVertical: 16 }}
         >
           <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 18 }}>
             {date[0].toUpperCase() + date.slice(1)} {balance.year}

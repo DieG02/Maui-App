@@ -11,12 +11,13 @@ import Title from '../../components/Library/Title';
 import GeneralBalance from '../../components/Library/GeneralBalance';
 import StateBalance from '../../components/Library/StateBalance';
 import TransactionsContainer from '../../components/Library/TransactionsContainer';
-import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
+import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
 import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
 import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
+import useGetTotalBalance from '../../services/Balance/useGetTotalBalance';
 
 const { mainColor } = customStyles;
 
@@ -27,22 +28,19 @@ interface Props {
 const HomeScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const { data: user } = useGetAccount();
-  const { data: transactions, refetch: getTransactionsFromHome } = useGetTransactions({ take: 6 });
+  const { data: transactions, refetch: getTransactionsFromHome } = useGetAllTransactions({ take: 6 });
 
-  const { data: balance, refetch: getBalance } = useGetBalance();
+  const { data: total_balance, refetch: getTotalBalance } = useGetTotalBalance();
   const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } =
     useGetFinancialAccount();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
-  const { refetch: getAlltransactions } = useGetTransactions();
-
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = () => {
     setRefreshing(true);
     getTransactionsFromHome();
-    getBalance();
+    getTotalBalance();
     getFinancialAccounts();
     getMonthlyStats();
-    getAlltransactions();
     setRefreshing(false);
   };
 
@@ -55,7 +53,7 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={balance!} multiple={financialAccounts.length > 2} navigation={navigation} />
+        <GeneralBalance data={total_balance} multiple={financialAccounts.length > 1} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
