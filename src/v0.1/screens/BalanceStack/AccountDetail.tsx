@@ -31,7 +31,8 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 
   const { t } = useTranslation();
   const { data, refetch: getAccountTransactions } = useGetAccountTransactions(id);
-  const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
+  // const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
+  const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats(id);
 
   useFocusEffect(
     useCallback(() => {
@@ -39,6 +40,8 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
       getAccountTransactions();
     }, [])
   );
+
+  console.log(JSON.stringify(stateBalance, null, 2));
 
   return (
     <ScreenContainer>

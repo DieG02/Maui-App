@@ -22,7 +22,7 @@ interface Props {
   data: any;
 }
 
-const GeneralBalance = ({ data: { total_balance, financialAccount }, multiple, navigation }: Props) => {
+const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
   const hideNumber = Array.from({ length: 4 }, (_, i) => i);
