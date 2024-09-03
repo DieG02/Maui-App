@@ -8,10 +8,10 @@ import Spacer from '../../components/common/Spacer';
 import customStyles from '../../styles/customStyles';
 import CountryFlag from 'react-native-country-flag';
 import { useTranslation } from 'react-i18next';
-import useGetTransactions from '../../services/Transactions/useGetAllTransactions';
 import TransactionCard from '../../components/Library/TransactionCard';
 import EmptyState from '../../components/common/EmptyState';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
+import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
 
 const { white, textBlack, background2, marginHorizontal } = customStyles;
 
@@ -23,19 +23,20 @@ interface AccountDetailProps {
 const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
   const { params } = route;
   const {
+    id,
     accountName,
     currency: { code, isoCode },
     total_balance,
   } = params!.account;
 
   const { t } = useTranslation();
-  const { data, refetch: getAllTransactions } = useGetTransactions();
+  const { data, refetch: getAccountTransactions } = useGetAccountTransactions(id);
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
 
   useFocusEffect(
     useCallback(() => {
       getMonthlyStats();
-      getAllTransactions();
+      getAccountTransactions();
     }, [])
   );
 
@@ -92,10 +93,10 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
           keyExtractor={item => item.id}
           refreshing={false}
           onRefresh={() => {
-            getAllTransactions();
+            getAccountTransactions();
           }}
           onEndReached={() => {
-            getAllTransactions();
+            getAccountTransactions();
           }}
           style={{ marginTop: marginHorizontal }}
           onEndReachedThreshold={0.5}
@@ -106,7 +107,12 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
               onPress={() => navigation.navigate('TransactionDetail', { transactionId: item.id })}
             />
           )}
-          ListEmptyComponent={<EmptyState title={t('balance_stack.transaction_screen.empty_transactions')} />}
+          ListEmptyComponent={
+            <EmptyState
+              style={{ marginTop: '-20%' }}
+              title={t('balance_stack.transaction_screen.empty_transactions')}
+            />
+          }
         />
       </View>
     </ScreenContainer>

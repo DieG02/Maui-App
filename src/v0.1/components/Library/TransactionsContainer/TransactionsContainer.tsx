@@ -15,6 +15,8 @@ interface Props {
 // TODO: Refactor this component to make it more efficient
 const TransactionsContainer = ({ data, navigation }: Props) => {
   const { t } = useTranslation();
+
+  if (!data?.length) return null;
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>

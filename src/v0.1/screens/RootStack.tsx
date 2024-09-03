@@ -44,7 +44,7 @@ import { useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useTranslation } from 'react-i18next';
 import useGetAccount from '../services/Account/useGetAccount';
-import useGetTransactions from '../services/Transactions/useGetAllTransactions';
+import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
 import useGetMonthlyStats from '../services/Balance/useGetStats';
 import useGetBalance from '../services/Balance/useGetBalance';
 import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
@@ -65,7 +65,7 @@ export default function RootStack() {
   const { modifyData } = useLocalStorage();
 
   const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
-  const isFetchingTransactions = useGetTransactions({ take: 6 }).isLoading;
+  const isFetchingTransactions = useGetAllTransactions({ take: 6 }).isLoading;
   const isFetchingGetMonthlyState = useGetMonthlyStats({ enabled: !!token }).isLoading;
   const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
   const isFetchingFinancialAccounts = useGetFinancialAccount({ enabled: !!token }).isLoading;
