@@ -90,6 +90,7 @@ export type IFinancialAccount = {
   id: string;
   businessId: string;
   accountName: string;
+  mainAccount: boolean;
   currency: ICurrency;
   total_balance: number;
 };
@@ -139,7 +140,7 @@ export type ICurrency = {
   locale: string;
   country: string;
   image: string | null;
-  isoCode: string | null;
+  isoCode: string;
 };
 
 // Debt
@@ -255,6 +256,7 @@ export type ITransactionInput = {
   payment_method: IPaymentMethod;
   categoryId?: string;
   contactId: string;
+  financialAccountId: string;
 };
 
 export enum TransactionGroup {

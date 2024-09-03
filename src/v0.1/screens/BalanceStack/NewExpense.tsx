@@ -3,8 +3,11 @@ import moment from 'moment';
 import 'moment-timezone';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import CountryFlag from 'react-native-country-flag';
 import Toast from 'react-native-toast-message';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AccountModal from '../../components/Library/AccountModal/AccountModal';
 import Form from '../../components/Library/Form';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import Button from '../../components/common/Button';
@@ -23,17 +26,18 @@ import usePayment from '../../hooks/usePayment';
 import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
+import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import customStyles from '../../styles/customStyles';
-import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { IFinancialAccount, IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import { getCategoryId } from '../../utils/getCategoryId';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { STATE, paymentMethods } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
 
-const { mainColor, marginHorizontal, background2, white } = customStyles;
+const { mainColor, marginHorizontal, background2, white, textBlack } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any>;
@@ -66,12 +70,30 @@ const NewExpense = ({ navigation, route }: Props) => {
   const { t } = useTranslation();
 
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<IFinancialAccount>({
+    id: '',
+    businessId: '',
+    accountName: '',
+    currency: {
+      code: '',
+      locale: '',
+      isoCode: '',
+      country: '',
+      symbol: '',
+      image: null,
+      id: '',
+    },
+    mainAccount: false,
+    total_balance: 0,
+  });
 
   const { values, setValues, validateValues } = useForm<InitialExpense>(initialValues);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const { newPaymentsOptions } = usePayment();
 
   const { data: categories } = useGetTransactionCategories('debit', 'transaction');
+  const { data: { financialAccounts } = { financialAccounts: [] } } = useGetFinancialAccount();
 
   const toValidate = useMemo(
     () => (values.isPaid ? validateOptions.isPaid : validateOptions.isPending),
@@ -109,6 +131,7 @@ const NewExpense = ({ navigation, route }: Props) => {
       payment_method: values.isPaid ? (values.paymentMethod as IPaymentMethod) : IPaymentMethod.NONE,
       contactId: route.params?.contact?.id,
       categoryId: getCategoryId(values.categoryId, categories) as string,
+      financialAccountId: selectedAccount.id,
     },
     {
       onSuccess: () => {
@@ -126,6 +149,15 @@ const NewExpense = ({ navigation, route }: Props) => {
       mutateAsync();
     }
   };
+
+  const mainAccountDefault = financialAccounts.find(account => account.mainAccount);
+
+  useEffect(() => {
+    if (mainAccountDefault) {
+      setSelectedAccount(mainAccountDefault);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
     return <LoadingComponent color={mainColor} />;
@@ -153,6 +185,13 @@ const NewExpense = ({ navigation, route }: Props) => {
             setValues(prev => ({ ...prev, categoryId: text }));
           }}
         />
+        <AccountModal
+          data={financialAccounts}
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          selected={selectedAccount}
+          setSelected={setSelectedAccount}
+        />
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'
@@ -164,7 +203,38 @@ const NewExpense = ({ navigation, route }: Props) => {
           }}
           marginBottom={15}
           required
+          hasButton
+          buttonComponent={
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: 40,
+                  marginTop: 4,
+                  columnGap: 3,
+                }}
+              >
+                <CountryFlag
+                  isoCode={selectedAccount.currency.isoCode}
+                  size={40}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    borderRadius: 30,
+                    marginHorizontal: 5,
+                  }}
+                />
+                <Text style={{ color: textBlack, fontSize: 16, fontFamily: 'Gilroy-SemiBold', marginTop: 2 }}>
+                  {selectedAccount.currency.code}
+                </Text>
+                <Entypo name='chevron-down' size={25} color={mainColor} />
+              </View>
+            </TouchableOpacity>
+          }
         />
+
         <CommonInput
           placeholder={t('balance_stack.new_expense.placeholder_description')}
           name={t('balance_stack.new_expense.description')}

@@ -163,6 +163,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
             showNoRightIcon={true}
           />
         )}
+        <RowTransaction label={'Moneda'} value={transaction.financialAccount.currency.code} />
       </ScrollContainer>
       {transaction.category.group !== 'PAYMENT' && (
         <View
