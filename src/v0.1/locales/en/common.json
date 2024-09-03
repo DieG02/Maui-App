@@ -53,7 +53,16 @@
       "empty_balance": "You have no transactions"
     },
     "accounts": {
-      "add_new_account": "Add new account"
+      "add_new_account": "Add new account",
+      "add_new_account_title": "Create account",
+      "currency_label": "Currency",
+      "currency_placeholder": "Select a currency",
+      "ammount_label": "Initial amount",
+      "ammount_placeholder": "Set the initial amount, it can be zero",
+      "name_label": "Name",
+      "name_placeholder": "What do you want to call this account?",
+      "set_default_account": "Set as default account",
+      "add_button": "Create account"
     },
     "last_records": "Last records",
     "see_more": "See More"

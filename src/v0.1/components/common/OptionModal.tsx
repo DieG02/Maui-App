@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Modal from 'react-native-modal';
 import customStyles from '../../styles/customStyles';
 import OptionSelect from './OptionSelect';
@@ -9,12 +9,12 @@ import { useTranslation } from 'react-i18next';
 const { mainColor, white, textBlack, selectedItem } = customStyles;
 
 interface Props {
-  options: Array<string>;
+  options: Array<string | { label: string; value: any }>;
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;
   title: string;
   selectedOption: string;
-  setSelectedOption: (value: string) => void;
+  setSelectedOption: (value: string | { label: string; value: any }) => void;
   required?: boolean;
   placeholder?: string;
 }
@@ -35,7 +35,7 @@ const OptionModal = ({
     setIsModalVisible(!isModalVisible);
   };
 
-  const handleModal = (option: string) => {
+  const handleModal = (option: string | { label: string; value: any }) => {
     setSelectedOption(option);
     toggleModal();
   };
@@ -49,25 +49,36 @@ const OptionModal = ({
         onSwipeComplete={() => setIsModalVisible(false)}
         onBackButtonPress={() => setIsModalVisible(false)}
       >
-        <View
+        <ScrollView
           style={{
             backgroundColor: white,
             marginHorizontal: 10,
             borderRadius: 15,
           }}
+          showsVerticalScrollIndicator={false}
         >
           <View style={{ marginVertical: 10 }}>
-            {options?.map((option, index) => (
-              <OptionSelect
-                key={index}
-                name={t(option)}
-                backgroundColor={selectedOption === option ? selectedItem : white}
-                textColor={selectedOption === option ? mainColor : textBlack}
-                onPress={() => handleModal(option)}
-              />
-            ))}
+            {options?.map((option, index) =>
+              typeof option === 'string' ? (
+                <OptionSelect
+                  key={index}
+                  name={t(option)}
+                  backgroundColor={selectedOption === option ? selectedItem : white}
+                  textColor={selectedOption === option ? mainColor : textBlack}
+                  onPress={() => handleModal(option)}
+                />
+              ) : (
+                <OptionSelect
+                  key={index}
+                  name={t(option.label)}
+                  backgroundColor={selectedOption === option.label ? selectedItem : white}
+                  textColor={selectedOption === option.label ? mainColor : textBlack}
+                  onPress={() => handleModal(option)}
+                />
+              )
+            )}
           </View>
-        </View>
+        </ScrollView>
       </Modal>
       <CommonInput
         placeholder={placeholder}
