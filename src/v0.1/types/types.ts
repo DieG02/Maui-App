@@ -90,6 +90,7 @@ export type IFinancialAccount = {
   id: string;
   businessId: string;
   accountName: string;
+  mainAccount: boolean;
   currency: {
     code: string;
     locale: string;
@@ -261,6 +262,7 @@ export type ITransactionInput = {
   payment_method: IPaymentMethod;
   categoryId?: string;
   contactId: string;
+  financialAccountId: string;
 };
 
 export enum TransactionGroup {

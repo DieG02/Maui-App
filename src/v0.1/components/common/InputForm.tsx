@@ -1,7 +1,7 @@
 import React from 'react';
-import { TextInput, Text, View } from 'react-native';
-import { separator, round } from '../../utils/math';
+import { Text, TextInput, View } from 'react-native';
 import customStyles from '../../styles/customStyles';
+import { round, separator } from '../../utils/math';
 
 interface Props {
   bottom?: number;
@@ -16,6 +16,8 @@ interface Props {
   onSubmit?: () => void;
   required?: boolean;
   onBlur?: () => void;
+  hasButton?: boolean;
+  buttonComponent?: React.ReactNode;
 }
 
 const { textBlack, expense, secondaryColorBorder, textLight } = customStyles;
@@ -31,6 +33,8 @@ const InputForm = ({
   autoFocus,
   onSubmit,
   required,
+  hasButton = false,
+  buttonComponent,
 }: Props) => {
   return (
     <View style={{ marginBottom, marginTop }}>
@@ -57,12 +61,13 @@ const InputForm = ({
       >
         <TextInput
           style={{
-            height: 60,
-            width: '100%',
+            height: 50,
+            width: hasButton ? '60%' : '100%',
             fontSize: 20,
             marginLeft: 20,
             color: textBlack,
             fontFamily: 'Gilroy-Medium',
+            marginTop: 3,
           }}
           value={value}
           onChangeText={text => {
@@ -85,6 +90,7 @@ const InputForm = ({
           autoFocus={autoFocus}
           onSubmitEditing={onSubmit}
         />
+        {hasButton && buttonComponent}
       </View>
     </View>
   );
