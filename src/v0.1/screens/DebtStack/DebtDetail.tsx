@@ -10,7 +10,8 @@ import ScreenContainer from '../../components/containers/ScreenContainer';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
+import { GET_FINANCIAL_ACCOUNT_KEY } from '../../services/FinancialAccount/useGetFinancialAccounts';
 import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
@@ -48,6 +49,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
   const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId as string, {
     onSuccess() {
       showToast();
+      queryClient.invalidateQueries(GET_FINANCIAL_ACCOUNT_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);

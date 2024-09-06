@@ -22,9 +22,11 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
-import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
+import useGetFinancialAccount, {
+  GET_FINANCIAL_ACCOUNT_KEY,
+} from '../../services/FinancialAccount/useGetFinancialAccounts';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
@@ -133,6 +135,7 @@ const NewIncome = ({ navigation, route }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(InvalidateQuery);
+        queryClient.invalidateQueries(GET_FINANCIAL_ACCOUNT_KEY);
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         navigation.goBack();

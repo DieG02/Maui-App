@@ -10,7 +10,7 @@ import CountryFlag from 'react-native-country-flag';
 import { useTranslation } from 'react-i18next';
 import TransactionCard from '../../components/Library/TransactionCard';
 import EmptyState from '../../components/common/EmptyState';
-import useGetMonthlyStats from '../../services/Balance/useGetStats';
+import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
 import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
 
 const { white, textBlack, background2, marginHorizontal } = customStyles;
@@ -31,8 +31,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 
   const { t } = useTranslation();
   const { data, refetch: getAccountTransactions } = useGetAccountTransactions(id);
-  // const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
-  const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats(id);
+  const { data: monthlyStats, refetch: getMonthlyStats } = useGetMonthlyStats(id);
 
   useFocusEffect(
     useCallback(() => {
@@ -40,8 +39,6 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
       getAccountTransactions();
     }, [])
   );
-
-  console.log(JSON.stringify(stateBalance, null, 2));
 
   return (
     <ScreenContainer>
@@ -76,7 +73,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
               </View>
               <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.sale')}</Text>
             </View>
-            <Text style={styles.textCard}>{stateBalance?.incomes}</Text>
+            <Text style={styles.textCard}>{monthlyStats?.incomes}</Text>
           </View>
           <View style={[styles.card, styles.expense]}>
             <View style={styles.label}>
@@ -85,7 +82,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
               </View>
               <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.expense')}</Text>
             </View>
-            <Text style={styles.textCard}>{stateBalance?.expenses}</Text>
+            <Text style={styles.textCard}>{monthlyStats?.expenses}</Text>
           </View>
         </View>
 
