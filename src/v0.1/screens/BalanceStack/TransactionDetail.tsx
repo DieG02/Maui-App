@@ -12,7 +12,7 @@ import ScrollContainer from '../../components/containers/ScrollContainer';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
-import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
@@ -59,7 +59,7 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       navigation.goBack();
       showToast();
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
       queryClient.invalidateQueries(GET_DEBTS_KEY);
       queryClient.invalidateQueries(GET_DEBT_KEY);

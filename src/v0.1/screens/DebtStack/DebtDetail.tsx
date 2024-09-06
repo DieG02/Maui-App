@@ -9,7 +9,7 @@ import RowTransaction from '../../components/common/RowTransaction';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import ScrollContainer from '../../components/containers/ScrollContainer';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import { GET_BALANCE_KEY } from '../../services/Balance/useGetBalance';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
 import useDeleteDebt from '../../services/Debts/useDeleteDebtId';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
@@ -49,7 +49,7 @@ const DebtDetail = ({ route, navigation }: Props) => {
     onSuccess() {
       showToast();
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
       queryClient.invalidateQueries(GET_DEBTS_KEY);
       navigation.navigate('HomeTabs', { screen: 'Debts' });

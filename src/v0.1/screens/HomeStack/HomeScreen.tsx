@@ -12,12 +12,11 @@ import GeneralBalance from '../../components/Library/GeneralBalance';
 import StateBalance from '../../components/Library/StateBalance';
 import TransactionsContainer from '../../components/Library/TransactionsContainer';
 import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
-import useGetBalance from '../../services/Balance/useGetBalance';
 import useGetMonthlyStats from '../../services/Balance/useGetStats';
 import useGetAccount from '../../services/Account/useGetAccount';
 import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
-import useGetTotalBalance from '../../services/Balance/useGetTotalBalance';
+import useGeneralBalance from '../../services/Balance/useGeneralBalance';
 
 const { mainColor } = customStyles;
 
@@ -30,7 +29,7 @@ const HomeScreen = ({ navigation }: Props) => {
   const { data: user } = useGetAccount();
   const { data: transactions, refetch: getTransactionsFromHome } = useGetAllTransactions({ take: 6 });
 
-  const { data: total_balance, refetch: getTotalBalance } = useGetTotalBalance();
+  const { data: total_balance, refetch: getGeneralBalance } = useGeneralBalance();
   const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } =
     useGetFinancialAccount();
   const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
@@ -38,7 +37,7 @@ const HomeScreen = ({ navigation }: Props) => {
   const onRefresh = () => {
     setRefreshing(true);
     getTransactionsFromHome();
-    getTotalBalance();
+    getGeneralBalance();
     getFinancialAccounts();
     getMonthlyStats();
     setRefreshing(false);
