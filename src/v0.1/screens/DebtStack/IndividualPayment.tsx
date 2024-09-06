@@ -18,7 +18,8 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import useForm from '../../hooks/useForm';
 import usePayment from '../../hooks/usePayment';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
+import { GET_FINANCIAL_ACCOUNT_KEY } from '../../services/FinancialAccount/useGetFinancialAccounts';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import useGetDebtById, { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
 import usePayDebtById from '../../services/Debts/usePayDebtById';
@@ -81,6 +82,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries(GET_DEBTS_KEY);
         queryClient.invalidateQueries(GET_DEBT_KEY, params?.contact);
+        queryClient.invalidateQueries(GET_FINANCIAL_ACCOUNT_KEY);
         queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);

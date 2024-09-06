@@ -13,7 +13,7 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useGetStats';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
 import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
