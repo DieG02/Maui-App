@@ -45,11 +45,10 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { useTranslation } from 'react-i18next';
 import useGetAccount from '../services/Account/useGetAccount';
 import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
-import useGetMonthlyStats from '../services/Balance/useGetStats';
-import useGetBalance from '../services/Balance/useGetBalance';
 import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
 import { AppStatus } from '../types/types';
 import customStyles from '../styles/customStyles';
+import useGeneralBalance from '../services/Balance/useGeneralBalance';
 
 const { mainColor } = customStyles;
 
@@ -66,10 +65,8 @@ export default function RootStack() {
 
   const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
   const isFetchingTransactions = useGetAllTransactions({ take: 6 }).isLoading;
-  const isFetchingGetMonthlyState = useGetMonthlyStats({ enabled: !!token }).isLoading;
-  const isFetchingBalance = useGetBalance({ enabled: !!token }).isLoading;
+  const isFetchingGeneralBalance = useGeneralBalance({ enabled: !!token }).isLoading;
   const isFetchingFinancialAccounts = useGetFinancialAccount({ enabled: !!token }).isLoading;
-  // const isFetchingDebts = useGetAllDebts({ enabled: !!token }).isLoading;
 
   useEffect(() => {
     // Sync user language with LocaleStorage
@@ -88,8 +85,7 @@ export default function RootStack() {
     isLoadingLinks ||
     isFetchingAccount ||
     isFetchingTransactions ||
-    isFetchingGetMonthlyState ||
-    isFetchingBalance ||
+    isFetchingGeneralBalance ||
     isFetchingFinancialAccounts
   )
     return <LoadingComponent color={mainColor} />;

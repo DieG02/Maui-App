@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, RefreshControl } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -12,12 +12,11 @@ import GeneralBalance from '../../components/Library/GeneralBalance';
 import StateBalance from '../../components/Library/StateBalance';
 import TransactionsContainer from '../../components/Library/TransactionsContainer';
 import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
-import useGetBalance from '../../services/Balance/useGetBalance';
-import useGetMonthlyStats from '../../services/Balance/useGetStats';
+import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
 import useGetAccount from '../../services/Account/useGetAccount';
 import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
-import useGetTotalBalance from '../../services/Balance/useGetTotalBalance';
+import useGeneralBalance from '../../services/Balance/useGeneralBalance';
 
 const { mainColor } = customStyles;
 
@@ -27,20 +26,29 @@ interface Props {
 
 const HomeScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
+  const [singleAccount, setSingleAccount] = useState<boolean>(true);
   const { data: user } = useGetAccount();
   const { data: transactions, refetch: getTransactionsFromHome } = useGetAllTransactions({ take: 6 });
 
-  const { data: total_balance, refetch: getTotalBalance } = useGetTotalBalance();
+  const { data: general_balance, refetch: getGeneralBalance } = useGeneralBalance();
   const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } =
     useGetFinancialAccount();
-  const { data: stateBalance, refetch: getMonthlyStats } = useGetMonthlyStats();
+
+  const { data: monthlyStats, refetch: getMonthlyStats } = useGetMonthlyStats('');
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (financialAccounts.length === 1) {
+      getMonthlyStats(financialAccounts[0].id as any);
+    }
+    setSingleAccount(financialAccounts.length === 1);
+  }, [financialAccounts, getMonthlyStats]);
+
   const onRefresh = () => {
     setRefreshing(true);
     getTransactionsFromHome();
-    getTotalBalance();
+    getGeneralBalance();
     getFinancialAccounts();
-    getMonthlyStats();
     setRefreshing(false);
   };
 
@@ -53,15 +61,11 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={total_balance} multiple={financialAccounts.length > 1} navigation={navigation} />
+        <GeneralBalance data={general_balance} multiple={!singleAccount} navigation={navigation} />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />
-        {financialAccounts.length > 1 ? (
-          <MultipleAccounts data={financialAccounts!} />
-        ) : (
-          <StateBalance data={stateBalance!} />
-        )}
+        {singleAccount ? <StateBalance data={monthlyStats!} /> : <MultipleAccounts data={financialAccounts!} />}
         <Spacer height={20} />
         <Title
           title={t('home_stack.last_records')}
