@@ -150,6 +150,7 @@ const NewExpense = ({ navigation, route }: Props) => {
     }
   };
 
+  const hasMultipleAccounts = financialAccounts.length > 1;
   const mainAccountDefault = financialAccounts.find(account => account.mainAccount);
 
   useEffect(() => {
@@ -196,42 +197,44 @@ const NewExpense = ({ navigation, route }: Props) => {
           keyboardType='numeric'
           placeholder='0,00'
           value={values.value}
-          name={t('balance_stack.new_expense.value')}
+          name={t('balance_stack.new_income.value')}
           setValue={val => {
             const newValue = !!val && val !== 'NaN' ? val : '';
             setValues(prev => ({ ...prev, value: newValue }));
           }}
           marginBottom={15}
           required
-          hasButton
+          hasButton={hasMultipleAccounts}
           buttonComponent={
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                  marginTop: 4,
-                  columnGap: 3,
-                }}
-              >
-                <CountryFlag
-                  isoCode={selectedAccount.currency.isoCode}
-                  size={40}
+            hasMultipleAccounts && (
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <View
                   style={{
-                    width: 25,
-                    height: 25,
-                    borderRadius: 30,
-                    marginHorizontal: 5,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: 40,
+                    marginTop: 4,
+                    columnGap: 3,
                   }}
-                />
-                <Text style={{ color: textBlack, fontSize: 16, fontFamily: 'Gilroy-SemiBold', marginTop: 2 }}>
-                  {selectedAccount.currency.code}
-                </Text>
-                <Entypo name='chevron-down' size={25} color={mainColor} />
-              </View>
-            </TouchableOpacity>
+                >
+                  <CountryFlag
+                    isoCode={selectedAccount.currency.isoCode}
+                    size={40}
+                    style={{
+                      width: 25,
+                      height: 25,
+                      borderRadius: 30,
+                      marginHorizontal: 5,
+                    }}
+                  />
+                  <Text style={{ color: textBlack, fontSize: 16, fontFamily: 'Gilroy-SemiBold', marginTop: 2 }}>
+                    {selectedAccount.currency.code}
+                  </Text>
+                  <Entypo name='chevron-down' size={25} color={mainColor} />
+                </View>
+              </TouchableOpacity>
+            )
           }
         />
 
