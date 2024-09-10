@@ -1,6 +1,6 @@
 import MauiApi from '../../clientProvider';
-import { setHeaders } from '../../clientProvider/axiosConfig';
 import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
+import { setHeaders } from '../../clientProvider/axiosConfig';
 import { IMontlyStats } from '../../types/types';
 
 export const GET_MONTHLY_STATS_KEY = 'GET_MONTHLY_STATS_KEY';

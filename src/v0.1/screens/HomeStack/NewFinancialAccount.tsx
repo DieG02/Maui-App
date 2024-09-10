@@ -8,16 +8,13 @@ import customStyles from '../../styles/customStyles';
 import Spacer from '../../components/common/Spacer';
 import Form from '../../components/Library/Form';
 import CommonInput from '../../components/common/CommonInput';
-import SelectionModal from '../../components/common/Modals/SelectionModal';
 import Toggle from '../../components/common/Toggle';
 import Button from '../../components/common/Button';
 import useGetCurrencies from '../../services/Currency/useGetCurrencies';
 import OptionModal from '../../components/common/OptionModal';
 import useCreateFinancialAccount from '../../services/FinancialAccount/useCreateFinancialAccount';
 import { queryClient } from '../../utils/queryClient';
-import useGetFinancialAccount, {
-  GET_FINANCIAL_ACCOUNT_KEY,
-} from '../../services/FinancialAccount/useGetFinancialAccounts';
+import useGetFinancialAccount, { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 
 const { mainColor, textBlack, disabled, marginHorizontal, white } = customStyles;
 
@@ -55,7 +52,7 @@ const NewFinancialAccount = ({ navigation }: Props) => {
       // INSERT TOAST HERE
     },
     onSuccess: (data: any) => {
-      queryClient.invalidateQueries(GET_FINANCIAL_ACCOUNT_KEY);
+      queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       refetchFinancialAccounts();
       navigation.goBack();
     },
