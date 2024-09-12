@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import customStyles from '../../styles/customStyles';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { parseYYMMDD } from '../../utils/helper';
+/* eslint-disable react-hooks/exhaustive-deps */
 import moment from 'moment';
-import 'moment/locale/pt';
 import 'moment/locale/es';
-import Icon from 'react-native-vector-icons/Feather';
-import { ellipsisText } from '../../utils/ellipsisText';
+import 'moment/locale/pt';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Text, TouchableOpacity, View } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import Icon from 'react-native-vector-icons/Feather';
+import customStyles from '../../styles/customStyles';
+import { capitalLetter } from '../../utils/capitalLetter';
+import { ellipsisText } from '../../utils/ellipsisText';
+import { parseYYMMDD } from '../../utils/helper';
 
 const { textBlack, secondaryColorBorder } = customStyles;
 
@@ -40,7 +42,7 @@ const DatePicker = ({ name, value, setValue }: Props) => {
   const clasifyDate = (date: string) => {
     const of = 'debt_stack.debt_screen.summary_text.of';
     const day = moment(date).date();
-    const month = moment(date).locale(i18n.language).format('MMMM');
+    const month = capitalLetter(moment(date).locale(i18n.language).format('MMMM'));
 
     if (parseYYMMDD(date) === parseYYMMDD(TODAY)) {
       setValue(TODAY);
@@ -111,7 +113,7 @@ const DatePicker = ({ name, value, setValue }: Props) => {
             fontFamily: 'Gilroy-Bold',
           }}
         >
-          {ellipsisText(textDate, 16, 3)}
+          {ellipsisText(textDate, 24, 3)}
         </Text>
       </TouchableOpacity>
     </View>
