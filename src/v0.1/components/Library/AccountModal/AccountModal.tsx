@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import Modal from 'react-native-modal';
 import customStyles from '../../../styles/customStyles';
@@ -37,11 +37,11 @@ const AccountModal = ({ data, isModalVisible, setModalVisible, selected, setSele
       <View
         style={{
           backgroundColor: background,
-          height: data.length * 100 + 60,
+          height: data.length * 80 + 120,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          borderBottomEndRadius: 30,
-          borderBottomStartRadius: 30,
+          borderBottomEndRadius: Platform.OS === 'ios' ? 30 : 0,
+          borderBottomStartRadius: Platform.OS === 'ios' ? 30 : 0,
         }}
       >
         <View
