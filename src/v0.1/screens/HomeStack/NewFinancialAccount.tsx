@@ -1,23 +1,21 @@
-import { useState } from 'react';
-import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { NavigationProp } from '@react-navigation/native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import customStyles from '../../styles/customStyles';
-import Spacer from '../../components/common/Spacer';
-import Form from '../../components/Library/Form';
-import CommonInput from '../../components/common/CommonInput';
-import SelectionModal from '../../components/common/Modals/SelectionModal';
-import Toggle from '../../components/common/Toggle';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import Button from '../../components/common/Button';
-import useGetCurrencies from '../../services/Currency/useGetCurrencies';
+import CommonInput from '../../components/common/CommonInput';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import OptionModal from '../../components/common/OptionModal';
+import Spacer from '../../components/common/Spacer';
+import Toggle from '../../components/common/Toggle';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import Form from '../../components/Library/Form';
+import useGetCurrencies from '../../services/Currency/useGetCurrencies';
 import useCreateFinancialAccount from '../../services/FinancialAccount/useCreateFinancialAccount';
+import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
+import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
-import useGetFinancialAccount, {
-  GET_FINANCIAL_ACCOUNT_KEY,
-} from '../../services/FinancialAccount/useGetFinancialAccounts';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
 
 const { mainColor, textBlack, disabled, marginHorizontal, white } = customStyles;
 
@@ -25,7 +23,7 @@ const defaultAccount = {
   accountName: '',
   mainAccount: false,
   currency: { value: '', label: '' },
-  ammount: 0,
+  amount: 0,
 };
 
 interface Props {
@@ -54,8 +52,8 @@ const NewFinancialAccount = ({ navigation }: Props) => {
       setForm(defaultAccount);
       // INSERT TOAST HERE
     },
-    onSuccess: (data: any) => {
-      queryClient.invalidateQueries(GET_FINANCIAL_ACCOUNT_KEY);
+    onSuccess: () => {
+      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       refetchFinancialAccounts();
       navigation.goBack();
     },
@@ -81,11 +79,15 @@ const NewFinancialAccount = ({ navigation }: Props) => {
           setSelectedOption={value => updateForm('currency', value)}
         />
         <CommonInput
-          placeholder={t('home_stack.accounts.ammount_placeholder')}
-          name={t('home_stack.accounts.ammount_label')}
+          placeholder={t('home_stack.accounts.amount_placeholder')}
+          name={t('home_stack.accounts.amount_label')}
           marginBottom={15}
-          value={form.ammount}
-          setValue={value => updateForm('ammount', value)}
+          value={form.amount}
+          keyboardType='number-pad'
+          setValue={val => {
+            const newValue = !!val && val !== 'NaN' ? val : '';
+            updateForm('amount', newValue);
+          }}
         />
         <CommonInput
           placeholder={t('home_stack.accounts.name_placeholder')}
@@ -118,7 +120,7 @@ const NewFinancialAccount = ({ navigation }: Props) => {
                 businessId: accounts?.financialAccounts[0].businessId,
                 accountName: form.accountName,
                 mainAccount: form.mainAccount,
-                ammount: form.ammount,
+                amount: form.amount,
                 currencyId: form.currency.value,
               },
             })

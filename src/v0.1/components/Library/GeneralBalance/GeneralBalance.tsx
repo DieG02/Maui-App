@@ -1,8 +1,8 @@
+import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
-import { NavigationProp } from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -91,9 +91,7 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
               ))}
             </View>
           ) : (
-            <Text style={styles.textPrice}>
-              {parserToCurrency(total_balance, financialAccount.currency.locale, financialAccount.currency.code)}
-            </Text>
+            <Text style={styles.textPrice}>{parserToCurrency(total_balance, '', financialAccount.currency.code)}</Text>
           )}
           <IconContainer
             onPress={() => navigation.navigate('MonthlySummaries')}
