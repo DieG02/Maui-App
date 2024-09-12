@@ -1,6 +1,6 @@
+import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
 import MauiApi from '../../clientProvider';
 import { setHeaders } from '../../clientProvider/axiosConfig';
-import { QueryKey, UseQueryOptions, useQuery } from 'react-query';
 import { IBalance } from '../../types/types';
 
 export const GET_GENERAL_BALANCE_KEY = 'GET_GENERAL_BALANCE_KEY';
