@@ -1,9 +1,10 @@
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import styles from './style';
+import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import { IFinancialAccount } from '../../../types/types';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { parserToCurrency } from '../../../utils/adapter';
+import styles from './style';
 
 interface Props {
   account: IFinancialAccount;
@@ -15,7 +16,7 @@ const AccountCard = ({ account, left, right }: Props) => {
   const navigation = useNavigation<NavigationProp<any, any>>();
   const {
     accountName,
-    currency: { code, isoCode },
+    currency: { code, isoCode, locale },
     total_balance,
   } = account;
 
@@ -39,7 +40,7 @@ const AccountCard = ({ account, left, right }: Props) => {
         />
         <View style={styles({}).subWrapper}>
           <Text style={styles({}).textValue} numberOfLines={1}>
-            {`${code} ${total_balance}`}
+            {parserToCurrency(total_balance, locale, code)}
           </Text>
         </View>
         <Text style={styles({}).textLabel}>{`${accountName}`}</Text>
