@@ -73,7 +73,7 @@ const HomeScreen = ({ navigation }: Props) => {
           title={t('home_stack.last_records')}
           label={t('home_stack.see_more')}
           enable={transactions?.length !== 0}
-          onPress={() => navigation.navigate('balance')}
+          onPress={() => navigation.navigate('transactions')}
         />
         <Spacer height={10} />
         <TransactionsContainer data={transactions} navigation={navigation} />
