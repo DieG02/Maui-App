@@ -11,10 +11,12 @@ import ProfileComponent from '../../components/Library/ProfileComponent';
 import StateBalance from '../../components/Library/StateBalance';
 import Title from '../../components/Library/Title';
 import TransactionsContainer from '../../components/Library/TransactionsContainer';
+import MultipleAccounts from '../../components/Library/MultipleAccounts';
+
 import useGetAccount from '../../services/Account/useGetAccount';
 import useGeneralBalance from '../../services/Balance/useGeneralBalance';
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
-import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
+import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
 import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
 import customStyles from '../../styles/customStyles';
 
@@ -31,8 +33,10 @@ const HomeScreen = ({ navigation }: Props) => {
   const { data: transactions, refetch: getTransactionsFromHome } = useGetAllTransactions({ take: 6 });
 
   const { data: general_balance, refetch: getGeneralBalance } = useGeneralBalance();
-  const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } =
-    useGetFinancialAccount();
+  const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } = useGetAllAccounts({
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
 
   const { data: monthlyStats, refetch: getMonthlyStats } = useGetMonthlyStats('');
   const [refreshing, setRefreshing] = useState(false);
@@ -71,7 +75,7 @@ const HomeScreen = ({ navigation }: Props) => {
           title={t('home_stack.last_records')}
           label={t('home_stack.see_more')}
           enable={transactions?.length !== 0}
-          onPress={() => navigation.navigate('balance')}
+          onPress={() => navigation.navigate('transactions')}
         />
         <Spacer height={10} />
         <TransactionsContainer data={transactions} navigation={navigation} />

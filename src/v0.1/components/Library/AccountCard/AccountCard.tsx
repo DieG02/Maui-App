@@ -13,15 +13,16 @@ interface Props {
 }
 
 const AccountCard = ({ account, left, right }: Props) => {
-  const navigation = useNavigation<NavigationProp<any, any>>();
   const {
+    id,
     accountName,
     currency: { code, isoCode, locale },
     total_balance,
   } = account;
+  const navigation = useNavigation<NavigationProp<any, any>>();
 
   const handleOnPress = () => {
-    navigation.navigate('AccountDetail', { account });
+    navigation.navigate('AccountDetail', { id });
   };
 
   return (

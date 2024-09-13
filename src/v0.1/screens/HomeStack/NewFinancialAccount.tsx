@@ -7,15 +7,16 @@ import CommonInput from '../../components/common/CommonInput';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import OptionModal from '../../components/common/OptionModal';
 import Spacer from '../../components/common/Spacer';
+import Form from '../../components/Library/Form';
+import CommonInput from '../../components/common/CommonInput';
 import Toggle from '../../components/common/Toggle';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import Form from '../../components/Library/Form';
 import useGetCurrencies from '../../services/Currency/useGetCurrencies';
 import useCreateFinancialAccount from '../../services/FinancialAccount/useCreateFinancialAccount';
-import useGetFinancialAccount from '../../services/FinancialAccount/useGetFinancialAccounts';
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
-import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import useGetAllAccounts, { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 
 const { mainColor, textBlack, disabled, marginHorizontal, white } = customStyles;
 
@@ -34,7 +35,7 @@ const NewFinancialAccount = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const [modalCurrencies, setModalCurrencies] = useState<boolean>(false);
   const { data } = useGetCurrencies();
-  const { data: accounts, refetch: refetchFinancialAccounts } = useGetFinancialAccount();
+  const { data: accounts, refetch: refetchFinancialAccounts } = useGetAllAccounts();
   const [form, setForm] = useState<any>(defaultAccount);
   const currencies = data?.map(({ code, country, id }) => ({ label: `${code} ${country}`, value: id }));
   const updateForm = (field: string, value: any) =>
@@ -52,8 +53,8 @@ const NewFinancialAccount = ({ navigation }: Props) => {
       setForm(defaultAccount);
       // INSERT TOAST HERE
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
+    onSuccess: (data: any) => {
+      queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       refetchFinancialAccounts();
       navigation.goBack();
     },

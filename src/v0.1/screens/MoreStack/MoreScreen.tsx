@@ -59,7 +59,7 @@ const More = ({ navigation }: Props) => {
     Clipboard.setString(email);
     Toast.show({
       type: 'success',
-      text2: t('Texto copiado al portapapeles'),
+      text2: t('more_screen.toast_copy_email'),
       position: 'top',
       visibilityTime: 1000,
     });

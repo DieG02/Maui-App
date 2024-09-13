@@ -20,6 +20,7 @@
       "alert_validate_password": "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one number."
     },
     "sign_up": {
+      "title": "Create Account",
       "placeholder_name": "Enter your name",
       "placeholder_phone": "Enter your phone",
       "have_account": "Do you already have an account?",
@@ -35,7 +36,8 @@
   },
   "home_stack": {
     "budget": {
-      "title": "General Balance"
+      "title": "General Balance",
+      "new_account": "Add account"
     },
     "welcome": "Hi,",
     "monthly_summary": {
@@ -46,6 +48,7 @@
       "expense_debts": "Debts to pay"
     },
     "monthly_balance": {
+      "history_balance": "History balance",
       "previous_balance": "Previous Balance",
       "incomes": "Incomes",
       "expenses": "Expenses",
@@ -68,6 +71,7 @@
     "see_more": "See More"
   },
   "more_screen": {
+    "toast_copy_email": "Email copied to clipboard",
     "profile": "My Profile",
     "clients": "Clients",
     "providers": "Providers",
@@ -184,11 +188,12 @@
       "payment_method": "Payment Method",
       "total": "Total",
       "transaction_type": "Transaction Type",
+      "currency": "Currency",
       "expense_category": "Expense Category",
       "edit": "Edit"
     },
     "transaction_screen": {
-      "balance": "Balance",
+      "balance": "Transactions",
       "placeholder_search": "Search...",
       "empty_result": "No matches found",
       "empty_transactions": "You have no registered transactions"

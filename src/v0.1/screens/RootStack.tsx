@@ -45,7 +45,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { useTranslation } from 'react-i18next';
 import useGetAccount from '../services/Account/useGetAccount';
 import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
-import useGetFinancialAccount from '../services/FinancialAccount/useGetFinancialAccounts';
+import useGetAllAccounts from '../services/FinancialAccount/useGetAllAccounts';
 import { AppStatus } from '../types/types';
 import customStyles from '../styles/customStyles';
 import useGeneralBalance from '../services/Balance/useGeneralBalance';
@@ -66,7 +66,7 @@ export default function RootStack() {
   const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
   const isFetchingTransactions = useGetAllTransactions({ take: 6 }).isLoading;
   const isFetchingGeneralBalance = useGeneralBalance({ enabled: !!token }).isLoading;
-  const isFetchingFinancialAccounts = useGetFinancialAccount({ enabled: !!token }).isLoading;
+  const isFetchingAllAccounts = useGetAllAccounts({ enabled: !!token }).isLoading;
 
   useEffect(() => {
     // Sync user language with LocaleStorage
@@ -86,7 +86,7 @@ export default function RootStack() {
     isFetchingAccount ||
     isFetchingTransactions ||
     isFetchingGeneralBalance ||
-    isFetchingFinancialAccounts
+    isFetchingAllAccounts
   )
     return <LoadingComponent color={mainColor} />;
   if (isError) {

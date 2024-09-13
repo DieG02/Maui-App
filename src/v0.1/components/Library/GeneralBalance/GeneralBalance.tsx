@@ -107,7 +107,7 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
         <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleRedirect}>
           <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5, marginVertical: 5 }} />
           <View>
-            <Text style={styles.buttonLabel}>{'Add balance'}</Text>
+            <Text style={styles.buttonLabel}>{t('home_stack.budget.new_account')}</Text>
           </View>
         </TouchableOpacity>
       )}
