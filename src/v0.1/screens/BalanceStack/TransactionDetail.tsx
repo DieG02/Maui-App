@@ -13,11 +13,13 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import { dictionary } from '../../helpers/dictionary';
 import usePayment from '../../hooks/usePayment';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import { GET_DEBT_KEY } from '../../services/Debts/useGetDebtsById';
-import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
+import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import useDeleteTransaction from '../../services/Transactions/useDeleteTransaction';
 import useGetTransactionById from '../../services/Transactions/useGetTransactionById';
 import customStyles from '../../styles/customStyles';
 import { parserToCurrency } from '../../utils/adapter';
@@ -58,8 +60,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
     onSuccess() {
       navigation.goBack();
       showToast();
-      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.invalidateQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
       queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
       queryClient.invalidateQueries(GET_DEBTS_KEY);
       queryClient.invalidateQueries(GET_DEBT_KEY);
