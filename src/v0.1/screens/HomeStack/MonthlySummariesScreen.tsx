@@ -102,7 +102,7 @@ const MonthlySummariesScreen = ({ navigation }: Props) => {
   return (
     <ScreenContainer>
       <BackHeaderTitle
-        label={'Balance'}
+        label={t('home_stack.monthly_balance.history_balance')}
         onPressBack={() => {
           navigation.goBack();
         }}

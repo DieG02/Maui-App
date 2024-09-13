@@ -20,6 +20,7 @@
       "alert_validate_password": "A senha deve ter pelo menos 8 caracteres, conter pelo menos uma letra maiúscula e pelo menos um número."
     },
     "sign_up": {
+      "title": "Criar conta",
       "placeholder_name": "Digite seu nome",
       "placeholder_phone": "Digite seu telefone",
       "have_account": "Já tem uma conta?",
@@ -35,7 +36,8 @@
   },
   "home_stack": {
     "budget": {
-      "title": "Saldo Geral"
+      "title": "Saldo Geral",
+      "new_account": "Adicionar conta"
     },
     "welcome": "Olá,",
     "monthly_summary": {
@@ -46,6 +48,7 @@
       "expense_debts": "Dívidas a Pagar"
     },
     "monthly_balance": {
+      "history_balance": "Balanço histórico",
       "previous_balance": "Saldo Anterior",
       "incomes": "Receitas",
       "expenses": "Despesas",
@@ -68,6 +71,7 @@
     "see_more": "Ver Mais"
   },
   "more_screen": {
+    "toast_copy_email": "Email copiado para a prancheta",
     "profile": "Meus Dados",
     "clients": "Clientes",
     "providers": "Fornecedores",
@@ -184,11 +188,12 @@
       "payment_method": "Forma de Pagamento",
       "total": "Total",
       "transaction_type": "Tipo de operação",
+      "currency": "Moeda",
       "expense_category": "Categoria do gasto",
       "edit": "Editar"
     },
     "transaction_screen": {
-      "balance": "Balance",
+      "balance": "Transações",
       "placeholder_search": "Buscar...",
       "empty_result": "Nenhum resultado encontrado",
       "empty_transactions": "Você não tem transações registradas"

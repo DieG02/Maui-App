@@ -116,7 +116,7 @@ const RegisterScreen = ({ route, navigation }: Props) => {
       <OverlayLoading isLoading={isLoading} />
       <StatusBar backgroundColor={white} barStyle={statusBarStyle} />
       <BackHeaderTitle
-        label={'Crear Cuenta'}
+        label={t('auth_stack.sign_up.title')}
         onPressBack={async () => {
           navigation.goBack();
           await GoogleSignin.signOut();
