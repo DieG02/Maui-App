@@ -1,32 +1,19 @@
-import { useState } from 'react';
-import { useQuery, QueryKey } from 'react-query';
 import MauiApi from '../../clientProvider';
+import { QueryKey, useQuery, UseQueryOptions } from 'react-query';
 import { setHeaders } from '../../clientProvider/axiosConfig';
-import { IQueryTransaction, ITransactionDetail } from '../../types/types';
+import { ITransactionDetail } from '../../types/types';
 
 export const GET_ACCOUNT_TRANSACTIONS_KEY = 'GET_ACCOUNT_TRANSACTIONS_KEY';
 
-export const getAccountTransactions = async (accountId: string, queryParams?: IQueryTransaction) => {
+export const getAccountTransactions = async (accountId: string): Promise<ITransactionDetail[]> => {
   await setHeaders();
-  const response = await MauiApi.get<ITransactionDetail[]>(`/transactions/account/${accountId}`, {
-    params: queryParams,
-  });
+  const response = await MauiApi.get<ITransactionDetail[]>(`/transactions/account/${accountId}`);
   return response.data;
 };
 
-const useGetAccountTransactions = (accountId: string, initialQueryParams?: IQueryTransaction) => {
-  const [queryParams, setQueryParams] = useState(initialQueryParams);
-
-  const { data, refetch } = useQuery([GET_ACCOUNT_TRANSACTIONS_KEY, accountId, queryParams] as QueryKey, () =>
-    getAccountTransactions(accountId, queryParams)
-  );
-
-  const handleRefetch = (newQueryParams?: IQueryTransaction) => {
-    setQueryParams(newQueryParams || queryParams);
-    refetch();
-  };
-
-  return { data, refetch: handleRefetch };
-};
+const useGetAccountTransactions = (accountId: string, options?: UseQueryOptions<ITransactionDetail[]>) =>
+  useQuery([GET_ACCOUNT_TRANSACTIONS_KEY, accountId] as QueryKey, () => getAccountTransactions(accountId), {
+    ...options,
+  });
 
 export default useGetAccountTransactions;

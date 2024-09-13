@@ -1,6 +1,5 @@
-import { useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { NavigationProp, RouteProp, useFocusEffect } from '@react-navigation/native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
@@ -12,8 +11,11 @@ import TransactionCard from '../../components/Library/TransactionCard';
 import EmptyState from '../../components/common/EmptyState';
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
 import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
+import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import { parserToCurrency } from '../../utils/adapter';
 
-const { white, textBlack, background2, marginHorizontal } = customStyles;
+const { white, textBlack, background2, marginHorizontal, mainColor } = customStyles;
 
 interface AccountDetailProps {
   navigation: NavigationProp<any, any>;
@@ -21,24 +23,38 @@ interface AccountDetailProps {
 }
 
 const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
-  const { params } = route;
-  const {
-    id,
-    accountName,
-    currency: { code, isoCode },
-    total_balance,
-  } = params!.account;
-
+  const { id } = route.params!;
   const { t } = useTranslation();
-  const { data, refetch: getAccountTransactions } = useGetAccountTransactions(id);
-  const { data: monthlyStats, refetch: getMonthlyStats } = useGetMonthlyStats(id);
 
-  useFocusEffect(
-    useCallback(() => {
-      getMonthlyStats();
-      getAccountTransactions();
-    }, [])
-  );
+  const {
+    data: transactionsByAccount,
+    isLoading: isFetchingTransactions,
+    refetch: getAccountTransactions,
+  } = useGetAccountTransactions(id, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+  const {
+    data: monthlyStats,
+    isLoading: isFetchingMonthlyStats,
+    refetch: getMonthlyStats,
+  } = useGetMonthlyStats(id, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data, isLoading: isFetchingAccounts } = useGetAllAccounts({
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const {
+    currency: { code, isoCode, locale },
+    total_balance,
+  } = data!.financialAccounts.find(element => element.id === id)!;
+
+  if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats)
+    return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
@@ -64,7 +80,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
           <Text style={{ fontSize: 20 }}>{code}</Text>
         </View>
 
-        <Text style={styles.balance}>{`$ ${total_balance}`}</Text>
+        <Text style={styles.balance}>{parserToCurrency(total_balance, locale, code)}</Text>
         <View style={styles.cards}>
           <View style={[styles.card, styles.income]}>
             <View style={styles.label}>
@@ -88,14 +104,16 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 
         <FlatList
           overScrollMode='never'
-          data={data}
+          data={transactionsByAccount}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
           refreshing={false}
           onRefresh={() => {
+            getMonthlyStats();
             getAccountTransactions();
           }}
           onEndReached={() => {
+            getMonthlyStats();
             getAccountTransactions();
           }}
           style={{ marginTop: marginHorizontal }}
