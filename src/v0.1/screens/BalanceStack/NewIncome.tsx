@@ -193,6 +193,7 @@ const NewIncome = ({ navigation, route }: Props) => {
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <View
                   style={{
+                    paddingHorizontal: 10,
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center',

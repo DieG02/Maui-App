@@ -57,12 +57,13 @@ const InputForm = ({
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'row',
+          justifyContent: 'space-between',
         }}
       >
         <TextInput
           style={{
             height: 50,
-            width: hasButton ? '60%' : '100%',
+            width: hasButton ? '55%' : '100%',
             fontSize: 20,
             marginLeft: 20,
             color: textBlack,

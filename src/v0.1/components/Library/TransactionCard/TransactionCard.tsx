@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
-import customStyles from '../../../styles/customStyles';
-import styles from './style';
-import { parseDDMMYY } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
-import { capitalLetter } from '../../../utils/capitalLetter';
-import { parserToCurrency } from '../../../utils/adapter';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import customStyles from '../../../styles/customStyles';
 import { ITransactionDetail } from '../../../types/types';
+import { parserToCurrency } from '../../../utils/adapter';
+import { capitalLetter } from '../../../utils/capitalLetter';
+import { parseDDMMYY } from '../../../utils/helper';
+import styles from './style';
 
 const { textBlack, positive } = customStyles;
 const KEY_PATH = 'balance_stack.payment_method_options';
@@ -18,7 +18,6 @@ interface Props {
 const TransactionCard = ({ onPress, data }: Props) => {
   const { t } = useTranslation();
 
-  const locale = data.financialAccount?.currency.locale;
   const code = data.financialAccount?.currency.code;
 
   return (
@@ -43,11 +42,11 @@ const TransactionCard = ({ onPress, data }: Props) => {
         <View style={styles().textContainer}>
           {data.category?.type === 'CREDIT' ? (
             <Text style={styles('', positive).textTitle} numberOfLines={1}>
-              +{parserToCurrency(data.total_amount, locale, code)}
+              +{parserToCurrency(data.total_amount, '', code)}
             </Text>
           ) : (
             <Text style={styles('', textBlack).textTitle} numberOfLines={1}>
-              {parserToCurrency(data.total_amount, locale, code)}
+              {parserToCurrency(data.total_amount, '', code)}
             </Text>
           )}
           <Text style={styles().textSubtitle}>

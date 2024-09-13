@@ -1,7 +1,7 @@
+import { UseMutationOptions, useMutation } from 'react-query';
 import MauiApi from '../../clientProvider';
 import { setHeaders } from '../../clientProvider/axiosConfig';
-import { UseMutationOptions, UseQueryOptions, useMutation } from 'react-query';
-import { IBalance, IFinancialAccount } from '../../types/types';
+import { IFinancialAccount } from '../../types/types';
 
 export const CREATE_FINANCIAL_ACCOUNT_KEY = 'CREATE_FINANCIAL_ACCOUNT_KEY';
 

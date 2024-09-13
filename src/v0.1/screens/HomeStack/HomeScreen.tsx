@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, RefreshControl } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RefreshControl, ScrollView } from 'react-native';
 
 import Spacer from '../../components/common/Spacer';
-import customStyles from '../../styles/customStyles';
 import ScreenContainer from '../../components/containers/ScreenContainer';
-import ProfileComponent from '../../components/Library/ProfileComponent';
-import Title from '../../components/Library/Title';
 import GeneralBalance from '../../components/Library/GeneralBalance';
-import StateBalance from '../../components/Library/StateBalance';
-import TransactionsContainer from '../../components/Library/TransactionsContainer';
-import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
-import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
-import useGetAccount from '../../services/Account/useGetAccount';
 import MultipleAccounts from '../../components/Library/MultipleAccounts';
-import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
+import ProfileComponent from '../../components/Library/ProfileComponent';
+import StateBalance from '../../components/Library/StateBalance';
+import Title from '../../components/Library/Title';
+import TransactionsContainer from '../../components/Library/TransactionsContainer';
+import MultipleAccounts from '../../components/Library/MultipleAccounts';
+
+import useGetAccount from '../../services/Account/useGetAccount';
 import useGeneralBalance from '../../services/Balance/useGeneralBalance';
+import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
+import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
+import useGetAllTransactions from '../../services/Transactions/useGetAllTransactions';
+import customStyles from '../../styles/customStyles';
 
 const { mainColor } = customStyles;
 
