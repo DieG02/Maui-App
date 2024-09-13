@@ -6,7 +6,6 @@ import { RefreshControl, ScrollView } from 'react-native';
 import Spacer from '../../components/common/Spacer';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import GeneralBalance from '../../components/Library/GeneralBalance';
-import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import ProfileComponent from '../../components/Library/ProfileComponent';
 import StateBalance from '../../components/Library/StateBalance';
 import Title from '../../components/Library/Title';
