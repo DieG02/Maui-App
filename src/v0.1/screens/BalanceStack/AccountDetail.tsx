@@ -1,4 +1,6 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ScreenContainer from '../../components/containers/ScreenContainer';
@@ -6,7 +8,6 @@ import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import Spacer from '../../components/common/Spacer';
 import customStyles from '../../styles/customStyles';
 import CountryFlag from 'react-native-country-flag';
-import { useTranslation } from 'react-i18next';
 import TransactionCard from '../../components/Library/TransactionCard';
 import EmptyState from '../../components/common/EmptyState';
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
@@ -14,8 +15,9 @@ import useGetAccountTransactions from '../../services/Transactions/useGetAccount
 import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
 import LoadingComponent from '../../components/Library/LoadingComponent';
 import { parserToCurrency } from '../../utils/adapter';
+import AccountMenuModal from '../../components/Library/AccountMenu/AccountMenu';
 
-const { white, textBlack, background2, marginHorizontal, mainColor } = customStyles;
+const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
 interface AccountDetailProps {
   navigation: NavigationProp<any, any>;
@@ -25,6 +27,7 @@ interface AccountDetailProps {
 const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
   const { id } = route.params!;
   const { t } = useTranslation();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const {
     data: transactionsByAccount,
@@ -48,22 +51,23 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     refetchOnWindowFocus: false,
   });
 
+  const accountData = data!.financialAccounts.find(element => element.id === id)!;
   const {
     currency: { code, isoCode, locale },
     total_balance,
-  } = data!.financialAccounts.find(element => element.id === id)!;
+  } = accountData;
 
   if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats)
     return <LoadingComponent color={mainColor} />;
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label={''}
-        onPressBack={() => {
-          navigation.goBack();
-        }}
-      />
+      <View style={styles.header}>
+        <BackHeaderTitle label={''} onPressBack={navigation.goBack} />
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Ionicons name='reorder-three-outline' size={32} color={iconColor} />
+        </TouchableOpacity>
+      </View>
       <Spacer height={10} />
       <View style={styles.container}>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -133,6 +137,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
           }
         />
       </View>
+      <AccountMenuModal account={accountData} isModalVisible={isModalVisible} setModalVisible={setIsModalVisible} />
     </ScreenContainer>
   );
 };
@@ -140,6 +145,12 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: marginHorizontal,
+  },
+  header: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: marginHorizontal,
   },
   balance: {
     fontSize: 42,
