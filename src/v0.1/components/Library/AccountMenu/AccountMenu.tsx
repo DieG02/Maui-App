@@ -5,32 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import customStyles from '../../../styles/customStyles';
 import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
+import { useNavigation } from '@react-navigation/native';
 
 const { background, textBlack, background2, expense } = customStyles;
-
-const options = [
-  {
-    title: 'Set as main account',
-    icon: 'build-outline',
-    label: 'Balances will be converted to this currency',
-    color: textBlack,
-    allowInMainAccount: false,
-  },
-  {
-    title: 'Balance History',
-    icon: 'reader-outline',
-    label: 'Show balances by mounth',
-    color: textBlack,
-    allowInMainAccount: true,
-  },
-  {
-    title: 'Delete Account',
-    icon: 'trash-outline',
-    label: 'Remove this account permanently',
-    color: expense,
-    allowInMainAccount: false,
-  },
-];
 
 type OptionsType = {
   title: string;
@@ -38,6 +15,7 @@ type OptionsType = {
   label: string;
   color: string;
   allowInMainAccount: boolean;
+  onPress: () => void;
 };
 
 interface Props {
@@ -46,13 +24,46 @@ interface Props {
   setModalVisible: (value: boolean) => void;
 }
 
-const UpdateAccountModal = ({ account: { mainAccount }, isModalVisible, setModalVisible }: Props) => {
+const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setModalVisible }: Props) => {
+  const { t } = useTranslation();
+  const navigation = useNavigation<any>();
   const hideModal = () => setModalVisible(false);
 
-  const { t } = useTranslation();
+  const handleUpdateAccount = () => {};
+  const handleRedirect = () => {
+    navigation.navigate('MonthlySummaries', { id });
+  };
+  const handleDeleteAccount = () => {};
+
+  const options = [
+    {
+      title: 'Set as main account',
+      icon: 'build-outline',
+      label: 'Balances will be converted to this currency',
+      color: textBlack,
+      allowInMainAccount: false,
+      onPress: handleUpdateAccount,
+    },
+    {
+      title: 'Balance History',
+      icon: 'reader-outline',
+      label: 'Show balances by mounth',
+      color: textBlack,
+      allowInMainAccount: true,
+      onPress: handleRedirect,
+    },
+    {
+      title: 'Delete Account',
+      icon: 'trash-outline',
+      label: 'Remove this account permanently',
+      color: expense,
+      allowInMainAccount: false,
+      onPress: handleDeleteAccount,
+    },
+  ];
   const filteredArray = mainAccount ? options.filter(({ allowInMainAccount }) => !!allowInMainAccount) : options;
 
-  const ModalItem = ({ title, icon, label, color }: OptionsType) => {
+  const ModalItem = ({ title, icon, label, color, onPress }: OptionsType) => {
     return (
       <TouchableOpacity
         style={{
@@ -64,6 +75,7 @@ const UpdateAccountModal = ({ account: { mainAccount }, isModalVisible, setModal
           flexDirection: 'row',
           paddingLeft: 15,
         }}
+        onPress={onPress}
       >
         <Ionicons name={icon} size={24} color={color} />
         <View

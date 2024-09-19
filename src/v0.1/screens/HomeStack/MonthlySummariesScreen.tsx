@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import customStyles from '../../styles/customStyles';
 import Spacer from '../../components/common/Spacer';
 import moment from 'moment';
@@ -15,6 +15,7 @@ import { IBalanceItem } from '../../types/types';
 
 interface Props {
   navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any>;
 }
 
 interface TabProps {
@@ -24,9 +25,11 @@ interface TabProps {
 
 const { textBlack, background2, positive, mainColor } = customStyles;
 
-const MonthlySummariesScreen = ({ navigation }: Props) => {
+const MonthlySummariesScreen = ({ navigation, route }: Props) => {
+  const { id } = route.params!;
+
   const [tabId, setTabId] = useState<number[]>([]);
-  const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance();
+  const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance(id);
   const { t, i18n } = useTranslation();
 
   const handlePress = (value: number) => {
