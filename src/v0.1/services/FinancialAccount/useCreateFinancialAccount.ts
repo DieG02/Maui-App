@@ -1,11 +1,11 @@
 import { UseMutationOptions, useMutation } from 'react-query';
 import MauiApi from '../../clientProvider';
 import { setHeaders } from '../../clientProvider/axiosConfig';
-import { IFinancialAccount } from '../../types/types';
+import { IFinancialAccountInput, IFinancialAccount } from '../../types/types';
 
 export const CREATE_FINANCIAL_ACCOUNT_KEY = 'CREATE_FINANCIAL_ACCOUNT_KEY';
 
-export const createNewFinancialAccount = async (data: any) => {
+export const createNewFinancialAccount = async (data: IFinancialAccountInput) => {
   await setHeaders();
   const response = await MauiApi.post<any>('/new-financial-account', data);
   return response.data;

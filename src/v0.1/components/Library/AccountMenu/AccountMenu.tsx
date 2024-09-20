@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import customStyles from '../../../styles/customStyles';
 import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
-import { alertDelete } from '../../../utils/alerts';
+import { alertDelete, alertUpdate } from '../../../utils/alerts';
 
 const { background, textBlack, background2, expense } = customStyles;
 
@@ -38,7 +38,10 @@ const UpdateAccountModal = ({
   const { t } = useTranslation();
   const hideModal = () => setModalVisible(false);
 
-  const handleUpdateAccount = () => {};
+  const handleUpdateAccount = () => {
+    alertUpdate(t('account_stack.account_detail.alert_edit'), onUpdate);
+  };
+
   const handleDeleteAccount = () => {
     alertDelete(t('account_stack.account_detail.alert_delete'), onDelete);
   };
@@ -50,7 +53,7 @@ const UpdateAccountModal = ({
       label: 'Balances will be converted to this currency',
       color: textBlack,
       allowInMainAccount: false,
-      onPress: onUpdate,
+      onPress: handleUpdateAccount,
     },
     {
       title: 'Balance History',

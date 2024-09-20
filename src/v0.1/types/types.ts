@@ -95,6 +95,19 @@ export type IFinancialAccount = {
   total_balance: number;
 };
 
+export type IFinancialAccountInput = {
+  businessId: string;
+  accountName: string;
+  currencyId: string;
+  amount: string;
+  mainAccount: boolean;
+};
+
+export type IFinancialAccountEditInput = {
+  accountName?: string;
+  mainAccount?: boolean;
+};
+
 export type IBalanceItem = {
   month: string;
   year: string;

@@ -19,7 +19,9 @@ import { parserToCurrency } from '../../utils/adapter';
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
 import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
 import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
-import useDeleteFinancialAccount from '../../services/FinancialAccount/useDeleteFinancialAccount';
+import useDeleteFinancialAccount, {
+  DELETE_FINANCIAL_ACCOUNT_KEY,
+} from '../../services/FinancialAccount/useDeleteFinancialAccount';
 import { queryClient } from '../../utils/queryClient';
 
 import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
@@ -28,6 +30,9 @@ import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTrans
 import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
+import useEditFinancialAccount, {
+  PUT_FINANCIAL_ACCOUNT_KEY,
+} from '../../services/FinancialAccount/useEditFinancialAcount';
 
 const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
@@ -41,10 +46,10 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const showToast = () => {
+  const showToast = (key: 'edit' | 'delete') => {
     Toast.show({
       type: 'success',
-      text2: t('account_stack.account_detail.toast_account_delete'),
+      text2: t(`account_stack.account_detail.toast_account_${key}`),
       position: 'bottom',
       visibilityTime: 1500,
     });
@@ -67,17 +72,33 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     refetchOnWindowFocus: false,
   });
 
+  const { mutateAsync: editFinancialAccount, isLoading: isEditing } = useEditFinancialAccount(
+    id,
+    { mainAccount: true },
+    {
+      onSuccess: () => {
+        showToast('edit');
+        navigation.goBack();
+        queryClient.invalidateQueries(PUT_FINANCIAL_ACCOUNT_KEY);
+        queryClient.removeQueries([PUT_FINANCIAL_ACCOUNT_KEY, id]);
+        queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
+        queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
+        queryClient.invalidateQueries([GET_MONTHLY_STATS_KEY, id]);
+        queryClient.invalidateQueries([GET_MONTHLY_BALANCE_KEY, id]);
+      },
+    }
+  );
+
   const { mutateAsync: deleteFinancialAccount, isLoading: isDeleting } = useDeleteFinancialAccount(id, {
     onSuccess() {
-      setIsModalVisible(false);
+      showToast('delete');
       navigation.goBack();
-      showToast();
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
-      queryClient.invalidateQueries(GET_MONTHLY_BALANCE_KEY);
+      queryClient.removeQueries([GET_ACCOUNT_TRANSACTIONS_KEY, id]);
+      queryClient.removeQueries([GET_MONTHLY_STATS_KEY, id]);
+      queryClient.removeQueries([GET_MONTHLY_BALANCE_KEY, id]);
     },
   });
 
@@ -98,7 +119,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     total_balance,
   } = accountData;
 
-  if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats || isDeleting)
+  if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats || isDeleting || isEditing)
     return <LoadingComponent color={mainColor} />;
 
   return (
@@ -170,9 +191,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
       <AccountMenuModal
         account={accountData}
         isModalVisible={isModalVisible}
-        onUpdate={() => {
-          console.log('Set as default here!');
-        }}
+        onUpdate={editFinancialAccount}
         onRedirect={() => {
           navigation.navigate('MonthlySummaries', { id });
         }}
