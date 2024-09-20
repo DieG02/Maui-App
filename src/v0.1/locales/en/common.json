@@ -70,6 +70,12 @@
     "last_records": "Last records",
     "see_more": "See More"
   },
+  "account_stack": {
+    "account_detail": {
+      "alert_delete": "This action will delete permanently this account and all transactions related. Are you sure you want to continue?",
+      "toast_account_delete": "The account was successfully deleted"
+    }
+  },
   "more_screen": {
     "toast_copy_email": "Email copied to clipboard",
     "profile": "My Profile",

@@ -1,11 +1,11 @@
 import React from 'react';
-import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import customStyles from '../../../styles/customStyles';
 import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
-import { useNavigation } from '@react-navigation/native';
+import { alertDelete } from '../../../utils/alerts';
 
 const { background, textBlack, background2, expense } = customStyles;
 
@@ -22,18 +22,26 @@ interface Props {
   account: IFinancialAccount;
   isModalVisible: boolean;
   setModalVisible: (value: boolean) => void;
+  onUpdate: () => void;
+  onRedirect: () => void;
+  onDelete: () => void;
 }
 
-const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setModalVisible }: Props) => {
+const UpdateAccountModal = ({
+  account: { mainAccount },
+  isModalVisible,
+  setModalVisible,
+  onUpdate,
+  onRedirect,
+  onDelete,
+}: Props) => {
   const { t } = useTranslation();
-  const navigation = useNavigation<any>();
   const hideModal = () => setModalVisible(false);
 
   const handleUpdateAccount = () => {};
-  const handleRedirect = () => {
-    navigation.navigate('MonthlySummaries', { id });
+  const handleDeleteAccount = () => {
+    alertDelete(t('account_stack.account_detail.alert_delete'), onDelete);
   };
-  const handleDeleteAccount = () => {};
 
   const options = [
     {
@@ -42,7 +50,7 @@ const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setM
       label: 'Balances will be converted to this currency',
       color: textBlack,
       allowInMainAccount: false,
-      onPress: handleUpdateAccount,
+      onPress: onUpdate,
     },
     {
       title: 'Balance History',
@@ -50,7 +58,7 @@ const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setM
       label: 'Show balances by mounth',
       color: textBlack,
       allowInMainAccount: true,
-      onPress: handleRedirect,
+      onPress: onRedirect,
     },
     {
       title: 'Delete Account',
