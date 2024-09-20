@@ -83,8 +83,8 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
         queryClient.removeQueries([PUT_FINANCIAL_ACCOUNT_KEY, id]);
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
-        queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
-        queryClient.invalidateQueries(GET_MONTHLY_BALANCE_KEY);
+        queryClient.invalidateQueries([GET_MONTHLY_STATS_KEY, id]);
+        queryClient.invalidateQueries([GET_MONTHLY_BALANCE_KEY, id]);
       },
     }
   );
@@ -96,9 +96,9 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.removeQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
-      queryClient.removeQueries(GET_MONTHLY_STATS_KEY);
-      queryClient.removeQueries(GET_MONTHLY_BALANCE_KEY);
+      queryClient.removeQueries([GET_ACCOUNT_TRANSACTIONS_KEY, id]);
+      queryClient.removeQueries([GET_MONTHLY_STATS_KEY, id]);
+      queryClient.removeQueries([GET_MONTHLY_BALANCE_KEY, id]);
     },
   });
 

@@ -13,6 +13,19 @@ export const alertDelete = (text: string, fnConfirm: any) => {
   ]);
 };
 
+export const alertUpdate = (text: string, fnConfirm: any) => {
+  Alert.alert('Delete', text, [
+    {
+      text: 'Cancel',
+      style: 'cancel',
+    },
+    {
+      text: 'Continue',
+      onPress: () => fnConfirm(),
+    },
+  ]);
+};
+
 export const commonAlert = (text: string) => {
   Alert.alert('Error', text, [
     {
