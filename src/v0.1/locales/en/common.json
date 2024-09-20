@@ -73,6 +73,7 @@
   "account_stack": {
     "account_detail": {
       "alert_delete": "This action will delete permanently this account and all transactions related. Are you sure you want to continue?",
+      "toast_account_edit": "The account was successfully updated",
       "toast_account_delete": "The account was successfully deleted"
     }
   },
