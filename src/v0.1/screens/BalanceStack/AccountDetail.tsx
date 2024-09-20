@@ -3,29 +3,31 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native
 import { useTranslation } from 'react-i18next';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
+
+import AccountMenuModal from '../../components/Library/AccountMenu/AccountMenu';
 import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import TransactionCard from '../../components/Library/TransactionCard';
+import EmptyState from '../../components/common/EmptyState';
 import Spacer from '../../components/common/Spacer';
 import customStyles from '../../styles/customStyles';
 import CountryFlag from 'react-native-country-flag';
-import TransactionCard from '../../components/Library/TransactionCard';
-import EmptyState from '../../components/common/EmptyState';
-import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
-import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
-import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
 import LoadingComponent from '../../components/Library/LoadingComponent';
+import { BackHeaderTitle } from '../../components/common/HeaderTitle';
 import { parserToCurrency } from '../../utils/adapter';
-import AccountMenuModal from '../../components/Library/AccountMenu/AccountMenu';
 
-import { queryClient } from '../../utils/queryClient';
-import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
-import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
-import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
+import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
+import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
+import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
 import useDeleteFinancialAccount from '../../services/FinancialAccount/useDeleteFinancialAccount';
-import Toast from 'react-native-toast-message';
+import { queryClient } from '../../utils/queryClient';
+
+import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 
 const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
@@ -84,9 +86,15 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     refetchOnWindowFocus: false,
   });
 
+  const onRefresh = () => {
+    getMonthlyStats();
+    getAccountTransactions();
+  };
+
   const accountData = data!.financialAccounts.find(element => element.id === id)!;
   const {
     currency: { code, isoCode, locale },
+    accountName,
     total_balance,
   } = accountData;
 
@@ -95,64 +103,52 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 
   return (
     <ScreenContainer>
-      <View style={styles.header}>
+      <View style={styles.nav}>
         <BackHeaderTitle label={''} onPressBack={navigation.goBack} />
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
           <Ionicons name='reorder-three-outline' size={32} color={iconColor} />
         </TouchableOpacity>
       </View>
+
       <Spacer height={10} />
       <View style={styles.container}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <CountryFlag
-            isoCode={isoCode}
-            size={24}
-            style={{
-              width: 26,
-              height: 26,
-              borderRadius: 30,
-              marginRight: 10,
-            }}
-          />
-          <Text style={{ fontSize: 20 }}>{code}</Text>
+        <View style={styles.header}>
+          <CountryFlag isoCode={isoCode} size={24} style={styles.header_icon} />
+          <Text style={{ fontSize: 20 }}>{accountName}</Text>
         </View>
 
         <Text style={styles.balance}>{parserToCurrency(total_balance, locale, code)}</Text>
+
         <View style={styles.cards}>
-          <View style={[styles.card, styles.income]}>
-            <View style={styles.label}>
-              <View style={[styles.iconStyle, { backgroundColor: '#33E69B' }]}>
+          <View style={styles.card}>
+            <View style={styles.card_label}>
+              <View style={[styles.card_icon, { backgroundColor: '#33E69B' }]}>
                 <Ionicons name='ios-arrow-up-sharp' size={16} color={white} />
               </View>
               <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.sale')}</Text>
             </View>
-            <Text style={styles.textCard}>{monthlyStats?.incomes}</Text>
+            <Text style={styles.card_value}>{monthlyStats?.incomes}</Text>
           </View>
-          <View style={[styles.card, styles.expense]}>
-            <View style={styles.label}>
-              <View style={[styles.iconStyle, { backgroundColor: '#FD6363' }]}>
+
+          <View style={styles.card}>
+            <View style={styles.card_label}>
+              <View style={[styles.card_icon, { backgroundColor: '#FD6363' }]}>
                 <Ionicons name='ios-arrow-down-sharp' size={16} color={white} />
               </View>
               <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.expense')}</Text>
             </View>
-            <Text style={styles.textCard}>{monthlyStats?.expenses}</Text>
+            <Text style={styles.card_value}>{monthlyStats?.expenses}</Text>
           </View>
         </View>
 
         <FlatList
           overScrollMode='never'
           data={transactionsByAccount}
-          showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
           refreshing={false}
-          onRefresh={() => {
-            getMonthlyStats();
-            getAccountTransactions();
-          }}
-          onEndReached={() => {
-            getMonthlyStats();
-            getAccountTransactions();
-          }}
+          onRefresh={onRefresh}
+          onEndReached={onRefresh}
           style={{ marginTop: marginHorizontal }}
           onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
@@ -170,6 +166,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
           }
         />
       </View>
+
       <AccountMenuModal
         account={accountData}
         isModalVisible={isModalVisible}
@@ -190,11 +187,21 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: marginHorizontal,
   },
-  header: {
+  nav: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: marginHorizontal,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  header_icon: {
+    width: 26,
+    height: 26,
+    borderRadius: 30,
   },
   balance: {
     fontSize: 42,
@@ -205,36 +212,33 @@ const styles = StyleSheet.create({
   },
   cards: {
     flexDirection: 'row',
+    gap: 15,
   },
   card: {
     backgroundColor: background2,
     borderRadius: 15,
     flex: 1,
     padding: 15,
+    gap: 10,
   },
-  label: {
+  card_label: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    gap: 8,
   },
-  iconStyle: {
+  card_icon: {
     width: 22,
     height: 22,
     borderRadius: 30,
-    marginRight: 8,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textCard: {
+  card_value: {
     fontFamily: 'Gilroy-SemiBold',
     fontSize: 24,
     color: textBlack,
   },
-  income: {
-    marginRight: 15,
-  },
-  expense: {},
 });
 
 export default AccountDetail;
