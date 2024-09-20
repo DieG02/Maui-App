@@ -17,6 +17,16 @@ import LoadingComponent from '../../components/Library/LoadingComponent';
 import { parserToCurrency } from '../../utils/adapter';
 import AccountMenuModal from '../../components/Library/AccountMenu/AccountMenu';
 
+import { queryClient } from '../../utils/queryClient';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
+import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
+import useDeleteFinancialAccount from '../../services/FinancialAccount/useDeleteFinancialAccount';
+import Toast from 'react-native-toast-message';
+
 const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
 interface AccountDetailProps {
@@ -28,6 +38,15 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
   const { id } = route.params!;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text2: t('account_stack.account_detail.toast_account_delete'),
+      position: 'bottom',
+      visibilityTime: 1500,
+    });
+  };
 
   const {
     data: transactionsByAccount,
@@ -46,6 +65,20 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     refetchOnWindowFocus: false,
   });
 
+  const { mutateAsync: deleteFinancialAccount, isLoading: isDeleting } = useDeleteFinancialAccount(id, {
+    onSuccess() {
+      setIsModalVisible(false);
+      navigation.goBack();
+      showToast();
+      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
+      queryClient.invalidateQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
+      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+      queryClient.invalidateQueries(GET_MONTHLY_BALANCE_KEY);
+    },
+  });
+
   const { data, isLoading: isFetchingAccounts } = useGetAllAccounts({
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -57,7 +90,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     total_balance,
   } = accountData;
 
-  if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats)
+  if (isFetchingAccounts || isFetchingTransactions || isFetchingMonthlyStats || isDeleting)
     return <LoadingComponent color={mainColor} />;
 
   return (
@@ -137,7 +170,18 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
           }
         />
       </View>
-      <AccountMenuModal account={accountData} isModalVisible={isModalVisible} setModalVisible={setIsModalVisible} />
+      <AccountMenuModal
+        account={accountData}
+        isModalVisible={isModalVisible}
+        onUpdate={() => {
+          console.log('Set as default here!');
+        }}
+        onRedirect={() => {
+          navigation.navigate('MonthlySummaries', { id });
+        }}
+        onDelete={deleteFinancialAccount}
+        setModalVisible={setIsModalVisible}
+      />
     </ScreenContainer>
   );
 };

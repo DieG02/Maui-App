@@ -5,20 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import customStyles from '../../../styles/customStyles';
 import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
-import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
-import useDeleteFinancialAccount from '../../../services/FinancialAccount/useDeleteFinancialAccount';
 import { alertDelete } from '../../../utils/alerts';
-import { queryClient } from '../../../utils/queryClient';
-import { GET_ALL_ACCOUNTS_KEY } from '../../../services/FinancialAccount/useGetAllAccounts';
-import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../../services/Transactions/useGetAccountTransactions';
-import { GET_TRANSACTIONS_KEY } from '../../../services/Transactions/useGetAllTransactions';
-import { GET_GENERAL_BALANCE_KEY } from '../../../services/Balance/useGeneralBalance';
-import { GET_MONTHLY_BALANCE_KEY } from '../../../services/Balance/useGetMonthlyBalance';
-import { GET_MONTHLY_STATS_KEY } from '../../../services/Balance/useMonthlyStats';
-import LoadingComponent from '../LoadingComponent';
 
-const { background, textBlack, background2, expense, mainColor } = customStyles;
+const { background, textBlack, background2, expense } = customStyles;
 
 type OptionsType = {
   title: string;
@@ -33,41 +22,25 @@ interface Props {
   account: IFinancialAccount;
   isModalVisible: boolean;
   setModalVisible: (value: boolean) => void;
+  onUpdate: () => void;
+  onRedirect: () => void;
+  onDelete: () => void;
 }
 
-const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setModalVisible }: Props) => {
+const UpdateAccountModal = ({
+  account: { mainAccount },
+  isModalVisible,
+  setModalVisible,
+  onUpdate,
+  onRedirect,
+  onDelete,
+}: Props) => {
   const { t } = useTranslation();
-  const navigation = useNavigation<any>();
   const hideModal = () => setModalVisible(false);
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('account_stack.account_detail.toast_account_delete'),
-      position: 'bottom',
-      visibilityTime: 1500,
-    });
-  };
-
-  const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteFinancialAccount(id, {
-    onSuccess() {
-      // hideModal();
-      navigation.goBack();
-      showToast();
-      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
-      queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
-      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
-      queryClient.invalidateQueries(GET_MONTHLY_BALANCE_KEY);
-    },
-  });
 
   const handleUpdateAccount = () => {};
-  const handleRedirect = () => {
-    navigation.navigate('MonthlySummaries', { id });
-  };
   const handleDeleteAccount = () => {
-    alertDelete(t('account_stack.account_detail.alert_delete'), deleteTransaction);
+    alertDelete(t('account_stack.account_detail.alert_delete'), onDelete);
   };
 
   const options = [
@@ -77,7 +50,7 @@ const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setM
       label: 'Balances will be converted to this currency',
       color: textBlack,
       allowInMainAccount: false,
-      onPress: handleUpdateAccount,
+      onPress: onUpdate,
     },
     {
       title: 'Balance History',
@@ -85,7 +58,7 @@ const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setM
       label: 'Show balances by mounth',
       color: textBlack,
       allowInMainAccount: true,
-      onPress: handleRedirect,
+      onPress: onRedirect,
     },
     {
       title: 'Delete Account',
@@ -142,7 +115,6 @@ const UpdateAccountModal = ({ account: { mainAccount, id }, isModalVisible, setM
     );
   };
 
-  if (isDeleting) return <LoadingComponent color={mainColor} />;
   return (
     <Modal
       isVisible={isModalVisible}
