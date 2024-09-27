@@ -15,6 +15,7 @@ import useCreateFinancialAccount from '../../services/FinancialAccount/useCreate
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
 import useGetAllAccounts, { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
 
 const { mainColor, textBlack, disabled, marginHorizontal, white } = customStyles;
 
@@ -22,7 +23,7 @@ const defaultAccount = {
   accountName: '',
   mainAccount: false,
   currency: { value: '', label: '' },
-  amount: 0,
+  amount: '',
 };
 
 interface Props {
@@ -53,6 +54,7 @@ const NewFinancialAccount = ({ navigation }: Props) => {
     },
     onSuccess: (data: any) => {
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
+      queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       refetchFinancialAccounts();
       navigation.goBack();
     },
