@@ -139,6 +139,9 @@ const NewIncome = ({ navigation, route }: Props) => {
         navigation.goBack();
         showToast();
       },
+      onError: () => {
+        // SHOW TOAST HERE
+      },
     }
   );
 

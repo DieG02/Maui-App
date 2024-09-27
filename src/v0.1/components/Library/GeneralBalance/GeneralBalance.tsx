@@ -61,7 +61,9 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
           </View>
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
-        <View
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MonthlySummaries', { id: financialAccount.id })}
+          disabled={multiple}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -92,8 +94,19 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
           ) : (
             <Text style={styles.textPrice}>{parserToCurrency(total_balance, '', financialAccount.currency.code)}</Text>
           )}
-        </View>
+          {!multiple && (
+            <IconContainer
+              onPress={() => navigation.navigate('MonthlySummaries', { id: financialAccount.id })}
+              style={{
+                width: 60,
+              }}
+            >
+              <Ionicons name='chevron-forward' size={25} color={textBlack} />
+            </IconContainer>
+          )}
+        </TouchableOpacity>
       </View>
+
       {!multiple && (
         <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleRedirect}>
           <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5, marginVertical: 5 }} />
