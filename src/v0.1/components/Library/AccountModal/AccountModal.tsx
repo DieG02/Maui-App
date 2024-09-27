@@ -4,6 +4,7 @@ import CountryFlag from 'react-native-country-flag';
 import Modal from 'react-native-modal';
 import customStyles from '../../../styles/customStyles';
 import { IFinancialAccount } from '../../../types/types';
+import { useTranslation } from 'react-i18next';
 
 const { background, textBlack, background2, itemLight } = customStyles;
 
@@ -20,6 +21,7 @@ const AccountModal = ({ data, isModalVisible, setModalVisible, selected, setSele
     setSelected(account);
     setModalVisible(false);
   };
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -61,7 +63,7 @@ const AccountModal = ({ data, isModalVisible, setModalVisible, selected, setSele
                 marginBottom: 20,
               }}
             >
-              Accounts
+              {t('account_stack.account_detail.title')}
             </Text>
             <Text
               style={{
@@ -71,7 +73,7 @@ const AccountModal = ({ data, isModalVisible, setModalVisible, selected, setSele
                 marginBottom: 20,
               }}
             >
-              Elige la cuenta en la deseas aplicar esta transaccion
+              {t('account_stack.account_detail.body')}
             </Text>
           </View>
 

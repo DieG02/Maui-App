@@ -16,6 +16,8 @@ import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
 import useGetAllAccounts, { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import LoadingComponent from '../../components/Library/LoadingComponent';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 
 const { mainColor, textBlack, disabled, marginHorizontal, white } = customStyles;
 
@@ -46,7 +48,7 @@ const NewFinancialAccount = ({ navigation }: Props) => {
     });
 
   const formValidation = !!(form.accountName && form.currency.value);
-  const { mutateAsync: createNewAccount } = useCreateFinancialAccount({
+  const { mutateAsync: createNewAccount, isLoading: isCreating } = useCreateFinancialAccount({
     onError: err => {
       console.error(err);
       setForm(defaultAccount);
@@ -55,10 +57,15 @@ const NewFinancialAccount = ({ navigation }: Props) => {
     onSuccess: (data: any) => {
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
+      queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       refetchFinancialAccounts();
       navigation.goBack();
     },
   });
+
+  if (isCreating) {
+    return <LoadingComponent color={mainColor} />;
+  }
 
   return (
     <ScreenContainer>

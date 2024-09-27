@@ -52,7 +52,6 @@ const EditDebtForm = ({ navigation, data }: Props) => {
   const handleSubmit = () => {
     if (validateValues(validateOptions.value)) {
       //   mutateAsync();
-      console.log(values, 'Cambios guardados');
       navigation.goBack();
       showToast(t('debt_stack.edit_debt.debt_edited'));
     }

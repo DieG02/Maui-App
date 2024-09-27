@@ -72,10 +72,28 @@
   },
   "account_stack": {
     "account_detail": {
+      "title": "Cuentas",
+      "body": "Elige la cuenta en la que deseas aplicar esta transaccion.",
       "alert_edit": "Al seleccionar esta cuenta como predeterminada, será la primera opción en las nuevas transacciones y el balance se convertirá a esta moneda.",
       "alert_delete": "Esta acción eliminará permanentemente esta cuenta y todas las transacciones relacionadas. ¿Estás seguro de que deseas continuar?",
       "toast_account_edit": "La cuenta se actualizó correctamente",
       "toast_account_delete": "La cuenta se eliminó correctamente"
+    },
+    "setting_options": {
+      "title": "Cuenta",
+      "body": "¿Qué deseas hacer con esta cuenta?",
+      "update": {
+        "item": "Establecer como cuenta principal",
+        "info": "Los balances se convertirán a esta moneda"
+      },
+      "history": {
+        "item": "Historial de Balance",
+        "info": "Mostrar balance por mes"
+      },
+      "delete": {
+        "item": "Eliminar Cuenta",
+        "info": "Eliminar esta cuenta permanentemente"
+      }
     }
   },
   "more_screen": {
