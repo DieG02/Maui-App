@@ -95,7 +95,7 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
-      navigation.navigate('balance');
+      navigation.navigate('transactions');
       showToast(t('debt_stack.edit_debt.toast_edited'));
     },
   });

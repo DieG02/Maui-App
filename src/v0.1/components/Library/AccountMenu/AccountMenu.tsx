@@ -48,25 +48,25 @@ const UpdateAccountModal = ({
 
   const options = [
     {
-      title: 'Set as main account',
+      title: t('account_stack.setting_options.update.item'),
+      label: t('account_stack.setting_options.update.info'),
       icon: 'build-outline',
-      label: 'Balances will be converted to this currency',
       color: textBlack,
       allowInMainAccount: false,
       onPress: handleUpdateAccount,
     },
     {
-      title: 'Balance History',
+      title: t('account_stack.setting_options.history.item'),
+      label: t('account_stack.setting_options.history.info'),
       icon: 'reader-outline',
-      label: 'Show balances by mounth',
       color: textBlack,
       allowInMainAccount: true,
       onPress: onRedirect,
     },
     {
-      title: 'Delete Account',
+      title: t('account_stack.setting_options.delete.item'),
+      label: t('account_stack.setting_options.delete.info'),
       icon: 'trash-outline',
-      label: 'Remove this account permanently',
       color: expense,
       allowInMainAccount: false,
       onPress: handleDeleteAccount,
@@ -79,21 +79,18 @@ const UpdateAccountModal = ({
       <TouchableOpacity
         style={{
           backgroundColor: background2,
-          height: 60,
           borderRadius: 12,
           justifyContent: 'flex-start',
           alignItems: 'center',
           flexDirection: 'row',
-          paddingLeft: 15,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
         }}
         onPress={onPress}
       >
         <Ionicons name={icon} size={24} color={color} />
-        <View
-          style={{
-            rowGap: 5,
-          }}
-        >
+
+        <View style={{ rowGap: 5 }}>
           <Text
             style={{
               marginLeft: 15,
@@ -102,7 +99,7 @@ const UpdateAccountModal = ({
               fontFamily: 'Gilroy-SemiBold',
             }}
           >
-            {t(title)}
+            {title}
           </Text>
           <Text
             style={{
@@ -138,7 +135,7 @@ const UpdateAccountModal = ({
               marginBottom: 20,
             }}
           >
-            {t('Account')}
+            {t('account_stack.setting_options.title')}
           </Text>
           <Text
             style={{
@@ -147,7 +144,7 @@ const UpdateAccountModal = ({
               marginBottom: 15,
             }}
           >
-            {t('What do you want to do with this account?')}
+            {t('account_stack.setting_options.body')}
           </Text>
         </View>
 
