@@ -50,9 +50,6 @@ const NewFinancialAccount = ({ navigation }: Props) => {
       };
     });
 
-  console.log('CURRENCIES', JSON.stringify(currencies, null, 2));
-  console.log('SELECTED COUNTRY', selectedCountry);
-
   const formValidation = !!(form.accountName && selectedCountry);
   const { mutateAsync: createNewAccount, isLoading: isCreating } = useCreateFinancialAccount({
     onError: err => {

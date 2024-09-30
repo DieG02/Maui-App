@@ -28,16 +28,12 @@ const MonthlySummariesScreen = () => {
 
   const mainAccountId = String(accounts?.financialAccounts.find(account => account.mainAccount)?.id);
   const [selectedAccountId, setSelectedAccountId] = useState<string>(mainAccountId);
-  console.log('MAIN ACCOUNT ID', mainAccountId);
 
   useEffect(() => {
-    // Solo establece el mainAccountId si no ha habido una selección manual
     if (mainAccountId && !isLoadingAccounts) {
       setSelectedAccountId(mainAccountId);
     }
   }, [mainAccountId, isLoadingAccounts]);
-
-  console.log('ACCOUNTS', JSON.stringify(accounts, null, 2));
 
   const [tabId, setTabId] = useState<number[]>([]);
   const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance(selectedAccountId);
@@ -52,8 +48,6 @@ const MonthlySummariesScreen = () => {
   };
 
   if (isLoading || !data || isLoadingAccounts) return <LoadingComponent color={mainColor} />;
-
-  console.log('MULTIPLE ACCOUNTS', multipleAccounts);
 
   const Tab = ({ balance, id }: TabProps) => {
     const date = moment(balance.month, 'M').locale(i18n.language).format('MMMM');
@@ -114,8 +108,6 @@ const MonthlySummariesScreen = () => {
       </View>
     );
   };
-
-  console.log('SELECTED ACCOUNT ID', selectedAccountId);
 
   return (
     <ScreenContainer>

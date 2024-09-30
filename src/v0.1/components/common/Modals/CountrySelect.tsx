@@ -34,7 +34,6 @@ const CountrySelect = ({
   withPlaceholder = false,
 }: Props) => {
   const { toggle, setToggle, value } = useToggle(false);
-  console.log('options', options);
 
   const countryInfo = options.find((item: ICountry) => item.isoCode === selectedOption);
 
@@ -54,7 +53,6 @@ const CountrySelect = ({
     onChangeText('');
     setToggle(false);
   };
-  console.log('Sel', selectedOption);
 
   return (
     <View>

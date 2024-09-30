@@ -28,8 +28,6 @@ const AccountCard = ({ account, left, right }: Props) => {
     navigation.navigate('AccountDetail', { id });
   };
 
-  console.log(account);
-
   return (
     <TouchableOpacity onPress={handleOnPress} style={styles({ left, right }).wrapper} activeOpacity={0.5}>
       <View style={styles({}).container}>

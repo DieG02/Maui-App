@@ -38,8 +38,6 @@ const HomeScreen = ({ navigation }: Props) => {
     capability => capability.name === Capabilities.MULTIPLE_FINANCIAL_ACCOUNTS
   );
 
-  console.log('MULTIPLE FINANCIAL ACCOUNTS', JSON.stringify(multipleFinancialAccounts, null, 2));
-
   const { data: general_balance, refetch: getGeneralBalance } = useGeneralBalance();
   const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } = useGetAllAccounts({
     refetchOnMount: true,
