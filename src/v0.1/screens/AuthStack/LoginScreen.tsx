@@ -16,6 +16,7 @@ import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import useLoginGoogle from '../../services/Auth/useLoginGoogle';
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
+import { GET_SUBSCRIPTION_CAPABILITIES_KEY } from '../../services/SuscriptionCapabilities/useGetCapabilities';
 
 const { textBlack, white, background2, mainColor, height, width } = customStyles;
 const statusBarStyle = 'light-content';
@@ -36,6 +37,7 @@ export default function LoginScreen({ navigation }: Props) {
           navigation.dispatch(StackActions.push(data.screenRedirect, { user: data }));
         } else {
           await AsyncStorage.setItem('userInfo', JSON.stringify(data));
+          queryClient.invalidateQueries(GET_SUBSCRIPTION_CAPABILITIES_KEY);
           queryClient.invalidateQueries(VERIFY_TOKEN);
         }
       } catch (error) {

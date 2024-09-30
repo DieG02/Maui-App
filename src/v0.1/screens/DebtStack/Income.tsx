@@ -1,15 +1,10 @@
-import { useCallback } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import SummaryDebt from '../../components/common/SummaryDebt';
-import DebtContactCard from '../../components/common/DebtContactCard';
-import customStyles from '../../styles/customStyles';
-import useRefresh from '../../hooks/useRefresh';
-import EmptyState from '../../components/common/EmptyState';
-import LoadingComponent from '../../components/Library/LoadingComponent/LoadingComponent';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import useRefresh from '../../hooks/useRefresh';
 import useGetAllDebts from '../../services/Debts/useGetAllDebts';
-import { parserToCurrency } from '../../utils/adapter';
+import customStyles from '../../styles/customStyles';
 
 const { background, mainColor } = customStyles;
 
@@ -31,57 +26,7 @@ const IncomeDebt = () => {
         flex: 1,
         backgroundColor: background,
       }}
-    >
-      {debts?.incomes?.length !== 0 && (
-        <SummaryDebt
-          type='income'
-          amount={parserToCurrency(
-            total(),
-            debts?.incomes[0]?.financialAccount.currency.locale as string,
-            debts?.incomes[0]?.financialAccount.currency.code as string
-          )}
-          stakeholders={debts?.incomes?.length || 0}
-        />
-      )}
-
-      {isLoading ? (
-        <LoadingComponent color={mainColor} />
-      ) : (
-        <View
-          style={{
-            marginTop: 15,
-            backgroundColor: background,
-            flex: 1,
-          }}
-        >
-          <FlatList
-            data={debts?.incomes}
-            showsVerticalScrollIndicator={false}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={[mainColor]} />}
-            keyExtractor={item => item.contactId}
-            renderItem={({ item }) => (
-              <DebtContactCard
-                type='client'
-                onPress={() =>
-                  navigate('DebtorScreen', {
-                    contactId: item.contactId,
-                  })
-                }
-                name={item.contactName}
-                date={item.initialDate}
-                sales={item.amountDebts}
-                totalPrice={parserToCurrency(
-                  item.totalToPay,
-                  item.financialAccount.currency.locale,
-                  item.financialAccount.currency.code
-                )}
-              />
-            )}
-            ListEmptyComponent={<EmptyState title={t('debt_stack.income_debt.empty_debts')} />}
-          />
-        </View>
-      )}
-    </View>
+    ></View>
   );
 };
 

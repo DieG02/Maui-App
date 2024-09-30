@@ -14,7 +14,7 @@ export const alertDelete = (text: string, fnConfirm: any) => {
 };
 
 export const alertUpdate = (text: string, fnConfirm: any) => {
-  Alert.alert('Delete', text, [
+  Alert.alert('Update', text, [
     {
       text: 'Cancel',
       style: 'cancel',

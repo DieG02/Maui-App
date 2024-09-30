@@ -1,17 +1,18 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, ScrollView } from 'react-native';
 
 import Spacer from '../../components/common/Spacer';
 import ScreenContainer from '../../components/containers/ScreenContainer';
 import GeneralBalance from '../../components/Library/GeneralBalance';
+import MultipleAccounts from '../../components/Library/MultipleAccounts';
 import ProfileComponent from '../../components/Library/ProfileComponent';
 import StateBalance from '../../components/Library/StateBalance';
 import Title from '../../components/Library/Title';
 import TransactionsContainer from '../../components/Library/TransactionsContainer';
-import MultipleAccounts from '../../components/Library/MultipleAccounts';
 
+import { Capabilities, SubscriptionContext } from '../../context/SubscriptionContext';
 import useGetAccount from '../../services/Account/useGetAccount';
 import useGeneralBalance from '../../services/Balance/useGeneralBalance';
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
@@ -30,6 +31,14 @@ const HomeScreen = ({ navigation }: Props) => {
   const [singleAccount, setSingleAccount] = useState<boolean>(true);
   const { data: user } = useGetAccount();
   const { data: transactions, refetch: getTransactionsFromHome } = useGetAllTransactions({ take: 6 });
+
+  const { subscriptionCapabilities } = useContext(SubscriptionContext);
+
+  const multipleFinancialAccounts = subscriptionCapabilities.find(
+    capability => capability.name === Capabilities.MULTIPLE_FINANCIAL_ACCOUNTS
+  );
+
+  console.log('MULTIPLE FINANCIAL ACCOUNTS', JSON.stringify(multipleFinancialAccounts, null, 2));
 
   const { data: general_balance, refetch: getGeneralBalance } = useGeneralBalance();
   const { data: { financialAccounts } = { financialAccounts: [] }, refetch: getFinancialAccounts } = useGetAllAccounts({
@@ -64,7 +73,13 @@ const HomeScreen = ({ navigation }: Props) => {
       >
         <ProfileComponent user={user} onPressUser={() => navigation.navigate('More')} />
         <Spacer height={20} />
-        <GeneralBalance data={general_balance} multiple={!singleAccount} navigation={navigation} />
+        <GeneralBalance
+          data={general_balance}
+          limit={Number(multipleFinancialAccounts?.limit)}
+          multiple={!!multipleFinancialAccounts?.value}
+          amountAccounts={financialAccounts.length}
+          navigation={navigation}
+        />
         <Spacer height={20} />
         <Title title={t('home_stack.monthly_summary.title')} />
         <Spacer height={20} />

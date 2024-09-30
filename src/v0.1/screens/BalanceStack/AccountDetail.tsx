@@ -1,38 +1,36 @@
-import { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Toast from 'react-native-toast-message';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import CountryFlag from 'react-native-country-flag';
 import AccountMenuModal from '../../components/Library/AccountMenu/AccountMenu';
-import ScreenContainer from '../../components/containers/ScreenContainer';
+import LoadingComponent from '../../components/Library/LoadingComponent';
 import TransactionCard from '../../components/Library/TransactionCard';
 import EmptyState from '../../components/common/EmptyState';
-import Spacer from '../../components/common/Spacer';
-import customStyles from '../../styles/customStyles';
-import CountryFlag from 'react-native-country-flag';
-import LoadingComponent from '../../components/Library/LoadingComponent';
 import { BackHeaderTitle } from '../../components/common/HeaderTitle';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import customStyles from '../../styles/customStyles';
 import { parserToCurrency } from '../../utils/adapter';
 
 import useGetMonthlyStats from '../../services/Balance/useMonthlyStats';
+import useDeleteFinancialAccount from '../../services/FinancialAccount/useDeleteFinancialAccount';
 import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
 import useGetAccountTransactions from '../../services/Transactions/useGetAccountTransactions';
-import useDeleteFinancialAccount, {
-  DELETE_FINANCIAL_ACCOUNT_KEY,
-} from '../../services/FinancialAccount/useDeleteFinancialAccount';
 import { queryClient } from '../../utils/queryClient';
 
-import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
-import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
-import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
-import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalance';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 import useEditFinancialAccount, {
   PUT_FINANCIAL_ACCOUNT_KEY,
 } from '../../services/FinancialAccount/useEditFinancialAcount';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
+import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 
 const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
@@ -193,7 +191,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
         isModalVisible={isModalVisible}
         onUpdate={editFinancialAccount}
         onRedirect={() => {
-          navigation.navigate('MonthlySummaries', { id });
+          navigation.navigate('balance', { id });
         }}
         onDelete={deleteFinancialAccount}
         setModalVisible={setIsModalVisible}
