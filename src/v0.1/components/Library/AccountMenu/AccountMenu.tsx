@@ -1,9 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import customStyles from '../../../styles/customStyles';
-import { useTranslation } from 'react-i18next';
 import { IFinancialAccount } from '../../../types/types';
 import { alertDelete, alertUpdate } from '../../../utils/alerts';
 
@@ -84,7 +84,7 @@ const UpdateAccountModal = ({
           alignItems: 'center',
           flexDirection: 'row',
           paddingHorizontal: 15,
-          paddingVertical: 10,
+          paddingVertical: 15,
         }}
         onPress={onPress}
       >
@@ -142,6 +142,7 @@ const UpdateAccountModal = ({
               color: textBlack,
               fontFamily: 'Gilroy-Medium',
               marginBottom: 15,
+              fontSize: 16,
             }}
           >
             {t('account_stack.setting_options.body')}
@@ -165,11 +166,13 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: background,
-    padding: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     borderBottomEndRadius: Platform.OS === 'ios' ? 30 : 0,
     borderBottomStartRadius: Platform.OS === 'ios' ? 30 : 0,
+    paddingBottom: 40,
+    paddingTop: 30,
+    paddingHorizontal: 20,
   },
 });
 

@@ -4,23 +4,37 @@ import Modal from 'react-native-modal';
 import customStyles from '../../../styles/customStyles';
 import OptionCountrySelect from '../OptionCountrySelect';
 
-import useToggle from '../../../hooks/useToggle';
-import SearchBar from '../SearchBar';
 import { t } from 'i18next';
-import EmptyState from '../EmptyState';
+import Entypo from 'react-native-vector-icons/Entypo';
+import useToggle from '../../../hooks/useToggle';
 import { ICountry } from '../../../types/types';
+import EmptyState from '../EmptyState';
+import SearchBar from '../SearchBar';
 
-const { mainColor, white, ligthBlue, blueSelected, textBlack, expense, secondaryColorBorder } = customStyles;
+const { mainColor, white, ligthBlue, blueSelected, textBlack, expense, secondaryColorBorder, textLight } = customStyles;
 interface Props {
   selectedOption: string;
   setSelectedOption: (value: string) => void;
   name: string;
   notRequired?: boolean;
   options: ICountry[];
+  withSearch?: boolean;
+  placeholder?: string;
+  withPlaceholder?: boolean;
 }
 
-const CountrySelect = ({ selectedOption, setSelectedOption, name, notRequired, options }: Props) => {
+const CountrySelect = ({
+  selectedOption,
+  setSelectedOption,
+  name,
+  notRequired,
+  options,
+  withSearch = true,
+  placeholder,
+  withPlaceholder = false,
+}: Props) => {
   const { toggle, setToggle, value } = useToggle(false);
+
   const countryInfo = options.find((item: ICountry) => item.isoCode === selectedOption);
 
   const [text, onChangeText] = useState('');
@@ -52,6 +66,7 @@ const CountrySelect = ({ selectedOption, setSelectedOption, name, notRequired, o
       >
         {name} <Text style={{ color: expense }}>{!notRequired && '*'}</Text>
       </Text>
+
       <Modal
         scrollOffset={100}
         isVisible={value}
@@ -72,18 +87,21 @@ const CountrySelect = ({ selectedOption, setSelectedOption, name, notRequired, o
             height: 500,
           }}
         >
-          <SearchBar
-            onChangeText={onChangeText}
-            text={text}
-            placeholder={t('contact_stack.client.search')}
-            onPress={() => {
-              if (text === '') handleClear();
-              onChangeText('');
-            }}
-            style={{
-              borderRadius: 30,
-            }}
-          />
+          {withSearch && (
+            <SearchBar
+              autoFocus={false}
+              onChangeText={onChangeText}
+              text={text}
+              placeholder={t('contact_stack.client.search')}
+              onPress={() => {
+                if (text === '') handleClear();
+                onChangeText('');
+              }}
+              style={{
+                borderRadius: 30,
+              }}
+            />
+          )}
 
           <FlatList
             overScrollMode='never'
@@ -130,22 +148,49 @@ const CountrySelect = ({ selectedOption, setSelectedOption, name, notRequired, o
           borderRadius: 12,
           borderColor: secondaryColorBorder,
           borderWidth: 1,
-          paddingHorizontal: 10,
+          paddingHorizontal: 0,
           height: 55,
           justifyContent: 'space-between',
           flexDirection: 'row',
           alignItems: 'center',
         }}
       >
-        <Text
-          style={{
-            color: textBlack,
-            fontFamily: 'Gilroy-SemiBold',
-            paddingHorizontal: 5,
-          }}
-        >
-          {countryInfo?.name}
-        </Text>
+        {withPlaceholder ? (
+          countryInfo?.name ? (
+            <Text
+              style={{
+                color: textBlack,
+                paddingHorizontal: 30,
+                fontFamily: 'Gilroy-SemiBold',
+              }}
+            >
+              {countryInfo?.name}
+            </Text>
+          ) : (
+            <Text
+              style={{
+                marginHorizontal: 20,
+                color: textLight,
+                fontSize: 16,
+                fontFamily: 'Gilroy-Medium',
+              }}
+            >
+              {placeholder}
+            </Text>
+          )
+        ) : (
+          <Text
+            style={{
+              color: textBlack,
+              paddingHorizontal: 30,
+              fontFamily: 'Gilroy-SemiBold',
+            }}
+          >
+            {countryInfo?.name}
+          </Text>
+        )}
+
+        <Entypo name='chevron-down' size={25} style={{ marginRight: 20 }} color={mainColor} />
       </TouchableOpacity>
     </View>
   );

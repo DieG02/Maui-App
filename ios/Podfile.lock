@@ -8,9 +8,9 @@ PODS:
   - boost (1.83.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.74.4)
-  - Firebase/CoreOnly (10.20.0):
-    - FirebaseCore (= 10.20.0)
-  - FirebaseCore (10.20.0):
+  - Firebase/CoreOnly (10.29.0):
+    - FirebaseCore (= 10.29.0)
+  - FirebaseCore (10.29.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
     - GoogleUtilities/Logger (~> 7.12)
@@ -1006,7 +1006,7 @@ PODS:
     - React-Core
   - react-native-pager-view (5.4.25):
     - React-Core
-  - react-native-safe-area-context (4.10.8):
+  - react-native-safe-area-context (4.11.0):
     - React-Core
   - React-nativeconfig (0.74.4)
   - React-NativeModulesApple (0.74.4):
@@ -1243,21 +1243,21 @@ PODS:
     - React
   - RNDateTimePicker (8.2.0):
     - React-Core
-  - RNFBApp (18.9.0):
-    - Firebase/CoreOnly (= 10.20.0)
+  - RNFBApp (20.5.0):
+    - Firebase/CoreOnly (= 10.29.0)
     - React-Core
   - RNGoogleSignin (11.0.1):
     - GoogleSignIn (~> 7.0.0)
     - React-Core
-  - RNImageCropPicker (0.38.0):
+  - RNImageCropPicker (0.41.2):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.38.0)
-    - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.38.0):
+    - RNImageCropPicker/QBImagePickerController (= 0.41.2)
+    - TOCropViewController (~> 2.7.4)
+  - RNImageCropPicker/QBImagePickerController (0.41.2):
     - React-Core
     - React-RCTImage
-    - TOCropViewController
+    - TOCropViewController (~> 2.7.4)
   - RNLocalize (3.2.1):
     - React-Core
   - RNPermissions (4.1.5):
@@ -1284,14 +1284,32 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (5.26.0):
+  - RNSentry (5.33.0):
+    - DoubleConversion
+    - glog
     - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
     - React-hermes
-    - Sentry/HybridSDK (= 8.31.1)
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Sentry/HybridSDK (= 8.36.0)
+    - Yoga
   - RNSVG (13.14.1):
     - React-Core
-  - Sentry/HybridSDK (8.31.1)
+  - Sentry/HybridSDK (8.36.0)
   - SocketRocket (0.7.0)
   - TOCropViewController (2.7.4)
   - Yoga (0.0.0)
@@ -1529,8 +1547,8 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 4c674c2d53de79c145d6a723910543d7b57ed74c
-  Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
-  FirebaseCore: 28045c1560a2600d284b9c45a904fe322dc890b6
+  Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
+  FirebaseCore: 30e9c1cbe3d38f5f5e75f48bfcea87d7c358ec16
   FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
@@ -1566,7 +1584,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: d39610dff659d8cf1fea485abae08bbf6f9c8279
   react-native-contacts: cb4f3b823550adbce0802901b9e63bf1526ec0af
   react-native-pager-view: da490aa1f902c9a5aeecf0909cc975ad0e92e53e
-  react-native-safe-area-context: b7daa1a8df36095a032dff095a1ea8963cb48371
+  react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9
   React-nativeconfig: 2be4363c2c4ac2b42419577774e83e4e4fd2af9f
   React-NativeModulesApple: 453ada38f826a508e48872c7a7877c431af48bba
   React-perflogger: 9745f800ab4d12ec4325bde7bd090eafb87c5570
@@ -1593,15 +1611,15 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 40ffda97d071a98a10fdca4fa97e3977102ccd14
-  RNFBApp: a3e139715386fe79a09c387f2dbeb6890eb05b39
+  RNFBApp: 5f87753a8d8b37d229adf85cd0ff37709ffdf008
   RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
-  RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
+  RNImageCropPicker: 771e2ca319d2cf92e04ebf334ece892ee9a6728f
   RNLocalize: 4f22418187ecd5ca693231093ff1d912d1b3c9bc
   RNPermissions: a1b5bdc37ed13ba7975ef795a2532f3c3508c392
   RNScreens: d2a12528d1abe4922e7ee5c9a00dd40c827c2ab5
-  RNSentry: 85fe1023bf60ead12d059d9c845de19de0ed6f0d
+  RNSentry: 9af10d1424ae5ddf30d8305ae771ae550d8bbdbb
   RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
-  Sentry: 9c1188876ea1291d1a9db4b38c3f17ebd8e6985e
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
   Yoga: 6259f968a4fdf516d76a4432dead624d71aa0fb1

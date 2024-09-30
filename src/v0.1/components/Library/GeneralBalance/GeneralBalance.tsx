@@ -19,10 +19,12 @@ const { textBlack } = customStyles;
 interface Props {
   navigation: NavigationProp<any, any>;
   multiple: boolean;
+  limit: number;
+  amountAccounts: number;
   data: any;
 }
 
-const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, navigation }: Props) => {
+const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, amountAccounts, navigation }: Props) => {
   const { t } = useTranslation();
   const { value, toggle } = useToggle();
   const hideNumber = Array.from({ length: 4 }, (_, i) => i);
@@ -57,12 +59,12 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
                 marginRight: 10,
               }}
             />
-            <Text style={styles.text}>{t('home_stack.budget.title') + ' ' + financialAccount.currency.code}</Text>
+            <Text style={styles.text}>{t('home_stack.budget.title')}</Text>
           </View>
           <HiderComponent size={20} color={textBlack} value={value} toggle={toggle} />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('MonthlySummaries', { id: financialAccount.id })}
+          onPress={() => navigation.navigate('balance')}
           disabled={multiple}
           style={{
             flexDirection: 'row',
@@ -96,7 +98,7 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
           )}
           {!multiple && (
             <IconContainer
-              onPress={() => navigation.navigate('MonthlySummaries', { id: financialAccount.id })}
+              onPress={() => navigation.navigate('balance')}
               style={{
                 width: 60,
               }}
@@ -107,7 +109,7 @@ const GeneralBalance = ({ data: { financialAccount, total_balance }, multiple, n
         </TouchableOpacity>
       </View>
 
-      {!multiple && (
+      {multiple && amountAccounts <= 1 && (
         <TouchableOpacity style={styles.button} activeOpacity={0.5} onPress={handleRedirect}>
           <Feather name='plus' size={20} color={textBlack} style={{ marginRight: 5, marginVertical: 5 }} />
           <View>

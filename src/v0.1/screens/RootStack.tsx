@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import useVerifyToken from '../services/Account/useVerifyToken';
 import HomeTabs from '../navigation/HomeTabs';
+import useVerifyToken from '../services/Account/useVerifyToken';
 import NewFinancialAccount from './HomeStack/NewFinancialAccount';
 
 // MORE STACK
-import UserDataScreen from './MoreStack/UserData';
-import SettingsScreen from './MoreStack/SettingsScreen';
 import MoreScreen from './MoreStack/MoreScreen';
+import SettingsScreen from './MoreStack/SettingsScreen';
+import UserDataScreen from './MoreStack/UserData';
 
 // AUTH STACK
 // import SignInScreen from './AuthStack/SignInScreen';
@@ -14,41 +14,41 @@ import MoreScreen from './MoreStack/MoreScreen';
 import SplashScreen from './AuthStack/SplashScreen';
 
 // BALANCE STACK
-import NewIncome from './BalanceStack/NewIncome';
+import AccountDetail from './BalanceStack/AccountDetail';
+import EditExpense from './BalanceStack/EditExpense';
 import EditIncome from './BalanceStack/EditIncome';
 import NewExpense from './BalanceStack/NewExpense';
-import EditExpense from './BalanceStack/EditExpense';
-import AccountDetail from './BalanceStack/AccountDetail';
+import NewIncome from './BalanceStack/NewIncome';
 import TransactionDetail from './BalanceStack/TransactionDetail';
 
 // CONTACT STACK
 import ClientsScreen from './ContactStack/Clients';
 import ContactDetail from './ContactStack/ContactDetail';
-import ProvidersScreen from './ContactStack/Providers';
 import NewContact from './ContactStack/NewContact';
+import ProvidersScreen from './ContactStack/Providers';
 
 // DEBT STACK
-import DebtsScreen from './DebtStack/Debts';
-import DebtorScreen from './DebtStack/DebtorProfile';
-import DebtDetail from './DebtStack/DebtDetail';
-import EditDebt from './DebtStack/EditDebt';
-import IndividualPayment from './DebtStack/IndividualPayment';
-import { LoginScreen, RegisterScreen } from './AuthStack';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import LoadingComponent from '../components/Library/LoadingComponent';
+import useLocalStorage from '../hooks/useLocalStorage';
+import useGetAccount from '../services/Account/useGetAccount';
+import useVersion from '../services/Auth/useVersion';
+import useGeneralBalance from '../services/Balance/useGeneralBalance';
 import useGetCountries from '../services/Countries/useGetCountries';
 import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
-import MonthlySummariesScreen from './HomeStack/MonthlySummariesScreen';
-import useVersion from '../services/Auth/useVersion';
-import useGetLinks from '../services/Links/useGetLinks';
-import LoadingComponent from '../components/Library/LoadingComponent';
-import { useEffect } from 'react';
-import useLocalStorage from '../hooks/useLocalStorage';
-import { useTranslation } from 'react-i18next';
-import useGetAccount from '../services/Account/useGetAccount';
-import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
 import useGetAllAccounts from '../services/FinancialAccount/useGetAllAccounts';
-import { AppStatus } from '../types/types';
+import useGetLinks from '../services/Links/useGetLinks';
+import useGetSuscriptionCapabilities from '../services/SuscriptionCapabilities/useGetCapabilities';
+import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
 import customStyles from '../styles/customStyles';
-import useGeneralBalance from '../services/Balance/useGeneralBalance';
+import { AppStatus } from '../types/types';
+import { LoginScreen, RegisterScreen } from './AuthStack';
+import DebtDetail from './DebtStack/DebtDetail';
+import DebtorScreen from './DebtStack/DebtorProfile';
+import DebtsScreen from './DebtStack/Debts';
+import EditDebt from './DebtStack/EditDebt';
+import IndividualPayment from './DebtStack/IndividualPayment';
 
 const { mainColor } = customStyles;
 
@@ -57,6 +57,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStack() {
   const { i18n } = useTranslation();
   const { data: token, isLoading: loadingToken, isFetching } = useVerifyToken();
+
+  const { isLoading: loadingSubscriptionCapabilities } = useGetSuscriptionCapabilities();
+
   const { data: version, isLoading, isError } = useVersion();
   const { isLoading: isLoadingCountry } = useGetCountries();
   const { isLoading: isLoadingLinks } = useGetLinks();
@@ -76,7 +79,7 @@ export default function RootStack() {
     }
   }, [user]);
 
-  if (loadingToken) return <SplashScreen />;
+  if (loadingToken || loadingSubscriptionCapabilities) return <SplashScreen />;
   if (
     isFetching ||
     isLoadingCountry ||
@@ -119,7 +122,7 @@ export default function RootStack() {
         <Stack.Group>
           <Stack.Screen name='HomeTabs' component={HomeTabs} />
           <Stack.Screen name='NewFinancialAccount' component={NewFinancialAccount} />
-          <Stack.Screen name='MonthlySummaries' component={MonthlySummariesScreen} />
+          {/* <Stack.Screen name='MonthlySummaries' component={MonthlySummariesScreen} /> */}
           <Stack.Screen name='NewIncome' component={NewIncome} />
           <Stack.Screen name='EditIncome' component={EditIncome} />
           <Stack.Screen name='NewExpense' component={NewExpense} />

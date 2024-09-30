@@ -1,19 +1,19 @@
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeStack/HomeScreen';
-import TransactionsScreen from '../screens/BalanceStack/TransactionsScreen';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Image, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import balanceFilled from '../assets/balance-filled.png';
+import balance from '../assets/balance.png';
+import homeFilled from '../assets/home-filled.png';
+import home from '../assets/home.png';
+import transactionFilled from '../assets/transaction-filled.png';
+import transaction from '../assets/transaction.png';
+import TransactionsScreen from '../screens/BalanceStack/TransactionsScreen';
+import HomeScreen from '../screens/HomeStack/HomeScreen';
+import MonthlySummariesScreen from '../screens/HomeStack/MonthlySummariesScreen';
 import { MainBottomTabParamList } from '../screens/types';
 import customStyles from '../styles/customStyles';
-import { Image, Platform } from 'react-native';
-import Debts from '../screens/DebtStack/Debts';
-import { useTranslation } from 'react-i18next';
-import home from '../assets/home.png';
-import balance from '../assets/balance.png';
-import debt from '../assets/debt.png';
-import homeFilled from '../assets/home-filled.png';
-import balanceFilled from '../assets/balance-filled.png';
-import debtFilled from '../assets/debt-filled.png';
 
 const { textBlack } = customStyles;
 
@@ -88,6 +88,43 @@ const HomeTabs = () => {
               <>
                 {focused ? (
                   <Image
+                    source={transactionFilled}
+                    style={{
+                      width: 30,
+                      height: 30,
+                      tintColor: color,
+                      marginTop: 4,
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={transaction}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      tintColor: color,
+                      marginTop: 4,
+                    }}
+                  />
+                )}
+              </>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name='balance'
+          component={MonthlySummariesScreen}
+          options={{
+            tabBarIconStyle: { borderRadius: 20 },
+            tabBarLabel: t('balance'),
+            tabBarLabelStyle: {
+              fontSize: 14,
+              marginBottom: Platform.OS === 'ios' ? 0 : 4,
+            },
+            tabBarIcon: ({ color, focused }) => (
+              <>
+                {focused ? (
+                  <Image
                     source={balanceFilled}
                     style={{
                       width: 30,
@@ -100,8 +137,8 @@ const HomeTabs = () => {
                   <Image
                     source={balance}
                     style={{
-                      width: 28,
-                      height: 28,
+                      width: 30,
+                      height: 30,
                       tintColor: color,
                       marginTop: 4,
                     }}

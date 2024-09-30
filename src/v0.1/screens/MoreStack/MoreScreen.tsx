@@ -23,6 +23,7 @@ import customStyles from '../../styles/customStyles';
 import { IAccount, ILink, ILinkType } from '../../types/types';
 import { Clipboard } from '../../utils/ClipBoard';
 import { queryClient } from '../../utils/queryClient';
+import { GET_SUBSCRIPTION_CAPABILITIES_KEY } from '../../services/SuscriptionCapabilities/useGetCapabilities';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -79,6 +80,7 @@ const More = ({ navigation }: Props) => {
     const isSignedInGoogle = await GoogleSignin.isSignedIn();
     isSignedInGoogle && (await GoogleSignin.signOut());
     await AsyncStorage.removeItem('userInfo');
+    queryClient.invalidateQueries(GET_SUBSCRIPTION_CAPABILITIES_KEY);
     queryClient.invalidateQueries(VERIFY_TOKEN);
     queryClient.clear();
   };

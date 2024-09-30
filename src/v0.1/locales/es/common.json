@@ -3,6 +3,7 @@
   "transactions": "Transacciones",
   "contacts": "Contactos",
   "debts": "Deudas",
+  "balance": "Balance",
   "auth_stack": {
     "login_title": "Gestiona tu negocio desde tu celular",
     "login_google": "Continuar con Google",
@@ -36,7 +37,7 @@
   },
   "home_stack": {
     "budget": {
-      "title": "Balance General",
+      "title": "Saldo General",
       "new_account": "Agregar cuenta"
     },
     "welcome": "Hola,",
@@ -153,7 +154,7 @@
       "category": "Categoría",
       "placeholder_category": "Seleccione una categoría",
       "value": "Valor",
-      "description": "Descripción",
+      "description": "Concepto",
       "placeholder_description": "¿Cómo quieres llamar a este gasto?",
       "state": "Estado",
       "payment_method": "Método de Pago",
@@ -168,7 +169,7 @@
       "category": "Categoría",
       "placeholder_category": "Seleccione una categoría",
       "value": "Valor",
-      "description": "Descripción",
+      "description": "Concepto",
       "placeholder_description": "¿Cómo quieres llamar a este ingreso?",
       "state": "Estado",
       "payment_method": "Método de Pago",

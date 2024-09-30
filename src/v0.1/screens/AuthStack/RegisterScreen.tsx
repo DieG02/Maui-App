@@ -3,7 +3,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View } from 'react-native';
 import { getCountry } from 'react-native-localize';
 import Button from '../../components/common/Button';
 import CommonInput from '../../components/common/CommonInput';
@@ -19,6 +19,7 @@ import useLoginGoogle from '../../services/Auth/useLoginGoogle';
 import useSignupGoogle from '../../services/Auth/useSignUpGoogle';
 import useGetCountries from '../../services/Countries/useGetCountries';
 import useGetCountryCode from '../../services/CountryCode/useGetCountryCode';
+import { GET_SUBSCRIPTION_CAPABILITIES_KEY } from '../../services/SuscriptionCapabilities/useGetCapabilities';
 import customStyles from '../../styles/customStyles';
 import { ICountry, ICountryCode } from '../../types/types';
 import { queryClient } from '../../utils/queryClient';
@@ -77,8 +78,9 @@ const RegisterScreen = ({ route, navigation }: Props) => {
 
   const { mutateAsync: googleLogin } = useLoginGoogle({
     onSuccess: async data => {
-      await GoogleSignin.signIn();
+      Platform.OS === 'android' ? await GoogleSignin.signIn() : null;
       await AsyncStorage.setItem('userInfo', JSON.stringify(data));
+      queryClient.invalidateQueries(GET_SUBSCRIPTION_CAPABILITIES_KEY);
       queryClient.invalidateQueries(VERIFY_TOKEN);
     },
   });

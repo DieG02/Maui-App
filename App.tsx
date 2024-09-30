@@ -10,6 +10,7 @@ import { QueryClientProvider } from 'react-query';
 import { ErrorToast, SuccessToast, WarningToast } from './src/v0.1/components/common/Toast';
 import AuthProvider from './src/v0.1/context/AuthContext';
 import GeneralProvider from './src/v0.1/context/GeneralContext';
+import SubscriptionProvider from './src/v0.1/context/SubscriptionContext';
 import RootStack from './src/v0.1/screens/RootStack';
 import customStyles from './src/v0.1/styles/customStyles';
 import { googleAuthConfig } from './src/v0.1/utils/googleConfig';
@@ -39,13 +40,15 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <GeneralProvider>
-          <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
-          <NavigationContainer>
-            <RootStack />
-          </NavigationContainer>
-          <CustomToast config={toastConfig} />
-        </GeneralProvider>
+        <SubscriptionProvider>
+          <GeneralProvider>
+            <StatusBar barStyle={statusBarStyle} backgroundColor={white} />
+            <NavigationContainer>
+              <RootStack />
+            </NavigationContainer>
+            <CustomToast config={toastConfig} />
+          </GeneralProvider>
+        </SubscriptionProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

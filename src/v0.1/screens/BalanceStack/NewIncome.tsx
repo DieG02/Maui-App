@@ -239,6 +239,7 @@ const NewIncome = ({ navigation, route }: Props) => {
           value={values.name}
           setValue={text => setValues(prev => ({ ...prev, name: text }))}
         />
+
         <SelectionModal
           placeholder={t('balance_stack.new_income.placeholder_client')}
           name={t('balance_stack.new_income.client')}

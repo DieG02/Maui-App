@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import customStyles from '../../styles/customStyles';
 

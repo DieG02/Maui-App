@@ -1,35 +1,42 @@
-import React, { useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import ScreenContainer from '../../components/containers/ScreenContainer';
-import { BackHeaderTitle } from '../../components/common/HeaderTitle';
-import { NavigationProp, RouteProp } from '@react-navigation/native';
-import customStyles from '../../styles/customStyles';
-import Spacer from '../../components/common/Spacer';
 import moment from 'moment';
-import { parserToCurrency } from '../../utils/adapter';
-import useGetMonthlyBalance from '../../services/Balance/useGetMonthlyBalance';
-import EmptyState from '../../components/common/EmptyState';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import EmptyState from '../../components/common/EmptyState';
+import { Header } from '../../components/common/HeaderTitle';
+import Spacer from '../../components/common/Spacer';
+import ScreenContainer from '../../components/containers/ScreenContainer';
+import BalanceCard from '../../components/Library/BalanceCard';
 import LoadingComponent from '../../components/Library/LoadingComponent';
-import { IBalanceItem } from '../../types/types';
-
-interface Props {
-  navigation: NavigationProp<any, any>;
-  route: RouteProp<any, any>;
-}
+import useGetMonthlyBalance from '../../services/Balance/useGetMonthlyBalance';
+import useGetAllAccounts from '../../services/FinancialAccount/useGetAllAccounts';
+import customStyles from '../../styles/customStyles';
+import { IBalanceItem, IFinancialAccount } from '../../types/types';
+import { parserToCurrency } from '../../utils/adapter';
 
 interface TabProps {
   id: number;
   balance: IBalanceItem;
 }
 
-const { textBlack, background2, positive, mainColor } = customStyles;
+const { textBlack, background2, positive, mainColor, width, marginHorizontal } = customStyles;
 
-const MonthlySummariesScreen = ({ navigation, route }: Props) => {
-  const { id } = route.params!;
+const MonthlySummariesScreen = () => {
+  const { data: accounts, isLoading: isLoadingAccounts } = useGetAllAccounts();
+
+  const multipleAccounts = Number(accounts?.financialAccounts.length) > 1;
+
+  const mainAccountId = String(accounts?.financialAccounts.find(account => account.mainAccount)?.id);
+  const [selectedAccountId, setSelectedAccountId] = useState<string>(mainAccountId);
+
+  useEffect(() => {
+    if (mainAccountId && !isLoadingAccounts) {
+      setSelectedAccountId(mainAccountId);
+    }
+  }, [mainAccountId, isLoadingAccounts]);
 
   const [tabId, setTabId] = useState<number[]>([]);
-  const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance(id);
+  const { data, refetch: getMonthlyBalance, isLoading } = useGetMonthlyBalance(selectedAccountId);
   const { t, i18n } = useTranslation();
 
   const handlePress = (value: number) => {
@@ -40,7 +47,7 @@ const MonthlySummariesScreen = ({ navigation, route }: Props) => {
     }
   };
 
-  if (isLoading || !data) return <LoadingComponent color={mainColor} />;
+  if (isLoading || !data || isLoadingAccounts) return <LoadingComponent color={mainColor} />;
 
   const Tab = ({ balance, id }: TabProps) => {
     const date = moment(balance.month, 'M').locale(i18n.language).format('MMMM');
@@ -49,7 +56,7 @@ const MonthlySummariesScreen = ({ navigation, route }: Props) => {
       <View style={{ marginBottom: 20, marginHorizontal: 30 }}>
         <TouchableOpacity
           onPress={() => handlePress(id)}
-          style={{ backgroundColor: 'background2', paddingHorizontal: 20, paddingVertical: 16 }}
+          style={{ backgroundColor: background2, paddingHorizontal: 20, paddingVertical: 16 }}
         >
           <Text style={{ color: textBlack, fontFamily: 'Gilroy-SemiBold', fontSize: 18 }}>
             {date[0].toUpperCase() + date.slice(1)} {balance.year}
@@ -104,13 +111,40 @@ const MonthlySummariesScreen = ({ navigation, route }: Props) => {
 
   return (
     <ScreenContainer>
-      <BackHeaderTitle
-        label={t('home_stack.monthly_balance.history_balance')}
-        onPressBack={() => {
-          navigation.goBack();
-        }}
-      />
+      <Header label={t('home_stack.monthly_balance.history_balance')} />
       <Spacer height={10} />
+      {multipleAccounts && (
+        <View style={{ marginBottom: 40 }}>
+          <ScrollView
+            horizontal
+            overScrollMode='never'
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={width / 1.5 + 15}
+            decelerationRate={0.5}
+          >
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              {accounts?.financialAccounts.map((account: IFinancialAccount, i: number) => {
+                return (
+                  <BalanceCard
+                    selected={account.id === selectedAccountId}
+                    key={account.id}
+                    account={account}
+                    onPress={() => setSelectedAccountId(account.id)}
+                    left={i === 0 ? marginHorizontal : 15}
+                    right={i === accounts.financialAccounts.length - 1 ? 30 : 0}
+                  />
+                );
+              })}
+            </View>
+          </ScrollView>
+        </View>
+      )}
+
       <FlatList
         data={data.balance}
         renderItem={({ item, index }) => <Tab key={index} id={index} balance={item} />}

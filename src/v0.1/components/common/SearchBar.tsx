@@ -14,9 +14,10 @@ interface Props {
   onPress: () => void;
   onBlur?: () => void;
   style?: any;
+  autoFocus?: boolean;
 }
 
-const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur, style }: Props) => {
+const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur, style, autoFocus = true }: Props) => {
   return (
     <View
       style={[
@@ -35,7 +36,7 @@ const SearchBar = ({ onChangeText, text, placeholder, onPress, onBlur, style }: 
       <TextInput
         onChangeText={onChangeText}
         value={text}
-        autoFocus={true}
+        autoFocus={autoFocus}
         placeholder={placeholder}
         onBlur={onBlur}
         placeholderTextColor={textLight}
