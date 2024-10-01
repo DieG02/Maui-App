@@ -33,6 +33,7 @@ import { IFinancialAccount, IPaymentMethod, TransactionStatus, TransactionType }
 import { getCategoryId } from '../../utils/getCategoryId';
 import { paymentMethods, STATE } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
+import useGetSubscription from '../../services/Subscription/useGetSubscription';
 
 // TODO:Refactor this component
 
@@ -89,7 +90,9 @@ const NewIncome = ({ navigation, route }: Props) => {
 
   const { newPaymentsOptions } = usePayment();
 
-  const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction');
+  const { data: subscription } = useGetSubscription();
+
+  const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction', subscription?.type);
   const { data: { financialAccounts } = { financialAccounts: [] } } = useGetAllAccounts();
 
   const toValidate = useMemo(

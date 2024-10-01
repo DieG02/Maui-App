@@ -27,6 +27,7 @@ import { GET_GENERAL_BALANCE_KEY } from '../../services/Balance/useGeneralBalanc
 import { GET_MONTHLY_STATS_KEY } from '../../services/Balance/useMonthlyStats';
 import { GET_DEBTS_KEY } from '../../services/Debts/useGetAllDebts';
 import useGetAllAccounts, { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import useGetSubscription from '../../services/Subscription/useGetSubscription';
 import useGetTransactionCategories from '../../services/TransactionCategories/useGetTransactionCategories';
 import useCreateTransaction from '../../services/Transactions/useCreateTransaction';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
@@ -92,7 +93,9 @@ const NewExpense = ({ navigation, route }: Props) => {
 
   const { newPaymentsOptions } = usePayment();
 
-  const { data: categories } = useGetTransactionCategories('debit', 'transaction');
+  const { data: subscription } = useGetSubscription();
+
+  const { data: categories } = useGetTransactionCategories('debit', 'transaction', subscription?.type);
   const { data: { financialAccounts } = { financialAccounts: [] } } = useGetAllAccounts();
 
   const toValidate = useMemo(
