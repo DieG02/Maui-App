@@ -39,6 +39,7 @@ import useGetCountries from '../services/Countries/useGetCountries';
 import useGetCountryCode from '../services/CountryCode/useGetCountryCode';
 import useGetAllAccounts from '../services/FinancialAccount/useGetAllAccounts';
 import useGetLinks from '../services/Links/useGetLinks';
+import useGetSubscription from '../services/Subscription/useGetSubscription';
 import useGetSuscriptionCapabilities from '../services/SuscriptionCapabilities/useGetCapabilities';
 import useGetAllTransactions from '../services/Transactions/useGetAllTransactions';
 import customStyles from '../styles/customStyles';
@@ -69,6 +70,7 @@ export default function RootStack() {
   const { data: user, isLoading: isFetchingAccount } = useGetAccount({ enabled: !!token });
   const isFetchingTransactions = useGetAllTransactions({ take: 6 }).isLoading;
   const isFetchingGeneralBalance = useGeneralBalance({ enabled: !!token }).isLoading;
+  const isFetchingSubscription = useGetSubscription({ enabled: !!token }).isLoading;
   const isFetchingAllAccounts = useGetAllAccounts({ enabled: !!token }).isLoading;
 
   useEffect(() => {
@@ -89,7 +91,8 @@ export default function RootStack() {
     isFetchingAccount ||
     isFetchingTransactions ||
     isFetchingGeneralBalance ||
-    isFetchingAllAccounts
+    isFetchingAllAccounts ||
+    isFetchingSubscription
   )
     return <LoadingComponent color={mainColor} />;
   if (isError) {
