@@ -27,6 +27,7 @@ import { alertDelete } from '../../utils/alerts';
 import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { parseDDMMYY } from '../../utils/helper';
 import { queryClient } from '../../utils/queryClient';
+import { showToast } from '../../utils/toast';
 
 // TODO: Refactor this component
 interface Props {
@@ -47,19 +48,10 @@ const TransactionDetail = ({ route, navigation }: Props) => {
 
   const isExpense = transaction?.type === 'DEBIT';
 
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('balance_stack.transaction_detail.toast_transaction_delete'),
-      position: 'bottom',
-      visibilityTime: 1000,
-    });
-  };
-
   const { mutateAsync: deleteTransaction, isLoading } = useDeleteTransaction(params?.transactionId, {
     onSuccess() {
       navigation.goBack();
-      showToast();
+      showToast(t('balance_stack.transaction_detail.toast_transaction_delete'));
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);

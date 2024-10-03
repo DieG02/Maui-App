@@ -1,9 +1,9 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment-timezone';
-import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableOpacity, View } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import Toast from 'react-native-toast-message';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -34,6 +34,7 @@ import { getCategoryId } from '../../utils/getCategoryId';
 import { paymentMethods, STATE } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
 import useGetSubscription from '../../services/Subscription/useGetSubscription';
+import { showToast } from '../../utils/toast';
 
 // TODO:Refactor this component
 
@@ -89,9 +90,7 @@ const NewIncome = ({ navigation, route }: Props) => {
   });
 
   const { newPaymentsOptions } = usePayment();
-
   const { data: subscription } = useGetSubscription();
-
   const { data: transactionCategories } = useGetTransactionCategories('credit', 'transaction', subscription?.type);
   const { data: { financialAccounts } = { financialAccounts: [] } } = useGetAllAccounts();
 
@@ -109,15 +108,6 @@ const NewIncome = ({ navigation, route }: Props) => {
       }));
     }
   }, [route.params?.contact, setValues]);
-
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('balance_stack.new_income.toast_new_expense'),
-      position: 'top',
-      visibilityTime: 1000,
-    });
-  };
 
   const InvalidateQuery = values.isPaid ? GET_TRANSACTIONS_KEY : GET_DEBTS_KEY;
 
@@ -140,7 +130,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
         navigation.goBack();
-        showToast();
+        showToast(t('balance_stack.new_income.toast_new_expense'));
       },
       onError: () => {
         // SHOW TOAST HERE

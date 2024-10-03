@@ -21,6 +21,7 @@ import { parserToCurrency } from '../../utils/adapter';
 import { alertDelete } from '../../utils/alerts';
 import { parseDDMMYY } from '../../utils/helper';
 import { queryClient } from '../../utils/queryClient';
+import { showToast } from '../../utils/toast';
 
 const { secondaryColor, textBlack, marginHorizontal, mainColor, background2 } = customStyles;
 interface Props {
@@ -36,19 +37,9 @@ const DebtDetail = ({ route, navigation }: Props) => {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
-
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('balance_stack.transaction_detail.toast_transaction_delete'),
-      position: 'bottom',
-      visibilityTime: 1000,
-    });
-  };
-
   const { mutateAsync: deleteTransaction, isLoading: isDeleting } = useDeleteDebt(data?.debtId as string, {
     onSuccess() {
-      showToast();
+      showToast(t('balance_stack.transaction_detail.toast_transaction_delete'));
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);

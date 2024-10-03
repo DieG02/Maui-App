@@ -28,6 +28,7 @@ import customStyles from '../../styles/customStyles';
 import { IPaymentMethod } from '../../types/types';
 import { paymentMethods } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
+import { showToast } from '../../utils/toast';
 
 const { marginHorizontal, mainColor, background2, white } = customStyles;
 
@@ -54,15 +55,6 @@ const IndividualPayment = ({ navigation, route }: Props) => {
   const { values, setValues, validateValues } = useForm<InitialDebt>(initialValues);
 
   const { newPaymentsOptions } = usePayment();
-
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('debt_stack.payment_done'),
-      position: 'bottom',
-      visibilityTime: 1000,
-    });
-  };
 
   const { data: debtor, isLoading: loading } = useGetDebtById(params?.contact);
 
@@ -93,7 +85,7 @@ const IndividualPayment = ({ navigation, route }: Props) => {
             contactId: params?.contact,
           });
         }
-        showToast();
+        showToast(t('debt_stack.payment_done'));
       },
       onError: () => {
         Alert.alert('Error', 'No se pudo realizar el pago');
