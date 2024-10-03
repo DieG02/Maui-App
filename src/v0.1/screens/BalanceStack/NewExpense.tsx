@@ -38,6 +38,7 @@ import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { STATE, paymentMethods } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 const { mainColor, marginHorizontal, background2, white, textBlack } = customStyles;
 interface Props {
@@ -134,6 +135,7 @@ const NewExpense = ({ navigation, route }: Props) => {
         queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+        queryClient.invalidateQueries([GET_MONTHLY_BALANCE_KEY, selectedAccount.id]);
         navigation.goBack();
         showToast(t('balance_stack.new_expense.toast_new_expense'));
       },

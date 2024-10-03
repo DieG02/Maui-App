@@ -35,6 +35,7 @@ import { paymentMethods, STATE } from '../../utils/payment';
 import { queryClient } from '../../utils/queryClient';
 import useGetSubscription from '../../services/Subscription/useGetSubscription';
 import { showToast } from '../../utils/toast';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 // TODO:Refactor this component
 
@@ -129,6 +130,7 @@ const NewIncome = ({ navigation, route }: Props) => {
         queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
         queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
         queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+        queryClient.invalidateQueries([GET_MONTHLY_BALANCE_KEY, selectedAccount.id]);
         navigation.goBack();
         showToast(t('balance_stack.new_income.toast_new_expense'));
       },

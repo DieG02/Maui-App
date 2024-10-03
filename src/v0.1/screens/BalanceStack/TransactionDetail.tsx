@@ -28,6 +28,7 @@ import { handleTranslateCategory } from '../../utils/handleTranslateCategory';
 import { parseDDMMYY } from '../../utils/helper';
 import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 // TODO: Refactor this component
 interface Props {
@@ -55,8 +56,9 @@ const TransactionDetail = ({ route, navigation }: Props) => {
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_ACCOUNT_TRANSACTIONS_KEY);
-      queryClient.invalidateQueries(GET_MONTHLY_STATS_KEY);
+      queryClient.invalidateQueries([GET_ACCOUNT_TRANSACTIONS_KEY, transaction?.financialAccountId]);
+      queryClient.invalidateQueries([GET_MONTHLY_BALANCE_KEY, transaction?.financialAccountId]);
+      queryClient.invalidateQueries([GET_MONTHLY_STATS_KEY, transaction?.financialAccountId]);
       queryClient.invalidateQueries(GET_DEBTS_KEY);
       queryClient.invalidateQueries(GET_DEBT_KEY);
     },
