@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Gilroy-Regular',
   },
   textPrice: {
+    flex: 1,
     fontSize: 30,
-
     color: textBlack,
     fontFamily: 'Gilroy-SemiBold',
   },

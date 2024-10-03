@@ -5,7 +5,7 @@
   "debts": "Debts",
   "balance": "Balance",
   "auth_stack": {
-    "login_title":"Manage your business from your cell phone",
+    "login_title": "Manage your business from your cell phone",
     "login_google": "Continue with Google",
     "login_email": "Continue with Email",
     "sign_in": {
