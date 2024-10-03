@@ -4,6 +4,24 @@
   "contacts": "Contatos",
   "debts": "Dívidas",
   "balance": "Balanço",
+  "app_settings": {
+    "alerts": {
+      "delete": {
+        "title": "Excluir",
+        "confirm": "Excluir",
+        "cancel": "Cancelar"
+      },
+      "update": {
+        "title": "Atualizar",
+        "confirm": "Continuar",
+        "cancel": "Cancelar"
+      },
+      "error": {
+        "title": "Erro",
+        "confirm": "Aceitar"
+      }
+    }
+  },
   "auth_stack": {
     "login_title": "Gerencie seu negócio do seu celular",
     "login_google": "Continuar com o Google",

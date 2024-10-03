@@ -4,6 +4,24 @@
   "contacts": "Contactos",
   "debts": "Deudas",
   "balance": "Balance",
+  "app_settings": {
+    "alerts": {
+      "delete": {
+        "title": "Eliminar",
+        "confirm": "Eliminar",
+        "cancel": "Cancelar"
+      },
+      "update": {
+        "title": "Actualizar",
+        "confirm": "Continuar",
+        "cancel": "Cancelar"
+      },
+      "error": {
+        "title": "Error",
+        "confirm": "Aceptar"
+      }
+    }
+  },
   "auth_stack": {
     "login_title": "Gestiona tu negocio desde tu celular",
     "login_google": "Continuar con Google",

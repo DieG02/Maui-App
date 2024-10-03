@@ -1,35 +1,36 @@
 import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export const alertDelete = (text: string, fnConfirm: any) => {
-  Alert.alert('Delete', text, [
+  Alert.alert(t('app_settings.alerts.delete.title'), text, [
     {
-      text: 'Cancel',
+      text: t('app_settings.alerts.delete.cancel'),
       style: 'cancel',
     },
     {
-      text: 'Delete',
+      text: t('app_settings.alerts.delete.confirm'),
       onPress: () => fnConfirm(),
     },
   ]);
 };
 
 export const alertUpdate = (text: string, fnConfirm: any) => {
-  Alert.alert('Update', text, [
+  Alert.alert(t('app_settings.alerts.update.title'), text, [
     {
-      text: 'Cancel',
+      text: t('app_settings.alerts.update.cancel'),
       style: 'cancel',
     },
     {
-      text: 'Continue',
+      text: t('app_settings.alerts.update.confirm'),
       onPress: () => fnConfirm(),
     },
   ]);
 };
 
 export const commonAlert = (text: string) => {
-  Alert.alert('Error', text, [
+  Alert.alert(t('app_settings.alerts.error.title'), text, [
     {
-      text: 'Accept',
+      text: t('app_settings.alerts.error.confirm'),
       style: 'default',
     },
   ]);
