@@ -75,6 +75,7 @@
       "empty_balance": "You have no transactions"
     },
     "accounts": {
+      "main_account": "Primary",
       "add_new_account": "Add new account",
       "add_new_account_title": "Create account",
       "currency_label": "Currency",
@@ -335,6 +336,8 @@
       "search": "Search...",
       "empty_clients": "You don't have any registered clients",
       "create_contact": "Create new contact",
+      "new": "Import",
+      "created": "Imported",
       "contact_form": {
         "name": "Name",
         "name_placeholder": "Contact name",
