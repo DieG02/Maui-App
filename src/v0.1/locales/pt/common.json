@@ -3,9 +3,9 @@
   "transactions": "Transações",
   "contacts": "Contatos",
   "debts": "Dívidas",
-  "balance": "Balance",
+  "balance": "Balanço",
   "auth_stack": {
-    "login_title":"Gerencie seu negócio do seu celular",
+    "login_title": "Gerencie seu negócio do seu celular",
     "login_google": "Continuar com o Google",
     "login_email": "Continuar com o Email",
     "sign_in": {
@@ -31,8 +31,8 @@
       "update_title": "Atualização Necessária",
       "update": "Atualize o aplicativo para a versão mais recente para continuar usando Maui",      
       "button": "Atualizar aplicativo",
-      "error_title":"Algo deu errado",
-      "error":"Estamos trabalhando para resolver o problema. Por favor, atualize o aplicativo e tente novamente."
+      "error_title": "Algo deu errado",
+      "error": "Estamos trabalhando para resolver o problema. Por favor, atualize o aplicativo e tente novamente."
     }
   },
   "home_stack": {
@@ -111,7 +111,7 @@
     "message_share": "Olá! Convido você a experimentar o Maui, um aplicativo para gerenciar suas finanças e levar seu negócio a um outro patamar.",
     "user_data": {
       "title": "Meus Dados",
-      "toast_edit_message": "Sua conta foi editada com sucesso",
+      "toast_edit_message": "Sua conta foi modificada com sucesso",
       "name": "Nome",
       "country": "País",
       "address": "Endereço",
@@ -138,8 +138,8 @@
     }
   },
   "balance_stack": {
-    "edit_expense": "Editar Gasto",
-    "edit_income": "Editar Receita",
+    "edit_expense": "Modificar Gasto",
+    "edit_income": "Modificar Receita",
     "new_expense": {
       "toast_new_expense": "A transação foi criada com sucesso",
       "new_expense": "Novo Gasto",
@@ -161,7 +161,7 @@
       "category": "Categoria",
       "placeholder_category": "Selecione uma categoria",
       "value": "Valor",
-      "description":"Título",
+      "description": "Título",
       "placeholder_description": "Como você quer chamar esta receita?",
       "state": "Estado",
       "payment_method": "Forma de Pagamento",
@@ -217,11 +217,11 @@
       "transaction_type": "Tipo de operação",
       "currency": "Moeda",
       "expense_category": "Categoria do gasto",
-      "edit": "Editar"
+      "edit": "Modificar"
     },
     "transaction_screen": {
       "balance": "Transações",
-      "placeholder_search": "Buscar...",
+      "placeholder_search": "Pesquisar...",
       "empty_result": "Nenhum resultado encontrado",
       "empty_transactions": "Você não tem transações registradas"
     }
@@ -244,7 +244,7 @@
     "payment_done": "Pagamento efetuado com sucesso",
     "to_pay": "Abonar",
     "edit_expense": {
-      "title": "Editar Gasto"
+      "title": "Modificar Gasto"
     },
     "income_debt": {
       "empty_debts": "Você não tem dívidas",
@@ -271,12 +271,12 @@
       "to_pay": "Abonar"
     },
     "edit_debt": {
-      "title": "Editar Dívida",
+      "title": "Modificar Dívida",
       "credit_entry": "Abono do",
-      "debt_edited": "Dívida editada com sucesso",
+      "debt_edited": "Dívida modificada com sucesso",
       "description_placeholder": "Como você quer chamar esta transação?",
       "save_changes": "Salvar Alterações",
-      "toast_edited": "A transação foi editada com sucesso"
+      "toast_edited": "A transação foi modificada com sucesso"
     },
     "replay_modal": {
       "toast_amount": "O pagamento não deve ser maior que",
@@ -290,12 +290,12 @@
     "button_text": "Criar / Importar Contato",
     "client": {
       "clients": "Clientes",
-      "search": "Buscar...",
+      "search": "Pesquisar...",
       "empty_clients": "Você não tem clientes registrados"
     },
     "provider": {
       "providers": "Fornecedores",
-      "search": "Buscar...",
+      "search": "Pesquisar...",
       "empty_providers": "Você não tem fornecedores registrados"
     },
     "contact_detail": {
@@ -314,7 +314,7 @@
     },
     "new_contact": {
       "add_contact": "Adicionar Contato",
-      "search": "Buscar...",
+      "search": "Pesquisar...",
       "empty_clients": "Você não tem contatos registrados",
       "create_contact": "Criar novo contato",
       "contact_form": {

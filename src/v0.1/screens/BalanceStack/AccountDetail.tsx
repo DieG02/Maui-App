@@ -144,7 +144,9 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
               <View style={[styles.card_icon, { backgroundColor: '#33E69B' }]}>
                 <Ionicons name='ios-arrow-up-sharp' size={16} color={white} />
               </View>
-              <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.sale')}</Text>
+              <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium', color: textBlack }}>
+                {t('balance_stack.sale')}
+              </Text>
             </View>
             <Text style={styles.card_value}>{monthlyStats?.incomes}</Text>
           </View>
@@ -154,7 +156,9 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
               <View style={[styles.card_icon, { backgroundColor: '#FD6363' }]}>
                 <Ionicons name='ios-arrow-down-sharp' size={16} color={white} />
               </View>
-              <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium' }}>{t('balance_stack.expense')}</Text>
+              <Text style={{ fontSize: 16, fontFamily: 'Gilroy-Medium', color: textBlack }}>
+                {t('balance_stack.expense')}
+              </Text>
             </View>
             <Text style={styles.card_value}>{monthlyStats?.expenses}</Text>
           </View>

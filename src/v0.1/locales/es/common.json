@@ -111,7 +111,7 @@
     "message_share": "¡Hola! Te invito a probar Maui, una app para administrar tus finanzas y llevar a otro nivel tu negocio.",
     "user_data": {
       "title": "Mis Datos",
-      "toast_edit_message": "Tu cuenta fue editada satisfactoriamente",
+      "toast_edit_message": "Tu cuenta fue actualizada correctamente",
       "name": "Nombre",
       "country": "País",
       "address": "Dirección",
@@ -137,19 +137,11 @@
       }
     }
   },
-  "config": {
-    "title": "Settings",
-    "section_1": {
-      "header": "General",
-      "languages": "Languages",
-      "feedback": "Rate the app"
-    }
-  },
   "balance_stack": {
     "edit_expense": "Editar Gasto",
     "edit_income": "Editar Ingreso",
     "new_expense": {
-      "toast_new_expense": "La transacción fue creada satisfactoriamente",
+      "toast_new_expense": "La transacción fue creada exitosamente",
       "new_expense": "Nuevo Gasto",
       "category": "Categoría",
       "placeholder_category": "Seleccione una categoría",
@@ -281,10 +273,10 @@
     "edit_debt": {
       "title": "Editar Deuda",
       "credit_entry": "Abono del",
-      "debt_edited": "Deuda editada satisfactoriamente",
+      "debt_edited": "Deuda actualizada correctamente",
       "description_placeholder": "¿Como quieres llamar a esta transacción?",
       "save_changes": "Guardar Cambios",
-      "toast_edited": "La transacción fue editada satisfactoriamente"
+      "toast_edited": "La transacción fue actualizada correctamente"
     },
     "replay_modal": {
       "toast_amount": "El pago no deberia ser mayor a",
