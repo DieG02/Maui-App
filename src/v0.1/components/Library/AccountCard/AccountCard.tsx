@@ -1,6 +1,7 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import CountryFlag from 'react-native-country-flag';
 import customStyles from '../../../styles/customStyles';
 import { IFinancialAccount } from '../../../types/types';
@@ -23,6 +24,7 @@ const AccountCard = ({ account, left, right }: Props) => {
     total_balance,
   } = account;
   const navigation = useNavigation<NavigationProp<any, any>>();
+  const { t } = useTranslation();
 
   const handleOnPress = () => {
     navigation.navigate('AccountDetail', { id });
@@ -50,7 +52,7 @@ const AccountCard = ({ account, left, right }: Props) => {
                 fontFamily: 'Gilroy-SemiBold',
               }}
             >
-              Principal
+              {t('home_stack.accounts.main_account')}
             </Text>
           </View>
         )}

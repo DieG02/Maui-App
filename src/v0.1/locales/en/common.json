@@ -4,6 +4,24 @@
   "contacts": "Contacts",
   "debts": "Debts",
   "balance": "Balance",
+  "app_settings": {
+    "alerts": {
+      "delete": {
+        "title": "Delete",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "update": {
+        "title": "Update",
+        "confirm": "Continue",
+        "cancel": "Cancel"
+      },
+      "error": {
+        "title": "Error",
+        "confirm": "Accept"
+      }
+    }
+  },
   "auth_stack": {
     "login_title": "Manage your business from your cell phone",
     "login_google": "Continue with Google",
@@ -57,6 +75,7 @@
       "empty_balance": "You have no transactions"
     },
     "accounts": {
+      "main_account": "Primary",
       "add_new_account": "Add new account",
       "add_new_account_title": "Create account",
       "currency_label": "Currency",
@@ -317,6 +336,8 @@
       "search": "Search...",
       "empty_clients": "You don't have any registered clients",
       "create_contact": "Create new contact",
+      "new": "Import",
+      "created": "Imported",
       "contact_form": {
         "name": "Name",
         "name_placeholder": "Contact name",

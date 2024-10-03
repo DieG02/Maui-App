@@ -15,6 +15,7 @@ import { queryClient } from '../../utils/queryClient';
 import LoadingComponent from '../Library/LoadingComponent';
 import Button from './Button';
 import DatePicker from './DatePicker';
+import { showToast } from '../../utils/toast';
 // import StateSwitch from './StateSwitch';
 import Toast from 'react-native-toast-message';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
@@ -22,6 +23,8 @@ import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransacti
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import Spacer from './Spacer';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -76,15 +79,6 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
     }
   }, [params?.contact, setValues]);
 
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text2: t('debt_stack.edit_debt.toast_edited'),
-      position: 'top',
-      visibilityTime: 1000,
-    });
-  };
-
   const { mutateAsync, isLoading } = useEditTransaction(
     data.id,
     {
@@ -101,8 +95,10 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
       onSuccess: () => {
         queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
         queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
+        queryClient.removeQueries(GET_ALL_ACCOUNTS_KEY);
+        queryClient.removeQueries([GET_MONTHLY_BALANCE_KEY, data?.id]);
         navigation.navigate('transactions');
-        showToast();
+        showToast(t('debt_stack.edit_debt.toast_edited'));
       },
     }
   );

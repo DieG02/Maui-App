@@ -2,7 +2,6 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import CountryFlag from 'react-native-country-flag';
@@ -31,6 +30,7 @@ import useEditFinancialAccount, {
 import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 import { GET_ACCOUNT_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAccountTransactions';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
+import { showToast } from '../../utils/toast';
 
 const { white, textBlack, background2, marginHorizontal, mainColor, iconColor } = customStyles;
 
@@ -43,15 +43,6 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
   const { id } = route.params!;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
-  const showToast = (key: 'edit' | 'delete') => {
-    Toast.show({
-      type: 'success',
-      text2: t(`account_stack.account_detail.toast_account_${key}`),
-      position: 'bottom',
-      visibilityTime: 1500,
-    });
-  };
 
   const {
     data: transactionsByAccount,
@@ -75,7 +66,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
     { mainAccount: true },
     {
       onSuccess: () => {
-        showToast('edit');
+        showToast(t('account_stack.account_detail.toast_account_edit'));
         navigation.goBack();
         queryClient.invalidateQueries(PUT_FINANCIAL_ACCOUNT_KEY);
         queryClient.removeQueries([PUT_FINANCIAL_ACCOUNT_KEY, id]);
@@ -89,7 +80,7 @@ const AccountDetail = ({ navigation, route }: AccountDetailProps) => {
 
   const { mutateAsync: deleteFinancialAccount, isLoading: isDeleting } = useDeleteFinancialAccount(id, {
     onSuccess() {
-      showToast('delete');
+      showToast(t('account_stack.account_detail.toast_account_delete'));
       navigation.goBack();
       queryClient.invalidateQueries(GET_GENERAL_BALANCE_KEY);
       queryClient.invalidateQueries(GET_ALL_ACCOUNTS_KEY);

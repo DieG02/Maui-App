@@ -27,6 +27,8 @@ import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -95,6 +97,8 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries(GET_TRANSACTIONS_KEY);
       queryClient.removeQueries([GET_TRANSACTION_KEY, data?.id]);
+      queryClient.removeQueries(GET_ALL_ACCOUNTS_KEY);
+      queryClient.removeQueries([GET_MONTHLY_BALANCE_KEY, data?.id]);
       navigation.navigate('transactions');
       showToast(t('debt_stack.edit_debt.toast_edited'));
     },

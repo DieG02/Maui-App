@@ -4,6 +4,24 @@
   "contacts": "Contatos",
   "debts": "Dívidas",
   "balance": "Balanço",
+  "app_settings": {
+    "alerts": {
+      "delete": {
+        "title": "Excluir",
+        "confirm": "Excluir",
+        "cancel": "Cancelar"
+      },
+      "update": {
+        "title": "Atualizar",
+        "confirm": "Continuar",
+        "cancel": "Cancelar"
+      },
+      "error": {
+        "title": "Erro",
+        "confirm": "Aceitar"
+      }
+    }
+  },
   "auth_stack": {
     "login_title": "Gerencie seu negócio do seu celular",
     "login_google": "Continuar com o Google",
@@ -57,6 +75,7 @@
       "empty_balance": "Você não possui transações"
     }, 
     "accounts": {
+      "main_account": "Principal",
       "add_new_account": "Adicionar nova conta",
       "add_new_account_title": "Criar conta",
       "currency_label": "Moeda",
@@ -317,6 +336,8 @@
       "search": "Pesquisar...",
       "empty_clients": "Você não tem contatos registrados",
       "create_contact": "Criar novo contato",
+      "new": "Importar",
+      "created": "Importado",
       "contact_form": {
         "name": "Nome",
         "name_placeholder": "Nome do contato",

@@ -1,7 +1,8 @@
-import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
 import useMatchContact from '../../hooks/useMatchContact';
+import { useTranslation } from 'react-i18next';
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
 import { IContact, IContactInput, IContactType } from '../../types/types';
@@ -19,6 +20,7 @@ const { textBlack, mainColor } = customStyles;
 
 const AddContact = ({ data, type, screen, navigation }: Props) => {
   const { isAdded } = useMatchContact(data.phone);
+  const { t } = useTranslation();
 
   const handleOnPress = (data: IContact) => {
     if (screen === 'NewIncome') {
@@ -101,7 +103,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
                   fontFamily: 'Gilroy-Bold',
                 }}
               >
-                Importado
+                {t('contact_stack.new_contact.created')}
               </Text>
             ) : (
               <Text
@@ -111,7 +113,7 @@ const AddContact = ({ data, type, screen, navigation }: Props) => {
                   fontFamily: 'Gilroy-SemiBold',
                 }}
               >
-                Importar
+                {t('contact_stack.new_contact.new')}
               </Text>
             )}
           </View>
