@@ -19,11 +19,11 @@ import { AuthContext } from '../../context/AuthContext';
 import useGetAccount from '../../services/Account/useGetAccount';
 import { VERIFY_TOKEN } from '../../services/Account/useVerifyToken';
 import useGetLinks from '../../services/Links/useGetLinks';
+import { GET_SUBSCRIPTION_CAPABILITIES_KEY } from '../../services/SuscriptionCapabilities/useGetCapabilities';
 import customStyles from '../../styles/customStyles';
 import { IAccount, ILink, ILinkType } from '../../types/types';
 import { Clipboard } from '../../utils/ClipBoard';
 import { queryClient } from '../../utils/queryClient';
-import { GET_SUBSCRIPTION_CAPABILITIES_KEY } from '../../services/SuscriptionCapabilities/useGetCapabilities';
 
 const { textBlack, marginHorizontal, babyBlue, expense } = customStyles;
 
@@ -86,7 +86,7 @@ const More = ({ navigation }: Props) => {
   };
   const shareLink = async () => {
     const store = Platform.OS === 'ios' ? appStoreLink : playStoreLink;
-    const isAndroid = Platform.OS === 'android' ? appStoreLink : '';
+    const isAndroid = Platform.OS === 'android' ? playStoreLink : '';
 
     const options = {
       title: t('more_screen.title_share'),
