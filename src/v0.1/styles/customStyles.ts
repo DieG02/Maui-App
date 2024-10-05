@@ -19,39 +19,35 @@ const customStyles = {
   incomeLight: '#A0F3D0',
   expense: '#F35F5F',
   expenseLight: '#FFDADA',
-  orange: '#E27200',
-  orangeLight: '#FFDDBA',
-  item: '#4A90FA',
+  // orange: '#E27200',
+  // orangeLight: '#FFDDBA',
   itemLight: '#D3E4FE',
   white: '#ffff',
 
   iconBlue: '#275DAF',
-  selectedItem: '#E9F1FE',
 
-  // TODO: Define the rest of the colors here.
+  // New Pallete
+
+  selectedItem: '#E9F1FE', // TODO: Merge with itemLight
   disabled: '#b3b3b3',
   secondaryColor: '#F8F8F8',
-
+  positive: '#24A46F',
   secondaryColorBorder: '#EAEAEA',
-  textBlue: '#7888A8',
-  textOutline: '#717171',
+  ligthBlue: '#D4F1F4',
+  blueSelected: '#737373',
+  babyBlue: '#E1ECF0',
   width: width,
   height: height,
 
-  positive: '#24A46F',
-
-  ligthBlue: '#D4F1F4',
-  blueSelected: '#737373',
-
-  blueGreen: '#75E6DA',
-  royalBlue: '#0074B7',
-  mistyBlue: '#B0B7C0',
-
-  // New Pallete
-  babyBlue: '#E1ECF0',
-  blueGrotto: '#54A2D2',
-  aquamarine: '#A9CEE8',
-  navyBlue: '#003A64',
+  // item: '#4A90FA',
+  // textBlue: '#7888A8',
+  // textOutline: '#717171',
+  // blueGreen: '#75E6DA',
+  // royalBlue: '#0074B7',
+  // mistyBlue: '#B0B7C0',
+  // blueGrotto: '#54A2D2',
+  // aquamarine: '#A9CEE8',
+  // navyBlue: '#003A64',
 };
 
 export default customStyles;

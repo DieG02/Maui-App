@@ -27,8 +27,6 @@ const SubscriptionProvider = ({ children }: Props) => {
 
   const { data, isLoading } = useGetSuscriptionCapabilities();
 
-  console.log('SUBSCRIPTION CONTEXT', JSON.stringify(data, null, 2));
-
   useEffect(() => {
     if (data && data.length > 0) {
       setSubscriptionCapabilities(data);
