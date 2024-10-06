@@ -1,17 +1,17 @@
-import { View, Image, Linking, StyleSheet, Text } from 'react-native';
 import React, { useEffect } from 'react';
-import logo from '../../assets/logo.png';
-import customStyles from '../../styles/customStyles';
-import Button from '../../components/common/Button';
 import { useTranslation } from 'react-i18next';
-import { getLocaleFromAsyncStorage } from '../../utils/getUserInfo';
-import i18n from '../../services/i18n-config';
+import { Image, Linking, Platform, StyleSheet, Text, View } from 'react-native';
 import { getLocales } from 'react-native-localize';
-import useGetLinks from '../../services/Links/useGetLinks';
-import { AppStatus, IAppVersion, ILink, ILinkType } from '../../types/types';
 import ErrorImage from '../../assets/404-error.png';
-import Spacer from '../../components/common/Spacer';
+import logo from '../../assets/logo.png';
 import UpdateMobile from '../../assets/mobile-phone.png';
+import Button from '../../components/common/Button';
+import Spacer from '../../components/common/Spacer';
+import i18n from '../../services/i18n-config';
+import useGetLinks from '../../services/Links/useGetLinks';
+import customStyles from '../../styles/customStyles';
+import { AppStatus, IAppVersion, ILink, ILinkType } from '../../types/types';
+import { getLocaleFromAsyncStorage } from '../../utils/getUserInfo';
 
 const defaultLenguage = getLocales()[0].languageCode;
 const { mainColor, textBlack, white } = customStyles;
@@ -48,12 +48,14 @@ export default function SplashScreen({ version }: Props) {
   const { t } = useTranslation();
 
   const playStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.PLAYSTORE)?.url as string;
+  const appStoreLink = links?.find((link: ILink) => link.name.toUpperCase() === ILinkType.APPSTORE)?.url as string;
+  const linkToUpdate = Platform.OS === 'ios' ? appStoreLink : playStoreLink;
 
   const handleUpdate = async () => {
     try {
-      const supported = await Linking.canOpenURL(playStoreLink);
+      const supported = await Linking.canOpenURL(linkToUpdate);
       if (supported) {
-        await Linking.openURL(playStoreLink);
+        await Linking.openURL(linkToUpdate);
       }
     } catch (error) {
       console.error(error);

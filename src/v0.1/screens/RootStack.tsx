@@ -30,6 +30,7 @@ import ProvidersScreen from './ContactStack/Providers';
 // DEBT STACK
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Platform } from 'react-native';
 import LoadingComponent from '../components/Library/LoadingComponent';
 import useLocalStorage from '../hooks/useLocalStorage';
 import useGetAccount from '../services/Account/useGetAccount';
@@ -61,7 +62,12 @@ export default function RootStack() {
 
   const { isLoading: loadingSubscriptionCapabilities } = useGetSuscriptionCapabilities();
 
+  console.log('PLATFORM', Platform.OS);
+
   const { data: version, isLoading, isError } = useVersion();
+
+  console.log('VERSION', version);
+
   const { isLoading: isLoadingCountry } = useGetCountries();
   const { isLoading: isLoadingLinks } = useGetLinks();
   const { isLoading: isLoadingCountryCode } = useGetCountryCode();

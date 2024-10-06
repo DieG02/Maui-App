@@ -24,11 +24,12 @@ import { queryClient } from '../../utils/queryClient';
 import { showToast } from '../../utils/toast';
 // import StateSwitch from '../../components/common/StateSwitch';
 import PaymentMethodPicker from '../../components/common/PaymentMethodPicker';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
+import useGetSubscription from '../../services/Subscription/useGetSubscription';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
-import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
-import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -50,8 +51,14 @@ const NEW_EXPENSE = 'balance_stack.new_expense';
 
 const ExpenseDetail = ({ navigation, data, params }: Props) => {
   const { t } = useTranslation();
+
+  const { data: subscription, isLoading: isFetchingSubscription } = useGetSubscription();
   const [modalExpenseCategory, setModalExpenseCategory] = useState(false);
-  const { data: expenseCategories, isFetching } = useGetTransactionCategories('debit', 'transaction');
+  const { data: expenseCategories, isFetching } = useGetTransactionCategories(
+    'debit',
+    'transaction',
+    subscription?.type
+  );
   const { newPaymentsOptions } = usePayment();
 
   const initialValues: InitialExpense = {
@@ -108,32 +115,12 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
     if (validateValues(toValidate)) return mutateAsync();
   };
 
-  if (isFetching || isLoading) return <LoadingComponent color={mainColor} />;
+  if (isFetching || isLoading || isFetchingSubscription) return <LoadingComponent color={mainColor} />;
 
   return (
     <>
       <Form>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-          }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <DatePicker
-              name={t('balance_stack.new_income.date')}
-              value={values.date}
-              setValue={date => setValues(prev => ({ ...prev, date: date }))}
-            />
-          </View>
-          {/* <View
+        {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -145,7 +132,11 @@ const ExpenseDetail = ({ navigation, data, params }: Props) => {
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
           </View> */}
-        </View>
+        <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        />
         <OptionWithIcon
           title={t(`${NEW_EXPENSE}.category`)}
           required

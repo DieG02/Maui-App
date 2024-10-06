@@ -92,7 +92,7 @@ const CountrySelect = ({
               autoFocus={false}
               onChangeText={onChangeText}
               text={text}
-              placeholder={t('contact_stack.client.search')}
+              placeholder={t('country_select.search')}
               onPress={() => {
                 if (text === '') handleClear();
                 onChangeText('');
@@ -110,7 +110,7 @@ const CountrySelect = ({
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <EmptyState
-                title={t('contact_stack.client.empty_clients')}
+                title={t('country_select.empty_countries')}
                 style={{
                   alignSelf: 'center',
                   height: 200,

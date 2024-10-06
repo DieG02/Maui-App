@@ -305,6 +305,10 @@
       "create_credit": "Create Credit"
     }
   },
+  "country_select": {
+    "search": "Search...",
+    "empty_countries": "No matches found"
+  },
   "contact_stack": {
     "button_text": "Create / Import Contact",
     "client": {

@@ -12,19 +12,18 @@ import usePayment from '../../hooks/usePayment';
 import useEditTransaction from '../../services/Transactions/useEditTransaction';
 import customStyles from '../../styles/customStyles';
 import { queryClient } from '../../utils/queryClient';
+import { showToast } from '../../utils/toast';
 import LoadingComponent from '../Library/LoadingComponent';
 import Button from './Button';
 import DatePicker from './DatePicker';
-import { showToast } from '../../utils/toast';
 // import StateSwitch from './StateSwitch';
-import Toast from 'react-native-toast-message';
+import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
+import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
 import { GET_TRANSACTIONS_KEY } from '../../services/Transactions/useGetAllTransactions';
 import { GET_TRANSACTION_KEY } from '../../services/Transactions/useGetTransactionById';
 import { IPaymentMethod, TransactionStatus, TransactionType } from '../../types/types';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import Spacer from './Spacer';
-import { GET_ALL_ACCOUNTS_KEY } from '../../services/FinancialAccount/useGetAllAccounts';
-import { GET_MONTHLY_BALANCE_KEY } from '../../services/Balance/useGetMonthlyBalance';
 
 //FIXME: Make refactor to clean form, use react-hook-form
 
@@ -120,27 +119,13 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
       }}
     >
       <Form>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-          }}
-        >
-          <View
-            style={{
-              display: 'flex',
-              width: (width - 80) / 2,
-            }}
-          >
-            <DatePicker
-              name={t('balance_stack.new_income.date')}
-              value={values.date}
-              setValue={date => setValues(prev => ({ ...prev, date: date }))}
-            />
-          </View>
-          {/* <View
+        <DatePicker
+          name={t('balance_stack.new_income.date')}
+          value={values.date}
+          setValue={date => setValues(prev => ({ ...prev, date: date }))}
+        />
+
+        {/* <View
             style={{
               display: 'flex',
               width: (width - 80) / 2,
@@ -152,7 +137,7 @@ const EditIncomeForm = ({ navigation, data, params }: Props) => {
               handleSwitch={() => setValues({ ...values, isPaid: !values.isPaid })}
             />
           </View> */}
-        </View>
+
         <InputForm
           keyboardType='numeric'
           placeholder='0,00'

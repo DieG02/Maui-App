@@ -305,6 +305,10 @@
       "create_credit": "Criar Abono"
     }
   },
+  "country_select": {
+    "search": "Pesquisar...",
+    "empty_countries": "Não foram encontrados resultados"
+  },
   "contact_stack": {
     "button_text": "Criar / Importar Contato",
     "client": {
